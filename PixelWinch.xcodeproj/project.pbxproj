@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5512BF3117F94EA100425AD6 /* Guide.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3017F94EA100425AD6 /* Guide.m */; };
+		5512BF3A17F968E300425AD6 /* MarqueeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3917F968E300425AD6 /* MarqueeLayer.m */; };
+		5512BF4417FA4EDA00425AD6 /* marquee.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4317FA4EDA00425AD6 /* marquee.png */; };
+		5512BF5117FB9A9200425AD6 /* cursor_zoom_in.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4D17FB9A9200425AD6 /* cursor_zoom_in.png */; };
+		5512BF5217FB9A9200425AD6 /* cursor_zoom_in@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4E17FB9A9200425AD6 /* cursor_zoom_in@2x.png */; };
+		5512BF5317FB9A9200425AD6 /* cursor_zoom_out.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4F17FB9A9200425AD6 /* cursor_zoom_out.png */; };
+		5512BF5417FB9A9200425AD6 /* cursor_zoom_out@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF5017FB9A9200425AD6 /* cursor_zoom_out@2x.png */; };
+		5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */; };
+		5512BF5B17FB9F6700425AD6 /* GuideLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5A17FB9F6700425AD6 /* GuideLayer.m */; };
+		5512BF5E17FBA44400425AD6 /* CanvasLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5D17FBA44400425AD6 /* CanvasLayer.m */; };
+		5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6017FBA67D00425AD6 /* Marquee.m */; };
+		5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6317FBA9E300425AD6 /* Grapple.m */; };
+		5512BF6717FBAA8D00425AD6 /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6617FBAA8D00425AD6 /* Rectangle.m */; };
+		5512BF6D17FBB04800425AD6 /* RectangleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6C17FBB04800425AD6 /* RectangleLayer.m */; };
+		5512BF7017FCD44000425AD6 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6F17FCD44000425AD6 /* Canvas.m */; };
+		5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7217FCD47F00425AD6 /* CanvasObject.m */; };
+		5512BF7617FCF30400425AD6 /* ResizeKnobLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobLayer.m */; };
+		5512C84F17F8ED3400A6F031 /* WinchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512C84E17F8ED3400A6F031 /* WinchWindowController.m */; };
+		55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55163C3513569D6000CDE290 /* QuartzCore.framework */; };
+		5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B41D17F8F1D000D9B4E9 /* RulerView.m */; };
+		5536B42117F8F65A00D9B4E9 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B42017F8F65A00D9B4E9 /* View.m */; };
+		553AC79117F7DCC200C253C2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 553AC79017F7DCC200C253C2 /* Utils.m */; };
+		554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D895A135BEECB003BFC89 /* AppDelegate.m */; };
+		554D8988135BEFCF003BFC89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D8987135BEFCF003BFC89 /* main.m */; };
+		554D898C135BF01C003BFC89 /* felt.png in Resources */ = {isa = PBXBuildFile; fileRef = 554D8989135BF01C003BFC89 /* felt.png */; };
+		554D898D135BF01C003BFC89 /* status_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 554D898A135BF01C003BFC89 /* status_down.png */; };
+		554D898E135BF01C003BFC89 /* status_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 554D898B135BF01C003BFC89 /* status_up.png */; };
+		554D8999135BF064003BFC89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554D8995135BF064003BFC89 /* InfoPlist.strings */; };
+		554D899A135BF064003BFC89 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 554D8997135BF064003BFC89 /* MainMenu.xib */; };
+		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
+		55B07A6A17F654400013B05C /* ScreenCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* ScreenCapture.m */; };
+		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
+		55B07A7917F793AD0013B05C /* ToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7817F793AD0013B05C /* ToolController.m */; };
+		55B07A7C17F794040013B05C /* ToolPalette.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55B07A7A17F794040013B05C /* ToolPalette.xib */; };
+		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
+		55B07A8C17F7A60E0013B05C /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B07A8B17F7A60E0013B05C /* test.png */; };
+		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
+		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
+		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
+		5512BF3817F968E300425AD6 /* MarqueeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeLayer.h; path = Source/MarqueeLayer.h; sourceTree = "<group>"; };
+		5512BF3917F968E300425AD6 /* MarqueeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarqueeLayer.m; path = Source/MarqueeLayer.m; sourceTree = "<group>"; };
+		5512BF4317FA4EDA00425AD6 /* marquee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = marquee.png; path = Resources/marquee.png; sourceTree = "<group>"; };
+		5512BF4D17FB9A9200425AD6 /* cursor_zoom_in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_zoom_in.png; path = Resources/cursor_zoom_in.png; sourceTree = "<group>"; };
+		5512BF4E17FB9A9200425AD6 /* cursor_zoom_in@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_zoom_in@2x.png"; path = "Resources/cursor_zoom_in@2x.png"; sourceTree = "<group>"; };
+		5512BF4F17FB9A9200425AD6 /* cursor_zoom_out.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_zoom_out.png; path = Resources/cursor_zoom_out.png; sourceTree = "<group>"; };
+		5512BF5017FB9A9200425AD6 /* cursor_zoom_out@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_zoom_out@2x.png"; path = "Resources/cursor_zoom_out@2x.png"; sourceTree = "<group>"; };
+		5512BF5517FB9ACA00425AD6 /* CursorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CursorAdditions.h; path = Source/CursorAdditions.h; sourceTree = "<group>"; };
+		5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CursorAdditions.m; path = Source/CursorAdditions.m; sourceTree = "<group>"; };
+		5512BF5917FB9F6700425AD6 /* GuideLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuideLayer.h; path = Source/GuideLayer.h; sourceTree = "<group>"; };
+		5512BF5A17FB9F6700425AD6 /* GuideLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuideLayer.m; path = Source/GuideLayer.m; sourceTree = "<group>"; };
+		5512BF5C17FBA44400425AD6 /* CanvasLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasLayer.h; path = Source/CanvasLayer.h; sourceTree = "<group>"; };
+		5512BF5D17FBA44400425AD6 /* CanvasLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasLayer.m; path = Source/CanvasLayer.m; sourceTree = "<group>"; };
+		5512BF5F17FBA67D00425AD6 /* Marquee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Marquee.h; path = Source/Marquee.h; sourceTree = "<group>"; };
+		5512BF6017FBA67D00425AD6 /* Marquee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Marquee.m; path = Source/Marquee.m; sourceTree = "<group>"; };
+		5512BF6217FBA9E300425AD6 /* Grapple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Grapple.h; path = Source/Grapple.h; sourceTree = "<group>"; };
+		5512BF6317FBA9E300425AD6 /* Grapple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Grapple.m; path = Source/Grapple.m; sourceTree = "<group>"; };
+		5512BF6517FBAA8D00425AD6 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rectangle.h; path = Source/Rectangle.h; sourceTree = "<group>"; };
+		5512BF6617FBAA8D00425AD6 /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rectangle.m; path = Source/Rectangle.m; sourceTree = "<group>"; };
+		5512BF6B17FBB04800425AD6 /* RectangleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RectangleLayer.h; path = Source/RectangleLayer.h; sourceTree = "<group>"; };
+		5512BF6C17FBB04800425AD6 /* RectangleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RectangleLayer.m; path = Source/RectangleLayer.m; sourceTree = "<group>"; };
+		5512BF6E17FCD44000425AD6 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Canvas.h; path = Source/Canvas.h; sourceTree = "<group>"; };
+		5512BF6F17FCD44000425AD6 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Canvas.m; path = Source/Canvas.m; sourceTree = "<group>"; };
+		5512BF7117FCD47F00425AD6 /* CanvasObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasObject.h; path = Source/CanvasObject.h; sourceTree = "<group>"; };
+		5512BF7217FCD47F00425AD6 /* CanvasObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasObject.m; path = Source/CanvasObject.m; sourceTree = "<group>"; };
+		5512BF7417FCF30400425AD6 /* ResizeKnobLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResizeKnobLayer.h; path = Source/ResizeKnobLayer.h; sourceTree = "<group>"; };
+		5512BF7517FCF30400425AD6 /* ResizeKnobLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResizeKnobLayer.m; path = Source/ResizeKnobLayer.m; sourceTree = "<group>"; };
+		5512C84D17F8ED3400A6F031 /* WinchWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WinchWindowController.h; path = Source/WinchWindowController.h; sourceTree = "<group>"; };
+		5512C84E17F8ED3400A6F031 /* WinchWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WinchWindowController.m; path = Source/WinchWindowController.m; sourceTree = "<group>"; };
+		55163C3513569D6000CDE290 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		5536B41C17F8F1D000D9B4E9 /* RulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulerView.h; path = Source/RulerView.h; sourceTree = "<group>"; };
+		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
+		5536B41F17F8F65A00D9B4E9 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = "<group>"; };
+		5536B42017F8F65A00D9B4E9 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Source/View.m; sourceTree = "<group>"; };
+		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
+		553AC79017F7DCC200C253C2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils.m; sourceTree = "<group>"; };
+		554D8959135BEECB003BFC89 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Source/AppDelegate.h; sourceTree = "<group>"; };
+		554D895A135BEECB003BFC89 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
+		554D8986135BEFC9003BFC89 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = Source/Prefix.pch; sourceTree = "<group>"; };
+		554D8987135BEFCF003BFC89 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
+		554D8989135BF01C003BFC89 /* felt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = felt.png; path = Resources/felt.png; sourceTree = "<group>"; };
+		554D898A135BF01C003BFC89 /* status_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = status_down.png; path = Resources/status_down.png; sourceTree = "<group>"; };
+		554D898B135BF01C003BFC89 /* status_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = status_up.png; path = Resources/status_up.png; sourceTree = "<group>"; };
+		554D898F135BF027003BFC89 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		554D8996135BF064003BFC89 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		554D8998135BF064003BFC89 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		55B07A6817F654400013B05C /* ScreenCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenCapture.h; path = Source/ScreenCapture.h; sourceTree = "<group>"; };
+		55B07A6917F654400013B05C /* ScreenCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenCapture.m; path = Source/ScreenCapture.m; sourceTree = "<group>"; };
+		55B07A7417F6CE7B0013B05C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasView.h; path = Source/CanvasView.h; sourceTree = "<group>"; };
+		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
+		55B07A7717F793AD0013B05C /* ToolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolController.h; path = Source/ToolController.h; sourceTree = "<group>"; };
+		55B07A7817F793AD0013B05C /* ToolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolController.m; path = Source/ToolController.m; sourceTree = "<group>"; };
+		55B07A7B17F794040013B05C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ToolPalette.xib; sourceTree = "<group>"; };
+		55B07A8817F7A19D0013B05C /* CanvasController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasController.h; path = Source/CanvasController.h; sourceTree = "<group>"; };
+		55B07A8917F7A19D0013B05C /* CanvasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasController.m; path = Source/CanvasController.m; sourceTree = "<group>"; };
+		55B07A8B17F7A60E0013B05C /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = Resources/test.png; sourceTree = "<group>"; };
+		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */,
+				55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */,
+				55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */,
+				55F279F913594306008788B1 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				554D8959135BEECB003BFC89 /* AppDelegate.h */,
+				554D895A135BEECB003BFC89 /* AppDelegate.m */,
+				55B07A6817F654400013B05C /* ScreenCapture.h */,
+				55B07A6917F654400013B05C /* ScreenCapture.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				55F279F813594306008788B1 /* Carbon.framework */,
+				55163C3513569D6000CDE290 /* QuartzCore.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */,
+				55EDEF57134ED944009C3D36 /* IOKit.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Pixel Winch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Pixels */ = {
+			isa = PBXGroup;
+			children = (
+				5512BF2E17F94E9300425AD6 /* Model */,
+				5512BF5817FB9EE600425AD6 /* Layers */,
+				55B07A6C17F6C93E0013B05C /* View */,
+				55B07A8717F7A1710013B05C /* Controller */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Pixels;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				553AC78F17F7DCC200C253C2 /* Utils.h */,
+				553AC79017F7DCC200C253C2 /* Utils.m */,
+				554D8986135BEFC9003BFC89 /* Prefix.pch */,
+				554D8987135BEFCF003BFC89 /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5512BF4D17FB9A9200425AD6 /* cursor_zoom_in.png */,
+				5512BF4E17FB9A9200425AD6 /* cursor_zoom_in@2x.png */,
+				5512BF4F17FB9A9200425AD6 /* cursor_zoom_out.png */,
+				5512BF5017FB9A9200425AD6 /* cursor_zoom_out@2x.png */,
+				5512BF4317FA4EDA00425AD6 /* marquee.png */,
+				554D898F135BF027003BFC89 /* Info.plist */,
+				55B07A8B17F7A60E0013B05C /* test.png */,
+				554D8989135BF01C003BFC89 /* felt.png */,
+				554D898A135BF01C003BFC89 /* status_down.png */,
+				554D898B135BF01C003BFC89 /* status_up.png */,
+				554D8995135BF064003BFC89 /* InfoPlist.strings */,
+				554D8997135BF064003BFC89 /* MainMenu.xib */,
+				55B07A7A17F794040013B05C /* ToolPalette.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5512BF2E17F94E9300425AD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5512BF6E17FCD44000425AD6 /* Canvas.h */,
+				5512BF6F17FCD44000425AD6 /* Canvas.m */,
+				5512BF7117FCD47F00425AD6 /* CanvasObject.h */,
+				5512BF7217FCD47F00425AD6 /* CanvasObject.m */,
+				5512BF6217FBA9E300425AD6 /* Grapple.h */,
+				5512BF6317FBA9E300425AD6 /* Grapple.m */,
+				5512BF2F17F94EA100425AD6 /* Guide.h */,
+				5512BF3017F94EA100425AD6 /* Guide.m */,
+				5512BF5F17FBA67D00425AD6 /* Marquee.h */,
+				5512BF6017FBA67D00425AD6 /* Marquee.m */,
+				5512BF6517FBAA8D00425AD6 /* Rectangle.h */,
+				5512BF6617FBAA8D00425AD6 /* Rectangle.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		5512BF5817FB9EE600425AD6 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				5512BF5C17FBA44400425AD6 /* CanvasLayer.h */,
+				5512BF5D17FBA44400425AD6 /* CanvasLayer.m */,
+				5512BF5917FB9F6700425AD6 /* GuideLayer.h */,
+				5512BF5A17FB9F6700425AD6 /* GuideLayer.m */,
+				5512BF3817F968E300425AD6 /* MarqueeLayer.h */,
+				5512BF3917F968E300425AD6 /* MarqueeLayer.m */,
+				5512BF6B17FBB04800425AD6 /* RectangleLayer.h */,
+				5512BF6C17FBB04800425AD6 /* RectangleLayer.m */,
+				5512BF7417FCF30400425AD6 /* ResizeKnobLayer.h */,
+				5512BF7517FCF30400425AD6 /* ResizeKnobLayer.m */,
+			);
+			name = Layers;
+			sourceTree = "<group>";
+		};
+		55B07A6C17F6C93E0013B05C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5536B41F17F8F65A00D9B4E9 /* View.h */,
+				5536B42017F8F65A00D9B4E9 /* View.m */,
+				55B07A7417F6CE7B0013B05C /* CanvasView.h */,
+				55B07A7517F6CE7B0013B05C /* CanvasView.m */,
+				5512BF5517FB9ACA00425AD6 /* CursorAdditions.h */,
+				5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */,
+				5536B41C17F8F1D000D9B4E9 /* RulerView.h */,
+				5536B41D17F8F1D000D9B4E9 /* RulerView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		55B07A8717F7A1710013B05C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5512C84D17F8ED3400A6F031 /* WinchWindowController.h */,
+				5512C84E17F8ED3400A6F031 /* WinchWindowController.m */,
+				55B07A8817F7A19D0013B05C /* CanvasController.h */,
+				55B07A8917F7A19D0013B05C /* CanvasController.m */,
+				55B07A7717F793AD0013B05C /* ToolController.h */,
+				55B07A7817F793AD0013B05C /* ToolController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Pixel Winch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pixel Winch";
+			productInstallPath = "$(HOME)/Applications";
+			productName = Pixels;
+			productReference = 8D1107320486CEB800E47090 /* Pixel Winch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PixelWinch" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Pixels */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Pixel Winch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5512BF5417FB9A9200425AD6 /* cursor_zoom_out@2x.png in Resources */,
+				5512BF5217FB9A9200425AD6 /* cursor_zoom_in@2x.png in Resources */,
+				55B07A7C17F794040013B05C /* ToolPalette.xib in Resources */,
+				554D898C135BF01C003BFC89 /* felt.png in Resources */,
+				55B07A8C17F7A60E0013B05C /* test.png in Resources */,
+				554D898D135BF01C003BFC89 /* status_down.png in Resources */,
+				554D898E135BF01C003BFC89 /* status_up.png in Resources */,
+				554D8999135BF064003BFC89 /* InfoPlist.strings in Resources */,
+				5512BF4417FA4EDA00425AD6 /* marquee.png in Resources */,
+				5512BF5317FB9A9200425AD6 /* cursor_zoom_out.png in Resources */,
+				5512BF5117FB9A9200425AD6 /* cursor_zoom_in.png in Resources */,
+				554D899A135BF064003BFC89 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */,
+				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
+				5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */,
+				5512BF7617FCF30400425AD6 /* ResizeKnobLayer.m in Sources */,
+				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
+				554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */,
+				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
+				554D8988135BEFCF003BFC89 /* main.m in Sources */,
+				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
+				55B07A6A17F654400013B05C /* ScreenCapture.m in Sources */,
+				5512C84F17F8ED3400A6F031 /* WinchWindowController.m in Sources */,
+				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
+				5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */,
+				5512BF6717FBAA8D00425AD6 /* Rectangle.m in Sources */,
+				5512BF3A17F968E300425AD6 /* MarqueeLayer.m in Sources */,
+				5512BF6D17FBB04800425AD6 /* RectangleLayer.m in Sources */,
+				5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */,
+				55B07A7917F793AD0013B05C /* ToolController.m in Sources */,
+				5512BF5E17FBA44400425AD6 /* CanvasLayer.m in Sources */,
+				5536B42117F8F65A00D9B4E9 /* View.m in Sources */,
+				5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */,
+				5512BF5B17FB9F6700425AD6 /* GuideLayer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		554D8995135BF064003BFC89 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554D8996135BF064003BFC89 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		554D8997135BF064003BFC89 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554D8998135BF064003BFC89 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		55B07A7A17F794040013B05C /* ToolPalette.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55B07A7B17F794040013B05C /* English */,
+			);
+			name = ToolPalette.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Prefix.pch;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = "Pixel Winch";
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Prefix.pch;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = "Pixel Winch";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PixelWinch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
