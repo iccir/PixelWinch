@@ -11,6 +11,4 @@
 
 @interface Rectangle : CanvasObject
 + (instancetype) rectangle;
-
-@property (nonatomic, assign) CGRect rect;
 @end

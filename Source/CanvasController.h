@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class Tool, ZoomTool, CanvasObject;
+
 @interface CanvasController : NSViewController
 
 - (IBAction) addHorizontalGuideAtCursor:(id)sender;
 - (IBAction) addVerticalGuideAtCursor:(id)sender;
 
-@property (nonatomic, assign) ToolType selectedTool;
+@property Tool *selectedTool;
+@property ZoomTool *zoomTool;
+@property CanvasObject *selectedObject;
+
+- (BOOL) deleteSelectedObjects;
 
 @end

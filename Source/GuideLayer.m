@@ -24,7 +24,6 @@
         _sublayer = [CALayer layer];
 
         [_sublayer setDelegate:self];
-        [_sublayer setBackgroundColor:[[NSColor cyanColor] CGColor]];
 
         [self addSublayer:_sublayer];
     }
@@ -50,6 +49,18 @@
     }
 
     [_sublayer setFrame:frame];
+}
+
+
+- (void) preferencesDidChange:(Preferences *)preferences
+{
+    [_sublayer setBackgroundColor:[[preferences placedGuideColor] CGColor]];
+}
+
+
+- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    return YES;
 }
 
 

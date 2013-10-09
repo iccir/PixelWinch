@@ -10,6 +10,8 @@
 
 @implementation CanvasLayer
 
+- (void) preferencesDidChange:(Preferences *)preferences { }
+
 - (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point { return NO; }
 - (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point { }
 - (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point   { }

@@ -11,6 +11,8 @@
 
 @interface Grapple : CanvasObject
 
-+ (instancetype) grapple;
++ (instancetype) grappleVertical:(BOOL)vertical;
+
+@property (nonatomic, readonly, getter=isVertical) BOOL vertical;
 
 @end

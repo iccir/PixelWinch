@@ -28,6 +28,7 @@
     return self;
 }
 
+
 - (CGRect) rectForCanvasLayout
 {
     return [[self rectangle] rect];
@@ -49,9 +50,17 @@
 - (void) layoutSublayers
 {
     [_sublayer setFrame:[self bounds]];
-    [_sublayer setBackgroundColor:[[NSColor colorWithCalibratedRed:1 green:0 blue:0 alpha:0.5] CGColor]];
+    [_sublayer setBackgroundColor:[[NSColor colorWithCalibratedRed:0 green:0 blue:0.33 alpha:0.25] CGColor]];
+    [_sublayer setBorderColor:[[NSColor whiteColor] CGColor]];
+    [_sublayer setBorderWidth:0.5];
 }
 
+
+- (void) preferencesDidChange:(Preferences *)preferences
+{
+    [_sublayer setBackgroundColor:[[preferences placedRectangleFillColor] CGColor]];
+    [_sublayer setBorderColor:[[preferences placedRectangleBorderColor] CGColor]];
+}
 
 
 #pragma - Accessors
@@ -60,6 +69,7 @@
 {
     [self setCanvasObject:rectangle];
 }
+
 
 - (Rectangle *) rectangle
 {

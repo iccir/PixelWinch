@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, ToolType) {
-    ToolTypeMove,
-    ToolTypeMarquee,
-    ToolTypeRectangle,
-    ToolTypeZoom
-};
-
 extern NSTimer *MakeWeakTimer(NSTimeInterval timeInterval, id target, SEL selector, id userInfo, BOOL repeats);
 extern NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, SEL selector, id userInfo, BOOL repeats);
 
@@ -28,3 +21,5 @@ extern CGImageRef   CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^
 extern CGImageRef CopyImageNamed(NSString *name);
 
 extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value);
+
+extern void WithWhiteOnBlackTextMode(void (^callback)());

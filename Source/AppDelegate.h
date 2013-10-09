@@ -8,10 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class CaptureController, PreferencesController, WinchWindowController;
 
 @interface AppDelegate : NSResponder <NSApplicationDelegate>
 
-- (void) loadStateFromPreferences;
-- (void) saveStateToPreferences;
+@property (nonatomic, strong) IBOutlet NSMenu *statusBarMenu;
+
+- (IBAction) captureSelection:(id)sender;
+- (IBAction) captureWindow:(id)sender;
+- (IBAction) showScreenshots:(id)sender;
+- (IBAction) showPreferences:(id)sender;
+
+@property (strong, readonly) CaptureController     *captureController;
+@property (strong, readonly) PreferencesController *preferencesController;
+@property (strong, readonly) WinchWindowController *winchController;
 
 @end

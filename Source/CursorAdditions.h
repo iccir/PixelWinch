@@ -13,6 +13,9 @@
 + (NSCursor *) winch_zoomInCursor;
 + (NSCursor *) winch_zoomOutCursor;
 
++ (NSCursor *) winch_grappleHorizontalCursor;
++ (NSCursor *) winch_grappleVerticalCursor;
+
 + (NSCursor *) winch_resizeNorthWestSouthEastCursor;
 + (NSCursor *) winch_resizeNorthEastSouthWestCursor;
 + (NSCursor *) winch_resizeNorthSouthCursor;

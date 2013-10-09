@@ -100,6 +100,52 @@
 
 @implementation NSCursor (PixelWinch)
 
++ (void) initialize
+{
+    void (^dump)(NSCursor *, NSString *) = ^(NSCursor *cursor, NSString *name) {
+        NSBitmapImageRep *rep = [[[cursor image] representations] lastObject];
+        
+        
+        NSLog(@"%@", rep);
+        [[rep TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"/tmp/%@.tiff", name] atomically:YES];
+    };
+
+    dump([NSCursor openHandCursor], @"openHandCursor");
+}
+
+
++ (NSCursor *) winch_grappleHorizontalCursor
+{
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_grapple_h"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(11, 6)];
+        }
+    });
+
+    return sCursor;
+}
+
+
++ (NSCursor *) winch_grappleVerticalCursor
+{
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_grapple_v"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(5, 12)];
+        }
+    });
+
+    return sCursor;
+}
+
+
 + (NSCursor *) winch_resizeNorthWestSouthEastCursor
 {
     return [self _windowResizeNorthWestSouthEastCursor];

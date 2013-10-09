@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -12,7 +12,34 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <customObject id="494" customClass="AppDelegate"/>
+        <customObject id="494" customClass="AppDelegate">
+            <connections>
+                <outlet property="statusBarMenu" destination="ItF-Pm-shU" id="86a-id-yeB"/>
+            </connections>
+        </customObject>
         <customObject id="420" customClass="NSFontManager"/>
+        <menu id="ItF-Pm-shU">
+            <items>
+                <menuItem title="Capture Selection…" id="Oaz-pY-lWP">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="captureSelection:" target="494" id="RnF-Bj-hVq"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Show Screenshots…" id="oeh-m0-Bte">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showScreenshots:" target="494" id="rS2-ea-qAm"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="HPP-Dd-o7c"/>
+                <menuItem title="Preferences…" id="v8I-WO-gZe">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showPreferences:" target="494" id="uGR-ww-WUP"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
 </document>

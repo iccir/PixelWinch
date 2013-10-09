@@ -160,9 +160,9 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (Grapple *) makeGrapple
+- (Grapple *) makeGrappleVertical:(BOOL)vertical
 {
-    Grapple *grapple = [Grapple grapple];
+    Grapple *grapple = [Grapple grappleVertical:vertical];
     [grapple setCanvas:self];
     [_grapples addObject:grapple];
 

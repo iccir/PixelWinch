@@ -181,3 +181,29 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
     
     return rect;
 }
+
+extern void WithWhiteOnBlackTextMode(void (^callback)())
+{
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    
+    CGContextSaveGState(context);
+    CGContextSetShouldSmoothFonts(context, false);
+
+    static NSShadow *sShadow = nil;
+
+    if (!sShadow) {
+        sShadow = [[NSShadow alloc] init];
+
+        [sShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]];
+        [sShadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+        [sShadow setShadowBlurRadius:0.0];
+    }
+    
+    [sShadow set];
+    
+    callback();
+    
+    CGContextRestoreGState(context);
+}
+
+

@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, SnappingPolicy) {
 
 @interface CanvasLayer : CALayer
 
+- (void) preferencesDidChange:(Preferences *)preferences;
+
 - (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point;

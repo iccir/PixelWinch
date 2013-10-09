@@ -18,20 +18,4 @@
 }
 
 
-- (void) setRect:(CGRect)rect
-{
-    if (!CGRectEqualToRect(_rect, rect)) {
-        _rect = rect;
-        [[self canvas] objectDidUpdate:self];
-    }
-}
-
-
-- (void) moveEdge:(CGRectEdge)edge value:(CGFloat)value
-{
-    CGRect rect = [self rect];
-    rect = GetRectByAdjustingEdge(rect, edge, value);
-    [self setRect:rect];
-}
-
 @end

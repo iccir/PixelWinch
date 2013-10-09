@@ -13,6 +13,7 @@
 
 @implementation ResizeKnobLayer {
     CALayer *_sublayer;
+    CGRect   _rectForResize;
 }
 
 
@@ -30,7 +31,7 @@
         [_sublayer setShadowOpacity:0.5];
         [_sublayer setShadowRadius:1];
         [_sublayer setShadowOffset:CGSizeMake(0, 1)];
-    
+       
         [self addSublayer:_sublayer];
     }
 
@@ -40,7 +41,8 @@
 
 - (void) layoutSublayers
 {
-    [_sublayer setFrame:[self bounds]];
+    CGRect frame = [self bounds];
+    [_sublayer setFrame:CGRectInset(frame, 1, 1)];
 }
 
 
@@ -90,24 +92,37 @@
 
 - (NSEdgeInsets) paddingForCanvasLayout
 {
-    return NSEdgeInsetsMake(4, 4, 4, 4);
+    return NSEdgeInsetsMake(5, 5, 5, 5);
 }
+
+
+- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    CanvasObject *object = [[self parentLayer] canvasObject];
+    _rectForResize = [object rect];
+    return YES;
+}
+
 
 - (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     CanvasObject *object = [[self parentLayer] canvasObject];
 
+    CGRect rect = _rectForResize;
+
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
-        [object moveEdge:CGRectMinXEdge value:point.x];
+        rect = GetRectByAdjustingEdge(rect, CGRectMinXEdge, point.x);
     } else if (_type == ResizeKnobTopRight || _type == ResizeKnobRight || _type == ResizeKnobBottomRight) {
-        [object moveEdge:CGRectMaxXEdge value:point.x];
+        rect = GetRectByAdjustingEdge(rect, CGRectMaxXEdge, point.x);
     }
     
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobTop || _type == ResizeKnobTopRight) {
-        [object moveEdge:CGRectMinYEdge value:point.y];
+        rect = GetRectByAdjustingEdge(rect, CGRectMinYEdge, point.y);
     } else if (_type == ResizeKnobBottomLeft || _type == ResizeKnobBottom || _type == ResizeKnobBottomRight) {
-        [object moveEdge:CGRectMaxYEdge value:point.y];
+        rect = GetRectByAdjustingEdge(rect, CGRectMaxYEdge, point.y);
     }
+    
+    [object setRect:rect];
 }
 
 

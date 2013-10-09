@@ -39,7 +39,7 @@
 
 // Grapples
 
-- (Grapple *) makeGrapple;
+- (Grapple *) makeGrappleVertical:(BOOL)vertical;
 - (void) removeGrapple:(Grapple *)grapple;
 
 @property (nonatomic, readonly, strong) NSArray *grapples;

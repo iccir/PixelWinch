@@ -18,8 +18,10 @@
 - (void) addCanvasLayer:(CanvasLayer *)layer;
 - (void) removeCanvasLayer:(CanvasLayer *)layer;
 - (void) updateCanvasLayer:(CanvasLayer *)layer;
-- (CanvasLayer *) canvasLayerWithPoint:(CGPoint)point;
 
+- (CanvasLayer *) canvasLayerForMouseEvent:(NSEvent *)event;
+
+- (void) sizeToFit;
 
 - (void) invalidateCursorRects;
 
@@ -36,6 +38,8 @@
 
 @protocol CanvasViewDelegate <NSObject>
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view ;
+
+- (void) canvasView:(CanvasView *)view mouseMovedWithEvent:(NSEvent *)event;
 
 - (BOOL) canvasView:(CanvasView *)view mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) canvasView:(CanvasView *)view mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point;

@@ -10,9 +10,19 @@
 
 @implementation Grapple
 
-+ (instancetype) grapple
++ (instancetype) grappleVertical:(BOOL)vertical
 {
-    return [[self alloc] init];
+    return [[self alloc] _initVertical:vertical];
+}
+
+
+- (id) _initVertical:(BOOL)isVertical
+{
+    if ((self = [super init])) {
+        _vertical = isVertical;
+    }
+    
+    return self;
 }
 
 

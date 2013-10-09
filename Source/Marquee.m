@@ -11,13 +11,4 @@
 
 
 @implementation Marquee
-
-- (void) setRect:(CGRect)rect
-{
-    if (!CGRectEqualToRect(_rect, rect)) {
-        _rect = rect;
-        [[self canvas] objectDidUpdate:self];
-    }
-}
-
 @end

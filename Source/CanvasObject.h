@@ -14,9 +14,15 @@
 @property (nonatomic, weak) Canvas *canvas;
 @property (nonatomic, readonly, strong) NSString *GUID;
 
-- (void) moveEdge:(CGRectEdge)edge value:(CGFloat)value;
-
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary;
 - (NSDictionary *) dictionaryRepresentation;
+
+@property (assign) CGRect rect;
+
+// For bindings
+@property (assign) CGFloat originX;
+@property (assign) CGFloat originY;
+@property (assign) CGFloat sizeWidth;
+@property (assign) CGFloat sizeHeight;
 
 @end

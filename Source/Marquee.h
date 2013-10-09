@@ -10,5 +10,4 @@
 #import "CanvasObject.h"
 
 @interface Marquee : CanvasObject
-@property (nonatomic, assign) CGRect rect;
 @end

@@ -17,35 +17,41 @@
     CALayer        *_container;
     CALayer        *_imageLayer;
     NSMutableArray *_canvasLayers;
+    NSTrackingArea *_trackingArea;
 }
+
 
 - (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas
 {
     if ((self = [super initWithFrame:frameRect])) {
-        _imageLayer = [CALayer layer];
         _canvas = canvas;
         
+        CALayer *selfLayer = [CALayer layer];
+        
         [self setWantsLayer:YES];
-        [self setLayer:[CALayer layer]];
+        [self setLayer:selfLayer];
 
-        [[self layer] addSublayer:_imageLayer];
-        [[self layer] setMasksToBounds:YES];
+        [selfLayer setBackgroundColor:[[NSColor colorWithRed:1 green:0 blue:0 alpha:0.25] CGColor]];
+
+        [selfLayer setMasksToBounds:YES];
         
         _container = [CALayer layer];
         [_container setDelegate:self];
         [_container setFrame:[self bounds]];
-        [[self layer] addSublayer:_container];
-        
+        [selfLayer addSublayer:_container];
+
+        _imageLayer = [CALayer layer];
         [_imageLayer setAnchorPoint:CGPointMake(0, 0)];
         [_imageLayer setMagnificationFilter:kCAFilterNearest];
         [_imageLayer setContentsGravity:kCAGravityBottomLeft];
         [_imageLayer setFrame:[self bounds]];
         [_imageLayer setDelegate:self];
         
-        [_imageLayer setContents:(id)[canvas image]];
-
         [_container addSublayer:_imageLayer];
         
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        [self addTrackingArea:_trackingArea];
+
         _magnification = 1;
     }
 
@@ -56,6 +62,12 @@
 - (id) initWithFrame:(NSRect)frameRect
 {
     return [self initWithFrame:frameRect canvas:nil];
+}
+
+
+- (void) dealloc
+{
+    [self removeTrackingArea:_trackingArea];
 }
 
 
@@ -78,14 +90,24 @@
     
     CGFloat scale = [[self window] backingScaleFactor];
     
+    SnappingPolicy horizontalSnappingPolicy = [layer horizontalSnappingPolicy];
+    SnappingPolicy verticalSnappingPolicy   = [layer verticalSnappingPolicy];
+    
     location = [self convertPoint:location fromView:contentView];
     
-    location.x = round((location.x / _magnification) * scale) / scale;
-    location.y = round((location.y / _magnification) * scale) / scale;
+    location.x = location.x / (_magnification / scale);
+    location.y = location.y / (_magnification / scale);
+
+    if (horizontalSnappingPolicy == SnappingPolicyToPixelCenter) {
+        location.x = round(location.x);
+    }
     
+    if (verticalSnappingPolicy == SnappingPolicyToPixelCenter) {
+        location.y = round(location.y);
+    }
+
     return location;
 }
-
 
 
 - (void) mouseDown:(NSEvent *)event
@@ -111,7 +133,15 @@
                 [_delegate canvasView:self mouseDragWithEvent:event point:point];
             }
         }
+
+        [self invalidateCursorRects];
     }
+}
+
+
+- (void) mouseMoved:(NSEvent *)event
+{
+    return [_delegate canvasView:self mouseMovedWithEvent:event];
 }
 
 
@@ -133,9 +163,6 @@
 }
 
 
-#pragma mark - Private Methods
-
-
 #pragma mark -
 #pragma mark CALayer Delegate
 
@@ -154,6 +181,7 @@
     
     [[self layer] setContentsScale:newScale];
     [_container setContentsScale:newScale];
+
     [_imageLayer setContentsScale:newScale];
 
     return YES;
@@ -163,14 +191,28 @@
 - (void) layoutSublayersOfLayer:(CALayer *)layer
 {
     if (layer == _container) {
+
+        CGSize  size          = [_canvas size];
+
+        CGFloat scale = [[self window] backingScaleFactor];
+        if (!scale) scale = 1;
+
+        size.width  *= (_magnification / scale);
+        size.height *= (_magnification / scale);
+
+        [self setFrame:CGRectMake(0, 0, size.width, size.height)];
+
+
         CGSize canvasSize = [_canvas size];
         CGRect frame = { CGPointZero, canvasSize };
-        frame.size.height *= 2;
-        frame.size.width  *= 2;
         [_container setFrame:frame];
+
+        [_imageLayer setTransform:CATransform3DIdentity];
+        [_imageLayer setFrame:[_container bounds]];
 
         CGAffineTransform transform = CGAffineTransformMakeScale(_magnification, _magnification);
         [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
+        [_imageLayer setContents:(id)[_canvas image]];
         
         for (CanvasLayer *layer in _canvasLayers) {
             CGRect rect = [layer rectForCanvasLayout];
@@ -178,7 +220,9 @@
             if (rect.size.width  > frame.size.width)  rect.size.width  = frame.size.width;
             if (rect.size.height > frame.size.height) rect.size.height = frame.size.height;
             
-            CGRect frame = CGRectApplyAffineTransform(rect, transform);
+            CGAffineTransform scaledTransform = CGAffineTransformMakeScale(_magnification / scale, _magnification / scale);
+            
+            CGRect frame = CGRectApplyAffineTransform(rect, scaledTransform);
             
             NSEdgeInsets padding = [layer paddingForCanvasLayout];
             
@@ -188,7 +232,6 @@
             frame.origin.y    -= padding.top;
             frame.size.height += (padding.top + padding.bottom);
             
-            NSLog(@"%@", NSStringFromRect(frame));
             [layer setFrame:frame];
         }
     }
@@ -196,6 +239,22 @@
 
 
 #pragma mark - Public Methods
+
+- (void) sizeToFit
+{
+    CGSize size = [_canvas size];
+
+    CGFloat scale = [[self window] backingScaleFactor];
+    if (!scale) scale = 1;
+
+    size.width  *= (_magnification / scale);
+    size.height *= (_magnification / scale);
+
+    NSLog(@"Size is now: %@", NSStringFromSize(size));
+
+    [self setFrame:CGRectMake(0, 0, size.width, size.height)];
+}
+
 
 - (void) invalidateCursorRects
 {
@@ -231,13 +290,14 @@
 }
 
 
-- (CanvasLayer *) canvasLayerWithPoint:(CGPoint)point
+- (CanvasLayer *) canvasLayerForMouseEvent:(NSEvent *)event
 {
-    point.x *= _magnification;
-    point.y *= _magnification;
+    CGPoint location = [event locationInWindow];
+    NSView *contentView = [[self window] contentView];
+    
+    location = [self convertPoint:location fromView:contentView];
 
-    CALayer *result = [_container hitTest:point];
-
+    CALayer *result = [_container hitTest:location];
     
     while (result && ![result isKindOfClass:[CanvasLayer class]]) {
         result = [result superlayer];
@@ -254,7 +314,9 @@
 {
     if (_magnification != magnification) {
         _magnification = magnification;
+        [self sizeToFit];
         [_container setNeedsLayout];
+        [self invalidateCursorRects];
     }
 }
 

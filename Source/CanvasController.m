@@ -7,9 +7,17 @@
 //
 
 #import "CanvasController.h"
+
+
+
 #import "CanvasView.h"
 #import "RulerView.h"
 #import "View.h"
+#import "CenteringClipView.h"
+
+#import "Tool.h"
+#import "GrappleTool.h"
+#import "ZoomTool.h"
 
 #import "Canvas.h"
 #import "Guide.h"
@@ -18,9 +26,12 @@
 #import "Marquee.h"
 
 #import "GuideLayer.h"
+#import "GrappleLayer.h"
 #import "RectangleLayer.h"
 #import "MarqueeLayer.h"
 #import "ResizeKnobLayer.h"
+
+#import "GrappleCalculator.h"
 
 #import "CursorAdditions.h"
 
@@ -39,14 +50,20 @@
 
     CanvasLayer *_draggedLayer;
 
-    Canvas *_canvas;
+    GrappleCalculator *_grappleCalculator;
+    Grapple           *_hoverGrapple;
+    
+    Tool *_selectedTool;
+    ZoomTool *_zoomTool;
+    NSEvent *_zoomEvent;
 
+    CGPoint _lastGrapplePoint;
+
+    Canvas  *_canvas;
     NSMutableDictionary *_GUIDToLayerMap;
     
     NSMutableArray *_selectedObjects;
     NSMutableArray *_selectionLayers;
-
-    ToolType _currentAction;
 }
 
 
@@ -54,31 +71,23 @@
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         _GUIDToLayerMap = [NSMutableDictionary dictionary];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
     }
     
     return self;
 }
 
 
-- (void) _layoutCanvas
+- (void) dealloc
 {
-    CGSize  size          = [_canvas size];
-    CGFloat magnification = [_canvasView magnification];
-
-    CGFloat scale = [[_canvasView window] backingScaleFactor];
-    if (!scale) scale = 1;
-
-    size.width  *= (magnification / scale);
-    size.height *= (magnification / scale);
-
-    [_canvasView setFrame:CGRectMake(0, 0, size.width, size.height)];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 
 - (void) flagsChanged:(NSEvent *)theEvent
 {
     [_canvasView invalidateCursorRects];
+    [self _updateHoverGrapple];
     [super flagsChanged:theEvent];
 }
 
@@ -98,7 +107,7 @@
     [_verticalRuler setAutoresizingMask:NSViewMaxXMargin|NSViewHeightSizable];
     [_verticalRuler setDelegate:self];
 
-    NSImage *testImage = [NSImage imageNamed:@"test"];
+    NSImage *testImage = [NSImage imageNamed:@"TestImage"];
     CGImageRef image = [[[testImage representations] lastObject] CGImage];
     
     _canvas = [[Canvas alloc] initWithDelegate:self];
@@ -106,9 +115,12 @@
 
     _canvasView = [[CanvasView alloc] initWithFrame:rect canvas:_canvas];
     [_canvasView setDelegate:self];
-    [_canvasView setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
 
     _scrollView = [[NSScrollView alloc] initWithFrame:CGRectMake(16, 16, 480 - 16, 320 - 16)];
+
+    CenteringClipView *clipView = [[CenteringClipView alloc] initWithFrame:[[_scrollView contentView] frame]];
+    [_scrollView setContentView:clipView];
+    
     [_scrollView setDocumentView:_canvasView];
     [_scrollView setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
     [_scrollView setHasVerticalScroller:YES];
@@ -119,62 +131,18 @@
     [_containerView addSubview:_verticalRuler];
 
     [self setView:_containerView];
-
-    [self _layoutCanvas];
 }
 
 
 #pragma mark - Private Methods
 
-- (CGFloat) _magnificationForMagnification:(CGFloat)level direction:(NSInteger)direction
+- (void) _handlePreferencesDidChange:(NSNotification *)note
 {
-    static NSArray *sZoomLevels;
-    if (!sZoomLevels) {
-        sZoomLevels = @[
-            @( 6    ),
-            @( 12   ),
-            @( 25   ),
-            @( 50   ),
-            @( 66   ),
-            @( 100  ),
-            @( 200  ),
-            @( 300  ),
-            @( 400  ),
-            @( 800  ),
-            @( 1600 ),
-            @( 3200 ),
-            @( 6400 )
-        ];
-    };
-    
-    NSUInteger iLevel = level * 100;
+    Preferences *preferences = [Preferences sharedInstance];
 
-    if (direction > 0) {
-        for (NSNumber *n in sZoomLevels) {
-            if (iLevel < [n integerValue]) {
-                iLevel = [n integerValue];
-                break;
-            }
-        }
-    
-    } else if (direction < 0) {
-        for (NSNumber *n in [sZoomLevels reverseObjectEnumerator]) {
-            if (iLevel > [n integerValue]) {
-                iLevel = [n integerValue];
-                break;
-            }
-        }
-    
+    for (CanvasLayer *layer in [_GUIDToLayerMap allValues]) {
+        [layer preferencesDidChange:preferences];
     }
-    
-    return (CGFloat)iLevel / 100;
-}
-
-
-- (void) _updateMagnification:(CGFloat)magnification
-{
-    [_canvasView setMagnification:magnification];
-    [self _layoutCanvas];
 }
 
 
@@ -182,12 +150,6 @@
 {
     if (!object) return nil;
     return [_GUIDToLayerMap objectForKey:[object GUID]];
-}
-
-
-- (CanvasLayer *) _layerForCanvasPoint:(CGPoint)point
-{
-    return [_canvasView canvasLayerWithPoint:point];
 }
 
 
@@ -219,6 +181,8 @@
         
         [_selectedObjects addObject:[parentLayer canvasObject]];
     }
+    
+    [self setSelectedObject:object];
 }
 
 - (void) _unselectAllObjects
@@ -232,15 +196,83 @@
 }
 
 
-- (void) _deleteSelectedObjects
+- (BOOL) deleteSelectedObjects
 {
     NSArray *selectedObjects = _selectedObjects;
     
-    [self _unselectAllObjects];
-    for (CanvasObject *object in selectedObjects) {
-        [_canvas removeObject:object];
+    if ([selectedObjects count]) {
+        [self _unselectAllObjects];
+
+        for (CanvasObject *object in selectedObjects) {
+            [_canvas removeObject:object];
+        }
+
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+
+#pragma mark -
+
+- (void) _updateHoverGrapple
+{
+    if (![_selectedTool isKindOfClass:[GrappleTool class]]) {
+        if (_hoverGrapple) [_canvas removeGrapple:_hoverGrapple];
+        _hoverGrapple = nil;
+        return;
+    }
+
+    GrappleTool *grappleTool = (GrappleTool *)_selectedTool;
+    
+    BOOL isVertical = [grappleTool calculatedIsVertical];
+
+    if ([_hoverGrapple isVertical] != isVertical) {
+        [_canvas removeGrapple:_hoverGrapple];
+        _hoverGrapple = nil;
+    }
+
+    if (!_hoverGrapple) {
+        _hoverGrapple = [_canvas makeGrappleVertical:isVertical];
+    }
+    
+    if (!_grappleCalculator) {
+        _grappleCalculator = [[GrappleCalculator alloc] initWithImage:[_canvas image]];
+    }
+
+    CGPoint point = _lastGrapplePoint;
+    UInt8 threshold = ([grappleTool tolerance] / 100.0) * 255.0;
+
+    if (isVertical) {
+        point.x = floor(point.x) + 0.5;
+        point.y = floor(point.y);
+    
+        size_t y1, y2;
+        [_grappleCalculator calculateVerticalGrappleWithStartX: point.x
+                                                        startY: point.y
+                                                     threshold: threshold
+                                                         outY1: &y1
+                                                         outY2: &y2];
+
+        [_hoverGrapple setRect:CGRectMake(point.x, y1, 0, y2 - y1)];
+
+    } else {
+        point.x = floor(point.x);
+        point.y = floor(point.y) + 0.5;
+    
+        size_t x1, x2;
+        [_grappleCalculator calculateHorizontalGrappleWithStartX: point.x
+                                                          startY: point.y
+                                                       threshold: threshold
+                                                           outX1: &x1
+                                                           outX2: &x2];
+
+        [_hoverGrapple setRect:CGRectMake(x1, point.y, x2 - x1, 0)];
     }
 }
+
 
 
 #pragma mark - Canvas Delegate
@@ -255,7 +287,9 @@
         layer = guideLayer;
 
     } else if ([object isKindOfClass:[Grapple class]]) {
-    
+        GrappleLayer *grappleLayer = [GrappleLayer layer];
+        [grappleLayer setGrapple:(Grapple *)object];
+        layer = grappleLayer;
 
     } else if ([object isKindOfClass:[Rectangle class]]) {
         RectangleLayer *rectangleLayer = [RectangleLayer layer];
@@ -322,34 +356,42 @@
         [_draggedLayer mouseUpWithEvent:event point:point];
     }
     
+    [_canvasView invalidateCursorRects];
+    
     _draggedLayer = nil;
 }
+
+
 
 
 #pragma mark - CanvasView Delegate
 
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view
 {
-    if (_selectedTool == ToolTypeMarquee) {
-        return [NSCursor crosshairCursor];
-    } else if (_selectedTool == ToolTypeZoom) {
-        return [NSCursor winch_zoomInCursor];
-    }
-    
-    return nil;
-    
+    return [_selectedTool cursor];
 }
+
+- (void) canvasView:(CanvasView *)view mouseMovedWithEvent:(NSEvent *)event
+{
+    if ([_selectedTool isKindOfClass:[GrappleTool class]]) {
+        _lastGrapplePoint = [_canvasView pointForMouseEvent:event];
+        [self _updateHoverGrapple];
+    }
+}
+
 
 - (BOOL) canvasView:(CanvasView *)view mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    if (_selectedTool == ToolTypeMove) {
-        CanvasLayer *layer = [self _layerForCanvasPoint:point];
+    ToolType toolType = [_selectedTool type];
 
+    if (toolType == ToolTypeMove) {
+        CanvasLayer *layer = [view canvasLayerForMouseEvent:event];
+        
         if ([layer isKindOfClass:[ResizeKnobLayer class]] ||
             [layer isKindOfClass:[GuideLayer class]])
         {
             _draggedLayer = layer;
-            return YES;
+            return [_draggedLayer mouseDownWithEvent:event point:point];
         }
         
         [self _unselectAllObjects];
@@ -370,14 +412,14 @@
 
         // No-op
         
-    } else if (_selectedTool == ToolTypeRectangle) {
+    } else if (toolType == ToolTypeRectangle) {
         Rectangle *rectangle = [_canvas makeRectangle];
         _draggedLayer = [self _layerForCanvasObject:rectangle];
         
         CGRect rect = { point, CGSizeZero };
         [rectangle setRect:rect];
         
-    } else if (_selectedTool == ToolTypeMarquee) {
+    } else if (toolType == ToolTypeMarquee) {
         [_canvas clearMarquee];
         
         CGRect rect = { point, CGSizeZero };
@@ -387,8 +429,6 @@
         _draggedLayer = [self _layerForCanvasObject:marquee];
     }
     
-    _currentAction = _selectedTool;
-
     return YES;
 }
 
@@ -406,9 +446,9 @@
     if (_draggedLayer) {
         [_draggedLayer mouseUpWithEvent:event point:point];
 
-    } else if (_selectedTool == ToolTypeZoom) {
-        NSInteger direction = ([event modifierFlags] & NSAlternateKeyMask) ? -1 : 1;
-        [self zoomWithEvent:event direction:direction];
+    } else if ([_selectedTool isKindOfClass:[ZoomTool class]]) {
+        _zoomEvent = event;
+        [(ZoomTool *)_selectedTool zoom];
     }
 
     [_canvasView resetCursorRects];
@@ -420,55 +460,35 @@
 #pragma mark -
 #pragma mark Zooming
 
-- (void) zoomWithEvent:(NSEvent *)event direction:(NSInteger)direction
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    CGFloat magnification = [_canvasView magnification];
-    magnification = [self _magnificationForMagnification:magnification direction:direction];
+    if (object == _zoomTool) {
+        if ([keyPath isEqualToString:@"magnificationLevel"]) {
+            CGFloat magnification = [_zoomTool magnificationLevel];
 
-    CGPoint zoomPoint;
-    if (event) {
-        zoomPoint = [_canvasView pointForMouseEvent:event];
-    }
+            [_canvasView setMagnification:magnification];
 
-    [_canvasView setMagnification:magnification];
-    [self _layoutCanvas];
+            if (_zoomEvent) {
+                CGRect clipViewFrame = [[_scrollView contentView] frame];
+                CGPoint zoomPoint = [_canvasView pointForMouseEvent:_zoomEvent];
 
-    [_canvasView resetCursorRects];
+                zoomPoint.x *= magnification;
+                zoomPoint.y *= magnification;
 
-    if (event) {
-        CGRect clipViewFrame = [[_scrollView contentView] frame];
-        
-        zoomPoint.x *= magnification;
-        zoomPoint.y *= magnification;
+                zoomPoint.x -= NSWidth( clipViewFrame) / 2.0;
+                zoomPoint.y -= NSHeight(clipViewFrame) / 2.0;
+                
+                [[_scrollView documentView] scrollPoint:zoomPoint];
 
-        zoomPoint.x -= NSWidth( clipViewFrame) / 2.0;
-        zoomPoint.y -= NSHeight(clipViewFrame) / 2.0;
-        
-        [[_scrollView documentView] scrollPoint:zoomPoint];
+                _zoomEvent = nil;
+            }
+        }
     }
 }
 
 
 #pragma mark -
 #pragma mark Actions
-
-- (IBAction) zoomIn:(id)sender
-{
-    [self zoomWithEvent:nil direction:1];
-}
-
-
-- (IBAction) zoomOut:(id)sender
-{
-    [self zoomWithEvent:nil direction:-1];
-}
-
-
-- (IBAction) deleteSelectedObject:(id)sender
-{
-    [self _deleteSelectedObjects];
-}
-
 
 - (IBAction) addHorizontalGuideAtCursor:(id)sender
 {
@@ -484,11 +504,41 @@
 
 #pragma mark - Accessors
 
-- (void) setSelectedTool:(ToolType)selectedTool
+- (void) setSelectedTool:(Tool *)selectedTool
 {
-    if (_selectedTool != selectedTool) {
-        _selectedTool = selectedTool;
-        [_canvasView invalidateCursorRects];
+    @synchronized(self) {
+        if (_selectedTool != selectedTool) {
+            _selectedTool = selectedTool;
+            [self _updateHoverGrapple];
+            [_canvasView invalidateCursorRects];
+        }
+    }
+}
+
+- (Tool *) selectedTool
+{
+    @synchronized(self) {
+        return _selectedTool;
+    }
+}
+
+
+- (void) setZoomTool:(ZoomTool *)zoomTool
+{
+    @synchronized(self) {
+        if (_zoomTool != zoomTool) {
+            [_zoomTool removeObserver:self forKeyPath:@"magnificationLevel"];
+            _zoomTool = zoomTool;
+            [_zoomTool addObserver:self forKeyPath:@"magnificationLevel" options:0 context:0];
+        }
+    }
+}
+
+
+- (ZoomTool *) zoomTool
+{
+    @synchronized(self) {
+        return _zoomTool;
     }
 }
 

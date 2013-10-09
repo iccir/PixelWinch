@@ -8,36 +8,25 @@
 
 #import "AppDelegate.h"
 
-#import "ScreenCapture.h"
-#import "CanvasController.h"
+#import "ShortcutManager.h"
+
+#import "CaptureController.h"
+#import "PreferencesController.h"
 #import "WinchWindowController.h"
 
-static NSString * const sStateKey = @"State";
 
-static NSString * const sLaserStateKey     = @"Lasers";
-static NSString * const sGuideStateKey     = @"Guides";
-static NSString * const sMagnifierStateKey = @"Magnifier";
-
-static NSTimeInterval const sLaserThreshold = 1.0;
-
-@interface AppDelegate () <ScreenCaptureDelegate>
-- (void) _updateMouseTracking;
+@interface AppDelegate () <ShortcutListener>
 @end
 
 
 @implementation AppDelegate {
-    id _globalHandler;
-    id _localHandler;
-    
-    ScreenCapture *_screenCapture;
-    CGPoint _lastMouseLocation;
-    NSTimeInterval _lastMouseTimeInterval;
-    NSTimer *_mouseTrackingTimer;
+    NSStatusItem *_statusItem;
 
-    NSInteger _hotKeyCount;
-    
+    PreferencesController *_preferencesController;
     WinchWindowController *_winchController;
+    CaptureController     *_captureController;
 }
+
 
 - (void) dealloc
 {
@@ -45,117 +34,134 @@ static NSTimeInterval const sLaserThreshold = 1.0;
 }
 
 
-- (void) _setupDefaults
+- (void) cancelOperation:(id)sender
 {
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
-//
-//
-//    [dictionary setObject:@"key,@1" forKey:<#(id)#>
-//    
-//    [dictionary setObject:yes forKey:LaserShowBoundariesKey];
-//    [dictionary setObject:no  forKey:LaserShowAspectRatioKey];
-//
-//    [dictionary setObject:no  forKey:LoupeViewAlwaysHideKey];
-//    [dictionary setObject:[NSNumber numberWithInteger:5]  forKey:LoupeViewZoomKey];
-//    [dictionary setObject:[NSNumber numberWithInteger:10] forKey:LoupeViewSizeKey];
-//
-//    [dictionary setObject:yes forKey:LoupeColorAlwaysHideKey];
-//    [dictionary setObject:[NSNumber numberWithInteger:7]  forKey:LoupeColorZoomKey];
-//    [dictionary setObject:[NSNumber numberWithInteger:10] forKey:LoupeColorSizeKey];
-//
-//    [dictionary setObject:yes forKey:GuidesRequireModifierKey];
-//    [dictionary setObject:no  forKey:GuidesModifierKey];
-//
-//    [dictionary setObject:yes forKey:MagnifierShouldFloatKey];
-//    [dictionary setObject:[NSNumber numberWithInteger:8] forKey:MagnifierZoomLevelKey];
+    NSLog(@"CANCEL OP!");
+}
 
-    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+- (void) keyDown:(NSEvent *)theEvent
+{
+    [super keyDown:theEvent];
 }
 
 
-- (void) _resetHotKeycount
+- (void) _handlePreferencesDidChange:(NSNotification *)note
 {
-    _hotKeyCount = 0;
-}
+    Preferences    *preferences = [Preferences sharedInstance];
+    NSMutableArray *shortcuts   = [NSMutableArray array];
 
-
-- (void) _mouseTrackingTick:(NSTimer *)timer
-{
-    CGPoint mouseLocation = [NSEvent mouseLocation];
-    NSTimeInterval now    = [NSDate timeIntervalSinceReferenceDate];
-    BOOL didMouseMove     = (_lastMouseLocation.x != mouseLocation.x) || (_lastMouseLocation.y != mouseLocation.y);
-    BOOL needsUpdateTick  = (now - _lastMouseTimeInterval > 0.5);
-
-    if (didMouseMove) {
-        _lastMouseLocation = mouseLocation;
-        _lastMouseTimeInterval = now;
+    if ([preferences captureSelectionShortcut]) {
+        [shortcuts addObject:[preferences captureSelectionShortcut]];
     }
-    
-    if (didMouseMove || needsUpdateTick) {
-        [_screenCapture mouseLocationDidChange:mouseLocation];
+
+    if ([preferences captureWindowShortcut]) {
+        [shortcuts addObject:[preferences captureWindowShortcut]];
+    }
+
+    if ([preferences showScreenshotsShortcut]) {
+        [shortcuts addObject:[preferences showScreenshotsShortcut]];
+    }
+
+    if ([shortcuts count] || [ShortcutManager hasSharedInstance]) {
+        [[ShortcutManager sharedInstance] addListener:self];
+        [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
     }
 }
 
 
-
-
-- (void) _incrementHotKeyCount:(NSEventType)eventType
+- (BOOL) performShortcut:(Shortcut *)shortcut
 {
-    BOOL isDown = (eventType == NSFlagsChanged);
-    if (isDown) _hotKeyCount++;
-    else if (_hotKeyCount) _hotKeyCount++;
-    
-    if (_hotKeyCount == 4) {
-        _hotKeyCount = 0;
-        [_screenCapture startCaptureWithMode:ScreenCaptureModeRectangle];
+    Preferences *preferences = [Preferences sharedInstance];
+    BOOL yn = NO;
+
+    if ([[preferences captureWindowShortcut] isEqual:shortcut]) {
+        [self captureWindow:self];
+        yn = YES;
     }
     
-    [self performSelector:@selector(_resetHotKeycount) withObject:nil afterDelay:1];
+    if ([[preferences captureSelectionShortcut] isEqual:shortcut]) {
+        [self captureSelection:self];
+        yn = YES;
+    }
+    
+    if ([[preferences showScreenshotsShortcut] isEqual:shortcut]) {
+        [self showScreenshots:self];
+        yn = YES;
+    }
+
+    return yn;
 }
+
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    __weak id weakSelf = self;
+    _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:29.0];
 
-    _screenCapture = [[ScreenCapture alloc] init];
-    [_screenCapture setDelegate:self];
+    NSImage *image = [NSImage imageNamed:@"status_bar"];
+    [image setTemplate:YES];
+    [_statusItem setImage:image];
+    [_statusItem setHighlightMode:YES];
+    
+    [_statusItem setMenu:[self statusBarMenu]];
+}
 
-    void (^handler)(NSEvent *) = ^(NSEvent *event) {
-        if ([event keyCode] == 63) {
-            [weakSelf _incrementHotKeyCount:[event type]];
+
+- (IBAction) captureSelection:(id)sender
+{
+    [[self captureController] captureSelection:self];
+}
+
+
+- (IBAction) captureWindow:(id)sender
+{
+}
+
+
+- (IBAction) showScreenshots:(id)sender
+{
+    [[self winchController] showWindow:self];
+}
+
+
+- (IBAction) showPreferences:(id)sender
+{
+    [[self preferencesController] showWindow:self];
+}
+
+
+- (PreferencesController *) preferencesController
+{
+    @synchronized(self) {
+        if (!_preferencesController) {
+            _preferencesController = [[PreferencesController alloc] init];
         }
-    };
-
-    _globalHandler = [NSEvent addGlobalMonitorForEventsMatchingMask:NSKeyDownMask|NSKeyUpMask|NSFlagsChangedMask handler:^(NSEvent *event) {
-        handler(event);
-    }];
-
-    _localHandler = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask|NSKeyUpMask|NSFlagsChangedMask handler:^(NSEvent *event) {
-        handler(event);
-        return event;
-    }];
-
-
-    _mouseTrackingTimer = [NSTimer timerWithTimeInterval:(1.0 / 60.0) target:self selector:@selector(_mouseTrackingTick:) userInfo:nil repeats:YES];
-
-    [[NSRunLoop currentRunLoop] addTimer:_mouseTrackingTimer forMode:NSRunLoopCommonModes];
-    [[NSRunLoop currentRunLoop] addTimer:_mouseTrackingTimer forMode:NSEventTrackingRunLoopMode];
-
-    [self _mouseTrackingTick:_mouseTrackingTimer];
-
-    _winchController = [[WinchWindowController alloc] init];
-    [_winchController showWindow:self];
-}
-
-- (void) screenCapture:(ScreenCapture *)screenCapture didCaptureImage:(NSImage *)image
-{
-
+        
+        return _preferencesController;
+    }
 }
 
 
-- (void) screenCapture:(ScreenCapture *)screenCapture didUpdateMode:(ScreenCaptureMode)mode
+- (CaptureController *) captureController
 {
+    @synchronized(self) {
+        if (!_captureController) {
+            _captureController = [[CaptureController alloc] init];
+        }
+        
+        return _captureController;
+    }
+}
+
+
+- (WinchWindowController *) winchController
+{
+    @synchronized(self) {
+        if (!_winchController) {
+            _winchController = [[WinchWindowController alloc] initWithWindowNibName:@"WinchWindow"];
+        }
+        
+        return _winchController;
+    }
 }
 
 

@@ -7,8 +7,18 @@
 //
 
 #import "CanvasObject.h"
+#import "Canvas.h"
 
-@implementation CanvasObject
+@implementation CanvasObject {
+    CGRect _rect;
+}
+
+- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+{
+    self = nil;
+    return nil;
+}
+
 
 - (id) init
 {
@@ -19,10 +29,78 @@
     return self;
 }
 
-- (void) moveEdge:(CGRectEdge)edge value:(CGFloat)value
+
+- (NSDictionary *) dictionaryRepresentation
 {
-    // Subclasses to implement
+    return @{ };
 }
+
+
+#pragma mark - Accessors
+
+- (void) setRect:(CGRect)rect
+{
+    @synchronized(self) {
+        if (!CGRectEqualToRect(_rect, rect)) {
+            _rect = CGRectStandardize(rect);
+            [[self canvas] objectDidUpdate:self];
+        }
+    }
+}
+
+
+- (CGRect) rect
+{
+    @synchronized(self) {
+        return _rect;
+    }
+}
+
+
+- (void) setOriginX:(CGFloat)originX
+{
+    @synchronized(self) {
+        CGRect rect = [self rect];
+        rect.origin.x = originX;
+        [self setRect:rect];
+    }
+}
+
+
+- (void) setOriginY:(CGFloat)originY
+{
+    @synchronized(self) {
+        CGRect rect = [self rect];
+        rect.origin.y = originY;
+        [self setRect:rect];
+    }
+}
+
+
+- (void) setSizeWidth:(CGFloat)sizeWidth
+{
+    @synchronized(self) {
+        CGRect rect = [self rect];
+        rect.size.width = sizeWidth;
+        [self setRect:rect];
+    }
+}
+
+
+- (void) setSizeHeight:(CGFloat)sizeHeight
+{
+    @synchronized(self) {
+        CGRect rect = [self rect];
+        rect.size.height = sizeHeight;
+        [self setRect:rect];
+    }
+}
+
+
+- (CGFloat) originX    { @synchronized(self) { return _rect.origin.x;    } }
+- (CGFloat) originY    { @synchronized(self) { return _rect.origin.y;    } }
+- (CGFloat) sizeWidth  { @synchronized(self) { return _rect.size.width;  } }
+- (CGFloat) sizeHeight { @synchronized(self) { return _rect.size.height; } }
 
 
 @end
