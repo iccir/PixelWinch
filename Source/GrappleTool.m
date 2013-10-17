@@ -33,4 +33,11 @@
 }
 
 
+- (UInt8) calculatedThreshold
+{
+    UInt8 threshold = ([self tolerance] / 100.0) * 255.0;
+    return threshold;
+}
+
+
 @end

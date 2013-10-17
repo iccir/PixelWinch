@@ -11,13 +11,15 @@
 #import "Guide.h"
 #import "CanvasLayer.h"
 #import "Canvas.h"
+#import "CanvasRootLayer.h"
+#import "Screenshot.h"
 
 
 @implementation CanvasView {
-    CALayer        *_container;
-    CALayer        *_imageLayer;
-    NSMutableArray *_canvasLayers;
-    NSTrackingArea *_trackingArea;
+    CanvasRootLayer *_root;
+    CALayer         *_imageLayer;
+    NSMutableArray  *_canvasLayers;
+    NSTrackingArea  *_trackingArea;
 }
 
 
@@ -30,15 +32,15 @@
         
         [self setWantsLayer:YES];
         [self setLayer:selfLayer];
+        [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
 
         [selfLayer setBackgroundColor:[[NSColor colorWithRed:1 green:0 blue:0 alpha:0.25] CGColor]];
+        [selfLayer setOpaque:YES];
 
-        [selfLayer setMasksToBounds:YES];
-        
-        _container = [CALayer layer];
-        [_container setDelegate:self];
-        [_container setFrame:[self bounds]];
-        [selfLayer addSublayer:_container];
+        _root = [CanvasRootLayer layer];
+        [_root setDelegate:self];
+        [_root setFrame:[self bounds]];
+        [selfLayer addSublayer:_root];
 
         _imageLayer = [CALayer layer];
         [_imageLayer setAnchorPoint:CGPointMake(0, 0)];
@@ -46,8 +48,9 @@
         [_imageLayer setContentsGravity:kCAGravityBottomLeft];
         [_imageLayer setFrame:[self bounds]];
         [_imageLayer setDelegate:self];
-        
-        [_container addSublayer:_imageLayer];
+        [_imageLayer setOpaque:YES];
+
+        [_root addSublayer:_imageLayer];
         
         _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:_trackingArea];
@@ -98,11 +101,11 @@
     location.x = location.x / (_magnification / scale);
     location.y = location.y / (_magnification / scale);
 
-    if (horizontalSnappingPolicy == SnappingPolicyToPixelCenter) {
+    if (horizontalSnappingPolicy == SnappingPolicyToPixelEdge) {
         location.x = round(location.x);
     }
     
-    if (verticalSnappingPolicy == SnappingPolicyToPixelCenter) {
+    if (verticalSnappingPolicy == SnappingPolicyToPixelEdge) {
         location.y = round(location.y);
     }
 
@@ -122,6 +125,7 @@
         while (1) {
             event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
             
+
             NSEventType type = [event type];
             if (type == NSLeftMouseUp) {
                 point = [self pointForMouseEvent:event];
@@ -163,6 +167,12 @@
 }
 
 
+- (BOOL)wantsUpdateLayer {
+   return YES;
+}
+
+- (void) updateLayer { }
+
 #pragma mark -
 #pragma mark CALayer Delegate
 
@@ -180,7 +190,7 @@
     }
     
     [[self layer] setContentsScale:newScale];
-    [_container setContentsScale:newScale];
+    [_root setContentsScale:newScale];
 
     [_imageLayer setContentsScale:newScale];
 
@@ -190,7 +200,7 @@
 
 - (void) layoutSublayersOfLayer:(CALayer *)layer
 {
-    if (layer == _container) {
+    if (layer == _root) {
 
         CGSize  size          = [_canvas size];
 
@@ -205,20 +215,43 @@
 
         CGSize canvasSize = [_canvas size];
         CGRect frame = { CGPointZero, canvasSize };
-        [_container setFrame:frame];
+        [_root setFrame:frame];
 
         [_imageLayer setTransform:CATransform3DIdentity];
-        [_imageLayer setFrame:[_container bounds]];
+        [_imageLayer setFrame:[_root bounds]];
+
+        CGSize scrollViewSize = [[self enclosingScrollView] bounds].size;
 
         CGAffineTransform transform = CGAffineTransformMakeScale(_magnification, _magnification);
         [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
-        [_imageLayer setContents:(id)[_canvas image]];
+        [_imageLayer setContents:(id)[[_canvas screenshot] CGImage]];
         
         for (CanvasLayer *layer in _canvasLayers) {
             CGRect rect = [layer rectForCanvasLayout];
+
+            if (rect.size.width == INFINITY) {
+                rect.size.width = scrollViewSize.width;
+            } else if (rect.size.width > frame.size.width) {
+                rect.size.width = frame.size.width;
+            }
+
+            if (rect.size.height == INFINITY) {
+                rect.size.height = scrollViewSize.height;
             
-            if (rect.size.width  > frame.size.width)  rect.size.width  = frame.size.width;
-            if (rect.size.height > frame.size.height) rect.size.height = frame.size.height;
+            } else if (rect.size.height > frame.size.height) {
+                rect.size.height = frame.size.height;
+            }
+
+
+            if (rect.origin.x == -INFINITY) {
+                rect.origin.x = -scrollViewSize.width;
+                rect.size.width +=  scrollViewSize.width;
+            }
+
+            if (rect.origin.y == -INFINITY) {
+                rect.origin.y = -scrollViewSize.height;
+                rect.size.height += scrollViewSize.height;
+            }
             
             CGAffineTransform scaledTransform = CGAffineTransformMakeScale(_magnification / scale, _magnification / scale);
             
@@ -250,8 +283,6 @@
     size.width  *= (_magnification / scale);
     size.height *= (_magnification / scale);
 
-    NSLog(@"Size is now: %@", NSStringFromSize(size));
-
     [self setFrame:CGRectMake(0, 0, size.width, size.height)];
 }
 
@@ -272,7 +303,7 @@
     [layer setContentsScale:[[self layer] contentsScale]];
 
     [_canvasLayers addObject:layer];
-    [_container addSublayer:layer];
+    [_root addSublayer:layer];
 }
 
 
@@ -286,7 +317,7 @@
 
 - (void) updateCanvasLayer:(CanvasLayer *)layer
 {
-    [_container setNeedsLayout];
+    [_root setNeedsLayout];
 }
 
 
@@ -297,7 +328,7 @@
     
     location = [self convertPoint:location fromView:contentView];
 
-    CALayer *result = [_container hitTest:location];
+    CALayer *result = [_root hitTest:location];
     
     while (result && ![result isKindOfClass:[CanvasLayer class]]) {
         result = [result superlayer];
@@ -315,11 +346,16 @@
     if (_magnification != magnification) {
         _magnification = magnification;
         [self sizeToFit];
-        [_container setNeedsLayout];
+        [_root setNeedsLayout];
         [self invalidateCursorRects];
     }
 }
 
+
+- (BOOL) isOpaque
+{
+    return YES;
+}
 
 
 @end

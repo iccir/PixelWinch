@@ -39,6 +39,19 @@
                         <action selector="showPreferences:" target="494" id="uGR-ww-WUP"/>
                     </connections>
                 </menuItem>
+                <menuItem isSeparatorItem="YES" id="JEW-G5-dEg"/>
+                <menuItem title="About Pixel Winch" id="rBw-J5-f2f">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showAbout:" target="494" id="Rnj-Jd-dAc"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Quit" id="AQq-VI-f68">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="quit:" target="494" id="ZNz-Yg-s1a"/>
+                    </connections>
+                </menuItem>
             </items>
         </menu>
     </objects>

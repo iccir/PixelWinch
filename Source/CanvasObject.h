@@ -17,6 +17,11 @@
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary;
 - (NSDictionary *) dictionaryRepresentation;
 
+// Subclasses to override, must call super
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary;
+
+@property (readonly) BOOL isValid;
+
 @property (assign) CGRect rect;
 
 // For bindings

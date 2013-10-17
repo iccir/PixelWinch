@@ -14,12 +14,10 @@
 
 - (IBAction) selectPane:(id)sender;
 - (IBAction) updatePreferences:(id)sender;
-- (IBAction) learnAboutConversion:(id)sender;
 
 @property (weak) Preferences *preferences;
 
 @property (nonatomic, weak) IBOutlet ShortcutView *captureSelectionShortcutView;
-@property (nonatomic, weak) IBOutlet ShortcutView *captureWindowShortcutView;
 @property (nonatomic, weak) IBOutlet ShortcutView *showScreenshotsShortcutView;
 
 @property (nonatomic, weak) IBOutlet NSToolbar *toolbar;

@@ -74,11 +74,33 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
 
     NSRectFillListUsingOperation(&cellFrame, 1, NSCompositeClear);
 
+    NSRect shadowFrame = cellFrame;
+    shadowFrame.size.height -= 1.0;
+
+    NSInteger count = [controlView segmentCount];
     for (NSInteger i = 0; i < [controlView segmentCount]; i++) {
+        BOOL isSelected = [controlView isSelectedForSegment:i];
         CGRect frame = [[_segmentToFrameMap objectForKey:@(i)] rectValue];
 
+        SegmentShape shape = SegmentShapeMiddle;
+        if (i == 0) shape = SegmentShapeLeft;
+        else if (i == (count - 1)) shape = SegmentShapeRight;
+
+        NSImage *segmentImage = sGetSegmentImage(shape, NO, isSelected);
+
+        frame.origin.x -= 1.0;
+        frame.origin.y    = cellFrame.origin.y;
+        frame.size.height = [segmentImage size].height;
+        frame.size.width += 1.0;
+
+        if (shape == SegmentShapeRight) {
+            frame.size.width += 1.0;
+        }
+        
+        DrawThreePart(segmentImage, frame, 5, 5);
+
         NSImage *image;
-        if ([controlView isSelectedForSegment:i]) {
+        if (isSelected) {
             image = [controlView selectedImageForSegment:i];
         } else {
             image = [controlView imageForSegment:i];
@@ -87,8 +109,9 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
         NSSize imageSize = [image size];
         NSRect imageRect = { frame.origin, imageSize };
 
+        imageRect.origin.y = cellFrame.origin.y;
         imageRect.origin.x += round((frame.size.width  - imageSize.width)  / 2);
-        imageRect.origin.y += round((frame.size.height - imageSize.height) / 2);
+        imageRect.origin.y += round(((cellFrame.size.height - 1) - imageSize.height) / 2);
 
         [image drawInRect:imageRect];
     }

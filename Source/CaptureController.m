@@ -7,10 +7,12 @@
 //
 
 #import "CaptureController.h"
-#import "CaptureView.h"
-#import "Window.h"
 #import "AppDelegate.h"
-#import "WinchWindowController.h"
+#import "CanvasController.h"
+#import "Screenshot.h"
+#import "Library.h"
+#import "LibraryItem.h"
+
 
 @interface CaptureController ()
 @end
@@ -38,7 +40,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
 @implementation CaptureController {
     NSTask   *_task;
-    NSString *_path;
+    LibraryItem *_currentItem;
 
     CFMachPortRef      _eventTap;
     CFRunLoopSourceRef _eventTapRunLoopSource;
@@ -72,31 +74,18 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
 - (void) _taskDidTerminate:(NSTask *)task
 {
-    NSFileManager *manager = [NSFileManager defaultManager];
-
-    BOOL isDirectory = NO;
-    if (![manager fileExistsAtPath:_path isDirectory:&isDirectory] || isDirectory) {
-        return;
-    }
-
-    NSData *data = [NSData dataWithContentsOfFile:_path];
-    if (!data) return;
-
-    NSImage *image = [[NSImage alloc] initWithData:data];
-    if (!image) return;
-
-    CGImageRef result = NULL;
-
-    for (NSImageRep *rep in [image representations]) {
-        if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
-            result = CGImageRetain([(NSBitmapImageRep *)rep CGImage]);
-        }
-    }
-
-    CGImageRelease(result);
-
     if (_eventTap) {
         CGEventTapEnable(_eventTap, false);
+    }
+
+    NSFileManager *manager = [NSFileManager defaultManager];
+
+    NSString *path = [_currentItem screenshotPath];
+
+    BOOL isDirectory = NO;
+    if (![manager fileExistsAtPath:path isDirectory:&isDirectory] || isDirectory) {
+        [[Library sharedInstance] removeItem:_currentItem];
+        return;
     }
 
     CGPoint downPoint = _eventTapUserInfo->downPoint;
@@ -120,11 +109,13 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
     CGRect rect = CGRectMake(downPoint.x, downPoint.y, upPoint.x - downPoint.x, upPoint.y - downPoint.y);
     rect = CGRectStandardize(rect);
+    
+    NSScreen *firstScreen = [[NSScreen screens] firstObject];
+    rect.origin.y = [firstScreen frame].size.height - CGRectGetMaxY(rect);
 
     AppDelegate *appDelegate = (AppDelegate *)[NSApp delegate];
+    [[appDelegate canvasController] presentLibraryItem:_currentItem fromRect:rect];
     
-    [[appDelegate winchController] presentWithImage:result screenRect:rect];
-
     [_task setTerminationHandler:nil];
     _task = nil;
 }
@@ -153,17 +144,15 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 {
     if (_task) return;
 
-    NSString *UUIDString = [[NSUUID UUID] UUIDString];
-    NSString *filename   = [NSString stringWithFormat:@"%@.tiff", UUIDString];
-    NSString *path       = [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
+    _currentItem = [[Library sharedInstance] makeItem];
+    if (!_currentItem) return;
 
     NSTask *task = [[NSTask alloc] init];
     
     [task setLaunchPath:@"/usr/sbin/screencapture"];
-    [task setArguments:@[ @"-s", @"-x", @"-i", @"-ttiff", path ]];
+    [task setArguments:@[ @"-s", @"-x", @"-i", @"-ttiff", [_currentItem screenshotPath] ]];
     
     _task = task;
-    _path = path;
     
     __weak id weakSelf = self;
     [task setTerminationHandler:^(NSTask *task) {

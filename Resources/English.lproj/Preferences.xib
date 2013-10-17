@@ -10,7 +10,6 @@
                 <outlet property="appearanceItem" destination="374" id="gen-GJ-tOW"/>
                 <outlet property="appearancePane" destination="337" id="5D8-cg-kOz"/>
                 <outlet property="captureSelectionShortcutView" destination="2u1-Cl-7Sl" id="9J7-9S-4e8"/>
-                <outlet property="captureWindowShortcutView" destination="FDE-Mo-dYD" id="lCA-v4-ETt"/>
                 <outlet property="clickInSwatchPopUp" destination="46" id="96"/>
                 <outlet property="conversionItem" destination="374" id="381"/>
                 <outlet property="conversionPane" destination="337" id="380"/>
@@ -64,7 +63,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Points" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="59" id="47">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="48">
                             <items>
                                 <menuItem title="Pixels" id="55">
@@ -85,7 +84,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Floating" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="R22-74-OiX" id="Jib-Et-fUQ">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="P9S-uG-KHf">
                             <items>
                                 <menuItem title="Modal window" tag="1" id="EUv-V5-1G3">
@@ -98,22 +97,6 @@
                         </menu>
                     </popUpButtonCell>
                 </popUpButton>
-                <textField verticalHuggingPriority="750" id="Ygu-fI-a4r">
-                    <rect key="frame" x="18" y="75" width="182" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Capture window" id="mTh-bE-VJv">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <customView id="FDE-Mo-dYD" customClass="ShortcutView">
-                    <rect key="frame" x="200" y="72" width="149" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <connections>
-                        <action selector="updatePreferences:" target="-2" id="jj8-tX-vyE"/>
-                    </connections>
-                </customView>
                 <textField verticalHuggingPriority="750" id="npU-XF-gWo">
                     <rect key="frame" x="18" y="105" width="182" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -131,14 +114,14 @@
                     </connections>
                 </customView>
                 <customView id="fBo-3p-4Hg" customClass="ShortcutView">
-                    <rect key="frame" x="200" y="42" width="148" height="22"/>
+                    <rect key="frame" x="200" y="72" width="148" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <connections>
                         <action selector="updatePreferences:" target="-2" id="lTV-ea-PRE"/>
                     </connections>
                 </customView>
                 <textField verticalHuggingPriority="750" id="7cK-iR-SK5">
-                    <rect key="frame" x="18" y="45" width="182" height="17"/>
+                    <rect key="frame" x="18" y="75" width="182" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Show screenshots" id="hVD-eR-cb7">
                         <font key="font" metaFont="system"/>

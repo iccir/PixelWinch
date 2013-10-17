@@ -27,7 +27,7 @@
 
 @property (nonatomic, readonly) Canvas *canvas;
 
-@property (nonatomic, weak) id<CanvasViewDelegate> delegate;
+@property (nonatomic, weak) id<CanvasViewDelegate> IBOutlet delegate;
 
 - (CGPoint) pointForMouseEvent:(NSEvent *)event;
 - (CGPoint) pointForMouseEvent:(NSEvent *)event layer:(CanvasLayer *)layer;

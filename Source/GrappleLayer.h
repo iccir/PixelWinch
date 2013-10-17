@@ -13,4 +13,10 @@
 
 @interface GrappleLayer : CanvasLayer
 @property (nonatomic, strong) Grapple *grapple;
+
+
+@property (assign) UInt8   originalThreshold;
+@property (assign) CGPoint originalPoint;
+@property (assign) BOOL    originalStopsOnGuides;
+
 @end

@@ -11,4 +11,12 @@
 
 
 @implementation Marquee
+
+- (BOOL) isValid
+{
+    CGSize size = [self rect].size;
+    return size.width > 0 || size.height > 0;
+}
+
+
 @end

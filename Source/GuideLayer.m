@@ -26,9 +26,18 @@
         [_sublayer setDelegate:self];
 
         [self addSublayer:_sublayer];
+        
+        [self _updateLayers];
     }
 
     return self;
+}
+
+
+- (void) _updateLayers
+{
+    Preferences *preferences = [Preferences sharedInstance];
+    [_sublayer setBackgroundColor:[[preferences placedGuideColor] CGColor]];
 }
 
 
@@ -54,7 +63,7 @@
 
 - (void) preferencesDidChange:(Preferences *)preferences
 {
-    [_sublayer setBackgroundColor:[[preferences placedGuideColor] CGColor]];
+    [self _updateLayers];
 }
 
 
@@ -102,9 +111,9 @@
     CGFloat offset = [guide offset];
     
     if ([guide isVertical]) {
-        return CGRectMake(offset, 0, 0, INFINITY);
+        return CGRectMake(offset, -INFINITY, 0, INFINITY);
     } else {
-        return CGRectMake(0, offset, INFINITY, 0);
+        return CGRectMake(-INFINITY, offset, INFINITY, 0);
     }
 }
 

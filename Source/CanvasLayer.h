@@ -34,5 +34,6 @@ typedef NS_ENUM(NSInteger, SnappingPolicy) {
 
 
 @property (nonatomic, strong) CanvasObject *canvasObject;
+@property (nonatomic, assign, getter=isNewborn) BOOL newborn;
 
 @end

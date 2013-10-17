@@ -8,6 +8,114 @@
 
 #import "Utils.h"
 
+CGSize GetMaxThumbnailSize(void)
+{
+    return CGSizeMake(128, 64);
+}
+
+
+extern NSColor *GetRGBColor(int rgb, CGFloat alpha)
+{
+    float r = (((rgb & 0xFF0000) >> 16) / 255.0);
+    float g = (((rgb & 0x00FF00) >>  8) / 255.0);
+    float b = (((rgb & 0x0000FF) >>  0) / 255.0);
+
+    return [NSColor colorWithSRGBRed:r green:g blue:b alpha:alpha];
+}
+
+
+extern NSColor *GetDarkWindowColor()
+{
+    return [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
+}
+
+
+void WinchLog(NSString *category,  NSString *format, ...)
+{
+    va_list v;
+    va_start(v, format);
+
+    NSString *string = [[NSString alloc] initWithFormat:format arguments:v];
+    NSLog(@"[%@]: %@", category, string);
+
+    va_end(v);
+}
+
+
+void WinchWarn(NSString *category, NSString *format, ...)
+{
+    va_list v;
+    va_start(v, format);
+    
+    NSString *string = [[NSString alloc] initWithFormat:format arguments:v];
+    NSLog(@"[%@]: %@", category, string);
+    
+    va_end(v);
+}
+
+
+static NSString *sFindOrCreateDirectory(
+    NSSearchPathDirectory searchPathDirectory,
+    NSSearchPathDomainMask domainMask,
+    NSString *appendComponent,
+    NSError **outError
+) {
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(searchPathDirectory, domainMask, YES);
+    if (![paths count]) return nil;
+
+    NSString *resolvedPath = [paths firstObject];
+    if (appendComponent) {
+        resolvedPath = [resolvedPath stringByAppendingPathComponent:appendComponent];
+    }
+
+    NSError *error;
+    BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:resolvedPath withIntermediateDirectories:YES attributes:nil error:&error];
+
+    if (!success) {
+        if (outError) *outError = error;
+        return nil;
+    }
+
+    if (outError) *outError = nil;
+
+    return resolvedPath;
+}
+
+
+NSString *GetApplicationSupportDirectory()
+{
+    NSString *name = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
+    return sFindOrCreateDirectory(NSApplicationSupportDirectory, NSUserDomainMask, name, NULL);
+}
+
+
+NSString *MakeUniqueDirectory(NSString *path)
+{
+    NSError *error;
+
+    NSInteger i = 1;
+    NSString *suffix = @"";
+
+    while (i < 1000) {
+        i++;
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            suffix = [NSString stringWithFormat:@" %ld", (long)i];
+            continue;
+        }
+        
+        path = [NSString stringWithFormat:@"%@%@", path, suffix];
+
+        BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
+        
+        if (success) {
+            return path;
+        }
+    }
+    
+    return nil;
+}
+
 
 NSTimer *MakeWeakTimer(NSTimeInterval timeInterval, id target, SEL selector, id userInfo, BOOL repeats)
 {
@@ -182,6 +290,70 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
     return rect;
 }
 
+
+extern void DrawImageAtPoint(NSImage *image, CGPoint point)
+{
+    NSSize imageSize = [image size];
+    [image drawInRect:NSMakeRect(point.x, point.y, imageSize.width, imageSize.height)];
+}
+
+extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat rightCap)
+{
+    NSSize imageSize = [image size];
+
+    CGRect leftTo   = rect;
+    CGRect middleTo = rect;
+    CGRect rightTo  = rect;
+
+    leftTo.size.width = leftCap;
+
+    middleTo.origin.x = CGRectGetMaxX(leftTo);
+    middleTo.size.width -= (leftCap + rightCap);
+    
+    rightTo.origin.x = CGRectGetMaxX(middleTo);
+    rightTo.size.width = rightCap;
+
+    CGRect leftFrom   = CGRectMake(0, 0, leftCap, rect.size.height);
+    CGRect middleFrom = CGRectMake(CGRectGetMaxX(leftFrom),   0, imageSize.width - (leftCap + rightCap), rect.size.height);
+    CGRect rightFrom  = CGRectMake(CGRectGetMaxX(middleFrom), 0, rightCap, rect.size.height);
+
+    [image drawInRect:leftTo   fromRect:leftFrom   operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:middleTo fromRect:middleFrom operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:rightTo  fromRect:rightFrom  operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+}
+
+
+extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow)
+{
+	[NSGraphicsContext saveGraphicsState];
+	
+	NSSize offset = shadow.shadowOffset;
+	NSSize originalOffset = offset;
+	CGFloat radius = shadow.shadowBlurRadius;
+	NSRect bounds = NSInsetRect([path bounds], -(ABS(offset.width) + radius), -(ABS(offset.height) + radius));
+	offset.height += bounds.size.height;
+	shadow.shadowOffset = offset;
+	NSAffineTransform *transform = [NSAffineTransform transform];
+	if ([[NSGraphicsContext currentContext] isFlipped])
+		[transform translateXBy:0 yBy:bounds.size.height];
+	else
+		[transform translateXBy:0 yBy:-bounds.size.height];
+	
+	NSBezierPath *drawingPath = [NSBezierPath bezierPathWithRect:bounds];
+	[drawingPath setWindingRule:NSEvenOddWindingRule];
+	[drawingPath appendBezierPath:path];
+	[drawingPath transformUsingAffineTransform:transform];
+	
+	[path addClip];
+	[shadow set];
+	[[NSColor blackColor] set];
+	[drawingPath fill];
+	
+	shadow.shadowOffset = originalOffset;
+	
+	[NSGraphicsContext restoreGraphicsState];
+}
+
 extern void WithWhiteOnBlackTextMode(void (^callback)())
 {
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
@@ -207,3 +379,44 @@ extern void WithWhiteOnBlackTextMode(void (^callback)())
 }
 
 
+void AddPopInAnimation(CALayer *layer, CGFloat duration)
+{
+    CAKeyframeAnimation *transform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    CABasicAnimation    *opacity   = [CABasicAnimation animationWithKeyPath:@"opacity"];
+
+    [transform setValues:@[
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.5,  0.5,  1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1,  1.1,  1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95, 0.95, 1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0,  1.0,  1)],
+    ]];
+    
+    [transform setKeyTimes:@[
+        @(0.0),
+        @(0.5),
+        @(0.9),
+        @(1.0)
+    ]];
+
+    [transform setDuration:duration];
+    [opacity   setDuration:duration];
+    
+    [opacity setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    [opacity setFromValue:@(0)];
+    [opacity setToValue:@(1)];
+        
+    [layer addAnimation:transform forKey:@"popIn"];
+    [layer addAnimation:opacity forKey:@"opacity"];
+}
+
+
+NSString *GetStringForFloat(CGFloat f)
+{
+    return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];
+}
+
+
+NSString *GetStringForSize(CGSize size)
+{
+    return [NSString stringWithFormat:@"%@ x %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
+}

@@ -54,7 +54,6 @@
     Preferences *preferences = [Preferences sharedInstance];
 
     [_captureSelectionShortcutView setShortcut:[preferences captureSelectionShortcut]];
-    [_captureWindowShortcutView    setShortcut:[preferences captureWindowShortcut]];
     [_showScreenshotsShortcutView  setShortcut:[preferences showScreenshotsShortcut]];
 }
 
@@ -110,9 +109,6 @@
 
     if (sender == _captureSelectionShortcutView) {
         [preferences setCaptureSelectionShortcut:[sender shortcut]];
-        
-    } else if (sender == _captureWindowShortcutView) {
-        [preferences setCaptureWindowShortcut:[sender shortcut]];
         
     } else if (sender == _showScreenshotsShortcutView) {
         [preferences setShowScreenshotsShortcut:[sender shortcut]];

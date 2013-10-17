@@ -8,5 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class LibraryItem;
+
 @interface Library : NSObject
+
++ (instancetype) sharedInstance;
+
+- (LibraryItem *) makeItem;
+- (void) removeItem:(LibraryItem *)item;
+
+@property (readonly) NSArray *items;
+
 @end
+

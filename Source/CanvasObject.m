@@ -9,14 +9,46 @@
 #import "CanvasObject.h"
 #import "Canvas.h"
 
+static NSString * const sGUIDKey   = @"GUID";
+static NSString * const sXKey      = @"x";
+static NSString * const sYKey      = @"y";
+static NSString * const sWidthKey  = @"width";
+static NSString * const sHeightKey = @"height";
+
 @implementation CanvasObject {
     CGRect _rect;
 }
 
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
 {
-    self = nil;
-    return nil;
+    if ((self = [super init])) {
+        NSString *GUID         = [dictionary objectForKey:sGUIDKey];
+        NSNumber *xNumber      = [dictionary objectForKey:sXKey];
+        NSNumber *yNumber      = [dictionary objectForKey:sYKey];
+        NSNumber *widthNumber  = [dictionary objectForKey:sWidthKey];
+        NSNumber *heightNumber = [dictionary objectForKey:sHeightKey];
+    
+        if (![GUID         isKindOfClass:[NSString class]] ||
+            ![xNumber      isKindOfClass:[NSNumber class]] ||
+            ![yNumber      isKindOfClass:[NSNumber class]] ||
+            ![widthNumber  isKindOfClass:[NSNumber class]] ||
+            ![heightNumber isKindOfClass:[NSNumber class]])
+        {
+            self = nil;
+            return nil;
+        }
+
+
+        _GUID = GUID;
+        _rect = CGRectMake(
+            [xNumber doubleValue],
+            [yNumber doubleValue],
+            [widthNumber doubleValue],
+            [heightNumber doubleValue]
+        );
+    }
+    
+    return self;
 }
 
 
@@ -30,9 +62,23 @@
 }
 
 
+
 - (NSDictionary *) dictionaryRepresentation
 {
-    return @{ };
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [self writeToDictionary:dictionary];
+    return dictionary;
+}
+
+
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary
+{
+    [dictionary setObject:_GUID forKey:sGUIDKey];
+
+    [dictionary setObject:@(_rect.origin.x)    forKey:sXKey];
+    [dictionary setObject:@(_rect.origin.y)    forKey:sYKey];
+    [dictionary setObject:@(_rect.size.width)  forKey:sWidthKey];
+    [dictionary setObject:@(_rect.size.height) forKey:sHeightKey];
 }
 
 
@@ -102,5 +148,9 @@
 - (CGFloat) sizeWidth  { @synchronized(self) { return _rect.size.width;  } }
 - (CGFloat) sizeHeight { @synchronized(self) { return _rect.size.height; } }
 
+- (BOOL) isValid
+{
+    return YES;
+}
 
 @end

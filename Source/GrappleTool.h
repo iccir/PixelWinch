@@ -13,6 +13,8 @@
 // Applies key modifier masks
 - (BOOL) calculatedIsVertical;
 
+- (UInt8) calculatedThreshold;
+
 @property NSInteger tolerance;
 @property BOOL attachesToGuides;
 @property (getter=isVertical) BOOL vertical;

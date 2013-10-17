@@ -8,19 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CaptureController, PreferencesController, WinchWindowController;
+@class CanvasController, CaptureController, PreferencesController;
 
 @interface AppDelegate : NSResponder <NSApplicationDelegate>
 
 @property (nonatomic, strong) IBOutlet NSMenu *statusBarMenu;
 
 - (IBAction) captureSelection:(id)sender;
-- (IBAction) captureWindow:(id)sender;
 - (IBAction) showScreenshots:(id)sender;
 - (IBAction) showPreferences:(id)sender;
+- (IBAction) showAbout:(id)sender;
+- (IBAction) quit:(id)sender;
 
+@property (strong, readonly) CanvasController      *canvasController;
 @property (strong, readonly) CaptureController     *captureController;
 @property (strong, readonly) PreferencesController *preferencesController;
-@property (strong, readonly) WinchWindowController *winchController;
 
 @end

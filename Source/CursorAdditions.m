@@ -8,110 +8,89 @@
 
 #import "CursorAdditions.h"
 
-@interface NSCursor (Private)
-+ (id)_helpCursor;
-+ (id)_windowResizeNorthWestSouthEastCursor;
-+ (id)_windowResizeNorthEastSouthWestCursor;
-+ (id)_windowResizeSouthWestCursor;
-+ (id)_windowResizeSouthEastCursor;
-+ (id)_windowResizeNorthWestCursor;
-+ (id)_windowResizeNorthEastCursor;
-+ (id)_windowResizeNorthSouthCursor;
-+ (id)_windowResizeSouthCursor;
-+ (id)_windowResizeNorthCursor;
-+ (id)_windowResizeEastWestCursor;
-+ (id)_windowResizeWestCursor;
-+ (id)_windowResizeEastCursor;
-+ (id)_zoomOutCursor;
-+ (id)_zoomInCursor;
-+ (id)_resizeLeftRightCursor;
-+ (id)_resizeRightCursor;
-+ (id)_resizeLeftCursor;
-+ (id)_topRightResizeCursor;
-+ (id)_bottomRightResizeCursor;
-+ (id)_topLeftResizeCursor;
-+ (id)_bottomLeftResizeCursor;
-+ (id)_verticalResizeCursor;
-+ (id)_horizontalResizeCursor;
-+ (id)_crosshairCursor;
-+ (id)_waitCursor;
-+ (id)_moveCursor;
-+ (id)_closedHandCursor;
-+ (id)_handCursor;
-+ (id)_genericDragCursor;
-+ (id)dragLinkCursor;
-+ (id)_copyDragCursor;
-+ (id)dragCopyCursor;
-+ (BOOL)helpCursorShown;
-+ (id)_setHelpCursor:(BOOL)arg1;
-+ (id)_makeCursors;
-+ (void)pop;
-+ (void)_clearOverrideCursorAndSetArrow;
-+ (void)_setOverrideCursor:(id)arg1;
-+ (id)currentSystemCursor;
-+ (id)currentCursor;
-+ (void)setHiddenUntilMouseMoves:(BOOL)arg1;
-+ (void)unhide;
-+ (void)hide;
-+ (id)IBeamCursorForVerticalLayout;
-+ (id)contextualMenuCursor;
-+ (id)busyButClickableCursor;
-+ (id)operationNotAllowedCursor;
-+ (id)disappearingItemCursor;
-+ (id)crosshairCursor;
-+ (id)resizeUpDownCursor;
-+ (id)resizeDownCursor;
-+ (id)resizeUpCursor;
-+ (id)resizeLeftRightCursor;
-+ (id)resizeRightCursor;
-+ (id)resizeLeftCursor;
-+ (id)openHandCursor;
-+ (id)closedHandCursor;
-+ (id)pointingHandCursor;
-+ (id)IBeamCursor;
-+ (id)arrowCursor;
-+ (id)_buildCursor:(id)arg1 cursorData:(struct CGPoint)arg2;
-+ (void)initialize;
-- (void)pop;
-- (void)push;
-- (id)awakeAfterUsingCoder:(id)arg1;
-- (void)encodeWithCoder:(id)arg1;
-- (id)initWithCoder:(id)arg1;
-- (void)mouseExited:(id)arg1;
-- (void)mouseEntered:(id)arg1;
-- (id)forceSet;
-- (void)set;
-- (void)_reallySet;
-- (id)_premultipliedARGBBitmaps;
-- (BOOL)isSetOnMouseEntered;
-- (BOOL)isSetOnMouseExited;
-- (void)setOnMouseEntered:(BOOL)arg1;
-- (void)setOnMouseExited:(BOOL)arg1;
-- (struct CGPoint)hotSpot;
-- (id)image;
-- (void)_getImageAndHotSpotFromCoreCursor;
-- (long long)_coreCursorType;
-- (void)dealloc;
-- (id)init;
-- (void)_setImage:(id)arg1;
-- (id)initWithImage:(id)arg1 foregroundColorHint:(id)arg2 backgroundColorHint:(id)arg3 hotSpot:(struct CGPoint)arg4;
-- (id)initWithImage:(id)arg1 hotSpot:(struct CGPoint)arg2;
-@end
+#define DUMP_SYSTEM_CURSORS 0
 
 @implementation NSCursor (PixelWinch)
 
+#if DUMP_SYSTEM_CURSORS
+
 + (void) initialize
 {
-    void (^dump)(NSCursor *, NSString *) = ^(NSCursor *cursor, NSString *name) {
-        NSBitmapImageRep *rep = [[[cursor image] representations] lastObject];
-        
-        
-        NSLog(@"%@", rep);
-        [[rep TIFFRepresentation] writeToFile:[NSString stringWithFormat:@"/tmp/%@.tiff", name] atomically:YES];
-    };
+    NSArray *array = @[
+        @"_helpCursor"
+        , @"_windowResizeNorthWestSouthEastCursor"
+        , @"_windowResizeNorthEastSouthWestCursor"
+        , @"_windowResizeSouthWestCursor"
+        , @"_windowResizeSouthEastCursor"
+        , @"_windowResizeNorthWestCursor"
+        , @"_windowResizeNorthEastCursor"
+        , @"_windowResizeNorthSouthCursor"
+        , @"_windowResizeSouthCursor"
+        , @"_windowResizeNorthCursor"
+        , @"_windowResizeEastWestCursor"
+        , @"_windowResizeWestCursor"
+        , @"_windowResizeEastCursor"
+        , @"_zoomOutCursor"
+        , @"_zoomInCursor"
+        , @"_resizeLeftRightCursor"
+        , @"_resizeRightCursor"
+        , @"_resizeLeftCursor"
+        , @"_topRightResizeCursor"
+        , @"_bottomRightResizeCursor"
+        , @"_topLeftResizeCursor"
+        , @"_bottomLeftResizeCursor"
+        , @"_verticalResizeCursor"
+        , @"_horizontalResizeCursor"
+        , @"_crosshairCursor"
+        , @"_waitCursor"
+        , @"_moveCursor"
+        , @"_closedHandCursor"
+        , @"_handCursor"
+        , @"_genericDragCursor"
+        , @"dragLinkCursor"
+        , @"_copyDragCursor"
+        , @"dragCopyCursor"
+        , @"IBeamCursorForVerticalLayout"
+        , @"contextualMenuCursor"
+        , @"busyButClickableCursor"
+        , @"operationNotAllowedCursor"
+        , @"disappearingItemCursor"
+        , @"crosshairCursor"
+        , @"resizeUpDownCursor"
+        , @"resizeDownCursor"
+        , @"resizeUpCursor"
+        , @"resizeLeftRightCursor"
+        , @"resizeRightCursor"
+        , @"resizeLeftCursor"
+        , @"openHandCursor"
+        , @"closedHandCursor"
+        , @"pointingHandCursor"
+        , @"IBeamCursor"
+        , @"arrowCursor"
+    ];
 
-    dump([NSCursor openHandCursor], @"openHandCursor");
+    for (NSString *name in array) {
+        NSCursor *cursor = [NSCursor performSelector:NSSelectorFromString(name)];
+        
+        NSLog(@"%@, %@", name, NSStringFromPoint([cursor hotSpot]));
+        
+        for (NSImageRep *rep in [[cursor image] representations]) {
+            NSString *path = NSTemporaryDirectory();
+            NSInteger width = [rep pixelsWide];
+            NSInteger height = [rep pixelsHigh];
+
+            NSString *filename = [NSString stringWithFormat:@"%@_%ld_%ld.tiff", name, (long)width, (long)height];
+            
+            path = [path stringByAppendingPathComponent:filename];
+            
+            [[(NSBitmapImageRep *)rep TIFFRepresentation] writeToFile:path atomically:YES];
+        }
+    }
+    
+    NSLog(@"%@", NSTemporaryDirectory());
 }
+
+#endif
 
 
 + (NSCursor *) winch_grappleHorizontalCursor
@@ -122,7 +101,7 @@
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
             NSImage *image = [NSImage imageNamed:@"cursor_grapple_h"];
-            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(11, 6)];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(12, 12)];
         }
     });
 
@@ -138,7 +117,7 @@
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
             NSImage *image = [NSImage imageNamed:@"cursor_grapple_v"];
-            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(5, 12)];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(12, 12)];
         }
     });
 
@@ -148,23 +127,65 @@
 
 + (NSCursor *) winch_resizeNorthWestSouthEastCursor
 {
-    return [self _windowResizeNorthWestSouthEastCursor];
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_resize_nw_se"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
+        }
+    });
+
+    return sCursor;
 }
 
 
 + (NSCursor *) winch_resizeNorthEastSouthWestCursor
 {
-    return [self _windowResizeNorthEastSouthWestCursor];
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_resize_ne_sw"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
+        }
+    });
+
+    return sCursor;
 }
+
 
 + (NSCursor *) winch_resizeNorthSouthCursor
 {
-    return [self _windowResizeNorthSouthCursor];
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_resize_n_s"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
+        }
+    });
+
+    return sCursor;
 }
+
 
 + (NSCursor *) winch_resizeEastWestCursor
 {
-    return [self _windowResizeEastWestCursor];
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_resize_w_e"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
+        }
+    });
+
+    return sCursor;
 }
 
 
@@ -176,12 +197,13 @@
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
             NSImage *image = [NSImage imageNamed:@"cursor_zoom_in"];
-            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(0, 0)];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(8, 7)];
         }
     });
 
     return sCursor;
 }
+
 
 + (NSCursor *) winch_zoomOutCursor
 {
@@ -191,11 +213,12 @@
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
             NSImage *image = [NSImage imageNamed:@"cursor_zoom_out"];
-            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(0, 0)];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(8, 7)];
         }
     });
 
     return sCursor;
 }
+
 
 @end

@@ -59,12 +59,12 @@ static NSString * const sOffsetKey   = @"offset";
 }
 
 
-- (NSDictionary *) dictionaryRepresentation
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-        @( _vertical ), sVerticalKey,
-        @( _offset   ), sOffsetKey,
-        nil];
+    [super writeToDictionary:dictionary];
+
+    [dictionary setObject:@(_vertical) forKey:sVerticalKey];
+    [dictionary setObject:@(_offset)   forKey:sOffsetKey];
 }
 
 

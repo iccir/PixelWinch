@@ -55,6 +55,23 @@
 }
 
 
+- (NSInteger) magnificationIndexForLevel:(CGFloat)neededLevelFloat
+{
+    NSInteger neededLevel = neededLevelFloat * 100;
+  
+    NSInteger index = [[self _levels] count] - 1;
+    for (NSNumber *level in [[self _levels] reverseObjectEnumerator]) {
+        if ([level integerValue] <= neededLevel) {
+            return index;
+        }
+
+        index--;
+    }
+    
+    return 0;
+}
+
+
 - (NSArray *) _levels
 {
     static NSArray *sZoomLevels;
@@ -69,6 +86,9 @@
             @( 200  ),
             @( 300  ),
             @( 400  ),
+            @( 500  ),
+            @( 600  ),
+            @( 700  ),
             @( 800  ),
             @( 1600 ),
             @( 3200 ),
@@ -115,6 +135,14 @@
     NSInteger magnificationIndex = [self magnificationIndex];
     if (magnificationIndex > 0) magnificationIndex--;
     [self setMagnificationIndex:magnificationIndex];
+}
+
+
+
+- (void) zoomToMagnificationLevel:(CGFloat)magnificationLevel
+{
+    NSInteger index = [self magnificationIndexForLevel:magnificationLevel];
+    [self setMagnificationIndex:index];
 }
 
 

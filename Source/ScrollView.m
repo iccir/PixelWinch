@@ -1,0 +1,37 @@
+//
+//  ScrollView.m
+//  PixelWinch
+//
+//  Created by Ricci Adams on 2013-10-09.
+//
+//
+
+#import "ScrollView.h"
+
+@implementation ScrollView {
+    BlackSquare *_bottomRight;
+}
+
+- (BOOL) isOpaque
+{
+    return YES;
+}
+
+
+- (void)tile
+{
+    [super tile];
+    
+    if (!_bottomRight) {
+        _bottomRight = [[BlackSquare alloc] initWithFrame:NSMakeRect(0, 0, 16, 16)];
+        [self addSubview:_bottomRight];
+    }
+    
+    NSRect bounds = [self bounds];
+    
+    [_bottomRight setFrame:NSMakeRect(bounds.size.width - 15, bounds.size.height - 15, 15, 15)];
+}
+
+
+
+@end

@@ -11,7 +11,12 @@
 @protocol RulerViewDelegate;
 
 @interface RulerView : NSView
-@property (nonatomic, weak) id<RulerViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<RulerViewDelegate> delegate;
+
+@property (nonatomic, getter=isVertical) BOOL vertical;
+@property (atomic) CGFloat offset;
+@property (atomic) CGFloat magnification;
+
 @end
 
 

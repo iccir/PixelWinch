@@ -16,9 +16,12 @@
 - (void) zoomIn;
 - (void) zoomOut;
 
+- (void) zoomToMagnificationLevel:(CGFloat)magnificationLevel;
+
 // Applies key modifier masks
 - (BOOL) calculatedZoomsIn;
 
+- (NSInteger) magnificationIndexForLevel:(CGFloat)magnificationLevel;
 
 @property BOOL zoomsIn;
 @property NSInteger magnificationIndex;

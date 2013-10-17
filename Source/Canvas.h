@@ -10,7 +10,10 @@
 
 @class CanvasObject;
 @class Grapple, Guide, Marquee, Rectangle;
+@class GrappleCalculator;
 @class CanvasLayer;
+@class Screenshot;
+
 
 @protocol CanvasDelegate;
 
@@ -19,11 +22,13 @@
 
 - (id) initWithDelegate:(id<CanvasDelegate>)delegate;
 
-- (void) setupWithImage:(CGImageRef)image;
-- (void) setupWithData:(NSData *)data;
+- (void) setupWithScreenshot: (Screenshot   *) screenshot
+                  dictionary: (NSDictionary *) dictionary;
 
-@property (nonatomic, readonly, /*strong*/) CGImageRef image;
+@property (nonatomic, readonly) Screenshot *screenshot;
 @property (nonatomic, readonly, assign) CGSize size;
+
+@property (readonly) NSDictionary *dictionaryRepresentation;
 
 @property (nonatomic, weak, readonly) id<CanvasDelegate> delegate;
 
@@ -42,6 +47,16 @@
 - (Grapple *) makeGrappleVertical:(BOOL)vertical;
 - (void) removeGrapple:(Grapple *)grapple;
 
+- (Grapple *) makePreviewGrappleVertical:(BOOL)vertical;
+- (void) removePreviewGrapple;
+
+- (void) updateGrapple: (Grapple *) grapple
+                 point: (CGPoint) point
+             threshold: (UInt8) threshold
+         stopsOnGuides: (BOOL) stopsOnGuides;
+
+@property (nonatomic, readonly, strong) GrappleCalculator *grappleCalculator;
+@property (nonatomic, readonly, strong) Grapple *previewGrapple;
 @property (nonatomic, readonly, strong) NSArray *grapples;
 
 

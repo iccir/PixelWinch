@@ -7,9 +7,199 @@
 //
 
 #import "Library.h"
+#import "LibraryItem.h"
 
-@implementation Library
+@interface LibraryItem ()
+- (id) initWithBasePath:(NSString *)basePath date:(NSDate *)date;
+@property (readonly) NSString *basePath;
+@end
 
+
+@interface Library ()
+@property (strong) NSMutableArray *items;
+@end
+
+
+@implementation Library {
+    NSMutableArray *_items;
+}
+
+
++ (id) sharedInstance
+{
+    static Library *sSharedInstance = nil;
+    static dispatch_once_t onceToken;
+
+    dispatch_once(&onceToken, ^{
+        sSharedInstance = [[Library alloc] init];
+    });
+    
+    return sSharedInstance;
+}
+
+
+- (id) init
+{
+    if ((self = [super init])) {
+        [self _populateItems];
+    }
+
+    return self;
+}
+
+
+- (NSString *) _screenshotsPath
+{
+    return [GetApplicationSupportDirectory() stringByAppendingPathComponent:@"Screenshots"];
+}
+
+
+- (void) _populateItems
+{
+    NSMutableArray *items = [NSMutableArray array];
+
+    NSString *screenshotsPath = [self _screenshotsPath];
+    NSFileManager *manager = [NSFileManager defaultManager];
+
+    if ([manager fileExistsAtPath:screenshotsPath]) {
+        NSError *error = nil;
+        for (NSString *item in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {
+            NSString *basePath = [screenshotsPath stringByAppendingPathComponent:item];
+            
+            LibraryItem *item = [[LibraryItem alloc] initWithBasePath:basePath date:nil];
+            if ([item isValid]) [items addObject:item];
+        }
+
+        if (error) {
+            WinchWarn(@"Library", @"_populateItems error: %@", error);
+        }
+    }
+    
+    [self setItems:items];
+    
+    [self _calculateFriendlyNames];
+}
+
+
+- (void) _calculateFriendlyNames
+{
+    NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
+    [shortDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    [shortDateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [shortDateFormatter setDoesRelativeDateFormatting:YES];
+
+    NSDateFormatter *dayNameFormatter = [[NSDateFormatter alloc] init];
+    [dayNameFormatter setDateFormat:@"EEEE"];
+   
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+    [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [timeFormatter setDateStyle:NSDateFormatterNoStyle];
+
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDate    *today          = [NSDate date];
+    NSUInteger todayDayOfYear = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSYearCalendarUnit forDate:today];
+    NSDateComponents *todayComponents = [gregorianCalendar components:(NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:today];
+
+    for (LibraryItem *item in _items) {
+        NSDate *date = [item date];
+        if (!date) continue;
+
+        NSUInteger        dateDayOfYear  = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSYearCalendarUnit forDate:date];
+        NSDateComponents *dateComponents = [gregorianCalendar components:(NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:date];
+
+        id dateString = [shortDateFormatter stringFromDate:date];
+        NSString *timeString  = [timeFormatter stringFromDate:date];
+
+        // Same year
+        if ([dateComponents year] == [todayComponents year]) {
+            // Today
+            if (todayDayOfYear == dateDayOfYear) {
+                dateString = nil;
+
+            // Yesterday
+            } else if (dateDayOfYear == (todayDayOfYear - 1)) {
+                // shortDateFormatter takes care of this
+
+            // Within past week
+            } else if (dateDayOfYear > (todayDayOfYear - 5)) {
+                dateString = [dayNameFormatter stringFromDate:date];
+            }
+        }
+
+        if (dateString) {
+            [item setDateString:[NSString stringWithFormat:@"%@, %@", dateString, timeString]];
+        } else {
+            [item setDateString:timeString];
+        }
+    }
+}
+
+
+- (LibraryItem *) makeItem
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+
+    NSDateFormatter *shortTimeFormatter = [[NSDateFormatter alloc] init];
+
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+
+    [timeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [timeFormatter setTimeStyle:NSDateFormatterMediumStyle];
+
+    [shortTimeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [shortTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
+
+    NSDate   *now = [NSDate date];
+    NSString *dateString = [dateFormatter stringFromDate:now];
+    NSString *timeString = [timeFormatter stringFromDate:now];
+    
+    NSString *directoryName = [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+    directoryName = [directoryName stringByReplacingOccurrencesOfString:@":" withString:@"."];
+
+    NSString *directoryToTry = [[self _screenshotsPath] stringByAppendingPathComponent:directoryName];
+    
+    NSString *actualDirectory = MakeUniqueDirectory(directoryToTry);
+    
+    LibraryItem *item = [[LibraryItem alloc] initWithBasePath:actualDirectory date:now];
+
+    [item setDateString:[shortTimeFormatter stringFromDate:now]];
+
+    [[self mutableArrayValueForKey:@"items"] addObject:item];
+    
+    
+    return item;
+}
+
+
+- (void) removeItem:(LibraryItem *)item
+{
+    NSString *basePath = [item basePath];
+    
+    [self _screenshotsPath];
+
+    NSError *error;
+    if ([[NSFileManager defaultManager] removeItemAtPath:basePath error:&error]) {
+        [[self mutableArrayValueForKey:@"items"] removeObject:item];
+    }
+}
+
+
+#pragma mark - KVC Compliance
+
+- (void) insertItems:(NSArray *)array atIndexes:(NSIndexSet *)indexes
+{
+    [_items insertObjects:array atIndexes:indexes];
+}
+
+
+- (void) removeItemsAtIndexes:(NSIndexSet *)indexes
+{
+    [_items removeObjectsAtIndexes:indexes];
+}
 
 
 @end
+

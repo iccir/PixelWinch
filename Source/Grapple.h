@@ -13,6 +13,9 @@
 
 + (instancetype) grappleVertical:(BOOL)vertical;
 
+- (CGFloat) length;
+
 @property (nonatomic, readonly, getter=isVertical) BOOL vertical;
+@property (nonatomic, assign, getter=isPreview) BOOL preview;
 
 @end

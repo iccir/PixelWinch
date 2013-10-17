@@ -7,39 +7,94 @@
 //
 
 #import "CenteringClipView.h"
+#import "RulerView.h"
 
-@implementation CenteringClipView
+
+@implementation CenteringClipView {
+    NSColor *_backgroundColor;
+}
+
+
+- (void) _commonInit
+{
+    [self setWantsLayer:YES];
+    [self setLayer:[CAScrollLayer layer]];
+    [[self layer] setDelegate:self];
+    
+	[self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
+    [self setOpaque:NO];
+}
+
+
+- (id) initWithFrame:(NSRect)frame
+{
+	if ((self = [super initWithFrame:frame])) {
+        [self _commonInit];
+    }
+
+    return self;
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self _commonInit];
+    }
+    
+    return self;
+}
+
+
+- (NSView *) hitTest:(NSPoint)aPoint
+{
+    return [self documentView];
+}
+
 
 - (NSPoint) _centeredPointForPoint:(NSPoint)inPoint
 {
-    NSRect docRect  = [[self documentView] frame];
-    NSRect clipRect = [self bounds];
+    NSRect documentFrame = [[self documentView] frame];
+    NSRect selfBounds    = [self bounds];
 
-    CGFloat maxX = docRect.size.width - clipRect.size.width;
-    CGFloat maxY = docRect.size.height - clipRect.size.height;
+    CGFloat maxX = documentFrame.size.width  - selfBounds.size.width;
+    CGFloat maxY = documentFrame.size.height - selfBounds.size.height;
 
-    clipRect.origin = inPoint; // shift origin to proposed location
+    selfBounds.origin = inPoint;
 
-    // If the clip view is wider than the doc, we can't scroll horizontally
-    if (docRect.size.width < clipRect.size.width) {
-        clipRect.origin.x = round( maxX / 2.0 );
+    if (documentFrame.size.width < selfBounds.size.width) {
+        selfBounds.origin.x = round(maxX / 2.0);
     } else {
-        clipRect.origin.x = round( MAX(0,MIN(clipRect.origin.x,maxX)) );
+        selfBounds.origin.x = round(MAX(0, MIN(selfBounds.origin.x, maxX)));
     }
 
-    // If the clip view is taller than the doc, we can't scroll vertically
-    if (docRect.size.height < clipRect.size.height) {
-        clipRect.origin.y = round( maxY / 2.0 );
+    if (documentFrame.size.height < selfBounds.size.height) {
+        selfBounds.origin.y = round(maxY / 2.0);
     } else {
-        clipRect.origin.y = round( MAX(0,MIN(clipRect.origin.y,maxY)) );
+        selfBounds.origin.y = round(MAX(0, MIN(selfBounds.origin.y, maxY)));
     }
-//
-//    // Save center of view as proportions so we can later tell where the user was focused.
-//    mLookingAt.x = NSMidX(clipRect) / docRect.size.width;
-//    mLookingAt.y = NSMidY(clipRect) / docRect.size.height;
 
-    // The docRect isn't necessarily at (0, 0) so when it isn't, this correctly creates the correct scroll point
-    return NSMakePoint(docRect.origin.x + clipRect.origin.x, docRect.origin.y + clipRect.origin.y);
+
+    NSPoint result = NSMakePoint(
+        documentFrame.origin.x + selfBounds.origin.x,
+        documentFrame.origin.y + selfBounds.origin.y
+    );
+
+    return result;
+}
+
+
+- (id<CAAction>) actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+    return (id)[NSNull null];
+}
+
+
+- (void)scrollToPoint:(NSPoint)newOrigin
+{
+    [super scrollToPoint:newOrigin];
+
+    [_horizontalRulerView setOffset:-newOrigin.x];
+    [_verticalRulerView   setOffset:-newOrigin.y];
 }
 
 
@@ -50,9 +105,37 @@
 }
 
 
-- (NSPoint)constrainScrollPoint:(NSPoint)proposedNewOrigin
+- (NSPoint) constrainScrollPoint:(NSPoint)proposedNewOrigin
 {
     return [self _centeredPointForPoint:proposedNewOrigin];
 }
+
+
+- (void)setBackgroundColor:(NSColor *)backgroundColor
+{
+    if (_backgroundColor != backgroundColor) {
+        _backgroundColor = backgroundColor;
+        [[self layer] setBackgroundColor:[backgroundColor CGColor]];
+    }
+}
+
+
+- (NSColor *) backgroundColor
+{
+    return _backgroundColor;
+}
+
+
+- (void) setOpaque:(BOOL)opaque
+{
+	[[self layer] setOpaque:opaque];
+}
+
+
+- (BOOL) isOpaque
+{
+	return [[self layer] isOpaque];
+}
+
 
 @end

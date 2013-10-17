@@ -12,6 +12,10 @@
 #import "Guide.h"
 #import "Marquee.h"
 #import "Rectangle.h"
+#import "Screenshot.h"
+
+#import "GrappleCalculator.h"
+
 
 static NSString * const sGuidesKey     = @"guides";
 static NSString * const sGrapplesKey   = @"grapples";
@@ -23,6 +27,13 @@ static NSString * const sRectanglesKey = @"rectangles";
     NSMutableArray *_guides;
     NSMutableArray *_grapples;
     NSMutableArray *_rectangles;
+
+    GrappleCalculator *_grappleCalculator;
+    
+    Grapple *_waitingGrapple;
+    CGPoint  _waitingGrapplePoint;
+    UInt8    _waitingGrappleThreshold;
+    BOOL     _waitingGrappleStopsOnGuides;
 }
 
 
@@ -45,20 +56,14 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) setupWithImage:(CGImageRef)image
+- (void) setupWithScreenshot:(Screenshot *)screenshot dictionary:(NSDictionary *)dictionary
 {
-    if (_image) return;
-    _image = CGImageRetain(image);
-
-    if (image) {
-        _size = CGSizeMake(CGImageGetWidth(_image), CGImageGetHeight(_image));
+    if (_screenshot) return;
+    _screenshot = screenshot;
+    
+    if (screenshot) {
+        _size = [_screenshot size];
     }
-}
-
-
-- (void) setupWithData:(NSData *)data
-{
-    NSDictionary *dictionary;
 
     void (^withArrayOfDictionaries)(NSString *key, void (^block)(NSDictionary *)) = ^(NSString *key, void (^block)(NSDictionary *)) {
         NSArray *array = [dictionary objectForKey:key];
@@ -99,17 +104,37 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) dealloc
+- (NSDictionary *) dictionaryRepresentation
 {
-    CGImageRelease(_image);
+    NSMutableArray *guideArray     = [NSMutableArray array];
+    NSMutableArray *rectangleArray = [NSMutableArray array];
+    NSMutableArray *grappleArray   = [NSMutableArray array];
+    
+    for (Guide *guide in _guides) {
+        NSDictionary *dictionary = [guide dictionaryRepresentation];
+        if (dictionary) [guideArray addObject:dictionary];
+    }
+    
+    for (Grapple *grapple in _grapples) {
+        if ([grapple isPreview]) continue;
+        NSDictionary *dictionary = [grapple dictionaryRepresentation];
+        if (dictionary) [grappleArray addObject:dictionary];
+    }
+    
+    for (Rectangle *rectangle in _rectangles) {
+        NSDictionary *dictionary = [rectangle dictionaryRepresentation];
+        if (dictionary) [rectangleArray addObject:dictionary];
+    }
+    
+    return @{
+        sGuidesKey: guideArray,
+        sGrapplesKey: grappleArray,
+        sRectanglesKey: rectangleArray
+    };
 }
 
 
-- (void) objectDidUpdate:(CanvasObject *)object
-{
-    [_delegate canvas:self didUpdateObject:object];
-}
-
+#pragma mark - Objects
 
 - (void) _didAddObject:(CanvasObject *)object
 {
@@ -123,8 +148,11 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+- (void) objectDidUpdate:(CanvasObject *)object
+{
+    [_delegate canvas:self didUpdateObject:object];
+}
 
-#pragma mark - Guides
 
 - (void) removeObject:(CanvasObject *)object
 {
@@ -132,7 +160,11 @@ static NSString * const sRectanglesKey = @"rectangles";
         [self removeGuide:(Guide *)object];
 
     } else if ([object isKindOfClass:[Grapple class]]) {
-        [self removeGrapple:(Grapple *)object];
+        if (object == _previewGrapple) {
+            [self removePreviewGrapple];
+        } else {
+            [self removeGrapple:(Grapple *)object];
+        }
 
     } else if ([object isKindOfClass:[Rectangle class]]) {
         [self removeRectangle:(Rectangle *)object];
@@ -140,9 +172,11 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+#pragma mark - Guides
+
 - (Guide *) makeGuideVertical:(BOOL)vertical
 {
-    Guide *guide = [Guide guideWithOffset:-1 vertical:vertical];
+    Guide *guide = [Guide guideWithOffset:-INFINITY vertical:vertical];
     [guide setCanvas:self];
     [_guides addObject:guide];
 
@@ -160,15 +194,52 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (Grapple *) makeGrappleVertical:(BOOL)vertical
+#pragma mark - Grapples
+
+- (GrappleCalculator *) grappleCalculator
+{
+    if (!_grappleCalculator) {
+        _grappleCalculator = [[GrappleCalculator alloc] initWithCanvas:self];
+    }
+    
+    return _grappleCalculator;
+}
+
+
+- (void) _grappleCalculatorReady
+{
+    if (_waitingGrapple) {
+        [self updateGrapple:_waitingGrapple point:_waitingGrapplePoint threshold:_waitingGrappleThreshold stopsOnGuides:_waitingGrappleStopsOnGuides];
+
+        _waitingGrapple = nil;
+        _waitingGrapplePoint = CGPointZero;
+        _waitingGrappleThreshold = 0;
+        _waitingGrappleStopsOnGuides = NO;
+    }
+}
+
+
+- (Grapple *) _makeGrappleVertical:(BOOL)vertical preview:(BOOL)preview
 {
     Grapple *grapple = [Grapple grappleVertical:vertical];
+    [grapple setPreview:preview];
     [grapple setCanvas:self];
-    [_grapples addObject:grapple];
+
+    if (preview) {
+        _previewGrapple = grapple;
+    } else {
+        [_grapples addObject:grapple];
+    }
 
     [self _didAddObject:grapple];
 
     return grapple;
+}
+
+
+- (Grapple *) makeGrappleVertical:(BOOL)vertical
+{
+    return [self _makeGrappleVertical:vertical preview:NO];
 }
 
 
@@ -179,6 +250,73 @@ static NSString * const sRectanglesKey = @"rectangles";
     [self _didRemoveObject:grapple];
 }
 
+
+- (Grapple *) makePreviewGrappleVertical:(BOOL)vertical
+{
+    return [self _makeGrappleVertical:vertical preview:YES];
+}
+
+
+- (void) removePreviewGrapple
+{
+    if (!_previewGrapple) return;
+
+    Grapple *grapple = _previewGrapple;
+    _previewGrapple = nil;
+    [self _didRemoveObject:grapple];
+}
+
+
+- (void) updateGrapple: (Grapple *) grapple
+                 point: (CGPoint) point
+             threshold: (UInt8) threshold
+         stopsOnGuides: (BOOL) stopsOnGuides
+{
+    if (!grapple) return;
+
+    GrappleCalculator *calculator = [self grappleCalculator];
+    if (![calculator isReady]) {
+        [calculator prepare];
+
+        _waitingGrapple = grapple;
+        _waitingGrapplePoint = point;
+        _waitingGrappleThreshold = threshold;
+        _waitingGrappleStopsOnGuides = stopsOnGuides;
+
+        return;
+    }
+
+    if ([grapple isVertical]) {
+        point.x = floor(point.x) + 0.5;
+        point.y = floor(point.y);
+    
+        size_t y1, y2;
+        [calculator calculateVerticalGrappleWithStartX: point.x
+                                                startY: point.y
+                                             threshold: threshold
+                                                 outY1: &y1
+                                                 outY2: &y2];
+
+        [grapple setRect:CGRectMake(point.x, y1, 0, y2 - y1)];
+
+    } else {
+        point.x = floor(point.x);
+        point.y = floor(point.y) + 0.5;
+    
+        size_t x1, x2;
+        [calculator calculateHorizontalGrappleWithStartX: point.x
+                                                  startY: point.y
+                                               threshold: threshold
+                                                   outX1: &x1
+                                                   outX2: &x2];
+
+        [grapple setRect:CGRectMake(x1, point.y, x2 - x1, 0)];
+    }
+
+}
+
+
+#pragma mark - Rectangles
 
 - (Rectangle *) makeRectangle
 {
@@ -199,6 +337,8 @@ static NSString * const sRectanglesKey = @"rectangles";
     [self _didRemoveObject:rectangle];
 }
 
+
+#pragma mark - Marquee
 
 - (void) clearMarquee
 {

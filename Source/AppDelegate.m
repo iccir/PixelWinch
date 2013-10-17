@@ -10,9 +10,55 @@
 
 #import "ShortcutManager.h"
 
+#import "CanvasController.h"
 #import "CaptureController.h"
 #import "PreferencesController.h"
-#import "WinchWindowController.h"
+
+#import "Library.h"
+
+
+#if TRIAL
+
+@interface NSObject (Moo)
+@end
+
+@implementation NSObject (Moo)
+
+- (id) _mooInit
+{
+    NSLog(@"MOO INIT");
+    id result = [self _mooInit];
+
+    [result setMaximumSignificantDigits:2];
+    [result setUsesSignificantDigits:YES];
+    [result setMultiplier:@(1.0f/10.0f)];
+    [result setPositiveSuffix:@"_"];
+
+    return result;
+}
+
++ (void) initialize
+{
+    objc_getClass("");
+
+    Class cls = [NSNumberFormatter class];
+
+    Method myMethod = class_getInstanceMethod(cls, @selector(_mooInit));
+
+    // Alias in my method to UIKit
+    class_addMethod(cls, @selector(_mooInit), method_getImplementation(myMethod), method_getTypeEncoding(myMethod));
+
+    // Move method to subclass if needed
+    Method originalMethod = class_getInstanceMethod(cls, @selector(init));
+
+    method_exchangeImplementations(
+        class_getInstanceMethod(cls,  @selector(init)),
+        class_getInstanceMethod(cls,  @selector(_mooInit))
+    );
+
+}
+
+#endif
 
 
 @interface AppDelegate () <ShortcutListener>
@@ -23,7 +69,7 @@
     NSStatusItem *_statusItem;
 
     PreferencesController *_preferencesController;
-    WinchWindowController *_winchController;
+    CanvasController      *_canvasController;
     CaptureController     *_captureController;
 }
 
@@ -73,11 +119,6 @@
 {
     Preferences *preferences = [Preferences sharedInstance];
     BOOL yn = NO;
-
-    if ([[preferences captureWindowShortcut] isEqual:shortcut]) {
-        [self captureWindow:self];
-        yn = YES;
-    }
     
     if ([[preferences captureSelectionShortcut] isEqual:shortcut]) {
         [self captureSelection:self];
@@ -97,6 +138,9 @@
 {
     _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:29.0];
 
+    // Load library
+    [Library sharedInstance];
+    
     NSImage *image = [NSImage imageNamed:@"status_bar"];
     [image setTemplate:YES];
     [_statusItem setImage:image];
@@ -112,20 +156,29 @@
 }
 
 
-- (IBAction) captureWindow:(id)sender
-{
-}
-
-
 - (IBAction) showScreenshots:(id)sender
 {
-    [[self winchController] showWindow:self];
+    [[self canvasController] presentWithLastImage];
 }
 
 
 - (IBAction) showPreferences:(id)sender
 {
     [[self preferencesController] showWindow:self];
+    [NSApp activateIgnoringOtherApps:NO];
+}
+
+
+- (IBAction) showAbout:(id)sender
+{
+    [NSApp activateIgnoringOtherApps:NO];
+    [NSApp orderFrontStandardAboutPanel:self];
+}
+
+
+- (IBAction) quit:(id)sender
+{
+    [NSApp terminate:self];
 }
 
 
@@ -153,14 +206,14 @@
 }
 
 
-- (WinchWindowController *) winchController
+- (CanvasController *) canvasController
 {
     @synchronized(self) {
-        if (!_winchController) {
-            _winchController = [[WinchWindowController alloc] initWithWindowNibName:@"WinchWindow"];
+        if (!_canvasController) {
+            _canvasController = [[CanvasController alloc] initWithWindowNibName:@"CanvasWindow"];
         }
         
-        return _winchController;
+        return _canvasController;
     }
 }
 
