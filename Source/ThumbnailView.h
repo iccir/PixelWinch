@@ -13,7 +13,10 @@
 
 @interface ThumbnailView : NSView
 
++ (CGSize) thumbnailSizeForLibraryItem:(LibraryItem *)libraryItem;
+
 @property (strong) LibraryItem *libraryItem;
+@property (readonly) CGPoint topLeftOffset;
 @property (assign, getter=isSelected) BOOL selected;
 
 @end

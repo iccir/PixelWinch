@@ -1,4 +1,4 @@
-	//
+//
 //  main.m
 //  Pixels
 //
@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 int main(int argc, char *argv[])
 {
+    InstallCompatibilityIfNeeded();
     return NSApplicationMain(argc,  (const char **) argv);
 }

@@ -150,6 +150,9 @@
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
+		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
+		55FA81511813580C00ED67E0 /* ss1.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 55FA81501813580C00ED67E0 /* ss1.tiff */; };
+		55FA81541813D76E00ED67E0 /* Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FA81531813D76E00ED67E0 /* Compatibility.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -357,6 +360,10 @@
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
+		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		55FA81501813580C00ED67E0 /* ss1.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ss1.tiff; sourceTree = "<group>"; };
+		55FA81521813D76E00ED67E0 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Compatibility.h; path = Source/Compatibility.h; sourceTree = "<group>"; };
+		55FA81531813D76E00ED67E0 /* Compatibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Compatibility.m; path = Source/Compatibility.m; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -365,6 +372,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				55E24136180E101D0093CF04 /* QuickLook.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
 				554B43A11808C30700804373 /* OpenCL.framework in Frameworks */,
@@ -438,6 +446,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				55FA81521813D76E00ED67E0 /* Compatibility.h */,
+				55FA81531813D76E00ED67E0 /* Compatibility.m */,
 				553AC78F17F7DCC200C253C2 /* Utils.h */,
 				553AC79017F7DCC200C253C2 /* Utils.m */,
 				554D8986135BEFC9003BFC89 /* Prefix.pch */,
@@ -449,6 +459,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				55FA81501813580C00ED67E0 /* ss1.tiff */,
 				553ED16C1806548F00F06B45 /* Slider */,
 				553ED14C18064E5600F06B45 /* Radio */,
 				559D38CA1803941C0048F29B /* status_bar.png */,
@@ -477,6 +488,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55FA814E18134F9B00ED67E0 /* Accelerate.framework */,
 				55E24135180E101D0093CF04 /* QuickLook.framework */,
 				554B43B0180A237900804373 /* OpenGL.framework */,
 				554B43A01808C30700804373 /* OpenCL.framework */,
@@ -757,6 +769,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
+				55FA815A1815DE8600ED67E0 /* ShellScript */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
@@ -781,7 +794,7 @@
 					8D1107260486CEB800E47090 = {
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -879,6 +892,7 @@
 				5512BF4417FA4EDA00425AD6 /* marquee.png in Resources */,
 				5512BF5317FB9A9200425AD6 /* cursor_zoom_out.png in Resources */,
 				55C20CBF1800108F00ECE184 /* toolbar_marquee_selected@2x.png in Resources */,
+				55FA81511813580C00ED67E0 /* ss1.tiff in Resources */,
 				55C20CB21800108F00ECE184 /* toolbar_arrow_selected.png in Resources */,
 				5512BF5117FB9A9200425AD6 /* cursor_zoom_in.png in Resources */,
 				55336A39180CD61E00F053C7 /* LibraryItemPrototype.xib in Resources */,
@@ -896,6 +910,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		55FA815A1815DE8600ED67E0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "which rchook\nif [ $? -eq 0 ]; then\n    rchook xcode-build-phase\n    exit $?\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -948,6 +978,7 @@
 				5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */,
 				554B439F1808C28200804373 /* kernels.cl in Sources */,
 				553ED1751806A7F000F06B45 /* TextLayer.m in Sources */,
+				55FA81541813D76E00ED67E0 /* Compatibility.m in Sources */,
 				5512BF6D17FBB04800425AD6 /* RectangleLayer.m in Sources */,
 				5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */,
 				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
@@ -995,7 +1026,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1007,6 +1037,7 @@
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_VECTORIZE_LOOPS = YES;
 				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = Debug;
@@ -1016,7 +1047,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1025,6 +1055,7 @@
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_VECTORIZE_LOOPS = YES;
 				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = Release;
@@ -1033,6 +1064,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1041,7 +1073,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 			};
 			name = Debug;
 		};
@@ -1049,13 +1081,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PREBINDING = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 			};
 			name = Release;
 		};

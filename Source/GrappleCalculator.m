@@ -70,18 +70,20 @@
     UInt8 *horizontalMap = [_mapper horizontalMap];
     if (!horizontalMap) return;
 
-    size_t x1 = startX - 1;
+    size_t x1 = startX > 0 ? startX - 1 : 0;
     size_t x2 = startX;
     
-    while (x1 > 0) {
-        UInt16 delta = horizontalMap[(startY * _width) + x1];
+    if (startX > 0) {
+        while (x1 > 0) {
+            UInt16 delta = horizontalMap[(startY * _width) + x1];
 
-        if (delta > threshold) {
-            x1++;
-            break;
+            if (delta > threshold) {
+                x1++;
+                break;
+            }
+
+            x1--;
         }
-
-        x1--;
     }
     
     while (x2 < _width) {
@@ -105,18 +107,20 @@
     UInt8 *verticalMap = [_mapper verticalMap];
     if (!verticalMap) return;
   
-    size_t y1 = startY - 1;
+    size_t y1 = startY > 0 ? startY - 1 : 0;
     size_t y2 = startY;
     
-    while (y1 > 0) {
-        UInt16 delta = verticalMap[(y1 * _width) + startX];
+    if (startY > 0) {
+        while (y1 > 0) {
+            UInt16 delta = verticalMap[(y1 * _width) + startX];
 
-        if (delta > threshold) {
-            y1++;
-            break;
+            if (delta > threshold) {
+                y1++;
+                break;
+            }
+
+            y1--;
         }
-
-        y1--;
     }
     
     while (y2 < _height) {

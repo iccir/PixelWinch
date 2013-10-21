@@ -73,7 +73,7 @@
 
 - (NSColor *) textColor
 {
-    return [NSColor colorWithWhite:1.0 alpha:1.0];
+    return GetRGBColor(0xFFFFFF, 1.0);
 }
 
 @end

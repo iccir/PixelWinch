@@ -8,23 +8,32 @@
 
 #import "LibraryItemCollectionItem.h"
 #import "ThumbnailView.h"
+#import "Library.h"
 
 
 @implementation LibraryItemCollectionItem 
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        [self addObserver:self forKeyPath:@"selected" options:0 context:NULL];
-    }
-    
-    return self;
-}
-
-
 - (void) awakeFromNib
 {
     [_thumbnailView setLibraryItem:[self representedObject]];
+    
+    CGPoint topLeftOffset = [_thumbnailView topLeftOffset];
+    CGRect bounds = [[self view] bounds];
+    
+    CGRect deleteFrame = [[self deleteButton] frame];
+    
+    CGFloat maxY = bounds.size.height - deleteFrame.size.height;
+    
+    CGPoint origin = CGPointMake(topLeftOffset.x, bounds.size.height - (topLeftOffset.y + deleteFrame.size.height));
+    deleteFrame.origin = origin;
+    deleteFrame.origin.x -= 14;
+    deleteFrame.origin.y += 13;
+    
+    if (deleteFrame.origin.x < 0)    deleteFrame.origin.x = 0;
+    if (deleteFrame.origin.y > maxY) deleteFrame.origin.y = maxY;
+
+    [[self deleteButton] setFrame:deleteFrame];
+    
     [self _updateSelected];
 }
 
@@ -40,17 +49,14 @@
 
 - (IBAction) deleteItem:(id)sender
 {
-    NSLog(@"delete");
+    [NSApp sendAction:@selector(deleteSelectedLibraryItem:) to:nil from:self];
 }
 
 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void) setSelected:(BOOL)selected
 {
-    if (object == self) {
-        if ([keyPath isEqualToString:@"selected"]) {
-            [self _updateSelected];
-        }
-    }
+    [super setSelected:selected];
+    [self _updateSelected];
 }
 
 

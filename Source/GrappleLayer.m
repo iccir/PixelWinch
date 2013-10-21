@@ -68,6 +68,7 @@
     }
 }
 
+
 #pragma mark - Private Methods
 
 - (void) _updateVisibilityOfTextLayer
@@ -85,14 +86,22 @@
     
     CGFloat larger = (xDelta > yDelta) ? xDelta : yDelta;
     
-    NSInteger threshold = _originalThreshold + larger;
+    NSInteger threshold  = _originalThreshold + larger;
     if (threshold < 0) threshold = 0;
     else if (threshold > 255) threshold = 255;
-    
+
+    NSString *cursorText = nil;
+
     Grapple *grapple = [self grapple];
     [[grapple canvas] updateGrapple:grapple point:_originalPoint threshold:threshold stopsOnGuides:_originalStopsOnGuides];
 
-    NSString *cursorText = [NSString stringWithFormat:@"%@, %ld", GetStringForFloat([grapple length]), (long)threshold];
+    if (threshold != _originalThreshold) {
+        CGFloat percent = round((threshold / 255.0f) * 100);
+        cursorText = [NSString stringWithFormat:@"%@, %g%%", GetStringForFloat([grapple length]), percent];
+    } else {
+        cursorText = GetStringForFloat([grapple length]);
+    }
+        
     [[CursorInfo sharedInstance] setText:cursorText forKey:@"new-grapple"];
 }
 

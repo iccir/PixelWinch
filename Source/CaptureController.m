@@ -84,7 +84,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
     BOOL isDirectory = NO;
     if (![manager fileExistsAtPath:path isDirectory:&isDirectory] || isDirectory) {
-        [[Library sharedInstance] removeItem:_currentItem];
+        [[Library sharedInstance] discardItem:_currentItem];
         return;
     }
 
@@ -112,6 +112,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     
     NSScreen *firstScreen = [[NSScreen screens] firstObject];
     rect.origin.y = [firstScreen frame].size.height - CGRectGetMaxY(rect);
+
+    [[Library sharedInstance] addItem:_currentItem];
 
     AppDelegate *appDelegate = (AppDelegate *)[NSApp delegate];
     [[appDelegate canvasController] presentLibraryItem:_currentItem fromRect:rect];
@@ -144,7 +146,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 {
     if (_task) return;
 
-    _currentItem = [[Library sharedInstance] makeItem];
+    _currentItem = [LibraryItem libraryItem];
     if (!_currentItem) return;
 
     NSTask *task = [[NSTask alloc] init];

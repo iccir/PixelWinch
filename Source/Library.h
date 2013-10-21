@@ -14,8 +14,9 @@
 
 + (instancetype) sharedInstance;
 
-- (LibraryItem *) makeItem;
+- (void) addItem:(LibraryItem *)item;
 - (void) removeItem:(LibraryItem *)item;
+- (void) discardItem:(LibraryItem *)item;
 
 @property (readonly) NSArray *items;
 

@@ -115,6 +115,16 @@
 }
 
 
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+{
+    if ([item action] == @selector(showScreenshots:)) {
+        return [[[Library sharedInstance] items] count] > 0;
+    }
+
+    return YES;
+}
+
+
 - (BOOL) performShortcut:(Shortcut *)shortcut
 {
     Preferences *preferences = [Preferences sharedInstance];

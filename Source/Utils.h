@@ -11,12 +11,15 @@
 extern void WinchLog(NSString *category,  NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 
+extern BOOL SupportsSSE4_1(void);
+
 extern CGSize GetMaxThumbnailSize(void);
 
 extern NSColor *GetRGBColor(int rgb, CGFloat alpha);
 extern NSColor *GetDarkWindowColor(void);
 
 extern NSString *GetApplicationSupportDirectory(void);
+extern NSString *GetScreenshotsDirectory(void);
 extern NSString *MakeUniqueDirectory(NSString *path);
 
 extern NSTimer *MakeWeakTimer(NSTimeInterval timeInterval, id target, SEL selector, id userInfo, BOOL repeats);

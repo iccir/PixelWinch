@@ -113,7 +113,7 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
         imageRect.origin.x += round((frame.size.width  - imageSize.width)  / 2);
         imageRect.origin.y += round(((cellFrame.size.height - 1) - imageSize.height) / 2);
 
-        [image drawInRect:imageRect];
+        [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
     }
 
     _segmentToFrameMap = nil;

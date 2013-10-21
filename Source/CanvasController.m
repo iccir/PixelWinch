@@ -114,6 +114,8 @@
         [_zoomTool addObserver:self forKeyPath:@"magnificationLevel" options:0 context:NULL];
 
         _library = [Library sharedInstance];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleApplicationDidResignActiveNotification:) name:NSApplicationDidResignActiveNotification object:nil];
     }
     
     return self;
@@ -134,7 +136,6 @@
     [self _updatePreviewGrapple];
     [super flagsChanged:theEvent];
 }
-
 
 
 - (void) keyDown:(NSEvent *)theEvent
@@ -425,13 +426,35 @@
         responder = [responder nextResponder]; // walk up the chain
     };
     NSLog(@"*** End of responder chain ***");
-
 }
+
+
+- (void) _updateWindowForScreen:(NSScreen *)screen
+{
+    CGRect entireFrame  = [screen frame];
+    CGRect visibleFrame = [screen visibleFrame];
+    
+    CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
+    CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
+
+    CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
+    CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
+
+    CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
+    CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
+    
+    CGRect contentRect = CGRectInset(entireFrame, leftRight + 16, topBottom + 16);
+    
+    [[self window] setFrame:entireFrame display:NO];
+    [_contentTopLevelView setFrame:contentRect];
+}
+
 
 - (void) _doOrderInAnimation
 {
     NSDisableScreenUpdates();
 
+    CGRect scrollRectInWindow = CGRectZero;
     if (_transitionImageView) {
         NSView *contentView = [[self window] contentView];
 
@@ -441,6 +464,10 @@
         frame = [contentView convertRect:frame fromView:nil];
         [_transitionImageView setFrame:frame];
 
+        [_canvasScrollView tile];
+
+        scrollRectInWindow = [_canvasView convertRect:[_canvasView bounds] toView:nil];
+        
         [_canvasScrollView setHidden:YES];
     }
 
@@ -456,20 +483,11 @@
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:0.25];
         [[_shroudView animator] setAlphaValue:1.0];
+
         [[_contentTopLevelView animator] setAlphaValue:1.0];
 
         if (_transitionImageView) {
-            CGRect fromRect = [_transitionImageView frame];
-            
-            CGFloat magnificationLevel = [_zoomTool magnificationLevel];
-            CGRect toRect = CGRectApplyAffineTransform(fromRect, CGAffineTransformMakeScale(magnificationLevel, magnificationLevel));
-            
-            CGRect scrollRectInWindow = [_canvasScrollView convertRect:[_canvasScrollView bounds] toView:nil];
-            
-            toRect.origin.x = scrollRectInWindow.origin.x + round((scrollRectInWindow.size.width  - toRect.size.width)  / 2);
-            toRect.origin.y = scrollRectInWindow.origin.y + round((scrollRectInWindow.size.height - toRect.size.height) / 2);
-            
-            [[_transitionImageView animator] setFrame:toRect];
+            [[_transitionImageView animator] setFrame:scrollRectInWindow];
         }
 
     } completionHandler:^{
@@ -519,7 +537,7 @@
     [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
     [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
     [animation setFillMode:kCAFillModeBoth];
-
+    
     [[_contentTopLevelView layer] addAnimation:animation forKey:@"transform"];
 }
 
@@ -538,6 +556,12 @@
 {
     if (!object) return nil;
     return [_GUIDToLayerMap objectForKey:[object GUID]];
+}
+
+
+- (void) _handleApplicationDidResignActiveNotification:(NSNotification *)note
+{
+    [self hide];
 }
 
 
@@ -661,7 +685,6 @@
     [_canvas updateGrapple:previewGrapple point:point threshold:[grappleTool calculatedThreshold] stopsOnGuides:YES];
 
     NSString *previewText = GetStringForFloat([previewGrapple length]);
-    NSLog(@"%@", previewText);
     [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
 }
 
@@ -818,8 +841,6 @@
                 layer = [self _layerForCanvasObject:grapple];
                 [layer setNewborn:YES];
 
-                point = [_canvasView pointForMouseEvent:event layer:layer];
-
                 UInt8 threshold = [_grappleTool calculatedThreshold];
                 BOOL stopsOnGuides = YES;
 
@@ -901,6 +922,7 @@
 
     // Step two, update canvas if needed
     if ([_canvas screenshot] != screenshot) {
+
         [self _unselectAllObjects];
         _lastGrapplePoint = CGPointZero;
         
@@ -914,21 +936,31 @@
         Canvas *canvas = [[Canvas alloc] initWithDelegate:self];
         _canvas = canvas;
         _selectedItem = item;
+        if (_selectedItem) {
+            [_libraryArrayController setSelectedObjects:@[ _selectedItem ] ];
+        } else {
+            [_libraryArrayController setSelectedObjects:@[ ]];
+        }
 
-        CanvasView *canvasView = [[CanvasView alloc] initWithFrame:CGRectZero canvas:canvas];
-        [canvasView setDelegate:self];
-        _canvasView = canvasView;
+        if (canvas) {
+            CanvasView *canvasView = [[CanvasView alloc] initWithFrame:CGRectZero canvas:canvas];
+            [canvasView setDelegate:self];
+            _canvasView = canvasView;
 
-        [_canvasScrollView setDocumentView:canvasView];
+            [_canvasScrollView setDocumentView:canvasView];
+        } else {
+            _canvasView = nil;
+            [_canvasScrollView setDocumentView:[[NSView alloc] init]];
+        }
         
-        [_canvasView sizeToFit];
-
         [canvas setupWithScreenshot:screenshot dictionary:[item canvasDictionary]];
+
+        [_canvasView sizeToFit];
     }
 
     // Step three, figure out magnification level
     {
-        NSSize  availableSize = [_canvasScrollView bounds].size;
+        NSSize  availableSize = [_canvasScrollView documentVisibleRect].size;
         CGFloat backingScale  = [[_canvasScrollView window] backingScaleFactor];
         
         availableSize.width  *= backingScale;
@@ -947,9 +979,9 @@
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect
 {
-    Screenshot *screenshot = [Screenshot screenshotWithContentsOfFile:[libraryItem screenshotPath]];
+    [self window];  // Force nib to load
 
-    CGImageRef image = [screenshot CGImage];
+    CGImageRef image = [[libraryItem screenshot] CGImage];
 
     CGImageRelease(_transitionImage);
     _transitionImage = CGImageRetain(image);
@@ -960,30 +992,8 @@
     
     _transitionImageRect = fromRect;
 
-    NSScreen *screen = [NSScreen mainScreen];
-
-    // Step one, update window and main view
-    {
-        CGRect entireFrame  = [screen frame];
-        CGRect visibleFrame = [screen visibleFrame];
-        
-        CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
-        CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
-
-        CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
-        CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
-
-        CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
-        CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
-        
-        CGRect contentRect = CGRectInset(entireFrame, leftRight + 16, topBottom + 16);
-        
-        [[self window] setFrame:entireFrame display:NO];
-        [_contentTopLevelView setFrame:contentRect];
-    }
-
+    [self _updateWindowForScreen:[NSScreen mainScreen]];
     [self _updateCanvasWithLibraryItem:libraryItem];
-
     [self _doOrderInAnimation];
 
     [NSApp activateIgnoringOtherApps:YES];
@@ -994,7 +1004,20 @@
 
 - (void) presentWithLastImage
 {
+    [self window];  // Force nib to load
+    [self _updateWindowForScreen:[NSScreen mainScreen]];
+
     [self _removeTransitionImage];
+
+    if (!_selectedItem) {
+        LibraryItem *item = [[[Library sharedInstance] items] lastObject];
+        if (!item) {
+            NSBeep();
+            return;
+        }
+
+        [self _updateCanvasWithLibraryItem:item];
+    }
 
     [self _doOrderInAnimation];
 
@@ -1014,6 +1037,36 @@
     [[CursorInfo sharedInstance] setEnabled:NO];
 
     [self _doOrderOutAnimation];
+}
+
+
+- (IBAction) deleteSelectedLibraryItem:(id)sender
+{
+    NSIndexSet *selected = _librarySelectionIndexes;
+    NSArray    *items    = [[Library sharedInstance] items];
+
+    NSUInteger selectedIndex = [selected lastIndex];
+    NSUInteger maxIndex = [items count] - 1;
+
+    LibraryItem *itemToRemove = [items objectAtIndex:selectedIndex];
+    LibraryItem *itemToSelect = nil;
+    
+    if (selectedIndex < maxIndex) {
+        itemToSelect = [items objectAtIndex:(selectedIndex + 1)];
+    } else if (selectedIndex > 0) {
+        itemToSelect = [items objectAtIndex:(selectedIndex - 1)];
+    }
+
+    if (itemToSelect) {
+        [[Library sharedInstance] removeItem:itemToRemove];
+        [_libraryArrayController setSelectedObjects:@[ itemToSelect ] ];
+
+    } else {
+        [[Library sharedInstance] removeItem:itemToRemove];
+
+        // Delete and remove
+        [self hide];
+    }
 }
 
 

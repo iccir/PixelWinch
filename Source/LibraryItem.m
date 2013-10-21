@@ -15,6 +15,10 @@ static NSString * const sTitleKey  = @"title";
 static NSString * const sDateKey   = @"date";
 static NSString * const sCanvasKey = @"canvas";
 
+@interface LibraryItem ()
+@property (nonatomic, strong) NSImage *thumbnail;
+@end
+
 @implementation LibraryItem {
     NSString     *_basePath;
     NSDate       *_date;
@@ -22,8 +26,41 @@ static NSString * const sCanvasKey = @"canvas";
     NSDictionary *_canvasDictionary;
 
     Screenshot *_screenshot;
-    NSImage    *_thumbnail;
-    BOOL _makingThumbnail;
+}
+
+
++ (instancetype) libraryItem
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+
+    NSDateFormatter *shortTimeFormatter = [[NSDateFormatter alloc] init];
+
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+
+    [timeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [timeFormatter setTimeStyle:NSDateFormatterMediumStyle];
+
+    [shortTimeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [shortTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
+
+    NSDate   *now = [NSDate date];
+    NSString *dateString = [dateFormatter stringFromDate:now];
+    NSString *timeString = [timeFormatter stringFromDate:now];
+    
+    NSString *directoryName = [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+    directoryName = [directoryName stringByReplacingOccurrencesOfString:@":" withString:@"."];
+
+    NSString *directoryToTry = [GetScreenshotsDirectory() stringByAppendingPathComponent:directoryName];
+    
+    NSString *actualDirectory = MakeUniqueDirectory(directoryToTry);
+    
+    LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:actualDirectory date:now];
+
+    [item setDateString:[shortTimeFormatter stringFromDate:now]];
+    
+    return item;
 }
 
 
@@ -44,13 +81,13 @@ static NSString * const sCanvasKey = @"canvas";
 }
 
 
-- (id) initWithBasePath:(NSString *)basePath date:(NSDate *)date
+- (id) _initWithBasePath:(NSString *)basePath date:(NSDate *)date
 {
     if ((self = [super init])) {
         _basePath = basePath;
         _date = date;
+
         [self _readInfo];
-        
         if (date && ![[NSFileManager defaultManager] fileExistsAtPath:[self _infoPlistPath]]) {
             [self _writeInfo];
         }
@@ -96,9 +133,9 @@ static NSString * const sCanvasKey = @"canvas";
 }
 
 
-- (NSString *) _thumbnailPath
+- (NSString *) _basePath
 {
-    return [_basePath stringByAppendingPathComponent:@"thumbnail.png"];
+    return _basePath;
 }
 
 
@@ -108,51 +145,17 @@ static NSString * const sCanvasKey = @"canvas";
 }
 
 
-- (void) _makeThumbnail
-{
-    if (_makingThumbnail) return;
-
-    if ([self isValid]) {
-        _makingThumbnail = YES;
-
-        NSURL *inURL  = [NSURL fileURLWithPath:[self screenshotPath]];
-        NSURL *outURL = [NSURL fileURLWithPath:[self _thumbnailPath]];
-
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            CGSize maxSize = GetMaxThumbnailSize();
-            
-            maxSize.width  *= 2;
-            maxSize.height *= 2;
-
-            CGImageRef cgImage = QLThumbnailImageCreate(NULL, (__bridge CFURLRef)inURL, maxSize, NULL);
-
-            CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)outURL, kUTTypePNG, 1, NULL);
-            CGImageDestinationAddImage(destination, cgImage, NULL);
-            
-            CGImageDestinationFinalize(destination);
-            
-            CFRelease(destination);
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                size_t width  = CGImageGetWidth(cgImage);
-                size_t height = CGImageGetHeight(cgImage);
-                
-                [self willChangeValueForKey:@"thumbnail"];
-                _thumbnail = [[NSImage alloc] initWithCGImage:cgImage size:CGSizeMake(width / 2.0, height / 2.0f)];
-                [self didChangeValueForKey:@"thumbnail"];
-                
-                CGImageRelease(cgImage);
-            });
-        });
-    }
-}
-
-
 #pragma mark - Accessors
 
 - (NSString *) screenshotPath
 {
     return [_basePath stringByAppendingPathComponent:@"screenshot.tiff"];
+}
+
+
+- (NSString *) thumbnailPath
+{
+    return [_basePath stringByAppendingPathComponent:@"thumbnail.png"];
 }
 
 
@@ -165,29 +168,6 @@ static NSString * const sCanvasKey = @"canvas";
     }
     
     return _screenshot;
-}
-
-
-- (NSImage *) thumbnail
-{
-    if (!_thumbnail) {
-        NSString *thumbnailPath = [self _thumbnailPath];
-
-        if ([[NSFileManager defaultManager] fileExistsAtPath:thumbnailPath]) {
-            _thumbnail = [[NSImage alloc] initWithContentsOfFile:thumbnailPath];
-
-            CGSize size = [_thumbnail size];
-            size.width /= 2;
-            size.height /= 2;
-            [_thumbnail setSize:size];
-        }
-        
-        if (!_thumbnail) {
-            [self _makeThumbnail];
-        }
-    }
-    
-    return _thumbnail;
 }
 
 

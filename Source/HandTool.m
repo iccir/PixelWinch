@@ -12,4 +12,9 @@
 
 - (ToolType) type { return ToolTypeHand; }
 
+- (NSCursor *) cursor
+{
+    return [NSCursor openHandCursor];
+}
+
 @end

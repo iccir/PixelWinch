@@ -12,10 +12,12 @@
 
 @interface LibraryItem : NSObject
 
++ (instancetype) libraryItem;
+
 @property (nonatomic, readonly) NSString *screenshotPath;
 @property (nonatomic, readonly) Screenshot *screenshot;
 
-@property (nonatomic, readonly) NSImage *thumbnail;
+@property (nonatomic, readonly) NSString *thumbnailPath;
 
 @property (nonatomic, readonly) NSDate *date;
 @property (nonatomic, strong) NSString *title;

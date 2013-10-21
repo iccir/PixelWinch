@@ -26,7 +26,7 @@
     NSMutableAttributedString *as = [title mutableCopy];
     NSRange entireRange = NSMakeRange(0, [as length]);
     
-    [as setAttributes:@{ NSForegroundColorAttributeName: [NSColor colorWithWhite:1.0 alpha:1.0] } range:entireRange];
+    [as setAttributes:@{ NSForegroundColorAttributeName: GetRGBColor(0xFFFFFF, 1.0) } range:entireRange];
     
     __block NSRect result;
     WithWhiteOnBlackTextMode(^{

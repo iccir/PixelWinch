@@ -53,6 +53,9 @@
                     </connections>
                 </menuItem>
             </items>
+            <connections>
+                <outlet property="delegate" destination="494" id="Fzg-Md-9tj"/>
+            </connections>
         </menu>
     </objects>
 </document>

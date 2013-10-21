@@ -14,20 +14,162 @@
 
 @implementation ThumbnailView {
     LibraryItem *_libraryItem;
+    NSImage     *_thumbnail;
     BOOL _selected;
+    BOOL _makingThumbnail;
+}
+
+
++ (CGSize) thumbnailSizeForLibraryItem:(LibraryItem *)libraryItem
+{
+    CGImageRef screenshot = [[libraryItem screenshot] CGImage];
+
+    CGSize toSize = GetMaxThumbnailSize();
+    toSize.width  *= 2;
+    toSize.height *= 2;
+
+    CGSize scaledSize;
+    
+    CGFloat aspect = (CGFloat)CGImageGetWidth(screenshot) / CGImageGetHeight(screenshot);
+    if ((toSize.width / aspect) < toSize.height) {
+        scaledSize = CGSizeMake(toSize.width, toSize.width / aspect);
+    } else {
+        scaledSize = CGSizeMake(toSize.height * aspect, toSize.height);
+    }
+    
+    scaledSize.width  = round(scaledSize.width  / 2);
+    scaledSize.height = round(scaledSize.height / 2);
+
+    return scaledSize;
+}
+
+
+
+
+- (void) dealloc
+{
+    [_libraryItem removeObserver:self forKeyPath:@"thumbnail"];
+    _libraryItem = nil;
+}
+
+
+- (void) _makeThumbnail
+{
+    if (_makingThumbnail) return;
+
+    __weak id weakSelf = self;
+
+    if ([_libraryItem isValid]) {
+        _makingThumbnail = YES;
+
+        CGSize thumbnailSize = [ThumbnailView thumbnailSizeForLibraryItem:_libraryItem];
+        thumbnailSize.width  *= 2;
+        thumbnailSize.height *= 2;
+
+        CGImageRef inImage = CGImageRetain([[_libraryItem screenshot] CGImage]);
+        NSURL *outURL = [NSURL fileURLWithPath:[_libraryItem thumbnailPath]];
+
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            size_t bitsPerComponent = CGImageGetBitsPerComponent(inImage);
+
+            CGImageRef outImage = NULL;
+
+            CGColorSpaceRef colorSpace = CGImageGetColorSpace(inImage);
+            size_t numberOfComponents = (CGColorSpaceGetNumberOfComponents(colorSpace) + 1);
+
+            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, kCGImageAlphaNoneSkipLast);
+
+            CGContextDrawImage(context, CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height), inImage);
+
+            outImage = CGBitmapContextCreateImage(context);
+            CGContextRelease(context);
+
+            if (outImage) {
+                CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)outURL, kUTTypePNG, 1, NULL);
+                CGImageDestinationAddImage(destination, outImage, NULL);
+                
+                CGImageDestinationFinalize(destination);
+                
+                CFRelease(destination);
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    size_t width  = CGImageGetWidth(outImage);
+                    size_t height = CGImageGetHeight(outImage);
+                    
+                    NSImage *image = [[NSImage alloc] initWithCGImage:outImage size:CGSizeMake(width / 2.0, height / 2.0f)];
+                    [weakSelf _updateThumbnail:image];
+
+                    CGImageRelease(outImage);
+                });
+            }
+        });
+    }
+}
+
+
+- (void) _updateThumbnail:(NSImage *)thumbnail
+{
+    _thumbnail = thumbnail;
+    _makingThumbnail = NO;
+
+    [self setNeedsDisplay:YES];
+}
+
+
+- (NSImage *) _thumbnail
+{
+    if (_makingThumbnail) return nil;
+
+    if (!_thumbnail) {
+        NSString *thumbnailPath = [_libraryItem thumbnailPath];
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:thumbnailPath]) {
+            _thumbnail = [[NSImage alloc] initWithContentsOfFile:thumbnailPath];
+
+            CGSize size = [_thumbnail size];
+            size.width /= 2;
+            size.height /= 2;
+            [_thumbnail setSize:size];
+        }
+        
+        if (!_thumbnail) {
+            [self _makeThumbnail];
+        }
+    }
+    
+    return _thumbnail;
+}
+
+
+- (CGRect) _thumbnailRect
+{
+    CGSize size   = [ThumbnailView thumbnailSizeForLibraryItem:_libraryItem];
+    CGRect bounds = [self bounds];
+
+    return CGRectMake(
+        round((bounds.size.width  - size.width)  / 2),
+        round((bounds.size.height - size.height) / 2),
+        size.width,
+        size.height
+    );
+}
+
+
+- (CGPoint) topLeftOffset
+{
+    return [self _thumbnailRect].origin;
 }
 
 
 - (void) drawRect:(NSRect)dirtyRect
 {
-    NSImage *thumbnail = [_libraryItem thumbnail];
-
-    CGSize maxSize = GetMaxThumbnailSize();
+    NSImage *thumbnail = [self _thumbnail];
 
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 
-    CGRect thumbnailRect;
+    CGRect thumbnailRect = [self _thumbnailRect];
 
+    // Draw thumbnail
     {
         NSShadow *shadow = [[NSShadow alloc] init];
         
@@ -36,31 +178,21 @@
         [shadow setShadowBlurRadius:2];
 
         [shadow set];
-    }
 
-    if (thumbnail) {
-        NSRect bounds = [self bounds];
+        if (thumbnail) {
+            CGSize fromSize = [thumbnail size];
+            CGRect fromRect = CGRectMake(0, 0, fromSize.width, fromSize.height);
 
-        NSSize fromSize = [thumbnail size];
-        NSRect fromRect = NSZeroRect;
-        fromRect.size = fromSize;
+            [thumbnail drawInRect:thumbnailRect fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
 
-        thumbnailRect = NSZeroRect;
-        thumbnailRect.size = fromSize;
-        thumbnailRect.origin.x = round((bounds.size.width  - thumbnailRect.size.width)  / 2);
-        thumbnailRect.origin.y = round((bounds.size.height - thumbnailRect.size.height) / 2);
+        } else {
+            CGImageRef screenshot = [[_libraryItem screenshot] CGImage];
+        
+            CGContextSaveGState(context);
+            CGContextDrawImage(context, [self _thumbnailRect], screenshot);
 
-        [thumbnail drawInRect:thumbnailRect fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
-
-    } else {
-        CGImageRef screenshot = [[_libraryItem screenshot] CGImage];
-    
-    
-    
-        CGContextSaveGState(context);
-        CGContextDrawImage(context, [self bounds], screenshot);
-
-        CGContextRestoreGState(context);
+            CGContextRestoreGState(context);
+        }
     }
 
     NSBezierPath *outerPath = [NSBezierPath bezierPathWithRect:thumbnailRect];

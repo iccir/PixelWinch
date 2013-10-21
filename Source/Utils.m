@@ -7,6 +7,38 @@
 //
 
 #import "Utils.h"
+#import <cpuid.h>
+
+#define SSE4_1_FLAG     0x080000
+#define SSE4_2_FLAG     0x100000
+
+
+#include "util.h"
+#import <cpuid.h>
+
+
+
+
+BOOL SupportsSSE4_1(void)
+{
+    static BOOL yn;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+		uint32 a,b,c,d;
+		__get_cpuid(1, &a, &b, &c, &d);
+
+//		BOOL sse_3  = (c & (1 <<  0)) ? YES : NO;
+//		BOOL sse_3e = (c & (1 <<  9)) ? YES : NO;
+		BOOL sse_41 = (c & (1 << 19)) ? YES : NO;
+//		BOOL sse_42 = (c & (1 << 20)) ? YES : NO;
+        
+        yn = sse_41;
+    });
+   
+    return yn;
+}
+
 
 CGSize GetMaxThumbnailSize(void)
 {
@@ -86,6 +118,12 @@ NSString *GetApplicationSupportDirectory()
 {
     NSString *name = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
     return sFindOrCreateDirectory(NSApplicationSupportDirectory, NSUserDomainMask, name, NULL);
+}
+
+
+NSString *GetScreenshotsDirectory()
+{
+    return [GetApplicationSupportDirectory() stringByAppendingPathComponent:@"Screenshots"];
 }
 
 
@@ -294,8 +332,10 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
 extern void DrawImageAtPoint(NSImage *image, CGPoint point)
 {
     NSSize imageSize = [image size];
-    [image drawInRect:NSMakeRect(point.x, point.y, imageSize.width, imageSize.height)];
+    NSRect imageRect = NSMakeRect(point.x, point.y, imageSize.width, imageSize.height);
+    [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
 }
+
 
 extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat rightCap)
 {

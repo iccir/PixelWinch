@@ -84,7 +84,11 @@
 
     CGRect bounds = [self bounds];
     CGSize boundsSize = bounds.size;
-    CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
+
+
+    CGFloat scale = [[self window] backingScaleFactor];
+    
+    CGFloat onePixel = scale > 1 ? 0.5 : 1.0;
 
     NSInteger m = lround(magnification);
     NSInteger smallTicks = 0;
@@ -151,8 +155,13 @@
         increment = labels = 1;
     }
 
+
     NSInteger startOffset = floor((0 - offset) / magnification) - labels;
     NSInteger endOffset   = ceil(((_vertical ? boundsSize.height : boundsSize.width) - offset) / _magnification) + labels;
+
+    magnification /= scale;
+    startOffset *= scale;
+    endOffset   *= scale;
 
     NSShadow *textShadow = [[NSShadow alloc] init];
     
@@ -211,7 +220,7 @@
         CGContextFillRect(context, rect);
     };
 
-    for (NSInteger p = startOffset; p <= endOffset; p++) {
+    for (NSInteger p = startOffset; p <= endOffset; p += increment) {
         CGFloat xy = (offset + (p * magnification));
 
         if (labels && ((p % labels) == 0)) {

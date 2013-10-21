@@ -12,4 +12,9 @@
 
 - (ToolType) type { return ToolTypeRectangle; }
 
+- (NSCursor *) cursor
+{
+    return [NSCursor crosshairCursor];
+}
+
 @end

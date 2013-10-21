@@ -34,7 +34,6 @@
         [self setLayer:selfLayer];
         [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
 
-        [selfLayer setBackgroundColor:[[NSColor colorWithRed:1 green:0 blue:0 alpha:0.25] CGColor]];
         [selfLayer setOpaque:YES];
 
         _root = [CanvasRootLayer layer];
@@ -152,26 +151,29 @@
 - (void) resetCursorRects
 {
     NSCursor *mainCursor = [_delegate cursorForCanvasView:self];
+
+    CGRect visibleRect = [self visibleRect];
+    [self addCursorRect:visibleRect cursor:mainCursor];
     
-    if (mainCursor) {
-        [self addCursorRect:[self bounds] cursor:mainCursor];
-    
-    } else {
-        for (CanvasLayer *layer in _canvasLayers) {
-            NSCursor *cursor = [layer cursor];
-            if (cursor) {
-                [self addCursorRect:[layer frame] cursor:cursor];
+    for (CanvasLayer *layer in _canvasLayers) {
+        NSCursor *cursor = [layer cursor];
+        if (cursor) {
+            CGRect clippedRect = CGRectIntersection(visibleRect, [layer frame]);
+            
+            if (!CGRectIsEmpty(clippedRect)) {
+                [self addCursorRect:clippedRect cursor:cursor];
             }
         }
     }
 }
 
 
-- (BOOL)wantsUpdateLayer {
+- (BOOL) wantsUpdateLayer {
    return YES;
 }
 
 - (void) updateLayer { }
+
 
 #pragma mark -
 #pragma mark CALayer Delegate
@@ -201,8 +203,7 @@
 - (void) layoutSublayersOfLayer:(CALayer *)layer
 {
     if (layer == _root) {
-
-        CGSize  size          = [_canvas size];
+        CGSize  size = [_canvas size];
 
         CGFloat scale = [[self window] backingScaleFactor];
         if (!scale) scale = 1;

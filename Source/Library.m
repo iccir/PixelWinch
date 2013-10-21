@@ -10,8 +10,8 @@
 #import "LibraryItem.h"
 
 @interface LibraryItem ()
-- (id) initWithBasePath:(NSString *)basePath date:(NSDate *)date;
-@property (readonly) NSString *basePath;
+- (id) _initWithBasePath:(NSString *)basePath date:(NSDate *)date;
+- (NSString *) _basePath;
 @end
 
 
@@ -48,17 +48,11 @@
 }
 
 
-- (NSString *) _screenshotsPath
-{
-    return [GetApplicationSupportDirectory() stringByAppendingPathComponent:@"Screenshots"];
-}
-
-
 - (void) _populateItems
 {
     NSMutableArray *items = [NSMutableArray array];
 
-    NSString *screenshotsPath = [self _screenshotsPath];
+    NSString *screenshotsPath = GetScreenshotsDirectory();
     NSFileManager *manager = [NSFileManager defaultManager];
 
     if ([manager fileExistsAtPath:screenshotsPath]) {
@@ -66,8 +60,12 @@
         for (NSString *item in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {
             NSString *basePath = [screenshotsPath stringByAppendingPathComponent:item];
             
-            LibraryItem *item = [[LibraryItem alloc] initWithBasePath:basePath date:nil];
-            if ([item isValid]) [items addObject:item];
+            LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:basePath date:nil];
+            if ([item isValid]) {
+                [items addObject:item];
+            } else {
+                [self discardItem:item];
+            }
         }
 
         if (error) {
@@ -136,53 +134,30 @@
 }
 
 
-- (LibraryItem *) makeItem
+- (void) addItem:(LibraryItem *)item
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
-
-    NSDateFormatter *shortTimeFormatter = [[NSDateFormatter alloc] init];
-
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-
-    [timeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [timeFormatter setTimeStyle:NSDateFormatterMediumStyle];
-
-    [shortTimeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [shortTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
-
-    NSDate   *now = [NSDate date];
-    NSString *dateString = [dateFormatter stringFromDate:now];
-    NSString *timeString = [timeFormatter stringFromDate:now];
-    
-    NSString *directoryName = [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
-    directoryName = [directoryName stringByReplacingOccurrencesOfString:@":" withString:@"."];
-
-    NSString *directoryToTry = [[self _screenshotsPath] stringByAppendingPathComponent:directoryName];
-    
-    NSString *actualDirectory = MakeUniqueDirectory(directoryToTry);
-    
-    LibraryItem *item = [[LibraryItem alloc] initWithBasePath:actualDirectory date:now];
-
-    [item setDateString:[shortTimeFormatter stringFromDate:now]];
-
     [[self mutableArrayValueForKey:@"items"] addObject:item];
-    
-    
-    return item;
 }
 
 
 - (void) removeItem:(LibraryItem *)item
 {
-    NSString *basePath = [item basePath];
-    
-    [self _screenshotsPath];
+    [[self mutableArrayValueForKey:@"items"] removeObject:item];
+    [self discardItem:item];
+}
 
-    NSError *error;
-    if ([[NSFileManager defaultManager] removeItemAtPath:basePath error:&error]) {
-        [[self mutableArrayValueForKey:@"items"] removeObject:item];
+
+- (void) discardItem:(LibraryItem *)item
+{
+    NSString *basePath = [item _basePath];
+    
+    if (basePath) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:basePath error:&error];
+    }
+
+    if ([_items containsObject:item]) {
+        [_items removeObject:item];
     }
 }
 
