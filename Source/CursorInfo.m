@@ -13,15 +13,19 @@
 @end
 
 
-static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *rawUserInfo)
+static void sUpdateWindow(NSWindow *window)
 {
-    NSWindow *window = (__bridge NSWindow *)rawUserInfo;
-    
     NSPoint point = [NSEvent mouseLocation];
     point.x += 10;
     point.y -= 30;
     [window setFrameOrigin:point];
+}
 
+
+static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *rawUserInfo)
+{
+    NSWindow *window = (__bridge NSWindow *)rawUserInfo;
+    sUpdateWindow(window);
     return event;
 }
 
@@ -187,6 +191,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
         
         [_window orderFront:self];
 
+        sUpdateWindow(_window);
         [_window display];
 
         NSEnableScreenUpdates();
@@ -202,23 +207,23 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 - (void) _orderOut
 {
     if (_orderedIn) {
-        CGEventTapEnable(_eventTap, false);
-
         CALayer *layer = [[_window contentView] layer];
 
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.25];
-        [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
         [CATransaction setCompletionBlock:^{
             if ([layer opacity] == 0) {
                 [_window orderOut:self];
+                if (!_orderedIn) {
+                    CGEventTapEnable(_eventTap, false);
+                }
             }
         }];
         
         [layer setOpacity:0];
         
         [CATransaction commit];
-
 
         _orderedIn = NO;
     }

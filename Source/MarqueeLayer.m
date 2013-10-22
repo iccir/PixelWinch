@@ -15,6 +15,8 @@
     CGImageRef _pattern;
     CGSize     _patternSize;
     
+    CGPoint    _downPoint;
+
     NSTimer       *_timer;
     NSTimeInterval _start;
     NSInteger _phase;
@@ -45,6 +47,12 @@
 }
 
 
+- (NSInteger) canvasOrder
+{
+    return CanvasOrderMarquee;
+}
+
+
 - (void) _makeLayers
 {
     for (CALayer *layer in _segmentLayers) {
@@ -65,18 +73,38 @@
 }
 
 
+- (void) _updateMarqueeWithPoint:(CGPoint)point
+{
+    CGFloat deltaX = point.x - _downPoint.x;
+    CGFloat deltaY = point.y - _downPoint.y;
+
+    Marquee *marquee = [self marquee];
+
+    [marquee setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
+
+    CursorInfo *cursorInfo = [CursorInfo sharedInstance];
+    [cursorInfo setText:GetStringForSize(CGSizeMake(deltaX, deltaY)) forKey:@"new-marquee"];
+}
+
+
+- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    _downPoint = point;
+    [self _updateMarqueeWithPoint:_downPoint];
+    return YES;
+}
+
+
 - (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    
-    Marquee *marquee = [self marquee];
-    CGRect rect = [marquee rect];
+    [self _updateMarqueeWithPoint:point];
+}
 
-    NSLog(@"drag: %@ %@", NSStringFromPoint(point), marquee);
-    
-    rect.size.width  = point.x - rect.origin.x;
-    rect.size.height = point.y - rect.origin.y;
-    
-    [marquee setRect:rect];
+
+- (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    [self _updateMarqueeWithPoint:point];
+    [[CursorInfo sharedInstance] setText:nil forKey:@"new-marquee"];
 }
 
 

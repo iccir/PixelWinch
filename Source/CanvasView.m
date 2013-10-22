@@ -14,7 +14,6 @@
 #import "CanvasRootLayer.h"
 #import "Screenshot.h"
 
-
 @implementation CanvasView {
     CanvasRootLayer *_root;
     CALayer         *_imageLayer;
@@ -51,7 +50,7 @@
 
         [_root addSublayer:_imageLayer];
         
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:_trackingArea];
 
         _magnification = 1;
@@ -121,6 +120,8 @@
     CGPoint point = [self pointForMouseEvent:event];
     
     if ([_delegate canvasView:self mouseDownWithEvent:event point:point]) {
+        [self invalidateCursorRects];
+
         while (1) {
             event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
             
@@ -136,15 +137,27 @@
                 [_delegate canvasView:self mouseDragWithEvent:event point:point];
             }
         }
-
-        [self invalidateCursorRects];
     }
+
+    [self invalidateCursorRects];
 }
 
 
 - (void) mouseMoved:(NSEvent *)event
 {
-    return [_delegate canvasView:self mouseMovedWithEvent:event];
+    [_delegate canvasView:self mouseMovedWithEvent:event];
+}
+
+
+- (void) mouseEntered:(NSEvent *)theEvent
+{
+    [self invalidateCursorRects];
+}
+
+
+- (void) mouseExited:(NSEvent *)event
+{
+    [_delegate canvasView:self mouseExitedWithEvent:event];
 }
 
 
@@ -154,7 +167,11 @@
 
     CGRect visibleRect = [self visibleRect];
     [self addCursorRect:visibleRect cursor:mainCursor];
+
+    NSLog(@"---");
     
+    NSLog(@"Adding %@ to %@", mainCursor, NSStringFromRect(visibleRect));
+
     for (CanvasLayer *layer in _canvasLayers) {
         NSCursor *cursor = [layer cursor];
         if (cursor) {
@@ -162,6 +179,7 @@
             
             if (!CGRectIsEmpty(clippedRect)) {
                 [self addCursorRect:clippedRect cursor:cursor];
+                NSLog(@"Adding %@ to %@", cursor, NSStringFromRect(clippedRect));
             }
         }
     }
@@ -227,7 +245,11 @@
         [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
         [_imageLayer setContents:(id)[[_canvas screenshot] CGImage]];
         
-        for (CanvasLayer *layer in _canvasLayers) {
+        NSArray *sortedCanvasLayers = [_canvasLayers sortedArrayUsingComparator:^(id a, id b) {
+            return [a canvasOrder] - [b canvasOrder];
+        }];
+        
+        for (CanvasLayer *layer in sortedCanvasLayers) {
             CGRect rect = [layer rectForCanvasLayout];
 
             if (rect.size.width == INFINITY) {
@@ -267,6 +289,8 @@
             frame.size.height += (padding.top + padding.bottom);
             
             [layer setFrame:frame];
+            
+            [_root addSublayer:layer];
         }
     }
 }

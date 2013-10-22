@@ -16,6 +16,13 @@
 - (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point { }
 - (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point   { }
 
+
+- (NSInteger) canvasOrder
+{
+    return CanvasOrderNormal;
+}
+
+
 - (NSCursor *) cursor
 {
     return nil;

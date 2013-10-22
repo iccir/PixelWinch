@@ -41,6 +41,12 @@
 }
 
 
+- (NSInteger) canvasOrder
+{
+    return CanvasOrderGuide;
+}
+
+
 - (void) layoutSublayers
 {
     Guide *guide = [self guide];

@@ -20,7 +20,7 @@
 @interface CanvasController : NSWindowController
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect;
-- (void) presentWithLastImage;
+- (void) toggleVisibility;
 
 @property Tool *selectedTool;
 @property NSInteger selectedToolIndex;

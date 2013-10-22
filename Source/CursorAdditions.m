@@ -8,86 +8,113 @@
 
 #import "CursorAdditions.h"
 
+#ifdef DEBUG
+
+static NSMutableDictionary *sTypeToNameMap      = nil;
+static NSMutableDictionary *sInstancesToNameMap = nil;
+
+
+@interface NSCursor (Private)
+- (long long) _coreCursorType;
+@end
+
+#endif
+
 #define DUMP_SYSTEM_CURSORS 0
 
 @implementation NSCursor (PixelWinch)
 
-#if DUMP_SYSTEM_CURSORS
+#ifdef DEBUG
+
 
 + (void) initialize
 {
     NSArray *array = @[
-        @"_helpCursor"
-        , @"_windowResizeNorthWestSouthEastCursor"
-        , @"_windowResizeNorthEastSouthWestCursor"
-        , @"_windowResizeSouthWestCursor"
-        , @"_windowResizeSouthEastCursor"
-        , @"_windowResizeNorthWestCursor"
-        , @"_windowResizeNorthEastCursor"
-        , @"_windowResizeNorthSouthCursor"
-        , @"_windowResizeSouthCursor"
-        , @"_windowResizeNorthCursor"
-        , @"_windowResizeEastWestCursor"
-        , @"_windowResizeWestCursor"
-        , @"_windowResizeEastCursor"
-        , @"_zoomOutCursor"
-        , @"_zoomInCursor"
-        , @"_resizeLeftRightCursor"
-        , @"_resizeRightCursor"
-        , @"_resizeLeftCursor"
-        , @"_topRightResizeCursor"
-        , @"_bottomRightResizeCursor"
-        , @"_topLeftResizeCursor"
-        , @"_bottomLeftResizeCursor"
-        , @"_verticalResizeCursor"
-        , @"_horizontalResizeCursor"
-        , @"_crosshairCursor"
-        , @"_waitCursor"
-        , @"_moveCursor"
-        , @"_closedHandCursor"
-        , @"_handCursor"
-        , @"_genericDragCursor"
-        , @"dragLinkCursor"
-        , @"_copyDragCursor"
-        , @"dragCopyCursor"
-        , @"IBeamCursorForVerticalLayout"
-        , @"contextualMenuCursor"
-        , @"busyButClickableCursor"
-        , @"operationNotAllowedCursor"
-        , @"disappearingItemCursor"
-        , @"crosshairCursor"
-        , @"resizeUpDownCursor"
-        , @"resizeDownCursor"
-        , @"resizeUpCursor"
-        , @"resizeLeftRightCursor"
-        , @"resizeRightCursor"
-        , @"resizeLeftCursor"
-        , @"openHandCursor"
-        , @"closedHandCursor"
-        , @"pointingHandCursor"
-        , @"IBeamCursor"
-        , @"arrowCursor"
+        @"_helpCursor",
+        @"_windowResizeNorthWestSouthEastCursor",
+        @"_windowResizeNorthEastSouthWestCursor",
+        @"_windowResizeSouthWestCursor",
+        @"_windowResizeSouthEastCursor",
+        @"_windowResizeNorthWestCursor",
+        @"_windowResizeNorthEastCursor",
+        @"_windowResizeNorthSouthCursor",
+        @"_windowResizeSouthCursor",
+        @"_windowResizeNorthCursor",
+        @"_windowResizeEastWestCursor",
+        @"_windowResizeWestCursor",
+        @"_windowResizeEastCursor",
+        @"_zoomOutCursor",
+        @"_zoomInCursor",
+        @"_resizeLeftRightCursor",
+        @"_resizeRightCursor",
+        @"_resizeLeftCursor",
+        @"_topRightResizeCursor",
+        @"_bottomRightResizeCursor",
+        @"_topLeftResizeCursor",
+        @"_bottomLeftResizeCursor",
+        @"_verticalResizeCursor",
+        @"_horizontalResizeCursor",
+        @"_crosshairCursor",
+        @"_waitCursor",
+        @"_moveCursor",
+        @"_closedHandCursor",
+        @"_handCursor",
+        @"_genericDragCursor",
+        @"dragLinkCursor",
+        @"_copyDragCursor",
+        @"dragCopyCursor",
+        @"IBeamCursorForVerticalLayout",
+        @"contextualMenuCursor",
+        @"busyButClickableCursor",
+        @"operationNotAllowedCursor",
+        @"disappearingItemCursor",
+        @"crosshairCursor",
+        @"resizeUpDownCursor",
+        @"resizeDownCursor",
+        @"resizeUpCursor",
+        @"resizeLeftRightCursor",
+        @"resizeRightCursor",
+        @"resizeLeftCursor",
+        @"openHandCursor",
+        @"closedHandCursor",
+        @"pointingHandCursor",
+        @"IBeamCursor",
+        @"arrowCursor"
+    ];
+
+    if (!sTypeToNameMap)      sTypeToNameMap      = [NSMutableDictionary dictionary];
+    if (!sInstancesToNameMap) sInstancesToNameMap = [NSMutableDictionary dictionary];
+
+    for (NSString *name in array) {
+        NSCursor *cursor = [NSCursor performSelector:NSSelectorFromString(name)];
+        [sTypeToNameMap setObject:name forKey:@( [cursor _coreCursorType] )];
+    }
+
+    array = @[
+        @"winch_zoomInCursor",
+        @"winch_zoomOutCursor",
+        @"winch_grappleHorizontalCursor",
+        @"winch_grappleVerticalCursor",
+        @"winch_resizeNorthWestSouthEastCursor",
+        @"winch_resizeNorthEastSouthWestCursor",
+        @"winch_resizeNorthSouthCursor",
+        @"winch_resizeEastWestCursor"
     ];
 
     for (NSString *name in array) {
         NSCursor *cursor = [NSCursor performSelector:NSSelectorFromString(name)];
-        
-        NSLog(@"%@, %@", name, NSStringFromPoint([cursor hotSpot]));
-        
-        for (NSImageRep *rep in [[cursor image] representations]) {
-            NSString *path = NSTemporaryDirectory();
-            NSInteger width = [rep pixelsWide];
-            NSInteger height = [rep pixelsHigh];
-
-            NSString *filename = [NSString stringWithFormat:@"%@_%ld_%ld.tiff", name, (long)width, (long)height];
-            
-            path = [path stringByAppendingPathComponent:filename];
-            
-            [[(NSBitmapImageRep *)rep TIFFRepresentation] writeToFile:path atomically:YES];
-        }
+        [sInstancesToNameMap setObject:name forKey:[NSValue valueWithPointer:(__bridge void *)cursor]];
     }
+}
+
+
+- (NSString *) description
+{
+    NSString *name = [sInstancesToNameMap objectForKey:[NSValue valueWithPointer:(__bridge void *)self]];
+    if (!name) name = [sTypeToNameMap objectForKey:@([self _coreCursorType])];
+    if (!name) name = @"unknown";
     
-    NSLog(@"%@", NSTemporaryDirectory());
+    return [NSString stringWithFormat:@"[NSCursor %@", name];
 }
 
 #endif

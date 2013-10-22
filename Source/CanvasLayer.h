@@ -10,6 +10,19 @@
 
 @class CanvasObject;
 
+enum {
+    CanvasOrderPreviewGrapple = -1000,
+    CanvasOrderNormal         =     0,
+
+    CanvasOrderRectangle      =  500,
+    CanvasOrderGrapple        =  501,
+
+    CanvasOrderResizeKnob     =  900,
+
+    CanvasOrderMarquee        =  1000,
+    CanvasOrderGuide          =  1001,
+};
+
 typedef NS_ENUM(NSInteger, SnappingPolicy) {
     SnappingPolicyNone,
     SnappingPolicyToPixelEdge,
@@ -32,6 +45,7 @@ typedef NS_ENUM(NSInteger, SnappingPolicy) {
 - (SnappingPolicy) verticalSnappingPolicy;
 - (SnappingPolicy) horizontalSnappingPolicy;
 
+- (NSInteger) canvasOrder;
 
 @property (nonatomic, strong) CanvasObject *canvasObject;
 @property (nonatomic, assign, getter=isNewborn) BOOL newborn;

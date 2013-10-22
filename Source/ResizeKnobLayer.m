@@ -46,6 +46,12 @@
 }
 
 
+- (NSInteger) canvasOrder
+{
+    return CanvasOrderResizeKnob;
+}
+
+
 - (NSCursor *) cursor
 {
     if (_type == ResizeKnobTop || _type == ResizeKnobBottom) {

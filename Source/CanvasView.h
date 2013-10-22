@@ -40,6 +40,7 @@
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view ;
 
 - (void) canvasView:(CanvasView *)view mouseMovedWithEvent:(NSEvent *)event;
+- (void) canvasView:(CanvasView *)view mouseExitedWithEvent:(NSEvent *)event;
 
 - (BOOL) canvasView:(CanvasView *)view mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) canvasView:(CanvasView *)view mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point;

@@ -51,16 +51,16 @@
                                     <segment toolTip="Hand Tool (H)" image="toolbar_hand_normal" imageScaling="none" width="40" selected="YES" tag="1">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Marquee Tool (M)" image="toolbar_marquee_normal" imageScaling="none" width="40">
+                                    <segment toolTip="Marquee Tool (M)" image="toolbar_marquee_normal" imageScaling="none" width="40" tag="2">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Rectangle Tool (R)" image="toolbar_rectangle_normal" imageScaling="none" width="40">
+                                    <segment toolTip="Rectangle Tool (R)" image="toolbar_rectangle_normal" imageScaling="none" width="40" tag="3">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Grapple Beam Tool (G)" image="toolbar_grapple_normal" imageScaling="none" width="40">
+                                    <segment toolTip="Grapple Beam Tool (G)" image="toolbar_grapple_normal" imageScaling="none" width="40" tag="4">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Zoom Tool (Z)" image="toolbar_zoom_normal" imageScaling="none" width="40">
+                                    <segment toolTip="Zoom Tool (Z)" image="toolbar_zoom_normal" imageScaling="none" width="40" tag="5">
                                         <nil key="label"/>
                                     </segment>
                                 </segments>

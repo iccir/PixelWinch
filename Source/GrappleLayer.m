@@ -12,7 +12,7 @@
 #import "Grapple.h"
 #import "TextLayer.h"
 #import "Canvas.h"
-
+#import "CursorAdditions.h"
 
 @implementation GrappleLayer {
     CALayer   *_sublayer;
@@ -38,6 +38,23 @@
     }
 
     return self;
+}
+
+
+
+- (NSCursor *) cursor
+{
+    if ([[self grapple] isVertical]) {
+        return [NSCursor winch_resizeEastWestCursor];
+    } else {
+        return [NSCursor winch_resizeNorthSouthCursor];
+    }
+}
+
+
+- (NSInteger) canvasOrder
+{
+    return [[self grapple] isPreview] ? CanvasOrderPreviewGrapple : CanvasOrderGrapple;
 }
 
 
@@ -111,7 +128,11 @@
 - (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _downPoint = [event locationInWindow];
-    [self _updateNewGrappleWithEvent:event point:point];
+
+    if ([self isNewborn]) {
+        [self _updateNewGrappleWithEvent:event point:point];
+    }
+
     return YES;
 }
 
@@ -121,7 +142,7 @@
     if ([self isNewborn]) {
         [self _updateNewGrappleWithEvent:event point:point];
     } else {
-    
+        
     }
 }
 

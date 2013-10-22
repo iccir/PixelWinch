@@ -565,13 +565,64 @@
 }
 
 
-- (void) shroudView:(ShroudView *)shroudView clickedWithEvent:(NSEvent *)event
+
+- (void) _updateInspector
 {
-    if (shroudView == _shroudView) {
-        [self hide];
-    } else if (shroudView == _contentTopLevelView) {
-        [[self window] makeFirstResponder:[self window]];
+    ToolType type = [[self selectedTool] type];
+    NSView *view = nil;
+
+    if (type == ToolTypeZoom) {
+        view = [self zoomToolView];
+    } else if (type == ToolTypeGrapple) {
+        view = [self grappleToolView];
+    } else if ([_selectedObject isKindOfClass:[Rectangle class]]) {
+        view = [self rectangleObjectView];
     }
+    
+    if ([view superview] != _inspectorContainer) {
+        NSArray *subviews = [[_inspectorContainer subviews] copy];
+
+        for (NSView *subview in subviews) {
+            [subview removeFromSuperview];
+        }
+        
+        [_inspectorContainer addSubview:view];
+        [view setFrame:[_inspectorContainer bounds]];
+    }
+}
+
+- (void) _removePreviewGrapple
+{
+    [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
+    [_canvas removePreviewGrapple];
+}
+
+
+- (void) _updatePreviewGrapple
+{
+    if (![_selectedTool isKindOfClass:[GrappleTool class]] || isnan(_lastGrapplePoint.x)) {
+        [self _removePreviewGrapple];
+        return;
+    }
+
+    GrappleTool *grappleTool = (GrappleTool *)_selectedTool;
+    
+    BOOL isVertical = [grappleTool calculatedIsVertical];
+
+    if ([[_canvas previewGrapple] isVertical] != isVertical) {
+        [self _removePreviewGrapple];
+    }
+
+    if (![_canvas previewGrapple]) {
+        [_canvas makePreviewGrappleVertical:isVertical];
+    }
+    
+    Grapple *previewGrapple = [_canvas previewGrapple];
+    CGPoint point = _lastGrapplePoint;
+    [_canvas updateGrapple:previewGrapple point:point threshold:[grappleTool calculatedThreshold] stopsOnGuides:YES];
+
+    NSString *previewText = GetStringForFloat([previewGrapple length]);
+    [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
 }
 
 
@@ -584,19 +635,35 @@
     if (!_selectionLayers) {
         _selectionLayers = [NSMutableArray array];
     }
+    
+    void (^addResizeKnob)(CanvasLayer *, ResizeKnobType) = ^(CanvasLayer *parent, ResizeKnobType knobType) {
+        ResizeKnobLayer *knob = [ResizeKnobLayer layer];
+
+        [knob setType:knobType];
+        [knob setParentLayer:parent];
+    
+        [_canvasView addCanvasLayer:knob];
+    
+        [_selectionLayers addObject:knob];
+    };
 
     if ([object isKindOfClass:[Rectangle class]]) {
         CanvasLayer *parentLayer = [self _layerForCanvasObject:object];
         
         for (ResizeKnobType type = 0; type <= ResizeKnobBottomRight; type++) {
-            ResizeKnobLayer *layer = [ResizeKnobLayer layer];
-            [layer setType:type];
-            
-            [layer setParentLayer:parentLayer];
-            
-            [_canvasView addCanvasLayer:layer];
-            
-            [_selectionLayers addObject:layer];
+            addResizeKnob(parentLayer, type);
+        }
+
+    } else if ([object isKindOfClass:[Grapple class]]) {
+        Grapple     *grapple     = (Grapple *)object;
+        CanvasLayer *parentLayer = [self _layerForCanvasObject:object];
+    
+        if ([grapple isVertical]) {
+            addResizeKnob(parentLayer, ResizeKnobTop);
+            addResizeKnob(parentLayer, ResizeKnobBottom);
+        } else {
+            addResizeKnob(parentLayer, ResizeKnobLeft);
+            addResizeKnob(parentLayer, ResizeKnobRight);
         }
     }
     
@@ -656,36 +723,15 @@
 }
 
 
-#pragma mark -
+#pragma mark - Shroud Delegate
 
-- (void) _updatePreviewGrapple
+- (void) shroudView:(ShroudView *)shroudView clickedWithEvent:(NSEvent *)event
 {
-    if (![_selectedTool isKindOfClass:[GrappleTool class]]) {
-        [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
-        [_canvas removePreviewGrapple];
-        return;
+    if (shroudView == _shroudView) {
+        [self hide];
+    } else if (shroudView == _contentTopLevelView) {
+        [[self window] makeFirstResponder:[self window]];
     }
-
-    GrappleTool *grappleTool = (GrappleTool *)_selectedTool;
-    
-    BOOL isVertical = [grappleTool calculatedIsVertical];
-
-    if ([[_canvas previewGrapple] isVertical] != isVertical) {
-        [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
-        [_canvas removePreviewGrapple];
-    }
-
-    if (![_canvas previewGrapple]) {
-        [_canvas makePreviewGrappleVertical:isVertical];
-    }
-    
-    Grapple *previewGrapple = [_canvas previewGrapple];
-    
-    CGPoint point = _lastGrapplePoint;
-    [_canvas updateGrapple:previewGrapple point:point threshold:[grappleTool calculatedThreshold] stopsOnGuides:YES];
-
-    NSString *previewText = GetStringForFloat([previewGrapple length]);
-    [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
 }
 
 
@@ -786,10 +832,26 @@
     return [_selectedTool cursor];
 }
 
+
 - (void) canvasView:(CanvasView *)view mouseMovedWithEvent:(NSEvent *)event
 {
     if ([_selectedTool isKindOfClass:[GrappleTool class]]) {
         _lastGrapplePoint = [_canvasView pointForMouseEvent:event];
+
+        CanvasLayer *layer = [view canvasLayerForMouseEvent:event];
+        if (layer && ([layer canvasObject] != [_canvas previewGrapple])) {
+            [self _removePreviewGrapple];
+        } else {
+            [self _updatePreviewGrapple];
+        }
+    }
+}
+
+
+- (void) canvasView:(CanvasView *)view mouseExitedWithEvent:(NSEvent *)event
+{
+    if ([_selectedTool isKindOfClass:[GrappleTool class]]) {
+        _lastGrapplePoint = NSMakePoint(NAN, NAN);
         [self _updatePreviewGrapple];
     }
 }
@@ -799,7 +861,10 @@
 {
     ToolType toolType = [_selectedTool type];
 
-    if (toolType == ToolTypeMove || toolType == ToolTypeRectangle || toolType == ToolTypeMarquee || toolType == ToolTypeGrapple) {
+    if (toolType == ToolTypeMove ||
+        toolType == ToolTypeRectangle ||
+        toolType == ToolTypeGrapple)
+    {
         CanvasLayer *layer = [view canvasLayerForMouseEvent:event];
         
         Grapple *previewGrapple = [_canvas previewGrapple];
@@ -815,7 +880,10 @@
         }
 
         if (!layer) {
-            if (toolType == ToolTypeRectangle) {
+            if (toolType == ToolTypeMove) {
+                [self _unselectAllObjects];
+
+            } else if (toolType == ToolTypeRectangle) {
                 Rectangle *rectangle = [_canvas makeRectangle];
 
                 layer = [self _layerForCanvasObject:rectangle];
@@ -823,18 +891,8 @@
 
                 [self _selectObject:rectangle];
 
-                
-            } else if (toolType == ToolTypeMarquee) {
-                [_canvas clearMarquee];
-
-                Marquee *marquee = [_canvas makeMarquee];
-
-                layer = [self _layerForCanvasObject:marquee];
-                [layer setNewborn:YES];
-                
             } else if (toolType == ToolTypeGrapple) {
-                [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
-                [_canvas removePreviewGrapple];
+                [self _removePreviewGrapple];
                 
                 Grapple *grapple = [_canvas makeGrappleVertical:[_grappleTool calculatedIsVertical]];
 
@@ -862,6 +920,16 @@
         _draggedLayer = layer;
         point = [_canvasView pointForMouseEvent:event layer:layer];
         return [layer mouseDownWithEvent:event point:point];
+
+    } else if (toolType == ToolTypeMarquee) {
+        [_canvas clearMarquee];
+
+        Marquee *marquee = [_canvas makeMarquee];
+
+        _draggedLayer = [self _layerForCanvasObject:marquee];
+        CGPoint point = [_canvasView pointForMouseEvent:event layer:_draggedLayer];
+        
+        return [_draggedLayer mouseDownWithEvent:event point:point];
     }
     
     return YES;
@@ -892,8 +960,6 @@
         _zoomEvent = event;
         [(ZoomTool *)_selectedTool zoom];
     }
-
-    [_canvasView resetCursorRects];
 
     [_draggedLayer setNewborn:NO];
 
@@ -1002,30 +1068,35 @@
 }
 
 
-- (void) presentWithLastImage
+- (void) toggleVisibility
 {
-    [self window];  // Force nib to load
-    [self _updateWindowForScreen:[NSScreen mainScreen]];
+    NSWindow *window = [self window];
+    
+    if ([window isVisible]) {
+        [self hide];
 
-    [self _removeTransitionImage];
+    } else {
+        [self _updateWindowForScreen:[NSScreen mainScreen]];
 
-    if (!_selectedItem) {
-        LibraryItem *item = [[[Library sharedInstance] items] lastObject];
-        if (!item) {
-            NSBeep();
-            return;
+        [self _removeTransitionImage];
+
+        if (!_selectedItem) {
+            LibraryItem *item = [[[Library sharedInstance] items] lastObject];
+            if (!item) {
+                NSBeep();
+                return;
+            }
+
+            [self _updateCanvasWithLibraryItem:item];
         }
 
-        [self _updateCanvasWithLibraryItem:item];
+        [self _doOrderInAnimation];
+
+        [NSApp activateIgnoringOtherApps:YES];
+        [[CursorInfo sharedInstance] setEnabled:YES];
+        [[self window] makeKeyAndOrderFront:self];
     }
-
-    [self _doOrderInAnimation];
-
-    [NSApp activateIgnoringOtherApps:YES];
-    [[CursorInfo sharedInstance] setEnabled:YES];
-    [[self window] makeKeyAndOrderFront:self];
 }
-
 
 - (void) hide
 {
@@ -1072,55 +1143,35 @@
 
 #pragma mark - Accessors
 
-- (void) setSelectedTool:(Tool *)selectedTool
-{
-    @synchronized(self) {
-        if (_selectedTool != selectedTool) {
-            _selectedTool = selectedTool;
-            [self _updatePreviewGrapple];
-            [_canvasView invalidateCursorRects];
-
-            _selectedToolIndex = [[self allTools] indexOfObject:selectedTool];
-            [self _updateInspector];
-        }
-    }
-}
-
-
 - (NSArray *) allTools
 {
     return @[ _moveTool, _handTool, _marqueeTool, _rectangleTool, _grappleTool, _zoomTool ];
 }
 
 
-- (void) _updateInspector
+- (void) setSelectedTool:(Tool *)selectedTool
 {
-    ToolType type = [[self selectedTool] type];
-    NSView *view = nil;
+    @synchronized(self) {
+        if (_selectedTool != selectedTool) {
+            _selectedTool = selectedTool;
+            [self _updatePreviewGrapple];
 
-    if (type == ToolTypeZoom) {
-        view = [self zoomToolView];
-    } else if (type == ToolTypeGrapple) {
-        view = [self grappleToolView];
-    } else if ([_selectedObject isKindOfClass:[Rectangle class]]) {
-        view = [self rectangleObjectView];
-    }
-    
-    if ([view superview] != _inspectorContainer) {
-        NSArray *subviews = [[_inspectorContainer subviews] copy];
+            _selectedToolIndex = [[self allTools] indexOfObject:selectedTool];
+            [self _updateInspector];
 
-        for (NSView *subview in subviews) {
-            [subview removeFromSuperview];
+            [_canvasView invalidateCursorRects];
         }
-        
-        [_inspectorContainer addSubview:view];
-        [view setFrame:[_inspectorContainer bounds]];
     }
 }
 
 
+- (Tool *) selectedTool
+{
+    @synchronized(self) {
+        return _selectedTool;
+    }
+}
 
-#pragma mark - Accessors
 
 - (void) setSelectedToolIndex:(NSInteger)selectedToolIndex
 {
@@ -1129,6 +1180,7 @@
             _selectedToolIndex = selectedToolIndex;
             _selectedTool = [[self allTools] objectAtIndex:selectedToolIndex];
             [self _updateInspector];
+            [_canvasView invalidateCursorRects];
         }
 
     }
@@ -1139,14 +1191,6 @@
 {
     @synchronized(self) {
         return _selectedToolIndex;
-    }
-}
-
-
-- (Tool *) selectedTool
-{
-    @synchronized(self) {
-        return _selectedTool;
     }
 }
 

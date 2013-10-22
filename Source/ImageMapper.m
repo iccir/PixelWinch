@@ -9,21 +9,12 @@
 #import "ImageMapper.h"
 #import "Screenshot.h"
 
-#import <OpenGL/OpenGL.h>
-#import <GLUT/GLUT.h>
 #import <Accelerate/Accelerate.h>
-
-#import "kernels.cl.h"
 #include <smmintrin.h>
+
 
 NSString * const ImageMapperDidBuildMapsNotification = @"ImageMapperDidBuildMaps";
 
-typedef struct {
-    float x;
-    float y;
-    float z;
-    float w;
-} float4;
 
 static __inline__ __m128 load_floats(const float *value) {
     __m128 xy = _mm_loadl_pi(_mm_setzero_ps(), (const __m64*)value);
@@ -32,7 +23,6 @@ static __inline__ __m128 load_floats(const float *value) {
 }
 
 #define DUMP_MAPS  0
-#define CHECK_MAPS 0
 
 @implementation ImageMapper {
     Screenshot *_screenshot;
@@ -65,84 +55,6 @@ static __inline__ __m128 load_floats(const float *value) {
 
 
 #pragma mark - Private Methods
-
-static void sMakeMaps_OpenCL(UInt8 *inRGB, UInt8 *outHorizontalMap, UInt8 *outVerticalMap, size_t width, size_t height)
-{
-    dispatch_queue_t dq = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU, NULL);
-    if (!dq) dq = gcl_create_dispatch_queue(CL_DEVICE_TYPE_CPU, NULL);
-
-    size_t mapSize = sizeof(UInt8) * width * height;
-    
-    dispatch_sync(dq, ^{
-        void *inBufferCL   = NULL;
-        void *labBufferCL  = gcl_malloc(sizeof(float) * 4 * width * (height + 1), NULL, 0);
-
-        void *horizontalCL = gcl_malloc(mapSize, NULL, 0);
-        void *verticalCL   = gcl_malloc(mapSize, NULL, 0);
-
-        cl_ndrange range1 = { 1, {0}, { width * height }, {0} };
-        inBufferCL = gcl_malloc(sizeof(UInt8) * 4 * width * (height + 1), (void *)inRGB, CL_MEM_COPY_HOST_PTR);
-        convert_rgba_to_lab_kernel(&range1, inBufferCL, labBufferCL);
-
-        cl_ndrange range2 = { 1, {0}, { width * height }, {0} };
-        make_delta_map_kernel(&range2, labBufferCL,     1, horizontalCL);
-
-        cl_ndrange range3 = { 1, {0}, { width * height }, {0} };
-        make_delta_map_kernel(&range3, labBufferCL, width, verticalCL);
-        
-        gcl_memcpy(outHorizontalMap, horizontalCL, mapSize);
-        gcl_memcpy(outVerticalMap,   verticalCL,   mapSize);
-        
-        gcl_free(labBufferCL);
-        gcl_free(inBufferCL);
-        gcl_free(horizontalCL);
-        gcl_free(verticalCL);
-    });
-}
-
-/*
-static void sRGBToHunterLab_Reference(UInt8 r8, UInt8 g8, UInt8 b8, float4 *outLAB)
-{
-    float r = (float)r8 / 255.f;
-    float g = (float)g8 / 255.f;
-    float b = (float)b8 / 255.f;
-
-    if ( r > 0.04045f ) r = powf(( ( r + 0.055f ) / 1.055f ), 2.4f);
-    else                r = r / 12.92f;
-    if ( g > 0.04045f ) g = powf(( ( g + 0.055f ) / 1.055f ), 2.4f);
-    else                g = g / 12.92f;
-    if ( b > 0.04045f ) b = powf(( ( b + 0.055f ) / 1.055f ), 2.4f);
-    else                b = b / 12.92f;
-
-    r = r * 100.f;
-    g = g * 100.f;
-    b = b * 100.f;
-
-    float X = r * 0.4124f + g * 0.3576f + b * 0.1805f;
-    float Y = r * 0.2126f + g * 0.7152f + b * 0.0722f;
-    float Z = r * 0.0193f + g * 0.1192f + b * 0.9505f;
-
-    float sqrtY = sqrtf(Y);
-
-    if (sqrtY) {
-        float L = 10.f  * sqrtY;
-        float A = 17.5f * ( ( ( 1.02 * X ) - Y ) / sqrtY);
-        float B = 7.f   * ( ( Y - ( 0.847 * Z ) ) / sqrtY);
-
-        outLAB->x = L;
-        outLAB->y = A;
-        outLAB->z = B;
-        outLAB->w = 0;
-
-    } else {
-        outLAB->x = 0;
-        outLAB->y = 0;
-        outLAB->z = 0;
-        outLAB->w = 0;
-    }
-}
-*/
-
 
 static void sMakeLAB_Accelerate(UInt8 *inRGB, float *outLAB, size_t width, size_t height)
 {
@@ -313,24 +225,6 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
     sMakeLAB_Accelerate(input, lab_accelerate, _width, _height);
     sMakeMap_Accelerate(lab_accelerate, hmap_accelerate, vmap_accelerate, _width, _height);
 
-#if CHECK_MAPS
-    UInt8 *hmap_cl = malloc(sizeof(UInt8) * 4 * width * (height + 1));
-    UInt8 *vmap_cl = malloc(sizeof(UInt8) * 4 * width * (height + 1));
-
-    sMakeMaps_OpenCL(input, hmap_cl, vmap_cl, _width, _height);
-
-    for (int i = 0; i < width * height; i++) {
-        if (hmap_accelerate[i] != hmap_cl[i] ||
-            vmap_accelerate[i] != vmap_cl[i])
-        {
-            NSLog(@"accelerate != cl");
-        }
-    }
-
-    free(hmap_cl);
-    free(vmap_cl);
-#endif
-    
     free(lab_accelerate);
     
     dispatch_async(dispatch_get_main_queue(), ^{

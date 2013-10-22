@@ -93,29 +93,11 @@
 
 - (void) _handlePreferencesDidChange:(NSNotification *)note
 {
-    Preferences    *preferences = [Preferences sharedInstance];
-    NSMutableArray *shortcuts   = [NSMutableArray array];
-
-    if ([preferences captureSelectionShortcut]) {
-        [shortcuts addObject:[preferences captureSelectionShortcut]];
-    }
-
-    if ([preferences captureWindowShortcut]) {
-        [shortcuts addObject:[preferences captureWindowShortcut]];
-    }
-
-    if ([preferences showScreenshotsShortcut]) {
-        [shortcuts addObject:[preferences showScreenshotsShortcut]];
-    }
-
-    if ([shortcuts count] || [ShortcutManager hasSharedInstance]) {
-        [[ShortcutManager sharedInstance] addListener:self];
-        [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
-    }
+    [self _updateShortcuts];
 }
 
 
-- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
+- (BOOL) validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
     if ([item action] == @selector(showScreenshots:)) {
         return [[[Library sharedInstance] items] count] > 0;
@@ -144,9 +126,34 @@
 }
 
 
+- (void) _updateShortcuts
+{
+    Preferences    *preferences = [Preferences sharedInstance];
+    NSMutableArray *shortcuts   = [NSMutableArray array];
+
+    if ([preferences captureSelectionShortcut]) {
+        [shortcuts addObject:[preferences captureSelectionShortcut]];
+    }
+
+    if ([preferences captureWindowShortcut]) {
+        [shortcuts addObject:[preferences captureWindowShortcut]];
+    }
+
+    if ([preferences showScreenshotsShortcut]) {
+        [shortcuts addObject:[preferences showScreenshotsShortcut]];
+    }
+
+    if ([shortcuts count] || [ShortcutManager hasSharedInstance]) {
+        [[ShortcutManager sharedInstance] addListener:self];
+        [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
+    }
+}
+
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
     _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:29.0];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library
     [Library sharedInstance];
@@ -157,6 +164,8 @@
     [_statusItem setHighlightMode:YES];
     
     [_statusItem setMenu:[self statusBarMenu]];
+
+    [self _updateShortcuts];
 }
 
 
@@ -168,20 +177,20 @@
 
 - (IBAction) showScreenshots:(id)sender
 {
-    [[self canvasController] presentWithLastImage];
+    [[self canvasController] toggleVisibility];
 }
 
 
 - (IBAction) showPreferences:(id)sender
 {
     [[self preferencesController] showWindow:self];
-    [NSApp activateIgnoringOtherApps:NO];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 
 - (IBAction) showAbout:(id)sender
 {
-    [NSApp activateIgnoringOtherApps:NO];
+    [NSApp activateIgnoringOtherApps:YES];
     [NSApp orderFrontStandardAboutPanel:self];
 }
 

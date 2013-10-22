@@ -306,7 +306,7 @@ static NSImage *sGetClearIcon()
             image = sGetPressedClearIcon();
         }
 
-        [image compositeToPoint:clearImageRect.origin operation:NSCompositeSourceOver];
+        [image drawInRect:clearImageRect];
     }
 
     
