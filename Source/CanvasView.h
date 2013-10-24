@@ -34,7 +34,10 @@
 
 @property (nonatomic, assign) CGFloat magnification;
 
+@property (nonatomic, assign) BOOL hidesGuides;
+
 @end
+
 
 @protocol CanvasViewDelegate <NSObject>
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view ;

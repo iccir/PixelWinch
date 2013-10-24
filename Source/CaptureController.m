@@ -85,6 +85,10 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     BOOL isDirectory = NO;
     if (![manager fileExistsAtPath:path isDirectory:&isDirectory] || isDirectory) {
         [[Library sharedInstance] discardItem:_currentItem];
+
+        [_task setTerminationHandler:nil];
+        _task = nil;
+
         return;
     }
 

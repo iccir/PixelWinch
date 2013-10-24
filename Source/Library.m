@@ -58,12 +58,15 @@
     if ([manager fileExistsAtPath:screenshotsPath]) {
         NSError *error = nil;
         for (NSString *item in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {
+        
             NSString *basePath = [screenshotsPath stringByAppendingPathComponent:item];
             
             LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:basePath date:nil];
             if ([item isValid]) {
+                NSLog(@"adding %@ - %@", item, basePath);
                 [items addObject:item];
             } else {
+                NSLog(@"discarding %@ - %@", item, basePath);
                 [self discardItem:item];
             }
         }

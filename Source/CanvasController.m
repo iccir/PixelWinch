@@ -190,6 +190,7 @@
 
         } else if (c == 'w') {
             [self hide];
+            return;
 
         } else  if (c == ';') {
             // Toggle guides
@@ -971,7 +972,15 @@
 
 - (BOOL) window:(CanvasWindow *)window cancelOperation:(id)sender
 {
-    [self hide];
+    NSWindow *selfWindow = [self window];
+
+    if ([selfWindow firstResponder] != selfWindow) {
+        [selfWindow makeFirstResponder:selfWindow];
+
+    } else if (_selectedObject) {
+        [self _unselectAllObjects];
+    }
+
     return YES;
 }
 
