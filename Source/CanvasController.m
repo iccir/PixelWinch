@@ -1017,6 +1017,11 @@
 }
 
 
+- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)window
+{
+    return [_canvas undoManager];
+}
+
 #pragma mark - Public Methods / IBActions
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect

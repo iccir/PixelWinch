@@ -17,35 +17,16 @@ static NSString * const sHeightKey = @"height";
 
 @implementation CanvasObject {
     CGRect _rect;
+    NSInteger _changeCount;
 }
 
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
 {
     if ((self = [super init])) {
-        NSString *GUID         = [dictionary objectForKey:sGUIDKey];
-        NSNumber *xNumber      = [dictionary objectForKey:sXKey];
-        NSNumber *yNumber      = [dictionary objectForKey:sYKey];
-        NSNumber *widthNumber  = [dictionary objectForKey:sWidthKey];
-        NSNumber *heightNumber = [dictionary objectForKey:sHeightKey];
-    
-        if (![GUID         isKindOfClass:[NSString class]] ||
-            ![xNumber      isKindOfClass:[NSNumber class]] ||
-            ![yNumber      isKindOfClass:[NSNumber class]] ||
-            ![widthNumber  isKindOfClass:[NSNumber class]] ||
-            ![heightNumber isKindOfClass:[NSNumber class]])
-        {
+        if (![self readFromDictionary:dictionary]) {
             self = nil;
             return nil;
         }
-
-
-        _GUID = GUID;
-        _rect = CGRectMake(
-            [xNumber doubleValue],
-            [yNumber doubleValue],
-            [widthNumber doubleValue],
-            [heightNumber doubleValue]
-        );
     }
     
     return self;
@@ -71,6 +52,56 @@ static NSString * const sHeightKey = @"height";
 }
 
 
+- (void) beginChanges
+{
+    if (_changeCount == 0) {
+        [[self canvas] objectWillUpdate:self];
+    }
+
+    _changeCount++;
+}
+
+
+- (void) endChanges
+{
+    _changeCount--;
+
+    if (_changeCount == 0) {
+        [[self canvas] objectDidUpdate:self];
+    }
+}
+
+
+- (BOOL) readFromDictionary:(NSDictionary *)dictionary
+{
+    NSString *GUID         = [dictionary objectForKey:sGUIDKey];
+    NSNumber *xNumber      = [dictionary objectForKey:sXKey];
+    NSNumber *yNumber      = [dictionary objectForKey:sYKey];
+    NSNumber *widthNumber  = [dictionary objectForKey:sWidthKey];
+    NSNumber *heightNumber = [dictionary objectForKey:sHeightKey];
+
+    if (![GUID         isKindOfClass:[NSString class]] ||
+        ![xNumber      isKindOfClass:[NSNumber class]] ||
+        ![yNumber      isKindOfClass:[NSNumber class]] ||
+        ![widthNumber  isKindOfClass:[NSNumber class]] ||
+        ![heightNumber isKindOfClass:[NSNumber class]])
+    {
+        return NO;
+    }
+
+
+    _GUID = GUID;
+    _rect = CGRectMake(
+        [xNumber doubleValue],
+        [yNumber doubleValue],
+        [widthNumber doubleValue],
+        [heightNumber doubleValue]
+    );
+    
+    return YES;
+}
+
+
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary
 {
     [dictionary setObject:_GUID forKey:sGUIDKey];
@@ -87,8 +118,9 @@ static NSString * const sHeightKey = @"height";
 - (void) setRect:(CGRect)rect
 {
     if (!CGRectEqualToRect(_rect, rect)) {
+        [self beginChanges];
         _rect = CGRectStandardize(rect);
-        [[self canvas] objectDidUpdate:self];
+        [self endChanges];
     }
 }
 

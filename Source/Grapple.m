@@ -37,24 +37,25 @@ static NSString * const sStickyEndKey   = @"stickyEnd";
 }
 
 
-- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+- (BOOL) readFromDictionary:(NSDictionary *)dictionary
 {
-    if ((self = [super initWithDictionaryRepresentation:dictionary])) {
-        NSNumber *verticalNumber    = [dictionary objectForKey:sVerticalKey];
-        NSNumber *stickyStartNumber = [dictionary objectForKey:sStickyStartKey];
-        NSNumber *stickyEndNumber   = [dictionary objectForKey:sStickyEndKey];
-
-        if (!verticalNumber) {
-            self = nil;
-            return nil;
-        }
-
-        _vertical    = [verticalNumber    boolValue];
-        _stickyStart = [stickyStartNumber boolValue];
-        _stickyEnd   = [stickyEndNumber   boolValue];
+    if (![super readFromDictionary:dictionary]) {
+        return NO;
     }
-    
-    return self;
+
+    NSNumber *verticalNumber    = [dictionary objectForKey:sVerticalKey];
+    NSNumber *stickyStartNumber = [dictionary objectForKey:sStickyStartKey];
+    NSNumber *stickyEndNumber   = [dictionary objectForKey:sStickyEndKey];
+
+    if (!verticalNumber) {
+        return NO;
+    }
+
+    _vertical    = [verticalNumber    boolValue];
+    _stickyStart = [stickyStartNumber boolValue];
+    _stickyEnd   = [stickyEndNumber   boolValue];
+
+    return YES;
 }
 
 
@@ -71,8 +72,9 @@ static NSString * const sStickyEndKey   = @"stickyEnd";
 {
     @synchronized(self) {
         if (_preview != preview) {
+            [self beginChanges];
             _preview = preview;
-            [[self canvas] objectDidUpdate:self];
+            [self endChanges];
         }
     }
 }
@@ -93,6 +95,12 @@ static NSString * const sStickyEndKey   = @"stickyEnd";
 
 - (void) setRect:(CGRect)rect stickyStart:(BOOL)stickyStart stickyEnd:(BOOL)stickyEnd
 {
+   if ((_stickyStart != stickyStart) ||
+        (_stickyEnd  != stickyEnd))
+    {
+        [self beginChanges];
+    }
+
     [super setRect:rect];
 
     if ((_stickyStart != stickyStart) ||
@@ -101,7 +109,7 @@ static NSString * const sStickyEndKey   = @"stickyEnd";
         _stickyStart = stickyStart;
         _stickyEnd   = stickyEnd;
 
-        [[self canvas] objectDidUpdate:self];
+        [self endChanges];
     }
 }
 

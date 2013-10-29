@@ -23,6 +23,8 @@
     TextLayer *_textLayer;
     CGPoint    _downPoint;
     CGPoint    _originalPoint;
+    
+    BOOL _tracking;
 }
 
 @dynamic grapple;
@@ -156,19 +158,31 @@
 {
     Preferences *preferences = [Preferences sharedInstance];
 
-//    
-//
-//    if ([[self grapple] isPreview]) {
-//        [_lineLayer setBackgroundColor:[[preferences previewGrappleColor] CGColor]];
-//    } else if (_tracking) {
-//        [_lineLayer setBackgroundColor:[[preferences activeGrappleColor] CGColor]];
-//    } else {
-//        [_lineLayer setBackgroundColor:<#(CGColorRef)#>]
-//    }
+    NSColor *lineColor = nil;
 
+    if ([[self grapple] isPreview]) {
+        lineColor = [preferences previewGrappleColor];
+    } else if (_tracking) {
+        lineColor = [preferences activeGrappleColor];
+    } else {
+        lineColor = [preferences activeGrappleColor];
+    }
 
-//
+    NSColor *startColor = [self ]
+    NSColor *guideColor = [self ];
+    Grapple *grapple = [self grapple];
+    if ([grapple stickyStart]) {
+        
+    }
+    if ([grapple stickyEnd]) {
     
+    }
+        [lineColor ]
+    } else {
+    
+    }
+
+    [_lineLayer setBackgroundColor:[lineColor CGColor]];
 
 }
 
@@ -192,6 +206,8 @@
     _downPoint = [event locationInWindow];
     _originalPoint = point;
 
+    _tracking = YES;
+
     if ([self isNewborn]) {
         [self _updateNewGrappleWithEvent:event point:point];
     }
@@ -211,6 +227,8 @@
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     [[CursorInfo sharedInstance] setText:nil forKey:@"new-grapple"];
+
+    _tracking = NO;
 
     if ([self isNewborn]) {
         AddPopInAnimation(_textLayer, 0.25);

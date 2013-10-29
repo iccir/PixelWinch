@@ -21,11 +21,10 @@
 
 - (id) initWithDelegate:(id<CanvasDelegate>)delegate;
 
-- (void) undo;
-- (void) redo;
-
 - (void) setupWithScreenshot: (Screenshot   *) screenshot
                   dictionary: (NSDictionary *) dictionary;
+
+@property (readonly) NSUndoManager *undoManager;
 
 @property (nonatomic, readonly) Screenshot *screenshot;
 @property (nonatomic, readonly, assign) CGSize size;
@@ -88,5 +87,6 @@
 
 
 @interface Canvas (CanvasObjectToCall)
+- (void) objectWillUpdate:(CanvasObject *)object;
 - (void) objectDidUpdate:(CanvasObject *)object;
 @end

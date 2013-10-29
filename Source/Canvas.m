@@ -44,6 +44,8 @@ static NSString * const sRectanglesKey = @"rectangles";
         _guides     = [NSMutableArray array];
         _rectangles = [NSMutableArray array];
         _grapples   = [NSMutableArray array];
+
+        _undoManager = [[NSUndoManager alloc] init];
     }
     
     return self;
@@ -101,6 +103,8 @@ static NSString * const sRectanglesKey = @"rectangles";
         [object setCanvas:self];
         [self _didAddObject:object];
     }
+    
+    [_undoManager removeAllActions];
 }
 
 
@@ -136,6 +140,17 @@ static NSString * const sRectanglesKey = @"rectangles";
 
 #pragma mark - Objects
 
+- (void) _restoreState:(NSDictionary *)stateToRestore ofObject:(CanvasObject *)object
+{
+    NSDictionary *stateToSave = [object dictionaryRepresentation];
+    [[_undoManager prepareWithInvocationTarget:self] _restoreState:stateToSave ofObject:object];
+
+    [object readFromDictionary:stateToRestore];
+    
+    [_delegate canvas:self didUpdateObject:object];
+}
+
+
 - (void) _didAddObject:(CanvasObject *)object
 {
     [_delegate canvas:self didAddObject:object];
@@ -148,9 +163,18 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+- (void) objectWillUpdate:(CanvasObject *)object
+{
+    NSDictionary *state = [object dictionaryRepresentation];
+    [_undoManager beginUndoGrouping];
+    [[_undoManager prepareWithInvocationTarget:self] _restoreState:state ofObject:object];
+}
+
+
 - (void) objectDidUpdate:(CanvasObject *)object
 {
     [_delegate canvas:self didUpdateObject:object];
+    [_undoManager endUndoGrouping];
 }
 
 
@@ -177,18 +201,33 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (Guide *) makeGuideVertical:(BOOL)vertical
 {
     Guide *guide = [Guide guideWithOffset:-INFINITY vertical:vertical];
+    [self _addGuide:guide];
+    return guide;
+}
+
+
+- (void) _addGuide:(Guide *)guide
+{
+    if (!guide) return;
+
+    [_undoManager registerUndoWithTarget:self selector:@selector(removeGuide:) object:guide];
+    [_undoManager setActionName:NSLocalizedString(@"Add Guide", nil)];
+
     [guide setCanvas:self];
     [_guides addObject:guide];
 
     [self _didAddObject:guide];
-
-    return guide;
 }
 
 
 - (void) removeGuide:(Guide *)guide
 {
     if (!guide) return;
+
+    [_undoManager registerUndoWithTarget:self selector:@selector(_addGuide:) object:guide];
+    [_undoManager setActionName:NSLocalizedString(@"Remove Guide", nil)];
+
+    [guide setCanvas:nil];
     [_guides removeObject:guide];
     [self _didRemoveObject:guide];
 }

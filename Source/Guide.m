@@ -32,30 +32,31 @@ static NSString * const sOffsetKey   = @"offset";
 }
 
 
-- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+- (BOOL) readFromDictionary:(NSDictionary *)dictionary
 {
-    if ((self = [super initWithDictionaryRepresentation:dictionary])) {
-        NSNumber *verticalNumber = [dictionary objectForKey:sVerticalKey];
-        NSNumber *offsetNumber   = [dictionary objectForKey:sOffsetKey];
-        
-        if (![verticalNumber isKindOfClass:[NSNumber class]]) {
-            verticalNumber = nil;
-        }
-
-        if (![offsetNumber isKindOfClass:[NSNumber class]]) {
-            offsetNumber = nil;
-        }
-
-        _vertical = [verticalNumber boolValue];
-        _offset   = [offsetNumber doubleValue];
-
-        if (!verticalNumber || !offsetNumber) {
-            self = nil;
-            return nil;
-        }
+    if (![super readFromDictionary:dictionary]) {
+        return NO;
     }
+
+    NSNumber *verticalNumber = [dictionary objectForKey:sVerticalKey];
+    NSNumber *offsetNumber   = [dictionary objectForKey:sOffsetKey];
     
-    return self;
+    if (![verticalNumber isKindOfClass:[NSNumber class]]) {
+        verticalNumber = nil;
+    }
+
+    if (![offsetNumber isKindOfClass:[NSNumber class]]) {
+        offsetNumber = nil;
+    }
+
+    if (!verticalNumber || !offsetNumber) {
+        return NO;
+    }
+
+    _vertical = [verticalNumber boolValue];
+    _offset   = [offsetNumber doubleValue];
+
+    return YES;
 }
 
 
@@ -81,8 +82,9 @@ static NSString * const sOffsetKey   = @"offset";
 - (void) setOffset:(CGFloat)offset
 {
     if (_offset != offset) {
+        [self beginChanges];
         _offset = offset;
-        [[self canvas] objectDidUpdate:self];
+        [self endChanges];
     }
 }
 
