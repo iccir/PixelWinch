@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CanvasLayer.h"
+#import "CanvasObjectView.h"
 
 @class Rectangle;
 
-@interface RectangleLayer : CanvasLayer
+@interface RectangleObjectView : CanvasObjectView
 @property (nonatomic, strong) Rectangle *rectangle;
 @end

@@ -20,14 +20,14 @@
 // Subclasses to override, must call super
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary;
 
-@property (readonly) BOOL isValid;
+@property (nonatomic, readonly) BOOL isValid;
 
-@property (assign) CGRect rect;
+@property (nonatomic, assign) CGRect rect;
 
 // For bindings
-@property (assign) CGFloat originX;
-@property (assign) CGFloat originY;
-@property (assign) CGFloat sizeWidth;
-@property (assign) CGFloat sizeHeight;
+@property (nonatomic, assign) CGFloat originX;
+@property (nonatomic, assign) CGFloat originY;
+@property (nonatomic, assign) CGFloat sizeWidth;
+@property (nonatomic, assign) CGFloat sizeHeight;
 
 @end

@@ -15,7 +15,15 @@
 
 - (CGFloat) length;
 
+- (void) setRect:(CGRect)rect stickyStart:(BOOL)stickyStart stickyEnd:(BOOL)stickyEnd;
+
 @property (nonatomic, readonly, getter=isVertical) BOOL vertical;
 @property (nonatomic, assign, getter=isPreview) BOOL preview;
+
+@property (nonatomic, readonly, assign) BOOL stickyStart;
+@property (nonatomic, readonly, assign) BOOL stickyEnd;
+
+@property (nonatomic, assign) CGFloat startOffset;
+@property (nonatomic, assign) CGFloat endOffset;
 
 @end

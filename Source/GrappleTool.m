@@ -9,8 +9,32 @@
 #import "GrappleTool.h"
 #import "CursorAdditions.h"
 
+static NSString * const sVerticalKey  = @"vertical";
+static NSString * const sToleranceKey = @"tolerance";
 
 @implementation GrappleTool
+
+- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+{
+    if ((self = [super initWithDictionaryRepresentation:dictionary])) {
+        NSNumber *verticalNumber  = [dictionary objectForKey:sVerticalKey];
+        NSNumber *toleranceNumber = [dictionary objectForKey:sToleranceKey];
+
+        _vertical  = !verticalNumber  || [verticalNumber  boolValue];
+        _tolerance = [toleranceNumber integerValue];
+    }
+    
+    return self;
+}
+
+
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary
+{
+    [dictionary setObject:@(_vertical)  forKey:sVerticalKey];
+    [dictionary setObject:@(_tolerance) forKey:sToleranceKey];
+}
+
+
 
 - (ToolType) type { return ToolTypeGrapple; }
 

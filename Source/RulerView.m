@@ -36,20 +36,7 @@
         return;
     }
 
-    if ([_delegate rulerView:self mouseDownWithEvent:event]) {
-        while (1) {
-            event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-            
-            NSEventType type = [event type];
-            if (type == NSLeftMouseUp) {
-                [_delegate rulerView:self mouseUpWithEvent:event];
-                break;
-
-            } else if (type == NSLeftMouseDragged) {
-                [_delegate rulerView:self mouseDragWithEvent:event];
-            }
-        }
-    }
+    [_delegate rulerView:self mouseDownWithEvent:event];
 }
 
 
@@ -220,16 +207,20 @@
         CGContextFillRect(context, rect);
     };
 
-    for (NSInteger p = startOffset; p <= endOffset; p += increment) {
+    NSInteger p_i = 1;
+    for (NSInteger p = startOffset; p <= endOffset; p += p_i) {
         CGFloat xy = (offset + (p * magnification));
 
         if (labels && ((p % labels) == 0)) {
             NSString *label = GetStringForFloat(p);
             drawLabelAtOffset(xy, label);
+            p_i = increment;
         } else if (largeTicks && ((p % largeTicks) == 0)) {
             drawLargeTickAtOffset(xy);
+            p_i = increment;
         } else if (smallTicks && ((p % smallTicks) == 0)) {
             drawSmallTickAtOffset(xy);
+            p_i = increment;
         }
     }
 }

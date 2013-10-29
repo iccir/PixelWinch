@@ -6,10 +6,10 @@
 //
 //
 
-#import "MarqueeLayer.h"
+#import "MarqueeObjectView.h"
 #import "Marquee.h"
 
-@implementation MarqueeLayer {
+@implementation MarqueeObjectView {
     NSMutableArray *_segmentLayers;
     
     CGImageRef _pattern;
@@ -25,9 +25,9 @@
 @dynamic marquee;
 
 
-- (id) init
+- (id) initWithFrame:(CGRect)frame
 {
-    if ((self = [super init])) {
+    if ((self = [super initWithFrame:frame])) {
         _pattern     = CopyImageNamed(@"marquee");
         _patternSize = CGSizeMake(CGImageGetWidth(_pattern), CGImageGetHeight(_pattern));
 
@@ -67,7 +67,7 @@
     for (NSInteger i = 0; i < segmentCount; i++) {
         CALayer *layer = [CALayer layer];
         [layer setDelegate:self];
-        [self addSublayer:layer];
+        [[self layer] addSublayer:layer];
         [_segmentLayers addObject:layer];
     }
 }
@@ -87,21 +87,20 @@
 }
 
 
-- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _downPoint = point;
     [self _updateMarqueeWithPoint:_downPoint];
-    return YES;
 }
 
 
-- (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     [self _updateMarqueeWithPoint:point];
 }
 
 
-- (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     [self _updateMarqueeWithPoint:point];
     [[CursorInfo sharedInstance] setText:nil forKey:@"new-marquee"];
@@ -114,13 +113,13 @@
 }
 
 
-- (void) layoutSublayers
+- (void) layoutSubviews
 {
     CGRect segments[4];
     
     CGRect bounds = [self bounds];
     
-    CGFloat scale  = [self contentsScale];
+    CGFloat scale  = [self contentScaleFactor];
     CGFloat length = 1.0 / scale;
     
     segments[0] = CGRectMake(0, 0, bounds.size.width, length);

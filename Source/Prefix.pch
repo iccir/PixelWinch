@@ -1,6 +1,7 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
     #import <QuartzCore/QuartzCore.h>
+    #import <XUIKit/XUIKit.h>
 
     #import "Compatibility.h"
     #import "Utils.h"

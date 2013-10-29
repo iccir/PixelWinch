@@ -12,4 +12,11 @@
 
 - (ToolType) type { return ToolTypeMove; }
 
+
+- (NSCursor *) cursor
+{
+    return [NSCursor arrowCursor];
+}
+
+
 @end

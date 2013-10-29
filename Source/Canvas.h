@@ -11,7 +11,6 @@
 @class CanvasObject;
 @class Grapple, Guide, Marquee, Rectangle;
 @class GrappleCalculator;
-@class CanvasLayer;
 @class Screenshot;
 
 
@@ -21,6 +20,9 @@
 @interface Canvas : NSObject
 
 - (id) initWithDelegate:(id<CanvasDelegate>)delegate;
+
+- (void) undo;
+- (void) redo;
 
 - (void) setupWithScreenshot: (Screenshot   *) screenshot
                   dictionary: (NSDictionary *) dictionary;
@@ -40,6 +42,7 @@
 - (void) removeGuide:(Guide *)guide;
 
 @property (nonatomic, readonly, strong) NSArray *guides;
+@property (nonatomic, assign, getter=areGuidesHidden) BOOL guidesHidden;
 
 
 // Grapples
@@ -70,9 +73,9 @@
 
 // Marquee
 
-- (void) clearMarquee;
 - (Marquee *) makeMarquee;
 @property (nonatomic, readonly, strong) Marquee *marquee;
+@property (nonatomic, assign, getter=isMarqueeHidden) BOOL marqueeHidden;
 
 @end
 

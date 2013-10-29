@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CanvasController">
@@ -36,11 +36,11 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView id="HDR-yg-Zz5" userLabel="Top">
-                    <rect key="frame" x="0.0" y="436" width="640" height="32"/>
+                    <rect key="frame" x="0.0" y="428" width="640" height="40"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <segmentedControl verticalHuggingPriority="750" id="5KM-8b-Puk" customClass="BlackSegmentedControl">
-                            <rect key="frame" x="0.0" y="3" width="247" height="25"/>
+                            <rect key="frame" x="8" y="7" width="247" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <segmentedCell key="cell" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT" customClass="BlackSegmentedCell">
                                 <font key="font" metaFont="system"/>
@@ -66,11 +66,11 @@
                                 </segments>
                             </segmentedCell>
                             <connections>
-                                <binding destination="-2" name="selectedIndex" keyPath="self.selectedToolIndex" id="aOk-2w-UAB"/>
+                                <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.selectedToolIndex" id="s1E-Rw-gm6"/>
                             </connections>
                         </segmentedControl>
                         <customView id="rKi-rg-iQD">
-                            <rect key="frame" x="263" y="6" width="377" height="19"/>
+                            <rect key="frame" x="271" y="9" width="369" height="22"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         </customView>
                     </subviews>
@@ -113,11 +113,11 @@
                             </collectionView>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="iTU-Pi-bfp">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="iTU-Pi-bfp">
                         <rect key="frame" x="1" y="144" width="233" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="jVT-cV-72d">
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="jVT-cV-72d">
                         <rect key="frame" x="-100" y="-100" width="15" height="143"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -138,11 +138,11 @@
                             </view>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" id="tNc-QP-mGi" customClass="BlackScroller">
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="tNc-QP-mGi" customClass="BlackScroller">
                         <rect key="frame" x="0.0" y="293" width="609" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="HEr-48-mI7" customClass="BlackScroller">
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="HEr-48-mI7" customClass="BlackScroller">
                         <rect key="frame" x="609" y="0.0" width="15" height="293"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -167,7 +167,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="KLe-U1-eOS"/>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.grappleTool.tolerance" id="cpT-Nc-FOb"/>
+                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="ARN-GM-MNn"/>
                             </connections>
                         </slider>
                         <textField verticalHuggingPriority="750" id="Pxo-YO-EGD" customClass="BlackTextField">
@@ -188,7 +188,7 @@
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.grappleTool.tolerance" id="fdX-Cf-zCe"/>
+                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="YB3-7e-fjh"/>
                             </connections>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="UdJ-LV-L0R" customClass="BlackTextField">
@@ -204,7 +204,7 @@
                             <rect key="frame" x="0.0" y="2" width="158" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="78" height="18"/>
+                            <size key="cellSize" width="77" height="17"/>
                             <size key="intercellSpacing" width="4" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="WGb-oz-mri" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -225,7 +225,7 @@
                                 </column>
                             </cells>
                             <connections>
-                                <binding destination="-2" name="selectedTag" keyPath="self.grappleTool.vertical" id="iOV-ED-7Nn"/>
+                                <binding destination="-2" name="selectedTag" keyPath="self.toolbox.grappleTool.vertical" id="mym-rP-brO"/>
                             </connections>
                         </matrix>
                     </subviews>
@@ -259,7 +259,7 @@
                                 </column>
                             </cells>
                             <connections>
-                                <binding destination="-2" name="selectedTag" keyPath="self.zoomTool.zoomsIn" id="I5l-E1-mDi"/>
+                                <binding destination="-2" name="selectedTag" keyPath="self.toolbox.zoomTool.zoomsIn" id="nrl-lY-IZO"/>
                             </connections>
                         </matrix>
                         <slider verticalHuggingPriority="750" id="W5c-xV-hmI" customClass="BlackSlider">
@@ -267,7 +267,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="15" tickMarkPosition="below" numberOfTickMarks="16" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.zoomTool.magnificationIndex" id="ogw-JE-umE"/>
+                                <binding destination="-2" name="value" keyPath="self.toolbox.zoomTool.magnificationIndex" id="Ei3-mF-GPg"/>
                             </connections>
                         </slider>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="0dA-4M-K3W" customClass="BlackTextField">
@@ -279,7 +279,7 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.zoomTool.magnificationString" id="qXz-dp-OTW"/>
+                                <binding destination="-2" name="value" keyPath="self.toolbox.zoomTool.magnificationString" id="jJ5-RY-YET"/>
                             </connections>
                         </textField>
                     </subviews>
@@ -304,7 +304,7 @@
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.selectedObject.originX" id="8Bo-pD-nk0"/>
+                                <binding destination="-2" name="value" keyPath="self.selectedObject.originX" id="VgP-ka-PIG"/>
                             </connections>
                         </textField>
                         <textField verticalHuggingPriority="750" id="bTR-Id-1uc" customClass="BlackTextField">
@@ -326,7 +326,7 @@
                             </connections>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="GPG-UO-RhY" customClass="BlackTextField">
-                            <rect key="frame" x="-2" y="2" width="15" height="14"/>
+                            <rect key="frame" x="-2" y="3" width="15" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="X:" id="yoI-i0-j5G" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>
@@ -335,7 +335,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="be1-iK-TRp" customClass="BlackTextField">
-                            <rect key="frame" x="73" y="2" width="15" height="14"/>
+                            <rect key="frame" x="73" y="3" width="15" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y:" id="i92-qk-HVU" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>
@@ -362,7 +362,7 @@
                             </connections>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Fv1-LY-6Iz" customClass="BlackTextField">
-                            <rect key="frame" x="148" y="2" width="17" height="14"/>
+                            <rect key="frame" x="148" y="3" width="17" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="W:" id="WFg-BS-4qN" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>
@@ -389,7 +389,7 @@
                             </connections>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ExD-rl-v49" customClass="BlackTextField">
-                            <rect key="frame" x="225" y="2" width="16" height="14"/>
+                            <rect key="frame" x="225" y="3" width="16" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="H:" id="Cow-J1-a0x" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>

@@ -40,9 +40,11 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
 
 extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow);
 
+extern NSShadow *GetWhiteOnBlackTextShadow(void);
 extern void WithWhiteOnBlackTextMode(void (^callback)());
 
 extern void AddPopInAnimation(CALayer *layer, CGFloat duration);
 
 extern NSString *GetStringForFloat(CGFloat f);
 extern NSString *GetStringForSize(CGSize size);
+

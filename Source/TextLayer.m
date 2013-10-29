@@ -150,7 +150,7 @@
 }
 
 
-- (void) _handlePreferencesDidChange
+- (void) _handlePreferencesDidChange:(NSNotification *)note
 {
     [self _updateText];
     [self setNeedsLayout];

@@ -10,6 +10,27 @@
 
 @implementation Tool
 
+- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+{
+    if ((self = [super init])) {
+    
+    }
+    
+    return self;
+}
+
+
+- (NSDictionary *) dictionaryRepresentation
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [self writeToDictionary:dictionary];
+    return dictionary;
+}
+
+
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary { }
+
+
 - (NSCursor *) cursor
 {
     return nil;

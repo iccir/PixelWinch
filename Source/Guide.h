@@ -13,8 +13,6 @@
 
 + (instancetype) guideWithOffset:(CGFloat)offset vertical:(BOOL)isVertical;
 
-- (BOOL) isOutOfBounds;
-
 @property (nonatomic, readonly, getter=isVertical) BOOL vertical;
 @property (nonatomic, assign) CGFloat offset;
 

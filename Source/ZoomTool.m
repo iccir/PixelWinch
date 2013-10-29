@@ -9,6 +9,8 @@
 #import "ZoomTool.h"
 #import "CursorAdditions.h"
 
+static NSString * const sZoomsInKey = @"zoomsIn";
+
 
 @implementation ZoomTool {
     
@@ -21,6 +23,23 @@
     }
     
     return self;
+}
+
+
+- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
+{
+    if ((self = [super initWithDictionaryRepresentation:dictionary])) {
+        NSNumber *zoomsInNumber = [dictionary objectForKey:sZoomsInKey];
+        _zoomsIn = !zoomsInNumber || [zoomsInNumber boolValue];
+    }
+    
+    return self;
+}
+
+
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary
+{
+    [dictionary setObject:@(_zoomsIn) forKey:sZoomsInKey];
 }
 
 

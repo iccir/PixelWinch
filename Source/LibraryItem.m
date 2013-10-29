@@ -32,34 +32,18 @@ static NSString * const sCanvasKey = @"canvas";
 + (instancetype) libraryItem
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
 
-    NSDateFormatter *shortTimeFormatter = [[NSDateFormatter alloc] init];
-
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-
-    [timeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [timeFormatter setTimeStyle:NSDateFormatterMediumStyle];
-
-    [shortTimeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [shortTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd 'at' HH'.'mm'.'ss"];
 
     NSDate   *now = [NSDate date];
-    NSString *dateString = [dateFormatter stringFromDate:now];
-    NSString *timeString = [timeFormatter stringFromDate:now];
+    NSString *directoryName = [dateFormatter stringFromDate:now];
     
-    NSString *directoryName = [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
-    directoryName = [directoryName stringByReplacingOccurrencesOfString:@":" withString:@"."];
-
     NSString *directoryToTry = [GetScreenshotsDirectory() stringByAppendingPathComponent:directoryName];
     
     NSString *actualDirectory = MakeUniqueDirectory(directoryToTry);
     
     LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:actualDirectory date:now];
-
-    [item setDateString:[shortTimeFormatter stringFromDate:now]];
-    
+   
     return item;
 }
 
@@ -173,10 +157,8 @@ static NSString * const sCanvasKey = @"canvas";
 
 - (void) setCanvasDictionary:(NSDictionary *)canvasDictionary
 {
-    if (_canvasDictionary != canvasDictionary) {
-        _canvasDictionary = canvasDictionary;
-        [self _writeInfo];
-    }
+    _canvasDictionary = canvasDictionary;
+    [self _writeInfo];
 }
 
 

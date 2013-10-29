@@ -20,6 +20,12 @@ typedef NS_ENUM(NSInteger, ToolType) {
 
 @interface Tool : NSObject
 
+- (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary;
+- (NSDictionary *) dictionaryRepresentation;
+
+// Subclasses to override, must call super
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary;
+
 - (NSCursor *) cursor;
 @property (readonly) ToolType type;
 @end

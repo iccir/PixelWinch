@@ -394,13 +394,9 @@ extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow)
 	[NSGraphicsContext restoreGraphicsState];
 }
 
-extern void WithWhiteOnBlackTextMode(void (^callback)())
-{
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-    
-    CGContextSaveGState(context);
-    CGContextSetShouldSmoothFonts(context, false);
 
+extern NSShadow *GetWhiteOnBlackTextShadow()
+{
     static NSShadow *sShadow = nil;
 
     if (!sShadow) {
@@ -410,8 +406,19 @@ extern void WithWhiteOnBlackTextMode(void (^callback)())
         [sShadow setShadowOffset:NSMakeSize(0.0, -1.0)];
         [sShadow setShadowBlurRadius:0.0];
     }
+
+    return sShadow;
+}
+
+
+extern void WithWhiteOnBlackTextMode(void (^callback)())
+{
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     
-    [sShadow set];
+    CGContextSaveGState(context);
+    CGContextSetShouldSmoothFonts(context, false);
+    
+    [GetWhiteOnBlackTextShadow() set];
     
     callback();
     
@@ -460,3 +467,4 @@ NSString *GetStringForSize(CGSize size)
 {
     return [NSString stringWithFormat:@"%@ x %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
 }
+

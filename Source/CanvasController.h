@@ -11,8 +11,7 @@
 
 @class BlackSegmentedControl;
 @class CanvasObject;
-@class Tool, MoveTool, HandTool, MarqueeTool, RectangleTool, GrappleTool, ZoomTool;
-
+@class Toolbox;
 @class Library;
 @class LibraryItem;
 @class RulerView, CanvasView, ShroudView;
@@ -21,22 +20,14 @@
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect;
 - (void) toggleVisibility;
+- (void) saveCurrentLibraryItem;
 
-@property Tool *selectedTool;
-@property NSInteger selectedToolIndex;
+@property Toolbox *toolbox;
 
-@property (strong) CanvasObject *selectedObject;
+@property (nonatomic, strong) CanvasObject *selectedObject;
 
 @property (weak)   Library *library; // So we can bind to it
 @property (strong) NSIndexSet *librarySelectionIndexes;
-
-@property (strong, readonly) NSArray       *allTools;
-@property (strong, readonly) MoveTool      *moveTool;
-@property (strong, readonly) HandTool      *handTool;
-@property (strong, readonly) MarqueeTool   *marqueeTool;
-@property (strong, readonly) RectangleTool *rectangleTool;
-@property (strong, readonly) GrappleTool   *grappleTool;
-@property (strong, readonly) ZoomTool      *zoomTool;
 
 // Nib top-level objects
 @property (strong) IBOutlet ShroudView *contentTopLevelView;

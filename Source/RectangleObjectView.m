@@ -1,3 +1,4 @@
+
 //
 //  RectangleLayer.m
 //  PixelWinch
@@ -6,13 +7,13 @@
 //
 //
 
-#import "RectangleLayer.h"
+#import "RectangleObjectView.h"
 #import "Rectangle.h"
 #import "TextLayer.h"
 
 #import <objc/objc-runtime.h>
 
-@implementation RectangleLayer {
+@implementation RectangleObjectView {
     CALayer   *_sublayer;
     TextLayer *_textLayer;
     CGPoint    _downPoint;
@@ -22,16 +23,16 @@
 @dynamic rectangle;
 
 
-- (id) init
+- (id) initWithFrame:(CGRect)frame
 {
-    if (self = [super init]) {
+    if (self = [super initWithFrame:frame]) {
         _sublayer = [CALayer layer];
         [_sublayer setDelegate:self];
-        [self addSublayer:_sublayer];
+        [[self layer] addSublayer:_sublayer];
         
         _textLayer = [TextLayer layer];
         [_textLayer setDelegate:self];
-        [self addSublayer:_textLayer];
+        [[self layer] addSublayer:_textLayer];
 
         [self _updateLayers];
     }
@@ -46,18 +47,37 @@
 }
 
 
-- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+- (NSCursor *) cursor
+{
+    return [NSCursor arrowCursor];
+}
+
+
+- (NSArray *) resizeKnobTypes
+{
+    return @[
+        @( ResizeKnobTopLeft     ),
+        @( ResizeKnobTop         ),
+        @( ResizeKnobTopRight    ),
+        @( ResizeKnobLeft        ),
+        @( ResizeKnobRight       ),
+        @( ResizeKnobBottomLeft  ),
+        @( ResizeKnobBottom      ),
+        @( ResizeKnobBottomRight )
+    ];
+}
+
+
+- (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _downPoint = point;
     
     Rectangle *rectangle = [self rectangle];
     _originPoint = rectangle ? [rectangle rect].origin : NSZeroPoint;
-
-    return YES;
 }
 
 
-- (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     CGFloat deltaX = point.x - _downPoint.x;
     CGFloat deltaY = point.y - _downPoint.y;
@@ -81,17 +101,16 @@
 }
 
 
-- (void) mouseUpWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    [[CursorInfo sharedInstance] setText:nil forKey:@"new-rectangle"];
-
     if ([self isNewborn]) {
+        [[CursorInfo sharedInstance] setText:nil forKey:@"new-rectangle"];
         AddPopInAnimation(_textLayer, 0.25);
     }
 }
 
 
-- (void) layoutSublayers
+- (void) layoutSubviews
 {
     [_sublayer setFrame:[self bounds]];
 

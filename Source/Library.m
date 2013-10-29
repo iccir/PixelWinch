@@ -63,11 +63,7 @@
             
             LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:basePath date:nil];
             if ([item isValid]) {
-                NSLog(@"adding %@ - %@", item, basePath);
                 [items addObject:item];
-            } else {
-                NSLog(@"discarding %@ - %@", item, basePath);
-                [self discardItem:item];
             }
         }
 
@@ -78,11 +74,11 @@
     
     [self setItems:items];
     
-    [self _calculateFriendlyNames];
+    [self _calculateFriendlyNamesForItems:items];
 }
 
 
-- (void) _calculateFriendlyNames
+- (void) _calculateFriendlyNamesForItems:(NSArray *)items
 {
     NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
     [shortDateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -102,7 +98,7 @@
     NSUInteger todayDayOfYear = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSYearCalendarUnit forDate:today];
     NSDateComponents *todayComponents = [gregorianCalendar components:(NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:today];
 
-    for (LibraryItem *item in _items) {
+    for (LibraryItem *item in items) {
         NSDate *date = [item date];
         if (!date) continue;
 
@@ -139,7 +135,10 @@
 
 - (void) addItem:(LibraryItem *)item
 {
-    [[self mutableArrayValueForKey:@"items"] addObject:item];
+    if (item) {
+        [self _calculateFriendlyNamesForItems:@[ item ]];
+        [[self mutableArrayValueForKey:@"items"] addObject:item];
+    }
 }
 
 

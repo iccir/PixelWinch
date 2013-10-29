@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CanvasLayer.h"
+#import "CanvasObjectView.h"
 
 @class Guide;
 
-@interface GuideLayer : CanvasLayer
+@interface GuideObjectView : CanvasObjectView
 @property (nonatomic, strong) Guide *guide;
 @end

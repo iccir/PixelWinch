@@ -68,16 +68,13 @@ static NSString * const sOffsetKey   = @"offset";
 }
 
 
-- (BOOL) isOutOfBounds
+- (BOOL) isValid
 {
     CGFloat offset     = [self offset];
     CGSize  canvasSize = [[self canvas] size];
+    CGFloat maxOffset  = [self isVertical] ? canvasSize.width : canvasSize.height;
 
-    if ([self isVertical]) {
-        return offset < 0 || offset >= canvasSize.width;
-    } else {
-        return offset < 0 || offset >= canvasSize.height;
-    }
+    return (offset >= 0) && (offset < maxOffset);
 }
 
 

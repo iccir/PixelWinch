@@ -6,20 +6,23 @@
 //
 //
 
-#import "ResizeKnobLayer.h"
+#import "ResizeKnobView.h"
+
+#import "CanvasObjectView.h"
 #import "CanvasObject.h"
 #import "CursorAdditions.h"
 
 
-@implementation ResizeKnobLayer {
+@implementation ResizeKnobView {
     CALayer *_sublayer;
     CGRect   _rectForResize;
+    CGPoint  _downMousePoint;
 }
 
 
-- (id) init
+- (id) initWithFrame:(CGRect)frame
 {
-    if ((self = [super init])) {
+    if ((self = [super initWithFrame:frame])) {
         _sublayer = [CALayer layer];
 
         [_sublayer setDelegate:self];
@@ -32,14 +35,14 @@
         [_sublayer setShadowRadius:1];
         [_sublayer setShadowOffset:CGSizeMake(0, 1)];
        
-        [self addSublayer:_sublayer];
+        [[self layer] addSublayer:_sublayer];
     }
 
     return self;
 }
 
 
-- (void) layoutSublayers
+- (void) layoutSubviews
 {
     CGRect frame = [self bounds];
     [_sublayer setFrame:CGRectInset(frame, 1, 1)];
@@ -73,7 +76,7 @@
 
 - (CGRect) rectForCanvasLayout
 {
-    CGRect rect = [[self parentLayer] rectForCanvasLayout];
+    CGRect rect = [[self canvasObjectView] rectForCanvasLayout];
     
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
         rect.origin.x = CGRectGetMinX(rect);
@@ -96,36 +99,50 @@
     return rect;
 }
 
+
 - (NSEdgeInsets) paddingForCanvasLayout
 {
-    return NSEdgeInsetsMake(5, 5, 5, 5);
+    const CGFloat sKnobPadding = 5;
+    return NSEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
 }
 
 
-- (BOOL) mouseDownWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    CanvasObject *object = [[self parentLayer] canvasObject];
+    _downMousePoint = [event locationInWindow];
+
+    CanvasObject *object = [[self canvasObjectView] canvasObject];
     _rectForResize = [object rect];
-    return YES;
 }
 
 
-- (void) mouseDragWithEvent:(NSEvent *)event point:(CGPoint)point
+- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    CanvasObject *object = [[self parentLayer] canvasObject];
+    CGPoint currentMousePoint = [event locationInWindow];
+
+    CGPoint deltaMousePoint = CGPointMake(
+        _downMousePoint.x - currentMousePoint.x,
+        _downMousePoint.y - currentMousePoint.y
+    );
+    
+    CGPoint deltaPoint = [self snappedPointForPoint:deltaMousePoint];
+    
+    CanvasObject *object = [[self canvasObjectView] canvasObject];
 
     CGRect rect = _rectForResize;
 
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
-        rect = GetRectByAdjustingEdge(rect, CGRectMinXEdge, point.x);
+        rect.origin.x -= deltaPoint.x;
+        rect.size.width += deltaPoint.x;
     } else if (_type == ResizeKnobTopRight || _type == ResizeKnobRight || _type == ResizeKnobBottomRight) {
-        rect = GetRectByAdjustingEdge(rect, CGRectMaxXEdge, point.x);
+        rect.size.width -= deltaPoint.x;
     }
     
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobTop || _type == ResizeKnobTopRight) {
-        rect = GetRectByAdjustingEdge(rect, CGRectMinYEdge, point.y);
+        rect.origin.x += deltaPoint.y;
+        rect.size.height -= deltaPoint.y;
     } else if (_type == ResizeKnobBottomLeft || _type == ResizeKnobBottom || _type == ResizeKnobBottomRight) {
-        rect = GetRectByAdjustingEdge(rect, CGRectMaxYEdge, point.y);
+        rect.size.height += deltaPoint.y;
     }
     
     [object setRect:rect];

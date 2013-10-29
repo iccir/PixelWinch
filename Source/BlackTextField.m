@@ -7,6 +7,12 @@
 //
 
 #import "BlackTextField.h"
+#import "BlackTextView.h"
+
+
+@interface BlackTextFieldCell () <NSTextViewDelegate>
+@end
+
 
 @implementation BlackTextField
 
@@ -30,7 +36,49 @@
 
 @implementation BlackTextFieldCell
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(BlackTextField *)controlView
+- (NSTextView *) fieldEditorForView:(NSView *)aControlView
+{
+    NSTextView *blackFieldEditor = [[BlackTextView alloc] initWithFrame:[aControlView bounds]];
+    [blackFieldEditor setDelegate:self];
+    return blackFieldEditor;
+}
+
+
+- (BOOL) textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
+{
+    if (aSelector == @selector(insertTab:)) {
+        [[aTextView window] selectNextKeyView:nil];
+        return YES;
+    }
+
+    return NO;
+}
+
+
+- (NSText *) setUpFieldEditorAttributes:(NSText *)editor
+{
+    [super setUpFieldEditorAttributes:editor];
+    
+    if ([editor isKindOfClass:[NSTextView class]]) {
+        NSTextView *textView = (NSTextView *)editor;
+        [textView setInsertionPointColor:[NSColor whiteColor]];
+
+        [textView setTextContainerInset:NSMakeSize(2, 2)];
+        [textView setBackgroundColor:[NSColor clearColor]];
+        
+        [textView setFocusRingType:NSFocusRingTypeExterior];
+
+        [textView setSelectedTextAttributes:@{
+            NSBackgroundColorAttributeName: [NSColor colorWithWhite:0.5 alpha:1.0],
+        }];
+
+    }
+
+    return editor;
+}
+
+
+- (void) drawWithFrame:(NSRect)cellFrame inView:(BlackTextField *)controlView
 {
     if ([controlView drawsBackground]) {
         CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
@@ -51,6 +99,7 @@
         CGContextSetLineWidth(context, 1);
         CGContextStrokeRect(context, strokeFrame);
         
+        cellFrame = CGRectInset(cellFrame, 2, 2);
     }
 
     [self drawInteriorWithFrame:cellFrame inView:controlView];
@@ -61,7 +110,7 @@
 {
     NSColor *oldColor = [self backgroundColor];
     [self setBackgroundColor:[NSColor clearColor]];
-    
+
     WithWhiteOnBlackTextMode(^{
         [super drawInteriorWithFrame:cellFrame inView:controlView];
     });
@@ -70,10 +119,10 @@
 }
 
 
-
 - (NSColor *) textColor
 {
     return GetRGBColor(0xFFFFFF, 1.0);
 }
+
 
 @end

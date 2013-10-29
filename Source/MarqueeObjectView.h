@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CanvasLayer.h"
+#import "CanvasObjectView.h"
 
 @class Marquee;
 
-@interface MarqueeLayer : CanvasLayer
+@interface MarqueeObjectView : CanvasObjectView
 @property (nonatomic, strong) Marquee *marquee;
 @end

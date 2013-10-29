@@ -86,67 +86,49 @@ static NSString * const sHeightKey = @"height";
 
 - (void) setRect:(CGRect)rect
 {
-    @synchronized(self) {
-        if (!CGRectEqualToRect(_rect, rect)) {
-            _rect = CGRectStandardize(rect);
-            [[self canvas] objectDidUpdate:self];
-        }
-    }
-}
-
-
-- (CGRect) rect
-{
-    @synchronized(self) {
-        return _rect;
+    if (!CGRectEqualToRect(_rect, rect)) {
+        _rect = CGRectStandardize(rect);
+        [[self canvas] objectDidUpdate:self];
     }
 }
 
 
 - (void) setOriginX:(CGFloat)originX
 {
-    @synchronized(self) {
-        CGRect rect = [self rect];
-        rect.origin.x = originX;
-        [self setRect:rect];
-    }
+    CGRect rect = [self rect];
+    rect.origin.x = originX;
+    [self setRect:rect];
 }
 
 
 - (void) setOriginY:(CGFloat)originY
 {
-    @synchronized(self) {
-        CGRect rect = [self rect];
-        rect.origin.y = originY;
-        [self setRect:rect];
-    }
+    CGRect rect = [self rect];
+    rect.origin.y = originY;
+    [self setRect:rect];
 }
 
 
 - (void) setSizeWidth:(CGFloat)sizeWidth
 {
-    @synchronized(self) {
-        CGRect rect = [self rect];
-        rect.size.width = sizeWidth;
-        [self setRect:rect];
-    }
+    CGRect rect = [self rect];
+    rect.size.width = sizeWidth;
+    [self setRect:rect];
 }
 
 
 - (void) setSizeHeight:(CGFloat)sizeHeight
 {
-    @synchronized(self) {
-        CGRect rect = [self rect];
-        rect.size.height = sizeHeight;
-        [self setRect:rect];
-    }
+    CGRect rect = [self rect];
+    rect.size.height = sizeHeight;
+    [self setRect:rect];
 }
 
 
-- (CGFloat) originX    { @synchronized(self) { return _rect.origin.x;    } }
-- (CGFloat) originY    { @synchronized(self) { return _rect.origin.y;    } }
-- (CGFloat) sizeWidth  { @synchronized(self) { return _rect.size.width;  } }
-- (CGFloat) sizeHeight { @synchronized(self) { return _rect.size.height; } }
+- (CGFloat) originX    { return _rect.origin.x;    }
+- (CGFloat) originY    { return _rect.origin.y;    }
+- (CGFloat) sizeWidth  { return _rect.size.width;  }
+- (CGFloat) sizeHeight { return _rect.size.height; }
 
 - (BOOL) isValid
 {

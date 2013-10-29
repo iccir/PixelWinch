@@ -7,16 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CanvasLayer.h"
+#import "CanvasObjectView.h"
 
 @class Grapple;
 
-@interface GrappleLayer : CanvasLayer
+@interface GrappleObjectView : CanvasObjectView
 @property (nonatomic, strong) Grapple *grapple;
 
-
 @property (assign) UInt8   originalThreshold;
-@property (assign) CGPoint originalPoint;
 @property (assign) BOOL    originalStopsOnGuides;
 
 @end

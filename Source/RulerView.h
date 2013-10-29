@@ -22,6 +22,4 @@
 
 @protocol RulerViewDelegate <NSObject>
 - (BOOL) rulerView:(RulerView *)view mouseDownWithEvent:(NSEvent *)event;
-- (void) rulerView:(RulerView *)view mouseDragWithEvent:(NSEvent *)event;
-- (void) rulerView:(RulerView *)view mouseUpWithEvent:  (NSEvent *)event;
 @end

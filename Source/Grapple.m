@@ -9,11 +9,17 @@
 #import "Grapple.h"
 #import "Canvas.h"
 
-static NSString * const sVerticalKey = @"vertical";
+static NSString * const sVerticalKey    = @"vertical";
+static NSString * const sStickyStartKey = @"stickyStart";
+static NSString * const sStickyEndKey   = @"stickyEnd";
+
 
 @implementation Grapple {
     BOOL _preview;
 }
+
+@dynamic startOffset, endOffset;
+
 
 + (instancetype) grappleVertical:(BOOL)vertical
 {
@@ -34,14 +40,18 @@ static NSString * const sVerticalKey = @"vertical";
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
 {
     if ((self = [super initWithDictionaryRepresentation:dictionary])) {
-        NSNumber *verticalNumber = [dictionary objectForKey:sVerticalKey];
+        NSNumber *verticalNumber    = [dictionary objectForKey:sVerticalKey];
+        NSNumber *stickyStartNumber = [dictionary objectForKey:sStickyStartKey];
+        NSNumber *stickyEndNumber   = [dictionary objectForKey:sStickyEndKey];
 
         if (!verticalNumber) {
             self = nil;
             return nil;
         }
 
-        _vertical = [verticalNumber boolValue];
+        _vertical    = [verticalNumber    boolValue];
+        _stickyStart = [stickyStartNumber boolValue];
+        _stickyEnd   = [stickyEndNumber   boolValue];
     }
     
     return self;
@@ -51,7 +61,9 @@ static NSString * const sVerticalKey = @"vertical";
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary
 {
     [super writeToDictionary:dictionary];
-    [dictionary setObject:@(_vertical) forKey:sVerticalKey];
+    [dictionary setObject:@(_vertical)    forKey:sVerticalKey];
+    [dictionary setObject:@(_stickyStart) forKey:sStickyStartKey];
+    [dictionary setObject:@(_stickyEnd)   forKey:sStickyEndKey];
 }
 
 
@@ -68,9 +80,7 @@ static NSString * const sVerticalKey = @"vertical";
 
 - (BOOL) isPreview
 {
-    @synchronized(self) {
-        return _preview;
-    }
+    return _preview;
 }
 
 
@@ -81,4 +91,51 @@ static NSString * const sVerticalKey = @"vertical";
 }
 
 
+- (void) setRect:(CGRect)rect stickyStart:(BOOL)stickyStart stickyEnd:(BOOL)stickyEnd
+{
+    [super setRect:rect];
+
+    if ((_stickyStart != stickyStart) ||
+        (_stickyEnd   != stickyEnd))
+    {
+        _stickyStart = stickyStart;
+        _stickyEnd   = stickyEnd;
+
+        [[self canvas] objectDidUpdate:self];
+    }
+}
+
+
+- (void) setStartOffset:(CGFloat)startOffset
+{
+    CGRectEdge edge = _vertical ? CGRectMinYEdge : CGRectMinXEdge;
+    CGRect rect = GetRectByAdjustingEdge([self rect], edge, startOffset);
+    [self setRect:rect];
+}
+
+
+- (CGFloat) startOffset
+{
+    CGRect rect = [self rect];
+    return _vertical ? CGRectGetMinY(rect) : CGRectGetMinX(rect);
+}
+
+
+- (void) setEndOffset:(CGFloat)endOffset
+{
+    CGRectEdge edge = _vertical ? CGRectMaxYEdge : CGRectMaxXEdge;
+    CGRect rect = GetRectByAdjustingEdge([self rect], edge, endOffset);
+    [self setRect:rect];
+}
+
+
+- (CGFloat) endOffset
+{
+    CGRect rect = [self rect];
+    return _vertical ? CGRectGetMaxY(rect) : CGRectGetMaxX(rect);
+}
+
+
 @end
+
+

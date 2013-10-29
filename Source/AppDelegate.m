@@ -15,6 +15,9 @@
 #import "PreferencesController.h"
 
 #import "Library.h"
+#import "DebugControlsController.h"
+
+#define SHOW_DEBUG_CONTROLS 0
 
 
 #if TRIAL
@@ -83,11 +86,6 @@
 - (void) cancelOperation:(id)sender
 {
     NSLog(@"CANCEL OP!");
-}
-
-- (void) keyDown:(NSEvent *)theEvent
-{
-    [super keyDown:theEvent];
 }
 
 
@@ -165,6 +163,14 @@
     
     [_statusItem setMenu:[self statusBarMenu]];
 
+#ifdef DEBUG
+#if SHOW_DEBUG_CONTROLS
+    DebugControlsController *controlsController = [[DebugControlsController alloc] init];
+    [controlsController showWindow:self];
+    CFBridgingRetain(controlsController);
+#endif
+#endif
+
     [self _updateShortcuts];
 }
 
@@ -197,6 +203,7 @@
 
 - (IBAction) quit:(id)sender
 {
+    [[self canvasController] saveCurrentLibraryItem];
     [NSApp terminate:self];
 }
 

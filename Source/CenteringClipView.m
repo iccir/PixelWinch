@@ -47,7 +47,9 @@
 
 - (NSView *) hitTest:(NSPoint)aPoint
 {
-    return [self documentView];
+    NSView *result = [super hitTest:aPoint];
+    if (!result) result = [self documentView];
+    return result;
 }
 
 

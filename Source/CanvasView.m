@@ -9,20 +9,20 @@
 #import "CanvasView.h"
 
 #import "Guide.h"
-#import "CanvasLayer.h"
+#import "CanvasObjectView.h"
 #import "Canvas.h"
-#import "CanvasRootLayer.h"
 #import "Screenshot.h"
 
 @implementation CanvasView {
-    CanvasRootLayer *_root;
     CALayer         *_imageLayer;
-    NSMutableArray  *_canvasLayers;
+    XUIView         *_root;
+    NSMutableArray  *_canvasObjectViews;
     NSTrackingArea  *_trackingArea;
+    NSPoint          _cursorInvalidationMouseLocation;
 }
 
 
-- (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas
+- (id) initWithFrame:(CGRect)frameRect canvas:(Canvas *)canvas
 {
     if ((self = [super initWithFrame:frameRect])) {
         _canvas = canvas;
@@ -32,13 +32,8 @@
         [self setWantsLayer:YES];
         [self setLayer:selfLayer];
         [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
-
+        [selfLayer setDelegate:self];
         [selfLayer setOpaque:YES];
-
-        _root = [CanvasRootLayer layer];
-        [_root setDelegate:self];
-        [_root setFrame:[self bounds]];
-        [selfLayer addSublayer:_root];
 
         _imageLayer = [CALayer layer];
         [_imageLayer setAnchorPoint:CGPointMake(0, 0)];
@@ -47,8 +42,12 @@
         [_imageLayer setFrame:[self bounds]];
         [_imageLayer setDelegate:self];
         [_imageLayer setOpaque:YES];
+        
+        _root = [[XUIView alloc] initWithFrame:[self bounds]];
+        [_root setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
+        [self addSubview:_root];
 
-        [_root addSublayer:_imageLayer];
+        [[_root layer] addSublayer:_imageLayer];
         
         _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:_trackingArea];
@@ -60,9 +59,42 @@
 }
 
 
-- (id) initWithFrame:(NSRect)frameRect
+- (id) initWithFrame:(CGRect)frameRect
 {
     return [self initWithFrame:frameRect canvas:nil];
+}
+
+
+- (CanvasObjectView *) canvasObjectHitTest:(CGPoint)point
+{
+    for (CanvasObjectView *objectView in _canvasObjectViews) {
+        CGPoint objectPoint = [objectView convertPoint:point fromView:self];
+        BOOL    contains    = [[objectView layer] containsPoint:objectPoint];
+
+        if (contains) {
+            if ([_delegate canvasView:self shouldTrackObjectView:objectView]) {
+                return objectView;
+            }
+        }
+    }
+
+    return nil;
+}
+
+
+- (void) _recomputeCursorRects
+{
+    NSPoint locationInSelf = [self convertPoint:_cursorInvalidationMouseLocation fromView:nil];
+    
+    CanvasObjectView *view = [self canvasObjectHitTest:locationInSelf];
+    NSCursor *cursor = [(id)view cursor];
+
+    if (cursor) {
+        [cursor set];
+        return;
+    }
+    
+    [[_delegate cursorForCanvasView:self] set];
 }
 
 
@@ -78,36 +110,49 @@
 }
 
 
-- (CGPoint) pointForMouseEvent:(NSEvent *)event
+- (CGPoint) canvasPointForPoint:(CGPoint)point
 {
-    return [self pointForMouseEvent:event layer:nil];
+    return [self canvasPointForPoint:point horizontalSnappingPolicy:SnappingPolicyNone verticalSnappingPolicy:SnappingPolicyNone];
 }
 
 
-- (CGPoint) pointForMouseEvent:(NSEvent *)event layer:(CanvasLayer *)layer
+- (CGPoint) canvasPointForEvent:(NSEvent *)event
+{
+    return [self canvasPointForEvent:event horizontalSnappingPolicy:SnappingPolicyNone verticalSnappingPolicy:SnappingPolicyNone];
+}
+
+
+- (CGPoint) canvasPointForEvent: (NSEvent *)event
+       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
+         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy
 {
     CGPoint location = [event locationInWindow];
     NSView *contentView = [[self window] contentView];
     
+    location = [self convertPoint:location fromView:contentView];
+
+    return [self canvasPointForPoint:location horizontalSnappingPolicy:horizontalSnappingPolicy verticalSnappingPolicy:verticalSnappingPolicy];
+}
+
+
+- (CGPoint) canvasPointForPoint: (CGPoint)point
+       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
+         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy
+{
     CGFloat scale = [[self window] backingScaleFactor];
     
-    SnappingPolicy horizontalSnappingPolicy = [layer horizontalSnappingPolicy];
-    SnappingPolicy verticalSnappingPolicy   = [layer verticalSnappingPolicy];
-    
-    location = [self convertPoint:location fromView:contentView];
-    
-    location.x = location.x / (_magnification / scale);
-    location.y = location.y / (_magnification / scale);
+    point.x = point.x / (_magnification / scale);
+    point.y = point.y / (_magnification / scale);
 
     if (horizontalSnappingPolicy == SnappingPolicyToPixelEdge) {
-        location.x = round(location.x);
+        point.x = round(point.x);
     }
     
     if (verticalSnappingPolicy == SnappingPolicyToPixelEdge) {
-        location.y = round(location.y);
+        point.y = round(point.y);
     }
 
-    return location;
+    return point;
 }
 
 
@@ -117,181 +162,131 @@
         return;
     }
 
-    CGPoint point = [self pointForMouseEvent:event];
-    
-    if ([_delegate canvasView:self mouseDownWithEvent:event point:point]) {
-        [self invalidateCursorRects];
+    if ([_delegate canvasView:self mouseDownWithEvent:event]) {
+        [self invalidateCursors];
 
         while (1) {
             event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-            
 
             NSEventType type = [event type];
             if (type == NSLeftMouseUp) {
-                point = [self pointForMouseEvent:event];
-                [_delegate canvasView:self mouseUpWithEvent:event point:point];
+                [_delegate canvasView:self mouseUpWithEvent:event];
                 break;
 
             } else if (type == NSLeftMouseDragged) {
-                point = [self pointForMouseEvent:event];
-                [_delegate canvasView:self mouseDragWithEvent:event point:point];
+                [_delegate canvasView:self mouseDraggedWithEvent:event];
             }
         }
     }
 
-    [self invalidateCursorRects];
+    [self invalidateCursors];
 }
 
 
 - (void) mouseMoved:(NSEvent *)event
 {
+    [self invalidateCursors];
     [_delegate canvasView:self mouseMovedWithEvent:event];
 }
 
 
 - (void) mouseEntered:(NSEvent *)theEvent
 {
-    [self invalidateCursorRects];
+    [self invalidateCursors];
 }
 
 
 - (void) mouseExited:(NSEvent *)event
 {
     [_delegate canvasView:self mouseExitedWithEvent:event];
+    [self invalidateCursors];
 }
-
-
-- (void) resetCursorRects
-{
-    NSCursor *mainCursor = [_delegate cursorForCanvasView:self];
-
-    CGRect visibleRect = [self visibleRect];
-    [self addCursorRect:visibleRect cursor:mainCursor];
-
-    NSLog(@"---");
-    
-    NSLog(@"Adding %@ to %@", mainCursor, NSStringFromRect(visibleRect));
-
-    for (CanvasLayer *layer in _canvasLayers) {
-        NSCursor *cursor = [layer cursor];
-        if (cursor) {
-            CGRect clippedRect = CGRectIntersection(visibleRect, [layer frame]);
-            
-            if (!CGRectIsEmpty(clippedRect)) {
-                [self addCursorRect:clippedRect cursor:cursor];
-                NSLog(@"Adding %@ to %@", cursor, NSStringFromRect(clippedRect));
-            }
-        }
-    }
-}
-
-
-- (BOOL) wantsUpdateLayer {
-   return YES;
-}
-
-- (void) updateLayer { }
-
-
-#pragma mark -
-#pragma mark CALayer Delegate
-
-- (id<CAAction>) actionForLayer:(CALayer *)layer forKey:(NSString *)event
-{
-    return (id)[NSNull null];
-}
-
 
 
 - (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
 {
-    for (CALayer *layer in _canvasLayers) {
-        [layer setContentsScale:newScale];
-    }
-    
     [[self layer] setContentsScale:newScale];
-    [_root setContentsScale:newScale];
-
     [_imageLayer setContentsScale:newScale];
 
     return YES;
 }
 
 
-- (void) layoutSublayersOfLayer:(CALayer *)layer
+- (void) layoutSubviews
 {
-    if (layer == _root) {
-        CGSize  size = [_canvas size];
+    CGSize  size = [_canvas size];
 
-        CGFloat scale = [[self window] backingScaleFactor];
-        if (!scale) scale = 1;
+    CGFloat scale = [[self window] backingScaleFactor];
+    if (!scale) scale = 1;
 
-        size.width  *= (_magnification / scale);
-        size.height *= (_magnification / scale);
+    scale = (_magnification / scale);
+    
+    size.width  *= scale;
+    size.height *= scale;
 
-        [self setFrame:CGRectMake(0, 0, size.width, size.height)];
+    CGRect frame = CGRectMake(0, 0, size.width, size.height);
+    [self setFrame:frame];
 
+    [_root setFrame:[self bounds]];
 
-        CGSize canvasSize = [_canvas size];
-        CGRect frame = { CGPointZero, canvasSize };
-        [_root setFrame:frame];
+    [_imageLayer setTransform:CATransform3DIdentity];
+    [_imageLayer setFrame:[_root bounds]];
 
-        [_imageLayer setTransform:CATransform3DIdentity];
-        [_imageLayer setFrame:[_root bounds]];
+    CGAffineTransform transform = CGAffineTransformMakeScale(_magnification, _magnification);
+    [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
+    [_imageLayer setContents:(id)[[_canvas screenshot] CGImage]];
+    
+    for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
+        CGRect rect = [objectView rectForCanvasLayout];
 
-        CGSize scrollViewSize = [[self enclosingScrollView] bounds].size;
-
-        CGAffineTransform transform = CGAffineTransformMakeScale(_magnification, _magnification);
-        [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
-        [_imageLayer setContents:(id)[[_canvas screenshot] CGImage]];
-        
-        NSArray *sortedCanvasLayers = [_canvasLayers sortedArrayUsingComparator:^(id a, id b) {
-            return [a canvasOrder] - [b canvasOrder];
-        }];
-        
-        for (CanvasLayer *layer in sortedCanvasLayers) {
-            CGRect rect = [layer rectForCanvasLayout];
-
-            if (rect.size.width == INFINITY) {
-                rect.size.width = scrollViewSize.width;
-            } else if (rect.size.width > frame.size.width) {
-                rect.size.width = frame.size.width;
-            }
-
-            if (rect.size.height == INFINITY) {
-                rect.size.height = scrollViewSize.height;
-            
-            } else if (rect.size.height > frame.size.height) {
-                rect.size.height = frame.size.height;
-            }
-
-
-            if (rect.origin.x == -INFINITY) {
-                rect.origin.x = -scrollViewSize.width;
-                rect.size.width +=  scrollViewSize.width;
-            }
-
-            if (rect.origin.y == -INFINITY) {
-                rect.origin.y = -scrollViewSize.height;
-                rect.size.height += scrollViewSize.height;
-            }
-            
-            CGAffineTransform scaledTransform = CGAffineTransformMakeScale(_magnification / scale, _magnification / scale);
-            
-            CGRect frame = CGRectApplyAffineTransform(rect, scaledTransform);
-            
-            NSEdgeInsets padding = [layer paddingForCanvasLayout];
-            
-            frame.origin.x    -= padding.left;
-            frame.size.width  += (padding.left + padding.right);
-            
-            frame.origin.y    -= padding.top;
-            frame.size.height += (padding.top + padding.bottom);
-            
-            [layer setFrame:frame];
-            
-            [_root addSublayer:layer];
+        if ((rect.size.width != INFINITY) && (rect.size.width > frame.size.width)) {
+            rect.size.width = frame.size.width;
         }
+
+        if ((rect.size.height != INFINITY) && (rect.size.height > frame.size.height)) {
+            rect.size.height = frame.size.height;
+        }
+
+        const NSEdgeInsets padding = [objectView paddingForCanvasLayout];
+
+        rect.origin.x    *= scale;
+        rect.origin.y    *= scale;
+        rect.size.width  *= scale;
+        rect.size.height *= scale;
+        
+        rect.origin.x    -= padding.left;
+        rect.size.width  += (padding.left + padding.right);
+        
+        rect.origin.y    -= padding.top;
+        rect.size.height += (padding.top + padding.bottom);
+        
+        
+        CGSize sizeForInfinity = [[self enclosingScrollView] bounds].size;
+        sizeForInfinity.width  += frame.size.width;
+        sizeForInfinity.height += frame.size.height;
+
+        if (rect.size.width == INFINITY) {
+            rect.size.width = sizeForInfinity.width;
+        }
+
+        if (rect.size.height == INFINITY) {
+            rect.size.height = sizeForInfinity.height;
+        }
+
+        if (rect.origin.x == -INFINITY) {
+            rect.origin.x = -sizeForInfinity.width;
+            rect.size.width +=  sizeForInfinity.width;
+        }
+
+        if (rect.origin.y == -INFINITY) {
+            rect.origin.y = -sizeForInfinity.height;
+            rect.size.height += sizeForInfinity.height;
+        }
+        
+        [objectView setFrame:rect];
+        
+        [objectView removeFromSuperview];
+        [_root addSubview:objectView];
     }
 }
 
@@ -312,54 +307,52 @@
 }
 
 
-- (void) invalidateCursorRects
+- (void) invalidateCursors
 {
-    [[self window] invalidateCursorRectsForView:self];
+    _cursorInvalidationMouseLocation = [NSEvent mouseLocation];
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_recomputeCursorRects) object:nil];
+    [self performSelector:@selector(_recomputeCursorRects) withObject:nil afterDelay:0];
 }
 
 
-- (void) addCanvasLayer:(CanvasLayer *)layer
+- (void) addCanvasObjectView:(CanvasObjectView *)view
 {
-    if (!_canvasLayers) {
-        _canvasLayers = [NSMutableArray array];
+    if (!_canvasObjectViews) {
+        _canvasObjectViews = [NSMutableArray array];
     }
 
-    [layer setDelegate:self];
-    [layer setContentsScale:[[self layer] contentsScale]];
-
-    [_canvasLayers addObject:layer];
-    [_root addSublayer:layer];
+    [_canvasObjectViews addObject:view];
+    [_canvasObjectViews sortUsingComparator:^(id a, id b) {
+        return [b canvasOrder] - [a canvasOrder];
+    }];
+    
+    [self addSubview:view];
 }
 
 
-- (void) removeCanvasLayer:(CanvasLayer *)layer
+- (void) removeCanvasObjectView:(CanvasObjectView *)view
 {
-    [layer setDelegate:nil];
-    [layer removeFromSuperlayer];
-    [_canvasLayers removeObject:layer];
+    [view removeFromSuperview];
+    [_canvasObjectViews removeObject:view];
 }
 
 
-- (void) updateCanvasLayer:(CanvasLayer *)layer
+- (void) updateCanvasObjectView:(CanvasObjectView *)layer
 {
-    [_root setNeedsLayout];
+    [self setNeedsLayout];
 }
 
 
-- (CanvasLayer *) canvasLayerForMouseEvent:(NSEvent *)event
+- (BOOL) shouldTrackObjectView:(CanvasObjectView *)objectView
 {
-    CGPoint location = [event locationInWindow];
-    NSView *contentView = [[self window] contentView];
-    
-    location = [self convertPoint:location fromView:contentView];
+    return [_delegate canvasView:self shouldTrackObjectView:objectView];
+}
 
-    CALayer *result = [_root hitTest:location];
-    
-    while (result && ![result isKindOfClass:[CanvasLayer class]]) {
-        result = [result superlayer];
-    }
-    
-    return (CanvasLayer *)result;
+
+- (void) didTrackObjectView:(CanvasObjectView *)objectView
+{
+    [_delegate canvasView:self didTrackObjectView:objectView];
 }
 
 
@@ -371,8 +364,8 @@
     if (_magnification != magnification) {
         _magnification = magnification;
         [self sizeToFit];
-        [_root setNeedsLayout];
-        [self invalidateCursorRects];
+        [self setNeedsLayout];
+        [self invalidateCursors];
     }
 }
 

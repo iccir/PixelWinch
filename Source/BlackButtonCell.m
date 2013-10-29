@@ -21,20 +21,25 @@
     return self;
 }
 
+
 - (NSRect) drawTitle:(NSAttributedString*)title withFrame:(NSRect)frame inView:(NSView*)controlView
 {
     NSMutableAttributedString *as = [title mutableCopy];
     NSRange entireRange = NSMakeRange(0, [as length]);
     
-    [as setAttributes:@{ NSForegroundColorAttributeName: GetRGBColor(0xFFFFFF, 1.0) } range:entireRange];
+    [as setAttributes:@{
+        NSForegroundColorAttributeName: GetRGBColor(0xFFFFFF, 1.0),
+        NSFontAttributeName: [self font]
+    } range:entireRange];
     
     __block NSRect result;
     WithWhiteOnBlackTextMode(^{
-        result =      [super drawTitle:as withFrame:frame inView:controlView];
+        result = [super drawTitle:as withFrame:frame inView:controlView];
     });
 
     return result;
 }
+
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSButton *)controlView
 {
@@ -47,11 +52,8 @@
             image = [NSImage imageNamed:@"radio_highlighted"];
         }
         
-        DrawImageAtPoint(image, CGPointMake(cellFrame.origin.x + 2, cellFrame.origin.y + 1));
+        DrawImageAtPoint(image, CGPointMake(cellFrame.origin.x + 2, cellFrame.origin.y + 2));
     }
-
-//    [super drawWithFrame:cellFrame inView:controlView];
-
 
     NSDictionary *attributes = @{
         NSFontAttributeName: [self font]
@@ -60,7 +62,7 @@
     CGRect textFrame = cellFrame;
     textFrame.origin.x += 20;
     textFrame.size.width -= 20;
-    textFrame.origin.y -= 1.0;
+    textFrame.origin.y -= 0.0;
 
     NSAttributedString *as = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
     [self drawTitle:as withFrame:textFrame inView:controlView];

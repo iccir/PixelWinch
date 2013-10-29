@@ -286,6 +286,9 @@ static NSString * const sRectanglesKey = @"rectangles";
         return;
     }
 
+    BOOL stickyStart = NO;
+    BOOL stickyEnd   = NO;
+
     if ([grapple isVertical]) {
         point.x = floor(point.x) + 0.5;
         point.y = floor(point.y);
@@ -297,7 +300,25 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                  outY1: &y1
                                                  outY2: &y2];
 
-        [grapple setRect:CGRectMake(point.x, y1, 0, y2 - y1)];
+        if (stopsOnGuides) {
+            for (Guide *guide in _guides) {
+                if (![guide isVertical]) {
+                    CGFloat guideOffset = [guide offset];
+
+                    if (guideOffset < point.y && guideOffset > y1) {
+                        y1 = guideOffset;
+                        stickyStart = YES;
+                        
+                    } else if (guideOffset >= point.y && guideOffset < y2) {
+                        y2 = guideOffset;
+                        stickyEnd = YES;
+                    }
+                }
+            }
+        }
+
+        CGRect rect = CGRectMake(point.x, y1, 0, y2 - y1);
+        [grapple setRect:rect stickyStart:stickyStart stickyEnd:stickyEnd];
 
     } else {
         point.x = floor(point.x);
@@ -310,9 +331,26 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                    outX1: &x1
                                                    outX2: &x2];
 
-        [grapple setRect:CGRectMake(x1, point.y, x2 - x1, 0)];
-    }
+        if (stopsOnGuides) {
+            for (Guide *guide in _guides) {
+                if ([guide isVertical]) {
+                    CGFloat guideOffset = [guide offset];
 
+                    if (guideOffset < point.x && guideOffset > x1) {
+                        x1 = guideOffset;
+                        stickyStart = YES;
+
+                    } else if (guideOffset >= point.x && guideOffset < x2) {
+                        x2 = guideOffset;
+                        stickyEnd = YES;
+                    }
+                }
+            }
+        }
+
+        CGRect rect = CGRectMake(x1, point.y, x2 - x1, 0);
+        [grapple setRect:rect stickyStart:stickyStart stickyEnd:stickyEnd];
+    }
 }
 
 
@@ -346,7 +384,10 @@ static NSString * const sRectanglesKey = @"rectangles";
 
     if (marquee) {
         _marquee = nil;
-        [self _didRemoveObject:marquee];
+        
+        if (!_marqueeHidden) {
+            [self _didRemoveObject:marquee];
+        }
     }
 }
 
@@ -356,9 +397,28 @@ static NSString * const sRectanglesKey = @"rectangles";
     [self clearMarquee];
     _marquee = [[Marquee alloc] init];
     [_marquee setCanvas:self];
-    [self _didAddObject:_marquee];
+
+    if (!_marqueeHidden) {
+        [self _didAddObject:_marquee];
+    }
     
     return _marquee;
+}
+
+
+- (void) setMarqueeHidden:(BOOL)marqueeHidden
+{
+    if (_marqueeHidden != marqueeHidden) {
+        _marqueeHidden = marqueeHidden;
+        
+        if (_marquee) {
+            if (_marqueeHidden) {
+                [self _didRemoveObject:_marquee];
+            } else {
+                [self _didAddObject:_marquee];
+            }
+        }
+    }
 }
 
 
