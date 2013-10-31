@@ -862,6 +862,7 @@
 				55FA815A1815DE8600ED67E0 /* ShellScript */,
 				8D1107290486CEB800E47090 /* Resources */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
+				557BA9C01821EA72004A57FC /* Sign Frameworks */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -1029,6 +1030,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		557BA9C01821EA72004A57FC /* Sign Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Sign Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nIDENTITY=\"Developer ID Application: Ricci Adams\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n";
+		};
 		55FA815A1815DE8600ED67E0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
