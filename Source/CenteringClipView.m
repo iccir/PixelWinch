@@ -26,6 +26,14 @@
 }
 
 
++ (void) initialize
+{
+    if (![NSClipView instancesRespondToSelector:@selector(constrainBoundsRect:)]) {
+        XUIAliasMethod([CenteringClipView class], '-', @selector(legacy_constrainScrollPoint:), @selector(constrainScrollPoint:));
+    }
+}
+
+
 - (id) initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
@@ -107,7 +115,7 @@
 }
 
 
-- (NSPoint) constrainScrollPoint:(NSPoint)proposedNewOrigin
+- (NSPoint) legacy_constrainScrollPoint:(NSPoint)proposedNewOrigin
 {
     return [self _centeredPointForPoint:proposedNewOrigin];
 }

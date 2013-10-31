@@ -84,7 +84,13 @@
 
 - (void) _recomputeCursorRects
 {
-    NSPoint locationInSelf = [self convertPoint:_cursorInvalidationMouseLocation fromView:nil];
+    NSPoint globalPoint = [NSEvent mouseLocation];
+    NSRect  globalRect  = NSMakeRect(globalPoint.x, globalPoint.y, 0, 0);
+    
+    NSRect  windowRect = [[self window] convertRectFromScreen:globalRect];
+    NSPoint windowPoint = windowRect.origin;
+
+    NSPoint locationInSelf = [self convertPoint:windowPoint fromView:nil];
     
     CanvasObjectView *view = [self canvasObjectHitTest:locationInSelf];
     NSCursor *cursor = [(id)view cursor];
@@ -107,6 +113,12 @@
 - (BOOL) isFlipped
 {
     return YES;
+}
+
+
+- (void) cursorUpdate:(NSEvent *)event
+{
+    [self _recomputeCursorRects];
 }
 
 
@@ -288,6 +300,8 @@
         [objectView removeFromSuperview];
         [_root addSubview:objectView];
     }
+    
+    [self _recomputeCursorRects];
 }
 
 
@@ -309,7 +323,8 @@
 
 - (void) invalidateCursors
 {
-    _cursorInvalidationMouseLocation = [NSEvent mouseLocation];
+    [self _recomputeCursorRects];
+    return;
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_recomputeCursorRects) object:nil];
     [self performSelector:@selector(_recomputeCursorRects) withObject:nil afterDelay:0];

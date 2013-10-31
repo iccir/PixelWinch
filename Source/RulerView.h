@@ -14,8 +14,8 @@
 @property (nonatomic, weak) IBOutlet id<RulerViewDelegate> delegate;
 
 @property (nonatomic, getter=isVertical) BOOL vertical;
-@property (atomic) CGFloat offset;
-@property (atomic) CGFloat magnification;
+@property (nonatomic) CGFloat offset;
+@property (nonatomic) CGFloat magnification;
 
 @end
 

@@ -82,8 +82,12 @@
 
     [marquee setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
 
-    CursorInfo *cursorInfo = [CursorInfo sharedInstance];
-    [cursorInfo setText:GetStringForSize(CGSizeMake(deltaX, deltaY)) forKey:@"new-marquee"];
+    CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
+    if ((size.width > 0) && (size.height > 0)) {
+        [[CursorInfo sharedInstance] setText:GetStringForSize(size) forKey:@"new-marquee"];
+    } else {
+        [[CursorInfo sharedInstance] setText:nil forKey:@"new-marquee"];
+    }
 }
 
 

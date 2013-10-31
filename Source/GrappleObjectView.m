@@ -141,7 +141,7 @@
     NSString *cursorText = nil;
 
     Grapple *grapple = [self grapple];
-    [[grapple canvas] updateGrapple:grapple point:_originalPoint threshold:threshold stopsOnGuides:_originalStopsOnGuides];
+    [[grapple canvas] updateGrapple:grapple point:_originalPoint threshold:threshold];
 
     if (threshold != _originalThreshold) {
         CGFloat percent = round((threshold / 255.0f) * 100);
@@ -161,41 +161,14 @@
     NSColor *lineColor = nil;
 
     if ([[self grapple] isPreview]) {
-        lineColor = [preferences previewGrappleColor];
+        lineColor = [NSColor redColor]; // preferences previewGrappleColor];
     } else if (_tracking) {
         lineColor = [preferences activeGrappleColor];
     } else {
-        lineColor = [preferences activeGrappleColor];
-    }
-
-    NSColor *startColor = [self ]
-    NSColor *guideColor = [self ];
-    Grapple *grapple = [self grapple];
-    if ([grapple stickyStart]) {
-        
-    }
-    if ([grapple stickyEnd]) {
-    
-    }
-        [lineColor ]
-    } else {
-    
+        lineColor = [preferences placedGrappleColor];
     }
 
     [_lineLayer setBackgroundColor:[lineColor CGColor]];
-
-}
-
-
-- (void) _makeAnchorImageWithAnchorColor:(NSColor *)anchorColor lineColor:(NSColor *)lineColor
-{
-    
-}
-
-
-- (void) drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
-{
-
 }
 
 
@@ -207,6 +180,7 @@
     _originalPoint = point;
 
     _tracking = YES;
+    [self _updateLayersAnimated:YES];
 
     if ([self isNewborn]) {
         [self _updateNewGrappleWithEvent:event point:point];
@@ -229,6 +203,7 @@
     [[CursorInfo sharedInstance] setText:nil forKey:@"new-grapple"];
 
     _tracking = NO;
+    [self _updateLayersAnimated:YES];
 
     if ([self isNewborn]) {
         AddPopInAnimation(_textLayer, 0.25);
@@ -258,6 +233,7 @@
 {
     [self setCanvasObject:grapple];
     [self _updateVisibilityOfTextLayer];
+    [self _updateLayersAnimated:NO];
 }
 
 
@@ -265,6 +241,7 @@
 {
     [super setNewborn:newborn];
     [self _updateVisibilityOfTextLayer];
+    [self _updateLayersAnimated:NO];
 }
 
 

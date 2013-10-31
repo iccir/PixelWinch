@@ -88,33 +88,11 @@
 
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    NSMutableArray *grapplesToUpdateStart = [NSMutableArray array];
-    NSMutableArray *grapplesToUpdateEnd   = [NSMutableArray array];
-
     _tracking = YES;
     [self _updateLayersAnimated:YES];
 
     Preferences *preferences = [Preferences sharedInstance];
     [_sublayer setBackgroundColor:[[preferences activeGuideColor] CGColor]];
-
-    Guide *guide = [self guide];
-    BOOL guideIsVertical = [guide isVertical];
-
-    for (Grapple *grapple in [[guide canvas] grapples]) {
-        if (guideIsVertical ^ [grapple isVertical]) {
-
-            if ([grapple stickyStart] && ([grapple startOffset] == [guide offset])) {
-                [grapplesToUpdateStart addObject:grapple];
-            }
-            
-            if ([grapple stickyEnd] && ([grapple endOffset] == [guide offset])) {
-                [grapplesToUpdateEnd addObject:grapple];
-            }
-        }
-    }
-    
-    _grapplesToUpdateStart = grapplesToUpdateStart;
-    _grapplesToUpdateEnd   = grapplesToUpdateEnd;
 }
 
 
@@ -122,14 +100,6 @@
 {
     Guide  *guide  = [self guide];
     CGFloat offset = [guide isVertical] ? point.x : point.y;
-
-    for (Grapple *grapple in _grapplesToUpdateStart) {
-        [grapple setStartOffset:offset];
-    }
-
-    for (Grapple *grapple in _grapplesToUpdateEnd) {
-        [grapple setEndOffset:offset];
-    }
 
     [guide setOffset:offset];
 }

@@ -14,7 +14,7 @@
 
 - (NSCursor *) cursor
 {
-    return [NSCursor openHandCursor];
+    return _active ? [NSCursor closedHandCursor] : [NSCursor openHandCursor];
 }
 
 @end

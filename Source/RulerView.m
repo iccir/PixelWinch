@@ -11,8 +11,28 @@
 @implementation RulerView {
     CGFloat _offset;
     CGFloat _magnification;
+    NSTrackingArea *_trackingArea;
 }
 
+
+- (id) initWithFrame:(NSRect)frameRect
+{
+    if ((self = [super initWithFrame:frameRect])) {
+        NSTrackingAreaOptions options = NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow|NSTrackingCursorUpdate;
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:options owner:self userInfo:nil];
+        [self addTrackingArea:_trackingArea];
+    }
+    
+    return self;
+}
+
+
+
+- (void) dealloc
+{
+    [self removeTrackingArea:_trackingArea];
+    _trackingArea = nil;
+}
 
 - (void) drawRect:(NSRect)dirtyRect
 {
@@ -27,6 +47,16 @@
     [self _drawBackgroundInContext:context];
     [self _drawTickMarksInContext:context];
     [self _drawOverlayInContext:context];
+}
+
+
+- (void) cursorUpdate:(NSEvent *)event
+{
+    if ([self isVertical]) {
+        [[NSCursor resizeLeftRightCursor] set];
+    } else {
+        [[NSCursor resizeUpDownCursor] set];
+    }
 }
 
 
@@ -157,22 +187,30 @@
     [textShadow setShadowBlurRadius:1];
 
     void (^drawLabelAtOffset)(CGFloat, NSString *label) = ^(CGFloat xy, NSString *label) {
+        CGContextSaveGState(context);
+
         CGRect rect;
         if (_vertical) {
-            rect = CGRectMake(0, xy, boundsSize.width, onePixel);
+            CGContextScaleCTM(context, 1, -1);
+            CGContextRotateCTM(context, -M_PI_2);
+                   rect = CGRectMake(xy, 0, onePixel, boundsSize.width);
+
+            CGContextSaveGState(context);
+            CGContextTranslateCTM(context, 3, 0);
+
         } else {
             rect = CGRectMake(xy, 0, onePixel, boundsSize.height);
+
+            CGContextSaveGState(context);
+
+            CGContextTranslateCTM(context, 3, 12);
+            CGContextScaleCTM(context, 1, -1);
         }
         
         NSColor *color = [NSColor colorWithCalibratedWhite:1.0 alpha:0.6];
-    
-        CGContextSaveGState(context);
-
-        CGContextTranslateCTM(context, 3, 12);
-        CGContextScaleCTM(context, 1, -1);
 
         [label drawAtPoint:rect.origin withAttributes:@{
-            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.8 alpha:1.0],
+            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],
             NSFontAttributeName: [NSFont userFontOfSize:10],
             NSShadowAttributeName: textShadow
         }];
@@ -181,6 +219,8 @@
     
         [color set];
         CGContextFillRect(context, rect);
+        
+        CGContextRestoreGState(context);
     };
 
     void (^drawLargeTickAtOffset)(CGFloat) = ^(CGFloat xy) {
@@ -212,7 +252,7 @@
         CGFloat xy = (offset + (p * magnification));
 
         if (labels && ((p % labels) == 0)) {
-            NSString *label = GetStringForFloat(p);
+            NSString *label = GetStringForFloat(p >= 0 ? p : -p);
             drawLabelAtOffset(xy, label);
             p_i = increment;
         } else if (largeTicks && ((p % largeTicks) == 0)) {
@@ -261,38 +301,18 @@
 
 - (void) setOffset:(CGFloat)offset
 {
-    @synchronized(self) {
-        if (_offset != offset) {
-            _offset = offset;
-            [self setNeedsDisplay:YES];
-        }
+    if (_offset != offset) {
+        _offset = offset;
+        [self setNeedsDisplay:YES];
     }
 }
 
 
 - (void) setMagnification:(CGFloat)magnification
 {
-    @synchronized(self) {
-        if (_magnification != magnification) {
-            _magnification = magnification;
-            [self setNeedsDisplay:YES];
-        }
-    }
-}
-
-
-- (CGFloat) offset
-{
-    @synchronized(self) {
-        return _offset;
-    }
-}
-
-
-- (CGFloat) magnification
-{
-    @synchronized(self) {
-        return _magnification;
+    if (_magnification != magnification) {
+        _magnification = magnification;
+        [self setNeedsDisplay:YES];
     }
 }
 

@@ -49,6 +49,7 @@
 		55336A39180CD61E00F053C7 /* LibraryItemPrototype.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55336A38180CD61E00F053C7 /* LibraryItemPrototype.xib */; };
 		5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B41D17F8F1D000D9B4E9 /* RulerView.m */; };
 		553AC79117F7DCC200C253C2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 553AC79017F7DCC200C253C2 /* Utils.m */; };
+		553ACC5D1820E027009AB09E /* ShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ACC5C1820E027009AB09E /* ShadowView.m */; };
 		553ED14A18061AB000F06B45 /* ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED14918061AB000F06B45 /* ScrollView.m */; };
 		553ED15B18064E6200F06B45 /* check_highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 553ED14D18064E6200F06B45 /* check_highlighted@2x.png */; };
 		553ED15C18064E6200F06B45 /* check_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 553ED14E18064E6200F06B45 /* check_normal@2x.png */; };
@@ -241,6 +242,8 @@
 		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
 		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
 		553AC79017F7DCC200C253C2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils.m; sourceTree = "<group>"; };
+		553ACC5B1820E027009AB09E /* ShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowView.h; path = Source/ShadowView.h; sourceTree = "<group>"; };
+		553ACC5C1820E027009AB09E /* ShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShadowView.m; path = Source/ShadowView.m; sourceTree = "<group>"; };
 		553ED14818061AB000F06B45 /* ScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollView.h; path = Source/ScrollView.h; sourceTree = "<group>"; };
 		553ED14918061AB000F06B45 /* ScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollView.m; path = Source/ScrollView.m; sourceTree = "<group>"; };
 		553ED14D18064E6200F06B45 /* check_highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check_highlighted@2x.png"; path = "Resources/check_highlighted@2x.png"; sourceTree = "<group>"; };
@@ -519,9 +522,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5512BF2E17F94E9300425AD6 /* Canvas Objects */ = {
+		5512BF2E17F94E9300425AD6 /* Canvas Model */ = {
 			isa = PBXGroup;
 			children = (
+				5512BF6E17FCD44000425AD6 /* Canvas.h */,
+				5512BF6F17FCD44000425AD6 /* Canvas.m */,
 				5512BF7117FCD47F00425AD6 /* CanvasObject.h */,
 				5512BF7217FCD47F00425AD6 /* CanvasObject.m */,
 				5512BF6217FBA9E300425AD6 /* Grapple.h */,
@@ -533,7 +538,7 @@
 				5512BF6517FBAA8D00425AD6 /* Rectangle.h */,
 				5512BF6617FBAA8D00425AD6 /* Rectangle.m */,
 			);
-			name = "Canvas Objects";
+			name = "Canvas Model";
 			sourceTree = "<group>";
 		};
 		5512BF5817FB9EE600425AD6 /* Canvas Views */ = {
@@ -559,7 +564,7 @@
 			name = "Canvas Views";
 			sourceTree = "<group>";
 		};
-		5516B68E1804EE3B002AED2E /* On Disk */ = {
+		5516B68E1804EE3B002AED2E /* Disk Model */ = {
 			isa = PBXGroup;
 			children = (
 				5516B68B1804ECAD002AED2E /* Library.h */,
@@ -569,7 +574,7 @@
 				55336A1A180B5C8400F053C7 /* Screenshot.h */,
 				55336A1B180B5C8400F053C7 /* Screenshot.m */,
 			);
-			name = "On Disk";
+			name = "Disk Model";
 			sourceTree = "<group>";
 		};
 		55336A34180CB76A00F053C7 /* Cursors */ = {
@@ -650,11 +655,9 @@
 		559D38BC1802AB220048F29B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5516B68E1804EE3B002AED2E /* On Disk */,
-				5512BF2E17F94E9300425AD6 /* Canvas Objects */,
+				5516B68E1804EE3B002AED2E /* Disk Model */,
+				5512BF2E17F94E9300425AD6 /* Canvas Model */,
 				55C20CE1180109A500ECE184 /* Tools */,
-				5512BF6E17FCD44000425AD6 /* Canvas.h */,
-				5512BF6F17FCD44000425AD6 /* Canvas.m */,
 				559D38AF180229B50048F29B /* GrappleCalculator.h */,
 				559D38B0180229B50048F29B /* GrappleCalculator.m */,
 				554B43A41808D1DE00804373 /* ImageMapper.h */,
@@ -689,6 +692,8 @@
 				553ED14918061AB000F06B45 /* ScrollView.m */,
 				559D38D418039D930048F29B /* ShortcutView.m */,
 				559D38D518039D930048F29B /* ShortcutView.h */,
+				553ACC5B1820E027009AB09E /* ShadowView.h */,
+				553ACC5C1820E027009AB09E /* ShadowView.m */,
 				55BB972B180602A600DED9B5 /* ShroudView.h */,
 				55BB972C180602A600DED9B5 /* ShroudView.m */,
 				55E24137180E10410093CF04 /* ThumbnailView.h */,
@@ -983,6 +988,7 @@
 				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
 				5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */,
+				553ACC5D1820E027009AB09E /* ShadowView.m in Sources */,
 				5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */,
 				553ED14A18061AB000F06B45 /* ScrollView.m in Sources */,
 				559D38D3180399B90048F29B /* ShortcutManager.m in Sources */,

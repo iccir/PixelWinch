@@ -74,6 +74,10 @@
     
     Rectangle *rectangle = [self rectangle];
     _originPoint = rectangle ? [rectangle rect].origin : NSZeroPoint;
+
+    if ([self isNewborn]) {
+        [rectangle setRect:CGRectMake(_downPoint.x, _downPoint.y, 0, 0)];
+    }
 }
 
 
@@ -89,7 +93,8 @@
     
         CursorInfo *cursorInfo = [CursorInfo sharedInstance];
         
-        [cursorInfo setText:GetStringForSize(CGSizeMake(deltaX, deltaY)) forKey:@"new-rectangle"];
+        CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
+        [cursorInfo setText:GetStringForSize(size) forKey:@"new-rectangle"];
         
     } else {
         CGRect rect = [rectangle rect];

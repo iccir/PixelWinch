@@ -10,11 +10,10 @@
 
 @protocol ShroudViewDelegate;
 
-@interface ShroudView : NSView
+@interface ShroudView : XUIView
 @property (weak) id<ShroudViewDelegate> delegate;
 
-@property (strong) NSColor *backgroundColor;
-@property (assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 @end
 

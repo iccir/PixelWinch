@@ -16,6 +16,7 @@
 
 #import "BlackScroller.h"
 
+#import "ShadowView.h"
 #import "CanvasView.h"
 #import "RulerView.h"
 #import "CenteringClipView.h"
@@ -53,16 +54,18 @@
 
 
 @implementation CanvasController {
+    Toolbox    *_toolbox;
+
+    ShadowView *_shadowView;
+
     ShroudView *_shroudView;
     NSView     *_transitionImageView;
     CGRect      _transitionImageRect;
     CGImageRef  _transitionImage;
 
-//    CanvasObjectView *_draggedLayer;
-
-    Grapple     *_previewGrapple;
-    
     NSEvent *_zoomEvent;
+    NSPoint  _handEventStartPoint;
+    NSPoint  _handCanvasStartPoint;
 
     CGPoint _lastPreviewGrapplePoint;
 
@@ -72,8 +75,6 @@
     
     CanvasObject   *_selectedObject;
     NSMutableArray *_selectionLayers;
-    
-    Toolbox *_toolbox;
 }
 
 
@@ -180,20 +181,9 @@
             [[_toolbox zoomTool] zoomIn];
             return;
 
-        } else if (c == '1') {
-            [[_toolbox zoomTool] zoomToMagnificationLevel:1.0];
-            return;
-
-        } else if (c == '2') {
-            [[_toolbox zoomTool] zoomToMagnificationLevel:2.0];
-            return;
-
-        } else if (c == '3') {
-            [[_toolbox zoomTool] zoomToMagnificationLevel:3.0];
-            return;
-
-        } else if (c == '4') {
-            [[_toolbox zoomTool] zoomToMagnificationLevel:4.0];
+        } else if (c >= '1' && c <= '8') {
+            NSInteger level = (c - '0');
+            [[_toolbox zoomTool] zoomToMagnificationLevel:level];
             return;
         }
 
@@ -249,9 +239,12 @@
     [_toolPicker setSelectedImage:grappleSelected   forSegment:4];
     [_toolPicker setSelectedImage:zoomSelected      forSegment:5];
 
-    CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:CGRectMake(0, 0, 640, 400) styleMask:0 backing:NSBackingStoreBuffered defer:NO];
-    NSView *contentView = [window contentView];
-    [contentView setWantsLayer:YES];
+    CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:CGRectMake(0, 0, 640, 400) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+
+    XUIView *contentView = [[XUIView alloc] initWithFrame:[[window contentView] frame]];
+    [contentView setFlipped:NO];
+
+    [window setContentView:contentView];
 
     [_horizontalRuler setCanDrawConcurrently:YES];
     [_horizontalRuler setVertical:NO];
@@ -292,14 +285,27 @@
     [_contentTopLevelView setBackgroundColor:darkColor];
     [_contentTopLevelView setCornerRadius:8];
     [_contentTopLevelView setDelegate:self];
+    [_contentTopLevelView setClipsToBounds:YES];
 
+    NSShadow *shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor:[NSColor blackColor]];
+    [shadow setShadowOffset:NSMakeSize(0, 4)];
+    [shadow setShadowBlurRadius:16];
+
+    _shadowView = [[ShadowView alloc] initWithFrame:[_contentTopLevelView frame]];
+    [_shadowView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
+    [_shadowView setBackgroundColor:darkColor];
+    [_shadowView setCornerRadius:8];
+    [_shadowView setShadow:shadow];
+
+    [contentView addSubview:_shadowView];
     [contentView addSubview:_contentTopLevelView];
 
     [window setHasShadow:NO];
     [window setBackgroundColor:[NSColor clearColor]];
     [window setOpaque:NO];
 
-//    [window setLevel:NSScreenSaverWindowLevel];
+    [window setLevel:NSScreenSaverWindowLevel];
 
     [window setDelegate:self];
     
@@ -435,6 +441,7 @@
     
     [[self window] setFrame:entireFrame display:NO];
     [_contentTopLevelView setFrame:contentRect];
+    [_shadowView setFrame:contentRect];
 }
 
 
@@ -461,6 +468,7 @@
 
     [_shroudView setAlphaValue:0];
     [_contentTopLevelView setAlphaValue:0];
+    [_shadowView setAlphaValue:0];
 
     [[self window] display];
     NSEnableScreenUpdates();
@@ -473,6 +481,7 @@
         [[_shroudView animator] setAlphaValue:1.0];
 
         [[_contentTopLevelView animator] setAlphaValue:1.0];
+        [[_shadowView          animator] setAlphaValue:1.0];
 
         if (_transitionImageView) {
             [[_transitionImageView animator] setFrame:scrollRectInWindow];
@@ -499,6 +508,7 @@
         [animation setFillMode:kCAFillModeBoth];
 
         [[_contentTopLevelView layer] addAnimation:animation forKey:@"transform"];
+        [[_shadowView          layer] addAnimation:animation forKey:@"transform"];
     }
 }
 
@@ -509,8 +519,9 @@
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:0.25];
-        [[_shroudView animator] setAlphaValue:0.0];
+        [[_shroudView          animator] setAlphaValue:0.0];
         [[_contentTopLevelView animator] setAlphaValue:0.0];
+        [[_shadowView          animator] setAlphaValue:0.0];
     } completionHandler:^{
         [[self window] orderOut:self];
     }];
@@ -527,6 +538,7 @@
     [animation setFillMode:kCAFillModeBoth];
     
     [[_contentTopLevelView layer] addAnimation:animation forKey:@"transform"];
+    [[_shadowView          layer] addAnimation:animation forKey:@"transform"];
 }
 
 
@@ -680,7 +692,7 @@
     
     Grapple *previewGrapple = [_canvas previewGrapple];
     CGPoint point = _lastPreviewGrapplePoint;
-    [_canvas updateGrapple:previewGrapple point:point threshold:[grappleTool calculatedThreshold] stopsOnGuides:YES];
+    [_canvas updateGrapple:previewGrapple point:point threshold:[grappleTool calculatedThreshold]];
 
     if (![previewGrapple length]) {
         [self _removePreviewGrapple];
@@ -912,12 +924,18 @@
 {
     ToolType toolType = [_toolbox selectedToolType];
 
-    if (toolType == ToolTypeRectangle) {
+    if (toolType == ToolTypeHand) {
+        [[_toolbox handTool] setActive:YES];
+        _handEventStartPoint  = [event locationInWindow];
+        _handCanvasStartPoint = [[_canvasScrollView documentView] visibleRect].origin;
+
+        [_canvasView invalidateCursors];
+
+    } else if (toolType == ToolTypeRectangle) {
         Rectangle *rectangle = [_canvas makeRectangle];
 
         CanvasObjectView *view = [self _viewForCanvasObject:rectangle];
-        [self _selectObject:rectangle];
-        
+       
         [view trackWithEvent:event newborn:YES];
         
         return NO;
@@ -961,6 +979,24 @@
 
 - (void) canvasView:(CanvasView *)view mouseDraggedWithEvent:(NSEvent *)event
 {
+    ToolType toolType = [_toolbox selectedToolType];
+
+    if (toolType == ToolTypeHand) {
+        NSPoint eventCurrentPoint = [event locationInWindow];
+
+        NSPoint movedPoint = NSMakePoint(
+            _handCanvasStartPoint.x - (eventCurrentPoint.x - _handEventStartPoint.x),
+            _handCanvasStartPoint.y + (eventCurrentPoint.y - _handEventStartPoint.y)
+        );
+        
+        NSRect rect = NSZeroRect;
+        rect.origin = movedPoint;
+        rect = [[_canvasScrollView contentView] constrainBoundsRect:rect];
+        movedPoint = rect.origin;
+        
+        [[_canvasScrollView contentView] scrollToPoint:movedPoint];
+        [_canvasScrollView reflectScrolledClipView:[_canvasScrollView contentView]];
+    }
 }
 
 
@@ -968,7 +1004,11 @@
 {
     ToolType toolType = [_toolbox selectedToolType];
 
-    if (toolType == ToolTypeZoom) {
+    if (toolType == ToolTypeHand) {
+        [[_toolbox handTool] setActive:NO];
+        [_canvasView invalidateCursors];
+
+    } else  if (toolType == ToolTypeZoom) {
         _zoomEvent = event;
         [[_toolbox zoomTool] zoom];
     }
@@ -1011,6 +1051,8 @@
 
     } else if (_selectedObject) {
         [self _unselectAllObjects];
+    } else if (1 /* should close on escape */) {
+        [self hide];
     }
 
     return YES;

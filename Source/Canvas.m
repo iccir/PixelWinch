@@ -33,7 +33,6 @@ static NSString * const sRectanglesKey = @"rectangles";
     Grapple *_waitingGrapple;
     CGPoint  _waitingGrapplePoint;
     UInt8    _waitingGrappleThreshold;
-    BOOL     _waitingGrappleStopsOnGuides;
 }
 
 
@@ -46,6 +45,9 @@ static NSString * const sRectanglesKey = @"rectangles";
         _grapples   = [NSMutableArray array];
 
         _undoManager = [[NSUndoManager alloc] init];
+        
+        _grapplesStopOnGuides     = YES;
+        _grapplesStopOnRectangles = YES;
     }
     
     return self;
@@ -165,7 +167,10 @@ static NSString * const sRectanglesKey = @"rectangles";
 
 - (void) objectWillUpdate:(CanvasObject *)object
 {
+    if (object == _previewGrapple) return;
+
     NSDictionary *state = [object dictionaryRepresentation];
+
     [_undoManager beginUndoGrouping];
     [[_undoManager prepareWithInvocationTarget:self] _restoreState:state ofObject:object];
 }
@@ -174,6 +179,8 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (void) objectDidUpdate:(CanvasObject *)object
 {
     [_delegate canvas:self didUpdateObject:object];
+
+    if (object == _previewGrapple) return;
     [_undoManager endUndoGrouping];
 }
 
@@ -248,13 +255,29 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (void) _grappleCalculatorReady
 {
     if (_waitingGrapple) {
-        [self updateGrapple:_waitingGrapple point:_waitingGrapplePoint threshold:_waitingGrappleThreshold stopsOnGuides:_waitingGrappleStopsOnGuides];
+        [self updateGrapple:_waitingGrapple point:_waitingGrapplePoint threshold:_waitingGrappleThreshold];
 
         _waitingGrapple = nil;
         _waitingGrapplePoint = CGPointZero;
         _waitingGrappleThreshold = 0;
-        _waitingGrappleStopsOnGuides = NO;
     }
+}
+
+
+- (void) _addGrapple:(Grapple *)grapple
+{
+    if ([grapple isPreview]) {
+        _previewGrapple = grapple;
+
+    } else {
+        [_undoManager registerUndoWithTarget:self selector:@selector(removeGrapple:) object:grapple];
+        [_undoManager setActionName:NSLocalizedString(@"Add Grapple", nil)];
+    
+        [_grapples addObject:grapple];
+    }
+
+    [grapple setCanvas:self];
+    [self _didAddObject:grapple];
 }
 
 
@@ -262,15 +285,8 @@ static NSString * const sRectanglesKey = @"rectangles";
 {
     Grapple *grapple = [Grapple grappleVertical:vertical];
     [grapple setPreview:preview];
-    [grapple setCanvas:self];
 
-    if (preview) {
-        _previewGrapple = grapple;
-    } else {
-        [_grapples addObject:grapple];
-    }
-
-    [self _didAddObject:grapple];
+    [self _addGrapple:grapple];
 
     return grapple;
 }
@@ -285,6 +301,13 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (void) removeGrapple:(Grapple *)grapple
 {
     if (!grapple) return;
+
+    if (![grapple isPreview]) {
+        [_undoManager registerUndoWithTarget:self selector:@selector(_addGrapple:) object:grapple];
+        [_undoManager setActionName:NSLocalizedString(@"Remove Grapple", nil)];
+    }
+
+    [grapple setCanvas:nil];
     [_grapples removeObject:grapple];
     [self _didRemoveObject:grapple];
 }
@@ -306,10 +329,7 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) updateGrapple: (Grapple *) grapple
-                 point: (CGPoint) point
-             threshold: (UInt8) threshold
-         stopsOnGuides: (BOOL) stopsOnGuides
+- (void) updateGrapple:(Grapple *)grapple point:(CGPoint)point threshold:(UInt8)threshold
 {
     if (!grapple) return;
 
@@ -320,13 +340,13 @@ static NSString * const sRectanglesKey = @"rectangles";
         _waitingGrapple = grapple;
         _waitingGrapplePoint = point;
         _waitingGrappleThreshold = threshold;
-        _waitingGrappleStopsOnGuides = stopsOnGuides;
 
         return;
     }
 
-    BOOL stickyStart = NO;
-    BOOL stickyEnd   = NO;
+    NSUInteger maxCutCount = ([_rectangles count] * 2) + [_guides count];
+    NSInteger  cutCount    = 0;
+    CGFloat   *cutOffsets  = maxCutCount ? malloc(sizeof(CGFloat) * maxCutCount) : NULL;
 
     if ([grapple isVertical]) {
         point.x = floor(point.x) + 0.5;
@@ -339,25 +359,37 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                  outY1: &y1
                                                  outY2: &y2];
 
-        if (stopsOnGuides) {
+        if (_grapplesStopOnGuides) {
             for (Guide *guide in _guides) {
                 if (![guide isVertical]) {
-                    CGFloat guideOffset = [guide offset];
-
-                    if (guideOffset < point.y && guideOffset > y1) {
-                        y1 = guideOffset;
-                        stickyStart = YES;
-                        
-                    } else if (guideOffset >= point.y && guideOffset < y2) {
-                        y2 = guideOffset;
-                        stickyEnd = YES;
-                    }
+                    cutOffsets[cutCount++] = [guide offset];
                 }
             }
         }
 
+        if (_grapplesStopOnRectangles) {
+            for (Rectangle *rectangle in _rectangles) {
+                CGRect rect = [rectangle rect];
+
+                if ((point.x >= rect.origin.x) && (point.x < CGRectGetMaxX(rect))) {
+                    cutOffsets[cutCount++] = CGRectGetMinY(rect);
+                    cutOffsets[cutCount++] = CGRectGetMaxY(rect);
+                }
+            }
+        }
+
+        for (NSInteger i = 0; i < cutCount; i++) {
+            CGFloat cutOffset = cutOffsets[i];
+
+            if (cutOffset < point.y && cutOffset > y1) {
+                y1 = cutOffset;
+            } else if (cutOffset >= point.y && cutOffset < y2) {
+                y2 = cutOffset;
+            }
+        }
+        
         CGRect rect = CGRectMake(point.x, y1, 0, y2 - y1);
-        [grapple setRect:rect stickyStart:stickyStart stickyEnd:stickyEnd];
+        [grapple setRect:rect];
 
     } else {
         point.x = floor(point.x);
@@ -370,26 +402,40 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                    outX1: &x1
                                                    outX2: &x2];
 
-        if (stopsOnGuides) {
+        if (_grapplesStopOnGuides) {
             for (Guide *guide in _guides) {
                 if ([guide isVertical]) {
-                    CGFloat guideOffset = [guide offset];
+                    cutOffsets[cutCount++] = [guide offset];
+                }
+            }
+        }
+        
+        if (_grapplesStopOnRectangles) {
+            for (Rectangle *rectangle in _rectangles) {
+                CGRect rect = [rectangle rect];
 
-                    if (guideOffset < point.x && guideOffset > x1) {
-                        x1 = guideOffset;
-                        stickyStart = YES;
-
-                    } else if (guideOffset >= point.x && guideOffset < x2) {
-                        x2 = guideOffset;
-                        stickyEnd = YES;
-                    }
+                if ((point.y >= rect.origin.y) && (point.y < CGRectGetMaxY(rect))) {
+                    cutOffsets[cutCount++] = CGRectGetMinX(rect);
+                    cutOffsets[cutCount++] = CGRectGetMaxX(rect);
                 }
             }
         }
 
+        for (NSInteger i = 0; i < cutCount; i++) {
+            CGFloat cutOffset = cutOffsets[i];
+
+            if (cutOffset < point.x && cutOffset > x1) {
+                x1 = cutOffset;
+            } else if (cutOffset >= point.x && cutOffset < x2) {
+                x2 = cutOffset;
+            }
+        }
+        
         CGRect rect = CGRectMake(x1, point.y, x2 - x1, 0);
-        [grapple setRect:rect stickyStart:stickyStart stickyEnd:stickyEnd];
+        [grapple setRect:rect];
     }
+    
+    free(cutOffsets);
 }
 
 
@@ -398,18 +444,33 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (Rectangle *) makeRectangle
 {
     Rectangle *rectangle = [Rectangle rectangle];
+    [self _addRectangle:rectangle];
+    return rectangle;
+}
+
+
+- (void) _addRectangle:(Rectangle *)rectangle
+{
+    if (!rectangle) return;
+
+    [_undoManager registerUndoWithTarget:self selector:@selector(removeRectangle:) object:rectangle];
+    [_undoManager setActionName:NSLocalizedString(@"Add Rectangle", nil)];
+
     [rectangle setCanvas:self];
     [_rectangles addObject:rectangle];
 
     [self _didAddObject:rectangle];
-
-    return rectangle;
 }
 
 
 - (void) removeRectangle:(Rectangle *)rectangle
 {
     if (!rectangle) return;
+
+    [_undoManager registerUndoWithTarget:self selector:@selector(_addRectangle:) object:rectangle];
+    [_undoManager setActionName:NSLocalizedString(@"Remove Rectangle", nil)];
+
+    [rectangle setCanvas:nil];
     [_rectangles removeObject:rectangle];
     [self _didRemoveObject:rectangle];
 }

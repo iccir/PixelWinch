@@ -52,15 +52,14 @@
 - (Grapple *) makePreviewGrappleVertical:(BOOL)vertical;
 - (void) removePreviewGrapple;
 
-- (void) updateGrapple: (Grapple *) grapple
-                 point: (CGPoint) point
-             threshold: (UInt8) threshold
-         stopsOnGuides: (BOOL) stopsOnGuides;
+- (void) updateGrapple:(Grapple *)grapple point:(CGPoint)point threshold:(UInt8)threshold;
 
 @property (nonatomic, readonly, strong) GrappleCalculator *grappleCalculator;
 @property (nonatomic, readonly, strong) Grapple *previewGrapple;
 @property (nonatomic, readonly, strong) NSArray *grapples;
 
+@property (nonatomic, assign) BOOL grapplesStopOnGuides;
+@property (nonatomic, assign) BOOL grapplesStopOnRectangles;
 
 // Rectangles
 

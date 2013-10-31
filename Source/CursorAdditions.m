@@ -21,9 +21,11 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
 #endif
 
 #define DUMP_SYSTEM_CURSORS 0
+#define DEBUG_CURSORS 0
 
 @implementation NSCursor (PixelWinch)
 
+#if DEBUG_CURSORS
 #ifdef DEBUG
 
 
@@ -105,8 +107,26 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
         NSCursor *cursor = [NSCursor performSelector:NSSelectorFromString(name)];
         [sInstancesToNameMap setObject:name forKey:[NSValue valueWithPointer:(__bridge void *)cursor]];
     }
+    
+    XUISwizzleMethod([NSCursor class], '-', @selector(set), @selector(debug_set));
 }
 
+
+- (void) debug_set
+{
+    static NSInteger sDidZoomIn = 0;
+
+    if ((sDidZoomIn > 10) && (self == [NSCursor arrowCursor])) {
+        NSLog(@"SETTING ARROW after zoom in");
+    }
+
+    if (self == [NSCursor winch_zoomInCursor]) {
+        sDidZoomIn++;
+    }
+
+    NSLog(@"Setting %@", self);
+    [self debug_set];
+}
 
 - (NSString *) description
 {
@@ -117,6 +137,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     return [NSString stringWithFormat:@"[NSCursor %@", name];
 }
 
+#endif
 #endif
 
 

@@ -31,7 +31,7 @@ static NSDictionary *sGetDefaultValues()
         @"activeGuideColor":     [NSColor colorWithCalibratedRed:0.5 green:1.0 blue:1.0 alpha:1.0],
         
         @"placedGrappleColor":   [NSColor greenColor],
-        @"previewGrappleColor":  [NSColor colorWithCalibratedRed:0    green:1.0 blue:0    alpha:0  ],
+        @"previewGrappleColor":  [NSColor colorWithCalibratedRed:0    green:1.0 blue:0    alpha:0.5],
         @"activeGrappleColor":   [NSColor colorWithCalibratedRed:0.25 green:1.0 blue:0.25 alpha:1.0],
 
         @"placedRectangleFillColor":   [NSColor colorWithCalibratedRed:0 green:0 blue:0.33 alpha:0.25],

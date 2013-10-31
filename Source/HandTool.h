@@ -9,5 +9,5 @@
 #import "Tool.h"
 
 @interface HandTool : Tool
-
+@property (nonatomic, assign, getter=isActive) BOOL active;
 @end
