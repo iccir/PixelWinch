@@ -15,3 +15,4 @@ PRODUCT_NAME = $(TARGET_NAME)
 SKIP_INSTALL = YES
 INFOPLIST_FILE = Resources/Info.plist
 GCC_PREFIX_HEADER = Source/Prefix.pch
+LD_RUNPATH_SEARCH_PATHS = @executable_path/../Frameworks
