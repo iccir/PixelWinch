@@ -16,21 +16,21 @@ extern NSString * const PreferencesDidChangeNotification;
 
 + (id) sharedInstance;
 
-@property BOOL pausesDuringCapture;
-@property BOOL usesPoints;
+@property (nonatomic) BOOL pausesDuringCapture;
+@property (nonatomic) BOOL usesPoints;
 
-@property Shortcut *captureSelectionShortcut;
-@property Shortcut *captureWindowShortcut;
-@property Shortcut *showScreenshotsShortcut;
+@property (nonatomic) Shortcut *captureSelectionShortcut;
+@property (nonatomic) Shortcut *captureWindowShortcut;
+@property (nonatomic) Shortcut *showScreenshotsShortcut;
 
-@property NSColor *placedGuideColor;
-@property NSColor *activeGuideColor;
+@property (nonatomic) NSColor *placedGuideColor;
+@property (nonatomic) NSColor *activeGuideColor;
 
-@property NSColor *placedGrappleColor;
-@property NSColor *previewGrappleColor;
-@property NSColor *activeGrappleColor;
+@property (nonatomic) NSColor *placedGrappleColor;
+@property (nonatomic) NSColor *previewGrappleColor;
+@property (nonatomic) NSColor *activeGrappleColor;
 
-@property NSColor *placedRectangleFillColor;
-@property NSColor *placedRectangleBorderColor;
+@property (nonatomic) NSColor *placedRectangleFillColor;
+@property (nonatomic) NSColor *placedRectangleBorderColor;
 
 @end

@@ -28,6 +28,6 @@
                                       outY1: (size_t *) outY1
                                       outY2: (size_t *) outY2;
 
-@property (readonly, getter=isReady) BOOL ready;
+@property (nonatomic, readonly, getter=isReady) BOOL ready;
 
 @end

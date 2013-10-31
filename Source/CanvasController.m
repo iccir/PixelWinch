@@ -920,7 +920,7 @@
 }
 
 
-- (BOOL) canvasView:(CanvasView *)view mouseDownWithEvent:(NSEvent *)event
+- (BOOL) canvasView:(CanvasView *)canvasView mouseDownWithEvent:(NSEvent *)event
 {
     ToolType toolType = [_toolbox selectedToolType];
 

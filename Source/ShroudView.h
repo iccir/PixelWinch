@@ -11,7 +11,7 @@
 @protocol ShroudViewDelegate;
 
 @interface ShroudView : XUIView
-@property (weak) id<ShroudViewDelegate> delegate;
+@property (nonatomic, weak) id<ShroudViewDelegate> delegate;
 
 @property (nonatomic, assign) CGFloat cornerRadius;
 

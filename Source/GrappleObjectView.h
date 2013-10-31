@@ -14,7 +14,7 @@
 @interface GrappleObjectView : CanvasObjectView
 @property (nonatomic, strong) Grapple *grapple;
 
-@property (assign) UInt8   originalThreshold;
-@property (assign) BOOL    originalStopsOnGuides;
+@property (nonatomic, assign) UInt8   originalThreshold;
+@property (nonatomic, assign) BOOL    originalStopsOnGuides;
 
 @end

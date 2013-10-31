@@ -27,5 +27,5 @@ typedef NS_ENUM(NSInteger, ToolType) {
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary;
 
 - (NSCursor *) cursor;
-@property (readonly) ToolType type;
+@property (nonatomic, readonly) ToolType type;
 @end

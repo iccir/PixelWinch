@@ -82,6 +82,14 @@
 		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
+		557BA9AE1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9AB1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig */; };
+		557BA9AF1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9AC1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig */; };
+		557BA9B01821D992004A57FC /* PixelWinch_Mac_Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9AD1821D992004A57FC /* PixelWinch_Mac_Release.xcconfig */; };
+		557BA9B61821D99A004A57FC /* PixelWinch_Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */; };
+		557BA9B71821D99A004A57FC /* PixelWinch_Mac.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B21821D99A004A57FC /* PixelWinch_Mac.xcconfig */; };
+		557BA9B81821D99A004A57FC /* PixelWinch_Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */; };
+		557BA9B91821D99A004A57FC /* PixelWinch_Profile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */; };
+		557BA9BA1821D99A004A57FC /* PixelWinch_Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */; };
 		559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 559B45961803DB5B00849B87 /* CanvasWindow.m */; };
 		559D38B1180229B50048F29B /* GrappleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38B0180229B50048F29B /* GrappleCalculator.m */; };
 		559D38B81802972E0048F29B /* cursor_grapple_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B41802972E0048F29B /* cursor_grapple_h.png */; };
@@ -288,6 +296,14 @@
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		557BA9AB1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Mac_Debug.xcconfig; sourceTree = "<group>"; };
+		557BA9AC1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Mac_Profile.xcconfig; sourceTree = "<group>"; };
+		557BA9AD1821D992004A57FC /* PixelWinch_Mac_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Mac_Release.xcconfig; sourceTree = "<group>"; };
+		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
+		557BA9B21821D99A004A57FC /* PixelWinch_Mac.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Mac.xcconfig; sourceTree = "<group>"; };
+		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
+		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
+		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
 		559B45951803DB5B00849B87 /* CanvasWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindow.h; path = Source/CanvasWindow.h; sourceTree = "<group>"; };
 		559B45961803DB5B00849B87 /* CanvasWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindow.m; path = Source/CanvasWindow.m; sourceTree = "<group>"; };
 		559D38AF180229B50048F29B /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
@@ -452,6 +468,7 @@
 			children = (
 				55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */,
 				5516B687180402C3002AED2E /* Pixel Winch.entitlements */,
+				557BA9A11821D967004A57FC /* Config */,
 				559D38BC1802AB220048F29B /* Model */,
 				5512BF5817FB9EE600425AD6 /* Canvas Views */,
 				55B07A6C17F6C93E0013B05C /* View */,
@@ -652,6 +669,29 @@
 			name = Slider;
 			sourceTree = "<group>";
 		};
+		557BA9A11821D967004A57FC /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				557BA9A21821D967004A57FC /* Combined */,
+				557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */,
+				557BA9B21821D99A004A57FC /* PixelWinch_Mac.xcconfig */,
+				557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */,
+				557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */,
+				557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		557BA9A21821D967004A57FC /* Combined */ = {
+			isa = PBXGroup;
+			children = (
+				557BA9AB1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig */,
+				557BA9AC1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig */,
+				557BA9AD1821D992004A57FC /* PixelWinch_Mac_Release.xcconfig */,
+			);
+			path = Combined;
+			sourceTree = "<group>";
+		};
 		559D38BC1802AB220048F29B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,6 +868,7 @@
 			attributes = {
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
+						DevelopmentTeam = XXXXXXXXXX;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -893,6 +934,7 @@
 				55C20CB41800108F00ECE184 /* toolbar_grapple_normal.png in Resources */,
 				55C20CBD1800108F00ECE184 /* toolbar_marquee_normal@2x.png in Resources */,
 				55C20CDE1800EBDB00ECE184 /* segmented_right_highlighted@2x.png in Resources */,
+				557BA9B71821D99A004A57FC /* PixelWinch_Mac.xcconfig in Resources */,
 				553ED16618064E6200F06B45 /* check_normal.png in Resources */,
 				553ED16318064E6200F06B45 /* radio_selected.png in Resources */,
 				55C20CC31800108F00ECE184 /* toolbar_rectangle_selected@2x.png in Resources */,
@@ -904,13 +946,16 @@
 				55C20CBB1800108F00ECE184 /* toolbar_hand_selected@2x.png in Resources */,
 				553ED16818064E6200F06B45 /* check_selected.png in Resources */,
 				55C20CC61800108F00ECE184 /* toolbar_zoom_selected.png in Resources */,
+				557BA9B91821D99A004A57FC /* PixelWinch_Profile.xcconfig in Resources */,
 				553ED16718064E6200F06B45 /* check_selected_highlighted.png in Resources */,
 				55C20CDF1800EBDB00ECE184 /* segmented_right_normal@2x.png in Resources */,
+				557BA9AE1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig in Resources */,
 				55C20CE01800EBDB00ECE184 /* segmented_right_selected@2x.png in Resources */,
 				55336A2C180CB05900F053C7 /* cursor_resize_n_s@2x.png in Resources */,
 				55C20CC51800108F00ECE184 /* toolbar_zoom_normal@2x.png in Resources */,
 				559D38BA1802972E0048F29B /* cursor_grapple_v@2x.png in Resources */,
 				5520DF65180F8069002D5451 /* delete_normal@2x.png in Resources */,
+				557BA9B01821D992004A57FC /* PixelWinch_Mac_Release.xcconfig in Resources */,
 				55C20CD81800EBDB00ECE184 /* segmented_left_highlighted@2x.png in Resources */,
 				55C20CDD1800EBDB00ECE184 /* segmented_middle_selected@2x.png in Resources */,
 				553ED15C18064E6200F06B45 /* check_normal@2x.png in Resources */,
@@ -922,6 +967,7 @@
 				559D38CD1803941C0048F29B /* status_bar@2x.png in Resources */,
 				553ED15E18064E6200F06B45 /* check_selected@2x.png in Resources */,
 				5520DF72180FE507002D5451 /* bottom_shadow@2x.png in Resources */,
+				557BA9B81821D99A004A57FC /* PixelWinch_Debug.xcconfig in Resources */,
 				55336A2D180CB05900F053C7 /* cursor_resize_ne_sw@2x.png in Resources */,
 				55C20CB81800108F00ECE184 /* toolbar_hand_normal.png in Resources */,
 				553ED1701806549B00F06B45 /* knob_highlighted@2x.png in Resources */,
@@ -936,6 +982,7 @@
 				553ED16118064E6200F06B45 /* radio_normal.png in Resources */,
 				55336A30180CB05900F053C7 /* cursor_resize_n_s.png in Resources */,
 				553ED1721806549B00F06B45 /* slider_well@2x.png in Resources */,
+				557BA9AF1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig in Resources */,
 				553ED15F18064E6200F06B45 /* radio_highlighted.png in Resources */,
 				55336A33180CB05900F053C7 /* cursor_resize_w_e.png in Resources */,
 				55C20CDB1800EBDB00ECE184 /* segmented_middle_highlighted@2x.png in Resources */,
@@ -947,11 +994,13 @@
 				55C20CBF1800108F00ECE184 /* toolbar_marquee_selected@2x.png in Resources */,
 				55C20CB21800108F00ECE184 /* toolbar_arrow_selected.png in Resources */,
 				5512BF5117FB9A9200425AD6 /* cursor_zoom_in.png in Resources */,
+				557BA9B61821D99A004A57FC /* PixelWinch_Base.xcconfig in Resources */,
 				55336A39180CD61E00F053C7 /* LibraryItemPrototype.xib in Resources */,
 				559D38CC1803941C0048F29B /* status_bar.png in Resources */,
 				55C20CDA1800EBDB00ECE184 /* segmented_left_selected@2x.png in Resources */,
 				553ED16218064E6200F06B45 /* radio_normal@2x.png in Resources */,
 				55C20CC71800108F00ECE184 /* toolbar_zoom_selected@2x.png in Resources */,
+				557BA9BA1821D99A004A57FC /* PixelWinch_Release.xcconfig in Resources */,
 				55336A2E180CB05900F053C7 /* cursor_resize_nw_se@2x.png in Resources */,
 				554D899A135BF064003BFC89 /* MainMenu.xib in Resources */,
 				55C20CB31800108F00ECE184 /* toolbar_arrow_selected@2x.png in Resources */,
@@ -1091,77 +1140,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		557BA9BB1821DA06004A57FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557BA9AD1821D992004A57FC /* PixelWinch_Mac_Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		557BA9BC1821DA06004A57FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LLVM_VECTORIZE_LOOPS = YES;
-				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = Debug;
 		};
-		C01FCF4C08A954540054247B /* Release */ = {
+		C01FCF4C08A954540054247B /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Prefix.pch;
-				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LLVM_VECTORIZE_LOOPS = YES;
-				PRODUCT_NAME = "Pixel Winch";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 			};
-			name = Release;
+			name = Profile;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557BA9AB1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.9;
 			};
 			name = Debug;
 		};
-		C01FCF5008A954540054247B /* Release */ = {
+		C01FCF5008A954540054247B /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557BA9AC1821D992004A57FC /* PixelWinch_Mac_Profile.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PREBINDING = NO;
-				SDKROOT = macosx10.9;
 			};
-			name = Release;
+			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1170,7 +1190,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
-				C01FCF4C08A954540054247B /* Release */,
+				C01FCF4C08A954540054247B /* Profile */,
+				557BA9BC1821DA06004A57FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1179,7 +1200,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
-				C01FCF5008A954540054247B /* Release */,
+				C01FCF5008A954540054247B /* Profile */,
+				557BA9BB1821DA06004A57FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

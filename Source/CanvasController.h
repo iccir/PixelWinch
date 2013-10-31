@@ -22,37 +22,39 @@
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;
 
-@property Toolbox *toolbox;
+@property (nonatomic) Toolbox *toolbox;
 
 @property (nonatomic, strong) CanvasObject *selectedObject;
 
-@property (weak)   Library *library; // So we can bind to it
-@property (strong) NSIndexSet *librarySelectionIndexes;
+@property (nonatomic, weak)   Library *library; // So we can bind to it
+@property (nonatomic, strong) NSIndexSet *librarySelectionIndexes;
 
 // Nib top-level objects
-@property (strong) IBOutlet ShroudView *contentTopLevelView;
-@property (strong) IBOutlet NSView *inspectorTopLevelView;
+@property (nonatomic, strong) IBOutlet ShroudView *contentTopLevelView;
+@property (nonatomic, strong) IBOutlet NSView *inspectorTopLevelView;
 
-@property (strong) IBOutlet NSArrayController *libraryArrayController;
-@property (strong) IBOutlet NSCollectionViewItem *libraryItemPrototype;
+@property (nonatomic, strong) IBOutlet NSArrayController *libraryArrayController;
+@property (nonatomic, strong) IBOutlet NSCollectionViewItem *libraryItemPrototype;
 
 
 // Outlets
-@property (weak) IBOutlet BlackSegmentedControl *toolPicker;
-@property (weak) IBOutlet NSView *inspectorContainer;
+@property (nonatomic, weak) IBOutlet BlackSegmentedControl *toolPicker;
+@property (nonatomic, weak) IBOutlet NSView *inspectorContainer;
 
-@property (weak) IBOutlet NSScrollView *canvasScrollView;
-@property (weak) IBOutlet CanvasView   *canvasView;
-@property (weak) IBOutlet RulerView    *horizontalRuler;
-@property (weak) IBOutlet RulerView    *verticalRuler;
+@property (nonatomic, weak) IBOutlet NSScrollView *canvasScrollView;
+@property (nonatomic, weak) IBOutlet CanvasView   *canvasView;
+@property (nonatomic, weak) IBOutlet RulerView    *horizontalRuler;
+@property (nonatomic, weak) IBOutlet RulerView    *verticalRuler;
 
-@property (weak) IBOutlet NSScrollView *libraryScrollView;
-@property (weak) IBOutlet NSCollectionView *libraryCollectionView;
+@property (nonatomic, weak) IBOutlet NSScrollView *libraryScrollView;
+@property (nonatomic, weak) IBOutlet NSCollectionView *libraryCollectionView;
 
 // These need to be strong as they are going to be added/removed from subviews
-@property (strong) IBOutlet NSView *grappleToolView;
-@property (strong) IBOutlet NSView *zoomToolView;
-@property (strong) IBOutlet NSView *rectangleObjectView;
+@property (nonatomic, strong) IBOutlet NSView *grappleToolView;
+@property (nonatomic, strong) IBOutlet NSView *zoomToolView;
+@property (nonatomic, strong) IBOutlet NSView *rectangleObjectView;
 
+
+- (IBAction) deleteSelectedLibraryItem:(id)sender;
 
 @end

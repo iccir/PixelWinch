@@ -23,10 +23,10 @@
 
 - (NSInteger) magnificationIndexForLevel:(CGFloat)magnificationLevel;
 
-@property BOOL zoomsIn;
-@property NSInteger magnificationIndex;
+@property (nonatomic) BOOL zoomsIn;
+@property (nonatomic) NSInteger magnificationIndex;
 
-@property (readonly) CGFloat magnificationLevel;
-@property (readonly) NSString *magnificationString;
+@property (nonatomic, readonly) CGFloat magnificationLevel;
+@property (nonatomic, readonly) NSString *magnificationString;
 
 @end

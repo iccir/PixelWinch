@@ -14,13 +14,13 @@
 
 - (UInt8 *) RGBData NS_RETURNS_INNER_POINTER;
 - (UInt8 *) RGBAData NS_RETURNS_INNER_POINTER;
-@property (readonly) NSInteger bytesPerRow;
+@property (nonatomic, readonly) NSInteger bytesPerRow;
 
-@property (assign, readonly) CGImageRef CGImage;
+@property (nonatomic, assign, readonly) CGImageRef CGImage;
 
-@property (readonly) CGSize size;
-@property (readonly) size_t width;
-@property (readonly) size_t height;
+@property (nonatomic, readonly) CGSize size;
+@property (nonatomic, readonly) size_t width;
+@property (nonatomic, readonly) size_t height;
 
 
 @end

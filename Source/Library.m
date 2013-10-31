@@ -57,9 +57,9 @@
 
     if ([manager fileExistsAtPath:screenshotsPath]) {
         NSError *error = nil;
-        for (NSString *item in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {
+        for (NSString *pathComponent in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {
         
-            NSString *basePath = [screenshotsPath stringByAppendingPathComponent:item];
+            NSString *basePath = [screenshotsPath stringByAppendingPathComponent:pathComponent];
             
             LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:basePath date:nil];
             if ([item isValid]) {

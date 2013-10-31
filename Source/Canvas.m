@@ -73,9 +73,9 @@ static NSString * const sRectanglesKey = @"rectangles";
         NSArray *array = [dictionary objectForKey:key];
         
         if ([array isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *dictionary in array) {
-                if ([dictionary isKindOfClass:[NSDictionary class]]) {
-                    block(dictionary);
+            for (NSDictionary *subdictionary in array) {
+                if ([subdictionary isKindOfClass:[NSDictionary class]]) {
+                    block(subdictionary);
                 }
             }
         }

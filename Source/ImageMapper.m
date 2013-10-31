@@ -116,15 +116,15 @@ static void sMakeLAB_Accelerate(UInt8 *inRGB, float *outLAB, size_t width, size_
         }
 
         for (i = 0; i < w4; i += 4) {
-            float x = f[i + 0];
-            float y = f[i + 1];
-            float z = f[i + 2];
+            float X = f[i + 0];
+            float Y = f[i + 1];
+            float Z = f[i + 2];
             
-            f[i] = (116.f * y) - 16.f;
+            f[i] = (116.f * Y) - 16.f;
             if (f[i] < 0) f[i] = 0;
             
-            f[i+1] = 500.f * (x - y);
-            f[i+2] = 200.f * (y - z);
+            f[i+1] = 500.f * (X - Y);
+            f[i+2] = 200.f * (Y - Z);
             f[i+3] = 0;
         }
     });

@@ -1,0 +1,3 @@
+#include "../PixelWinch_Base.xcconfig"
+#include "../PixelWinch_Release.xcconfig"
+#include "../PixelWinch_Mac.xcconfig"

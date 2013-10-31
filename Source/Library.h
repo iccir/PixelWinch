@@ -18,7 +18,7 @@
 - (void) removeItem:(LibraryItem *)item;
 - (void) discardItem:(LibraryItem *)item;
 
-@property (readonly) NSArray *items;
+@property (nonatomic, readonly) NSArray *items;
 
 @end
 

@@ -15,8 +15,8 @@
 
 - (UInt8) calculatedThreshold;
 
-@property NSInteger tolerance;
-@property BOOL attachesToGuides;
-@property (getter=isVertical) BOOL vertical;
+@property (nonatomic) NSInteger tolerance;
+@property (nonatomic) BOOL attachesToGuides;
+@property (nonatomic, getter=isVertical) BOOL vertical;
 
 @end

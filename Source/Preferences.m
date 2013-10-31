@@ -46,11 +46,11 @@ static NSDictionary *sGetDefaultValues()
 
 static void sSetDefaultObject(id dictionary, NSString *key, id valueToSave, id defaultValue)
 {
-    void (^saveObject)(NSObject *, NSString *) = ^(NSObject *o, NSString *key) {
+    void (^saveObject)(NSObject *, NSString *) = ^(NSObject *o, NSString *k) {
         if (o) {
-            [dictionary setObject:o forKey:key];
+            [dictionary setObject:o forKey:k];
         } else {
-            [dictionary removeObjectForKey:key];
+            [dictionary removeObjectForKey:k];
         }
     };
 

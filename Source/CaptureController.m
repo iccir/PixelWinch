@@ -161,9 +161,9 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     _task = task;
     
     __weak id weakSelf = self;
-    [task setTerminationHandler:^(NSTask *task) {
+    [task setTerminationHandler:^(NSTask *inTask) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf _taskDidTerminate:task];
+            [weakSelf _taskDidTerminate:inTask];
         });
     }];
 

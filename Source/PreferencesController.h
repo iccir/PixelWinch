@@ -15,7 +15,7 @@
 - (IBAction) selectPane:(id)sender;
 - (IBAction) updatePreferences:(id)sender;
 
-@property (weak) Preferences *preferences;
+@property (nonatomic, weak) Preferences *preferences;
 
 @property (nonatomic, weak) IBOutlet ShortcutView *captureSelectionShortcutView;
 @property (nonatomic, weak) IBOutlet ShortcutView *showScreenshotsShortcutView;

@@ -24,12 +24,12 @@
 - (void) setupWithScreenshot: (Screenshot   *) screenshot
                   dictionary: (NSDictionary *) dictionary;
 
-@property (readonly) NSUndoManager *undoManager;
+@property (nonatomic, readonly) NSUndoManager *undoManager;
 
 @property (nonatomic, readonly) Screenshot *screenshot;
 @property (nonatomic, readonly, assign) CGSize size;
 
-@property (readonly) NSDictionary *dictionaryRepresentation;
+@property (nonatomic, readonly) NSDictionary *dictionaryRepresentation;
 
 @property (nonatomic, weak, readonly) id<CanvasDelegate> delegate;
 

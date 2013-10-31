@@ -13,7 +13,7 @@
 
 - (IBAction) deleteItem:(id)sender;
 
-@property (weak) IBOutlet ThumbnailView *thumbnailView;
-@property (weak) IBOutlet NSButton *deleteButton;
+@property (nonatomic, weak) IBOutlet ThumbnailView *thumbnailView;
+@property (nonatomic, weak) IBOutlet NSButton *deleteButton;
 
 @end
