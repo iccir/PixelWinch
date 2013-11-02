@@ -27,6 +27,8 @@
 - (void) beginChanges;
 - (void) endChanges;
 
+- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard;
+
 @property (nonatomic, readonly) BOOL isValid;
 
 @property (nonatomic, assign) CGRect rect;

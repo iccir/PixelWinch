@@ -138,12 +138,12 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (XUIEdgeInsets) paddingForCanvasLayout
 {
     if ([[self guide] isVertical]) {
-        return NSEdgeInsetsMake(0, 2, 0, 2);
+        return XUIEdgeInsetsMake(0, 2, 0, 2);
     } else {
-        return NSEdgeInsetsMake(2, 0, 2, 0);
+        return XUIEdgeInsetsMake(2, 0, 2, 0);
     }
 }
 

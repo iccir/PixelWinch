@@ -26,14 +26,17 @@ static NSDictionary *sGetDefaultValues()
         @"captureSelectionShortcut":  [Shortcut emptyShortcut],
         @"captureWindowShortcut":     [Shortcut emptyShortcut],
         @"showScreenshotsShortcut":   [Shortcut emptyShortcut],
+        @"closeScreenshotsKey":       @( CloseScreenshotsKeyBoth ),
 
-        @"placedGuideColor":     [NSColor cyanColor],
-        @"activeGuideColor":     [NSColor colorWithCalibratedRed:0.5 green:1.0 blue:1.0 alpha:1.0],
+        @"screenshotExpiration":      @( ScreenshotExpirationNever ),
+
+        @"placedGuideColor":     GetRGBColor(0x00ffff, 1.0),
+        @"activeGuideColor":     GetRGBColor(0x00d4ff, 1.0),
+
+        @"previewGrappleColor":  GetRGBColor(0xff0080, 1.0),
+        @"placedGrappleColor":   GetRGBColor(0xff0000, 1.0),
+        @"activeGrappleColor":   GetRGBColor(0xff8000, 1.0),
         
-        @"placedGrappleColor":   [NSColor greenColor],
-        @"previewGrappleColor":  [NSColor colorWithCalibratedRed:0    green:1.0 blue:0    alpha:0.5],
-        @"activeGrappleColor":   [NSColor colorWithCalibratedRed:0.25 green:1.0 blue:0.25 alpha:1.0],
-
         @"placedRectangleFillColor":   [NSColor colorWithCalibratedRed:0 green:0 blue:0.33 alpha:0.25],
         @"placedRectangleBorderColor": [NSColor whiteColor]
     };
@@ -182,6 +185,20 @@ static void sRegisterDefaults()
     }
 
     [defaults synchronize];
+}
+
+
+- (void) restoreDefaultColors
+{
+    NSDictionary *defaultValuesDictionary = sGetDefaultValues();
+
+    for (NSString *key in defaultValuesDictionary) {
+        id defaultValue = [defaultValuesDictionary objectForKey:key];
+
+        if ([defaultValue isKindOfClass:[NSColor class]]) {
+            [self setValue:defaultValue forKey:key];
+        }
+    }
 }
 
 

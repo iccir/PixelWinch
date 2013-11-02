@@ -167,4 +167,9 @@ static NSString * const sHeightKey = @"height";
     return YES;
 }
 
+- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+{
+    return NO;
+}
+
 @end

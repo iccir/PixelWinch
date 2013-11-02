@@ -17,7 +17,6 @@
     CALayer   *_sublayer;
     TextLayer *_textLayer;
     CGPoint    _downPoint;
-    CGPoint    _originPoint;
 }
 
 @dynamic rectangle;
@@ -70,25 +69,23 @@
 
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    _downPoint = point;
-    
-    Rectangle *rectangle = [self rectangle];
-    _originPoint = rectangle ? [rectangle rect].origin : NSZeroPoint;
-
     if ([self isNewborn]) {
-        [rectangle setRect:CGRectMake(_downPoint.x, _downPoint.y, 0, 0)];
+        _downPoint = point;
+        [[self rectangle] setRect:CGRectMake(_downPoint.x, _downPoint.y, 0, 0)];
+    } else {
+        [super startTrackingWithEvent:event point:point];
     }
 }
 
 
 - (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    CGFloat deltaX = point.x - _downPoint.x;
-    CGFloat deltaY = point.y - _downPoint.y;
-
-    Rectangle *rectangle = [self rectangle];
-
     if ([self isNewborn]) {
+        CGFloat deltaX = point.x - _downPoint.x;
+        CGFloat deltaY = point.y - _downPoint.y;
+
+        Rectangle *rectangle = [self rectangle];
+
         [rectangle setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
     
         CursorInfo *cursorInfo = [CursorInfo sharedInstance];
@@ -97,11 +94,7 @@
         [cursorInfo setText:GetStringForSize(size) forKey:@"new-rectangle"];
         
     } else {
-        CGRect rect = [rectangle rect];
-        rect.origin.x = _originPoint.x + deltaX;
-        rect.origin.y = _originPoint.y + deltaY;
-        
-        [[self rectangle] setRect:rect];
+        [super continueTrackingWithEvent:event point:point];
     }
 }
 
@@ -111,6 +104,8 @@
     if ([self isNewborn]) {
         [[CursorInfo sharedInstance] setText:nil forKey:@"new-rectangle"];
         AddPopInAnimation(_textLayer, 0.25);
+    } else {
+        [super endTrackingWithEvent:event point:point];
     }
 }
 

@@ -59,11 +59,7 @@
 
 - (NSCursor *) cursor
 {
-    if ([[self grapple] isVertical]) {
-        return [NSCursor winch_resizeEastWestCursor];
-    } else {
-        return [NSCursor winch_resizeNorthSouthCursor];
-    }
+    return [NSCursor arrowCursor];
 }
 
 
@@ -83,26 +79,66 @@
 }
 
 
+- (void) willMoveToWindow:(NSWindow *)newWindow
+{
+    [super willMoveToWindow:newWindow];
+    
+    CGFloat scale = [newWindow backingScaleFactor];
+    
+    [_lineLayer        setContentsScale:scale];
+    [_startAnchorLayer setContentsScale:scale];
+    [_endAnchorLayer   setContentsScale:scale];
+}
+
+
 - (void) layoutSubviews
 {
     Grapple *grapple = [self grapple];
     CGRect   frame   = [self bounds];
 
-    CGFloat offset = ([self contentScaleFactor] > 1) ? 1.5 : 2;
+    XUIEdgeInsets insets = [self paddingForCanvasLayout];
+    CGRect insetRect = XUIEdgeInsetsInsetRect(frame, insets);
+
+    CGRect startAnchorFrame = insetRect;
+    CGRect endAnchorFrame = insetRect;
+    
+    BOOL showAnchors = NO;
 
     if ([grapple isVertical]) {
-        frame.origin.x = offset;
+        frame.origin.x = ScaleRound((frame.size.width - 1) / 2, 2);
         frame.size.width = 1;
+        
+        startAnchorFrame.origin.y = CGRectGetMinY(frame);
+        startAnchorFrame.size.height = 1;
 
+        endAnchorFrame.origin.y = CGRectGetMaxY(frame) - 1;
+        endAnchorFrame.size.height = 1;
+        
+        showAnchors = startAnchorFrame.size.width > 5;
+        
     } else {
-        frame.origin.y = offset;
+        frame.origin.y = ScaleRound((frame.size.height - 1) / 2, 2);
         frame.size.height = 1;
-    }
 
+        startAnchorFrame.origin.x = CGRectGetMinX(frame);
+        startAnchorFrame.size.width = 1;
+
+        endAnchorFrame.origin.x = CGRectGetMaxX(frame) - 1;
+        endAnchorFrame.size.width = 1;
+
+        showAnchors = startAnchorFrame.size.height > 4;
+    }
+    
     [_lineLayer setFrame:frame];
     [_textLayer setFrame:frame];
     [_textLayer setDimensions:[[self grapple] rect].size];
 
+    [_startAnchorLayer setFrame:startAnchorFrame];
+    [_endAnchorLayer   setFrame:endAnchorFrame];
+
+    [_startAnchorLayer setHidden:!showAnchors];
+    [_endAnchorLayer   setHidden:!showAnchors];
+    
     if ([[self grapple] isVertical]) {
         [_textLayer setTextLayerStyle:TextLayerStyleHeightOnly];
     } else {
@@ -160,15 +196,25 @@
 
     NSColor *lineColor = nil;
 
-    if ([[self grapple] isPreview]) {
-        lineColor = [NSColor redColor]; // preferences previewGrappleColor];
-    } else if (_tracking) {
-        lineColor = [preferences activeGrappleColor];
+    if ([[self grapple] isPreview] || (_tracking && [self isNewborn])) {
+        lineColor = [preferences previewGrappleColor];
     } else {
         lineColor = [preferences placedGrappleColor];
     }
 
-    [_lineLayer setBackgroundColor:[lineColor CGColor]];
+    if (animated) {
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+        [animation setFromValue:(__bridge id)[_lineLayer backgroundColor]];
+        [animation setDuration:0.25];
+        
+        [_lineLayer        addAnimation:animation forKey:@"backgroundColor"];
+        [_startAnchorLayer addAnimation:animation forKey:@"backgroundColor"];
+        [_endAnchorLayer   addAnimation:animation forKey:@"backgroundColor"];
+    }
+
+    [_lineLayer        setBackgroundColor:[lineColor CGColor]];
+    [_startAnchorLayer setBackgroundColor:[lineColor CGColor]];
+    [_endAnchorLayer   setBackgroundColor:[lineColor CGColor]];
 }
 
 
@@ -184,6 +230,8 @@
 
     if ([self isNewborn]) {
         [self _updateNewGrappleWithEvent:event point:point];
+    } else {
+        [super startTrackingWithEvent:event point:point];
     }
 }
 
@@ -193,7 +241,7 @@
     if ([self isNewborn]) {
         [self _updateNewGrappleWithEvent:event point:point];
     } else {
-        
+        [super continueTrackingWithEvent:event point:point];
     }
 }
 
@@ -207,6 +255,8 @@
 
     if ([self isNewborn]) {
         AddPopInAnimation(_textLayer, 0.25);
+    } else {
+        [super endTrackingWithEvent:event point:point];
     }
 }
 
@@ -217,12 +267,12 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (XUIEdgeInsets) paddingForCanvasLayout
 {
     if ([[self grapple] isVertical]) {
-        return NSEdgeInsetsMake(0, 2, 0, 2);
+        return XUIEdgeInsetsMake(0, 1, 0, 1);
     } else {
-        return NSEdgeInsetsMake(2, 0, 2, 0);
+        return XUIEdgeInsetsMake(1, 0, 1, 0);
     }
 }
 

@@ -100,10 +100,10 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (XUIEdgeInsets) paddingForCanvasLayout
 {
     const CGFloat sKnobPadding = 5;
-    return NSEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
+    return XUIEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
 }
 
 

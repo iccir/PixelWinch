@@ -1,9 +1,9 @@
 //
-//  PixelsAppDelegate.m
+//  PixelsAppDelegate.h
 //  Pixel Winch
 //
-//  Created by Ricci Adams on 2011-05-01.
-//  Copyright 2011 Stellar Squid, LLC. All rights reserved.
+//  Created by Ricci Adams on 2013-09-27.
+//  Copyright 2013 Ricci Adams. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -149,7 +149,7 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:29.0];
+    _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 

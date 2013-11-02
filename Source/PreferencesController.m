@@ -69,6 +69,11 @@
         pane = _appearancePane;
         title = NSLocalizedString(@"Conversion", nil);
 
+    } else if (tag == 2) {
+        item = _purchaseItem;
+        pane = _purchasePane;
+        title = NSLocalizedString(@"Purchase", nil);
+
     } else {
         item = _generalItem;
         pane = _generalPane;
@@ -113,6 +118,24 @@
     } else if (sender == _showScreenshotsShortcutView) {
         [preferences setShowScreenshotsShortcut:[sender shortcut]];
     }
+}
+
+
+- (IBAction) restoreDefaultColors:(id)sender
+{
+    [[Preferences sharedInstance] restoreDefaultColors];
+}
+
+
+- (IBAction) purchaseFullVersion:(id)sender
+{
+
+}
+
+
+- (IBAction) restorePreviousPurchases:(id)sender
+{
+
 }
 
 

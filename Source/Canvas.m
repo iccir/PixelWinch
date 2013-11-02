@@ -349,7 +349,7 @@ static NSString * const sRectanglesKey = @"rectangles";
     CGFloat   *cutOffsets  = maxCutCount ? malloc(sizeof(CGFloat) * maxCutCount) : NULL;
 
     if ([grapple isVertical]) {
-        point.x = floor(point.x) + 0.5;
+        point.x = floor(point.x);
         point.y = floor(point.y);
     
         size_t y1, y2;
@@ -388,12 +388,12 @@ static NSString * const sRectanglesKey = @"rectangles";
             }
         }
         
-        CGRect rect = CGRectMake(point.x, y1, 0, y2 - y1);
+        CGRect rect = CGRectMake(point.x, y1, 1, y2 - y1);
         [grapple setRect:rect];
 
     } else {
         point.x = floor(point.x);
-        point.y = floor(point.y) + 0.5;
+        point.y = floor(point.y);
     
         size_t x1, x2;
         [calculator calculateHorizontalGrappleWithStartX: point.x
@@ -431,7 +431,7 @@ static NSString * const sRectanglesKey = @"rectangles";
             }
         }
         
-        CGRect rect = CGRectMake(x1, point.y, x2 - x1, 0);
+        CGRect rect = CGRectMake(x1, point.y, x2 - x1, 1);
         [grapple setRect:rect];
     }
     

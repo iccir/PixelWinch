@@ -177,7 +177,7 @@
             [[_toolbox zoomTool] zoomOut];
             return;
 
-        } else if (c == '+') {
+        } else if (c == '=') {
             [[_toolbox zoomTool] zoomIn];
             return;
 
@@ -188,7 +188,15 @@
         }
 
     } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {
-        if (c == '{') {
+        if (c == '+') {
+            [[_toolbox zoomTool] zoomIn];
+            return;
+
+        } else if (c == '_') {
+            [[_toolbox zoomTool] zoomOut];
+            return;
+
+        } else if (c == '{') {
             // Select previous screenshot
             return;
 
@@ -683,7 +691,8 @@
     BOOL isVertical = [grappleTool calculatedIsVertical];
 
     if ([[_canvas previewGrapple] isVertical] != isVertical) {
-        [self _removePreviewGrapple];
+        // Call this directly, don't use -_removePreviewGrapple as it nils our text
+        [_canvas removePreviewGrapple];
     }
 
     if (![_canvas previewGrapple]) {
@@ -1137,6 +1146,23 @@
     [[CursorInfo sharedInstance] setEnabled:NO];
 
     [self _doOrderOutAnimation];
+}
+
+
+- (IBAction) copy:(id)sender
+{
+    NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+    ToolType toolType = [_toolbox selectedToolType];
+
+    CanvasObject *objectToWrite = _selectedObject;
+
+    if (toolType == ToolTypeMarquee) {
+        objectToWrite = [_canvas marquee];
+    }
+
+    if (![objectToWrite writeToPasteboard:pboard]) {
+        NSBeep();
+    }
 }
 
 

@@ -39,7 +39,7 @@ static NSString * const sVerticalKey    = @"vertical";
         return NO;
     }
 
-    NSNumber *verticalNumber    = [dictionary objectForKey:sVerticalKey];
+    NSNumber *verticalNumber = [dictionary objectForKey:sVerticalKey];
 
     if (!verticalNumber) {
         return NO;
@@ -55,6 +55,23 @@ static NSString * const sVerticalKey    = @"vertical";
 {
     [super writeToDictionary:dictionary];
     [dictionary setObject:@(_vertical) forKey:sVerticalKey];
+}
+
+
+
+- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+{
+    if ([self isValid]) {
+        NSString *stringToWrite = GetStringForFloat([self length]);
+
+        [pasteboard clearContents];
+        [pasteboard writeObjects:@[ stringToWrite ] ];
+
+        return YES;
+
+    } else {
+        return NO;
+    }
 }
 
 

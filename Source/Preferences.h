@@ -12,9 +12,23 @@ extern NSString * const PreferencesDidChangeNotification;
 
 @class Shortcut;
 
+typedef NS_ENUM(NSInteger, ScreenshotExpiration) {
+    ScreenshotExpirationNever = 0,
+    ScreenshotExpirationOnQuit = -1
+};
+
+typedef NS_ENUM(NSInteger, CloseScreenshotsKey) {
+    CloseScreenshotsKeyCommandW  = 0,
+    CloseScreenshotsKeyEscape    = 1,
+    CloseScreenshotsKeyBoth      = 2
+};
+
+
 @interface Preferences : NSObject
 
 + (id) sharedInstance;
+
+- (void) restoreDefaultColors;
 
 @property (nonatomic) BOOL pausesDuringCapture;
 @property (nonatomic) BOOL usesPoints;
@@ -22,6 +36,12 @@ extern NSString * const PreferencesDidChangeNotification;
 @property (nonatomic) Shortcut *captureSelectionShortcut;
 @property (nonatomic) Shortcut *captureWindowShortcut;
 @property (nonatomic) Shortcut *showScreenshotsShortcut;
+
+@property (nonatomic) NSInteger closeScreenshotsKey;
+
+@property (nonatomic) NSInteger screenshotExpiration;
+
+@property (nonatomic) NSInteger measurementCopyType;
 
 @property (nonatomic) NSColor *placedGuideColor;
 @property (nonatomic) NSColor *activeGuideColor;

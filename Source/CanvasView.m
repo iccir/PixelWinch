@@ -259,7 +259,7 @@
             rect.size.height = frame.size.height;
         }
 
-        const NSEdgeInsets padding = [objectView paddingForCanvasLayout];
+        const XUIEdgeInsets padding = [objectView paddingForCanvasLayout];
 
         rect.origin.x    *= scale;
         rect.origin.y    *= scale;

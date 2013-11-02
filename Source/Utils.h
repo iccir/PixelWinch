@@ -8,6 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+static inline CGFLOAT_TYPE ScaleRound(CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
+{
+    return round(x * scaleFactor) / scaleFactor;
+}
+
+static inline CGFLOAT_TYPE ScaleFloor(CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
+{
+    return floor(x * scaleFactor) / scaleFactor;
+}
+
+static inline CGFLOAT_TYPE ScaleCeil( CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
+{
+    return ceil( x * scaleFactor) / scaleFactor;
+}
+
+
 extern void WinchLog(NSString *category,  NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 

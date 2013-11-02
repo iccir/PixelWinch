@@ -12,7 +12,10 @@
 #import "Canvas.h"
 
 
-@implementation CanvasObjectView 
+@implementation CanvasObjectView {
+    CGPoint _moveTrackingOriginPoint;
+    CGPoint _moveTrackingMousePoint;
+}
 
 - (void) preferencesDidChange:(Preferences *)preferences { }
 
@@ -68,9 +71,37 @@
     [[self canvasView] invalidateCursors];
 }
 
-- (void) startTrackingWithEvent:   (NSEvent *)event point:(CGPoint)point { }
-- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point { }
-- (void) endTrackingWithEvent:     (NSEvent *)event point:(CGPoint)point { }
+
+- (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    CanvasObject *canvasObject = [self canvasObject];
+    _moveTrackingOriginPoint = canvasObject ? [canvasObject rect].origin : CGPointZero;
+    _moveTrackingMousePoint = [[self canvasView] convertPoint:[event locationInWindow] fromView:nil];
+}
+
+
+- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    CGPoint pointInCanvasView = [[self canvasView] convertPoint:[event locationInWindow] fromView:nil];
+
+    CGPoint deltaPoint = CGPointMake(
+        pointInCanvasView.x - _moveTrackingMousePoint.x,
+        pointInCanvasView.y - _moveTrackingMousePoint.y
+    );
+
+    deltaPoint = [self snappedPointForPoint:deltaPoint];
+
+    CanvasObject *canvasObject = [self canvasObject];
+
+    CGRect rect = [canvasObject rect];
+    rect.origin.x = _moveTrackingOriginPoint.x + deltaPoint.x;
+    rect.origin.y = _moveTrackingOriginPoint.y + deltaPoint.y;
+    
+    [[self canvasObject] setRect:rect];
+}
+
+
+- (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point { }
 
 
 - (CanvasView *) canvasView
@@ -113,9 +144,9 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (XUIEdgeInsets) paddingForCanvasLayout
 {
-    return NSEdgeInsetsMake(0, 0, 0, 0);
+    return XUIEdgeInsetsZero;
 }
 
 

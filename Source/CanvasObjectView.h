@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (NSCursor *) cursor;
 
 - (CGRect) rectForCanvasLayout;
-- (NSEdgeInsets) paddingForCanvasLayout;
+- (XUIEdgeInsets) paddingForCanvasLayout;
 - (NSArray *) resizeKnobTypes; // Subclasses to override
 
 - (CGPoint) snappedPointForEvent:(NSEvent *)event;
