@@ -114,13 +114,10 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     CGRect rect = CGRectMake(downPoint.x, downPoint.y, upPoint.x - downPoint.x, upPoint.y - downPoint.y);
     rect = CGRectStandardize(rect);
     
-    NSScreen *firstScreen = [[NSScreen screens] firstObject];
-    rect.origin.y = [firstScreen frame].size.height - CGRectGetMaxY(rect);
-
     [[Library sharedInstance] addItem:_currentItem];
 
     AppDelegate *appDelegate = (AppDelegate *)[NSApp delegate];
-    [[appDelegate canvasController] presentLibraryItem:_currentItem fromRect:rect];
+    [[appDelegate canvasController] presentLibraryItem:_currentItem fromGlobalRect:rect];
     
     [_task setTerminationHandler:nil];
     _task = nil;

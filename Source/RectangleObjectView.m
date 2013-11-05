@@ -91,7 +91,7 @@
         CursorInfo *cursorInfo = [CursorInfo sharedInstance];
         
         CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
-        [cursorInfo setText:GetStringForSize(size) forKey:@"new-rectangle"];
+        [cursorInfo setText:GetDisplayStringForSize(size) forKey:@"new-rectangle"];
         
     } else {
         [super continueTrackingWithEvent:event point:point];

@@ -23,10 +23,15 @@ typedef NS_ENUM(NSInteger, CloseScreenshotsKey) {
     CloseScreenshotsKeyBoth      = 2
 };
 
+typedef NS_ENUM(NSInteger, PreferredDisplay) {
+    PreferredDisplaySame = 0,
+    PreferredDisplayMain = -1
+};
+
 
 @interface Preferences : NSObject
 
-+ (id) sharedInstance;
++ (instancetype) sharedInstance;
 
 - (void) restoreDefaultColors;
 
@@ -36,6 +41,9 @@ typedef NS_ENUM(NSInteger, CloseScreenshotsKey) {
 @property (nonatomic) Shortcut *captureSelectionShortcut;
 @property (nonatomic) Shortcut *captureWindowShortcut;
 @property (nonatomic) Shortcut *showScreenshotsShortcut;
+
+@property (nonatomic) long long preferredDisplay;
+@property (nonatomic) NSString *preferredDisplayName;
 
 @property (nonatomic) NSInteger closeScreenshotsKey;
 

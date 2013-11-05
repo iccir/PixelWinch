@@ -3,10 +3,12 @@
     #import <QuartzCore/QuartzCore.h>
     #import <XUIKit/XUIKit.h>
 
-    #import "Compatibility.h"
     #import "Utils.h"
     #import "Preferences.h"
     #import "Shortcut.h"
 
     #import "CursorInfo.h"
+    #import "CursorAdditions.h"
+    #import "ScreenAdditions.h"
+    #import "PurchaseManager.h"
 #endif

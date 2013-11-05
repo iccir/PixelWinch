@@ -16,3 +16,5 @@ SKIP_INSTALL = YES
 INFOPLIST_FILE = Resources/Info.plist
 GCC_PREFIX_HEADER = Source/Prefix.pch
 LD_RUNPATH_SEARCH_PATHS = @executable_path/../Frameworks
+ALWAYS_SEARCH_USER_PATHS = YES
+USER_HEADER_SEARCH_PATHS = $(PROJECT_DIR)/lib/include

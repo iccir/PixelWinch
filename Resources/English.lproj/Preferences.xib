@@ -9,27 +9,33 @@
             <connections>
                 <outlet property="appearanceItem" destination="374" id="gen-GJ-tOW"/>
                 <outlet property="appearancePane" destination="337" id="5D8-cg-kOz"/>
-                <outlet property="captureSelectionShortcutView" destination="2u1-Cl-7Sl" id="9J7-9S-4e8"/>
+                <outlet property="captureSelectionShortcutView" destination="cdV-08-vFe" id="Ygz-el-Oxk"/>
                 <outlet property="clickInSwatchPopUp" destination="46" id="96"/>
                 <outlet property="conversionItem" destination="374" id="381"/>
                 <outlet property="conversionPane" destination="337" id="380"/>
                 <outlet property="generalItem" destination="174" id="7bh-pN-Sdn"/>
                 <outlet property="generalPane" destination="251" id="ELS-uE-CEE"/>
+                <outlet property="keyboardItem" destination="2cG-c1-4p4" id="o4e-Kl-tjv"/>
+                <outlet property="keyboardPane" destination="cwh-za-zMQ" id="xSX-f7-fRq"/>
                 <outlet property="myClippedColorWell" destination="356" id="386"/>
                 <outlet property="purchaseItem" destination="cbx-I5-8j1" id="h1k-b1-O1c"/>
                 <outlet property="purchasePane" destination="g52-iv-nqa" id="3Zx-rm-Xd6"/>
-                <outlet property="showScreenshotsShortcutView" destination="fBo-3p-4Hg" id="HUZ-gn-Yjn"/>
+                <outlet property="screenPopUp" destination="xhy-Eb-Abl" id="6O3-0a-iHw"/>
+                <outlet property="showScreenshotsShortcutView" destination="VgH-zr-qim" id="ZAU-ch-bke"/>
                 <outlet property="systemClippedColorWell" destination="360" id="385"/>
+                <outlet property="timedPane" destination="Ikq-Nf-gOb" id="BRq-QF-Sgc"/>
+                <outlet property="timedRemainingField" destination="6cL-Zv-Y6U" id="MTn-h9-FQw"/>
+                <outlet property="timedTextField" destination="qj1-j6-Q5b" id="G1L-WI-BfN"/>
+                <outlet property="timedTitleField" destination="cBj-KY-wMS" id="ewZ-fJ-1en"/>
                 <outlet property="toolbar" destination="166" id="301"/>
                 <outlet property="window" destination="164" id="290"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="Preferences" animationBehavior="default" id="164">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="163" y="695" width="480" height="480"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="165">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -46,7 +52,12 @@
                             <action selector="selectPane:" target="-2" id="379"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="4B0D1DD1-7869-4F48-BC70-CD0EBDB11CE8" label="Purchase" paletteLabel="Purchase" tag="2" id="cbx-I5-8j1">
+                    <toolbarItem implicitItemIdentifier="F56B9E90-EEAB-4C5C-BA4E-DDC4F61AD33A" label="Keyboard" paletteLabel="Keyboard" tag="2" image="toolbar_keyboard" selectable="YES" id="2cG-c1-4p4">
+                        <connections>
+                            <action selector="selectPane:" target="-2" id="N7T-31-SnV"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="4B0D1DD1-7869-4F48-BC70-CD0EBDB11CE8" label="Purchase" paletteLabel="Purchase" tag="10" selectable="YES" id="cbx-I5-8j1">
                         <connections>
                             <action selector="selectPane:" target="-2" id="CW0-yc-Hdz"/>
                         </connections>
@@ -57,19 +68,21 @@
                 <defaultToolbarItems>
                     <toolbarItem reference="174"/>
                     <toolbarItem reference="374"/>
+                    <toolbarItem reference="2cG-c1-4p4"/>
                     <toolbarItem reference="170"/>
                     <toolbarItem reference="cbx-I5-8j1"/>
                 </defaultToolbarItems>
             </toolbar>
         </window>
+        <customObject id="-3" userLabel="Application"/>
         <customView id="251" userLabel="General Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="282"/>
+            <rect key="frame" x="0.0" y="0.0" width="368" height="174"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <popUpButton verticalHuggingPriority="750" id="46">
-                    <rect key="frame" x="186" y="226" width="165" height="26"/>
+                    <rect key="frame" x="186" y="130" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Points" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="59" id="47">
+                    <popUpButtonCell key="cell" type="push" title="Points" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="59" id="47">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="48">
@@ -88,35 +101,38 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="yDE-dF-B84">
-                    <rect key="frame" x="186" y="195" width="165" height="26"/>
+                    <rect key="frame" x="186" y="99" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="W, H" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="zBC-Zb-IUt" id="3Bc-zF-RV1">
+                    <popUpButtonCell key="cell" type="push" title="W x H" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="F3W-Yj-79p" id="3Bc-zF-RV1">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="SmN-hn-Fgx">
                             <items>
-                                <menuItem title="W, H" tag="1" id="zBC-Zb-IUt">
+                                <menuItem title="W H" id="zBC-Zb-IUt">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="W x H" id="F3W-Yj-79p">
+                                <menuItem title="W, H" tag="1" id="iZZ-Ui-6dK">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="W x H" state="on" tag="2" id="F3W-Yj-79p">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.usesPoints" id="mEl-2x-LaE"/>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.measurementCopyType" id="28c-lC-re9"/>
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="Q11-9R-akh">
-                    <rect key="frame" x="186" y="142" width="165" height="26"/>
+                    <rect key="frame" x="186" y="17" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Never" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oOR-ui-IbL" id="ids-5C-rsN">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ids-5C-rsN">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="Lyn-2c-Eyq">
                             <items>
-                                <menuItem title="Never" state="on" id="oOR-ui-IbL">
+                                <menuItem title="Never" id="oOR-ui-IbL">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem isSeparatorItem="YES" id="dzQ-4h-c8m"/>
@@ -150,74 +166,8 @@
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.screenshotExpiration" id="nJH-Qj-moR"/>
                     </connections>
                 </popUpButton>
-                <popUpButton verticalHuggingPriority="750" id="U9H-Qm-RPt">
-                    <rect key="frame" x="186" y="29" width="165" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Both ⌘W and ⎋" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="I5J-Ka-dZw" id="QNU-dA-3yG">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" title="OtherViews" id="VKT-4e-lyu">
-                            <items>
-                                <menuItem title="⌘W" tag="1" id="GBW-sw-1Aw">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="Escape (⎋)" id="2Qc-3a-Lzh">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="5Ww-hw-9hh"/>
-                                <menuItem title="Both ⌘W and ⎋" state="on" id="I5J-Ka-dZw">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                    <connections>
-                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.closeScreenshotsKey" id="g4v-Pi-ZKD"/>
-                    </connections>
-                </popUpButton>
-                <textField verticalHuggingPriority="750" id="npU-XF-gWo">
-                    <rect key="frame" x="18" y="94" width="164" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Capture selection" id="WzI-lY-yES">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <customView id="2u1-Cl-7Sl" customClass="ShortcutView">
-                    <rect key="frame" x="188" y="91" width="160" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <connections>
-                        <action selector="updatePreferences:" target="-2" id="xQG-SM-miQ"/>
-                    </connections>
-                </customView>
-                <customView id="fBo-3p-4Hg" customClass="ShortcutView">
-                    <rect key="frame" x="188" y="61" width="160" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <connections>
-                        <action selector="updatePreferences:" target="-2" id="lTV-ea-PRE"/>
-                    </connections>
-                </customView>
-                <textField verticalHuggingPriority="750" id="7cK-iR-SK5">
-                    <rect key="frame" x="18" y="64" width="164" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots" id="hVD-eR-cb7">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField verticalHuggingPriority="750" id="nqs-0G-DXg">
-                    <rect key="frame" x="18" y="35" width="164" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Close screenshots" id="fZW-zP-9r6">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="gd0-bG-dRS">
-                    <rect key="frame" x="18" y="232" width="164" height="17"/>
+                    <rect key="frame" x="18" y="136" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Display measurements in" id="QiB-5a-ciS">
                         <font key="font" metaFont="system"/>
@@ -226,7 +176,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="IY2-iC-B3h">
-                    <rect key="frame" x="18" y="201" width="164" height="17"/>
+                    <rect key="frame" x="18" y="105" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Copy measurements as" id="5kq-Ts-98b">
                         <font key="font" metaFont="system"/>
@@ -235,9 +185,31 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="qYe-Tn-e48">
-                    <rect key="frame" x="22" y="147" width="160" height="17"/>
+                    <rect key="frame" x="22" y="22" width="160" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Delete screenshots when" id="Xq0-Yj-3M4">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" id="xhy-Eb-Abl">
+                    <rect key="frame" x="186" y="58" width="165" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="0bo-Cx-20n">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="TAQ-wO-F7H"/>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="updatePreferredDisplay:" target="-2" id="nd6-OV-xoU"/>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.preferredDisplay" id="cfA-Jz-Fgg"/>
+                    </connections>
+                </popUpButton>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="JvF-4h-aHh">
+                    <rect key="frame" x="47" y="64" width="135" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots on" id="QYe-m5-3Pd">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -394,6 +366,78 @@
                 </button>
             </subviews>
         </customView>
+        <customView id="cwh-za-zMQ" userLabel="Keyboard Pane">
+            <rect key="frame" x="0.0" y="0.0" width="368" height="121"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <popUpButton verticalHuggingPriority="750" id="AHg-fO-1e3">
+                    <rect key="frame" x="186" y="17" width="165" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="⌘W" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FMX-Iz-sZ4">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="crC-Yd-bgh">
+                            <items>
+                                <menuItem title="⌘W" state="on" id="QCh-fp-Isc">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="Escape (⎋)" tag="1" id="9xx-HB-7KK">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem isSeparatorItem="YES" id="xKF-zj-0Gu"/>
+                                <menuItem title="Both ⌘W and ⎋" tag="2" id="UuL-hr-Fse">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.closeScreenshotsKey" id="CGi-bF-bdc"/>
+                    </connections>
+                </popUpButton>
+                <textField verticalHuggingPriority="750" id="6ge-Ip-3PL">
+                    <rect key="frame" x="18" y="82" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Capture selection" id="Nq9-rb-hPx">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <customView id="cdV-08-vFe" customClass="ShortcutView">
+                    <rect key="frame" x="188" y="79" width="160" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <connections>
+                        <action selector="updatePreferences:" target="-2" id="efE-ea-ow6"/>
+                    </connections>
+                </customView>
+                <customView id="VgH-zr-qim" customClass="ShortcutView">
+                    <rect key="frame" x="188" y="49" width="160" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <connections>
+                        <action selector="updatePreferences:" target="-2" id="epG-4u-uC9"/>
+                    </connections>
+                </customView>
+                <textField verticalHuggingPriority="750" id="8ol-ZF-7Ck">
+                    <rect key="frame" x="18" y="52" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots" id="xQH-vt-jro">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="Nk4-xz-Lvo">
+                    <rect key="frame" x="18" y="23" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Close screenshots" id="o2n-Zr-Cjs">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+        </customView>
         <userDefaultsController representsSharedInstance="YES" id="E23-JI-4sA"/>
         <customView id="g52-iv-nqa" userLabel="Purchase Pane">
             <rect key="frame" x="0.0" y="0.0" width="368" height="317"/>
@@ -413,7 +457,7 @@
                 <button verticalHuggingPriority="750" id="Udo-Nb-orr">
                     <rect key="frame" x="68" y="154" width="232" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Purchase Instantaneous Edition" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WZv-aL-FOp">
+                    <buttonCell key="cell" type="push" title="Purchase Instant Edition" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WZv-aL-FOp">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -447,9 +491,9 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="7kk-lE-dha">
-                    <rect key="frame" x="18" y="61" width="312" height="34"/>
+                    <rect key="frame" x="18" y="61" width="277" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You can restore your purchase and use the Instantaneous Edition of Pixel Winch on this Mac." id="KU6-UW-sYm">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You can restore your purchase and use the Instant Edition of Pixel Winch on this Mac." id="KU6-UW-sYm">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -460,16 +504,61 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="egc-ZQ-IPh">
                         <font key="font" metaFont="system"/>
-                        <string key="title">You are using the free edition of Pixel Winch.  All features are available, but screenshots take five seconds to load.  Purchase the Instantaneous Edition to load screenshots immediately.</string>
+                        <string key="title">You are using the free edition of Pixel Winch.  All features are available, but screenshots take a few seconds to load.  Purchase the Instant Edition to load screenshots immediately.</string>
                         <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
         </customView>
+        <customView id="Ikq-Nf-gOb" userLabel="Timed Pane">
+            <rect key="frame" x="0.0" y="0.0" width="368" height="180"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cBj-KY-wMS">
+                    <rect key="frame" x="18" y="141" width="193" height="19"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Private Beta" id="JOb-QL-QQv">
+                        <font key="font" metaFont="system" size="16"/>
+                        <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="qj1-j6-Q5b">
+                    <rect key="frame" x="18" y="82" width="332" height="51"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="You are using a beta version of Pixel Winch.  All features are available, but the application will expire on:" id="4vD-Lc-CMm">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="6cL-Zv-Y6U">
+                    <rect key="frame" x="18" y="57" width="332" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;DO NOT LOCALIZE>" id="UD5-BU-B6p">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" id="EpX-TK-xkN">
+                    <rect key="frame" x="68" y="13" width="232" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                    <buttonCell key="cell" type="push" title="Visit Pixel Winch Website" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dJI-6z-MWc">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="visitWebsite:" target="-2" id="hQ7-QM-nZE"/>
+                    </connections>
+                </button>
+            </subviews>
+        </customView>
     </objects>
     <resources>
         <image name="NSColorPanel" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="toolbar_keyboard" width="32" height="32"/>
     </resources>
 </document>

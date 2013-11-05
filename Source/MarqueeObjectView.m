@@ -84,7 +84,7 @@
 
     CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
     if ((size.width > 0) && (size.height > 0)) {
-        [[CursorInfo sharedInstance] setText:GetStringForSize(size) forKey:@"new-marquee"];
+        [[CursorInfo sharedInstance] setText:GetDisplayStringForSize(size) forKey:@"new-marquee"];
     } else {
         [[CursorInfo sharedInstance] setText:nil forKey:@"new-marquee"];
     }

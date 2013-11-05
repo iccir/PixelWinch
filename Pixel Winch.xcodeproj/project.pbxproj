@@ -6,6 +6,20 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		55E987BF182870C500C2208A /* Receipt Validation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 55E987C0182870C500C2208A /* Build configuration list for PBXAggregateTarget "Receipt Validation" */;
+			buildPhases = (
+				55E987C4182870DD00C2208A /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Receipt Validation";
+			productName = "Receipt Validation";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5502670717FF97E8008A5D01 /* GrappleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502670517FF97E8008A5D01 /* GrappleObjectView.m */; };
 		5512BF3117F94EA100425AD6 /* Guide.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3017F94EA100425AD6 /* Guide.m */; };
@@ -110,6 +124,8 @@
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
 		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
+		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
+		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
 		55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */; };
 		55C20CB01800108F00ECE184 /* toolbar_arrow_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 55C20C981800108F00ECE184 /* toolbar_arrow_normal.png */; };
 		55C20CB11800108F00ECE184 /* toolbar_arrow_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55C20C991800108F00ECE184 /* toolbar_arrow_normal@2x.png */; };
@@ -158,15 +174,25 @@
 		55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2412E180DF4170093CF04 /* LibraryItem.m */; };
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
+		55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55CB053418285F80001DD1A0 /* libcrypto.a */; };
+		55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E987CD1828E37A00C2208A /* ScreenAdditions.m */; };
+		55E987D11828FF0E00C2208A /* toolbar_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E987CF1828FF0E00C2208A /* toolbar_keyboard@2x.png */; };
+		55E987D21828FF0E00C2208A /* toolbar_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E987D01828FF0E00C2208A /* toolbar_keyboard.png */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
 		55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
-		55FA81541813D76E00ED67E0 /* Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 55FA81531813D76E00ED67E0 /* Compatibility.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		55E987C5182872E200C2208A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55E987BF182870C500C2208A;
+			remoteInfo = "Receipt Validation";
+		};
 		55F84928181DCEFB00BABB66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */;
@@ -349,6 +375,9 @@
 		55B07A8917F7A19D0013B05C /* CanvasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasController.m; path = Source/CanvasController.m; sourceTree = "<group>"; };
 		55BB972B180602A600DED9B5 /* ShroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShroudView.h; path = Source/ShroudView.h; sourceTree = "<group>"; };
 		55BB972C180602A600DED9B5 /* ShroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShroudView.m; path = Source/ShroudView.m; sourceTree = "<group>"; };
+		55BBCD08182793CB00AC9A26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PurchaseManager.h; path = Source/PurchaseManager.h; sourceTree = "<group>"; };
+		55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PurchaseManager.m; path = Source/PurchaseManager.m; sourceTree = "<group>"; };
 		55C20C9517FFAE3B00ECE184 /* CenteringClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CenteringClipView.h; path = Source/CenteringClipView.h; sourceTree = "<group>"; };
 		55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CenteringClipView.m; path = Source/CenteringClipView.m; sourceTree = "<group>"; };
 		55C20C981800108F00ECE184 /* toolbar_arrow_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_arrow_normal.png; path = Resources/toolbar_arrow_normal.png; sourceTree = "<group>"; };
@@ -405,6 +434,7 @@
 		55C4E4DE18013EB80015B8C1 /* BlackButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackButtonCell.m; path = Source/BlackButtonCell.m; sourceTree = "<group>"; };
 		55C4E4E0180159200015B8C1 /* BlackTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackTextField.h; path = Source/BlackTextField.h; sourceTree = "<group>"; };
 		55C4E4E1180159200015B8C1 /* BlackTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackTextField.m; path = Source/BlackTextField.m; sourceTree = "<group>"; };
+		55CB053418285F80001DD1A0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
 		55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItemCollectionItem.h; path = Source/LibraryItemCollectionItem.h; sourceTree = "<group>"; };
@@ -412,12 +442,17 @@
 		55E24135180E101D0093CF04 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		55E24137180E10410093CF04 /* ThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThumbnailView.h; path = Source/ThumbnailView.h; sourceTree = "<group>"; };
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
+		55E987C7182874DA00C2208A /* Validation_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_C.h; path = Source/Validation_C.h; sourceTree = "<group>"; };
+		55E987C8182874DA00C2208A /* Validation_B.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_B.h; path = Source/Validation_B.h; sourceTree = "<group>"; };
+		55E987C9182874DA00C2208A /* Validation_A.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_A.h; path = Source/Validation_A.h; sourceTree = "<group>"; };
+		55E987CC1828E37A00C2208A /* ScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenAdditions.h; path = Source/ScreenAdditions.h; sourceTree = "<group>"; };
+		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
+		55E987CF1828FF0E00C2208A /* toolbar_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_keyboard@2x.png"; path = "Resources/toolbar_keyboard@2x.png"; sourceTree = "<group>"; };
+		55E987D01828FF0E00C2208A /* toolbar_keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_keyboard.png; path = Resources/toolbar_keyboard.png; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
 		55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XUIKit.xcodeproj; path = ../XUIKit/XUIKit.xcodeproj; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		55FA81521813D76E00ED67E0 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Compatibility.h; path = Source/Compatibility.h; sourceTree = "<group>"; };
-		55FA81531813D76E00ED67E0 /* Compatibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Compatibility.m; path = Source/Compatibility.m; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -426,6 +461,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
+				55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */,
 				55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */,
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
@@ -500,10 +537,11 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				55E987C9182874DA00C2208A /* Validation_A.h */,
+				55E987C8182874DA00C2208A /* Validation_B.h */,
+				55E987C7182874DA00C2208A /* Validation_C.h */,
 				555153421819FC3A004485F6 /* Application.h */,
 				555153431819FC3A004485F6 /* Application.m */,
-				55FA81521813D76E00ED67E0 /* Compatibility.h */,
-				55FA81531813D76E00ED67E0 /* Compatibility.m */,
 				553AC78F17F7DCC200C253C2 /* Utils.h */,
 				553AC79017F7DCC200C253C2 /* Utils.m */,
 				554D8986135BEFC9003BFC89 /* Prefix.pch */,
@@ -525,6 +563,8 @@
 				5520DF61180F8069002D5451 /* delete_normal@2x.png */,
 				5520DF62180F8069002D5451 /* delete_pressed.png */,
 				5520DF70180FE507002D5451 /* bottom_shadow@2x.png */,
+				55E987CF1828FF0E00C2208A /* toolbar_keyboard@2x.png */,
+				55E987D01828FF0E00C2208A /* toolbar_keyboard.png */,
 				5520DF71180FE507002D5451 /* bottom_shadow.png */,
 				55336A34180CB76A00F053C7 /* Cursors */,
 				55C20CCE1800EBCB00ECE184 /* Segmented Control */,
@@ -544,6 +584,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55CB053418285F80001DD1A0 /* libcrypto.a */,
+				55BBCD08182793CB00AC9A26 /* StoreKit.framework */,
 				55FA814E18134F9B00ED67E0 /* Accelerate.framework */,
 				55E24135180E101D0093CF04 /* QuickLook.framework */,
 				554B43B0180A237900804373 /* OpenGL.framework */,
@@ -723,6 +765,8 @@
 				559D38D0180399B90048F29B /* ShortcutManager.m */,
 				559D38C01802ABC60048F29B /* Shortcut.h */,
 				559D38BF1802ABC60048F29B /* Shortcut.m */,
+				55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */,
+				55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -743,6 +787,8 @@
 				55336A20180BC4A400F053C7 /* CursorInfo.m */,
 				5536B41C17F8F1D000D9B4E9 /* RulerView.h */,
 				5536B41D17F8F1D000D9B4E9 /* RulerView.m */,
+				55E987CC1828E37A00C2208A /* ScreenAdditions.h */,
+				55E987CD1828E37A00C2208A /* ScreenAdditions.m */,
 				553ED14818061AB000F06B45 /* ScrollView.h */,
 				553ED14918061AB000F06B45 /* ScrollView.m */,
 				559D38D418039D930048F29B /* ShortcutView.m */,
@@ -859,7 +905,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
-				55FA815A1815DE8600ED67E0 /* ShellScript */,
+				55FA815A1815DE8600ED67E0 /* rchook */,
 				8D1107290486CEB800E47090 /* Resources */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
 				557BA9C01821EA72004A57FC /* Sign Frameworks */,
@@ -869,6 +915,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				55E987C6182872E200C2208A /* PBXTargetDependency */,
 				55F8492C181DCF1F00BABB66 /* PBXTargetDependency */,
 			);
 			name = "Pixel Winch";
@@ -888,7 +935,7 @@
 						DevelopmentTeam = XXXXXXXXXX;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -914,6 +961,7 @@
 			);
 			projectRoot = "";
 			targets = (
+				55E987BF182870C500C2208A /* Receipt Validation */,
 				8D1107260486CEB800E47090 /* Pixel Winch */,
 			);
 		};
@@ -1014,11 +1062,13 @@
 				557BA9B61821D99A004A57FC /* PixelWinch_Base.xcconfig in Resources */,
 				55336A39180CD61E00F053C7 /* LibraryItemPrototype.xib in Resources */,
 				559D38CC1803941C0048F29B /* status_bar.png in Resources */,
+				55E987D11828FF0E00C2208A /* toolbar_keyboard@2x.png in Resources */,
 				55C20CDA1800EBDB00ECE184 /* segmented_left_selected@2x.png in Resources */,
 				553ED16218064E6200F06B45 /* radio_normal@2x.png in Resources */,
 				55C20CC71800108F00ECE184 /* toolbar_zoom_selected@2x.png in Resources */,
 				557BA9BA1821D99A004A57FC /* PixelWinch_Release.xcconfig in Resources */,
 				55336A2E180CB05900F053C7 /* cursor_resize_nw_se@2x.png in Resources */,
+				55E987D21828FF0E00C2208A /* toolbar_keyboard.png in Resources */,
 				554D899A135BF064003BFC89 /* MainMenu.xib in Resources */,
 				55C20CB31800108F00ECE184 /* toolbar_arrow_selected@2x.png in Resources */,
 				55C20CBA1800108F00ECE184 /* toolbar_hand_selected.png in Resources */,
@@ -1042,15 +1092,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nIDENTITY=\"Developer ID Application: Ricci Adams\"\ncodesign --verbose --force --sign \"$IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n";
 		};
-		55FA815A1815DE8600ED67E0 /* ShellScript */ = {
+		55E987C4182870DD00C2208A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUNDLE_VERSION=$(defaults read \"$PROJECT_DIR/Resources/Info\" CFBundleShortVersionString)\n\nexit 0\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix A \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success runapplication --failure exitwith173 > \\\n        \"$PROJECT_DIR/Source/Validation_A.h\"\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix B \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success callblock --failure callblock > \\\n        \"$PROJECT_DIR/Source/Validation_B.h\"\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix C \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success callblock --failure callblock > \\\n        \"$PROJECT_DIR/Source/Validation_C.h\"\n";
+		};
+		55FA815A1815DE8600ED67E0 /* rchook */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = rchook;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1081,6 +1145,7 @@
 				55C20CEA180109FC00ECE184 /* ZoomTool.m in Sources */,
 				55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */,
 				555153441819FC3A004485F6 /* Application.m in Sources */,
+				55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */,
 				5516B68D1804ECAD002AED2E /* Library.m in Sources */,
 				55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */,
 				553ED16B180651FA00F06B45 /* BlackSlider.m in Sources */,
@@ -1093,6 +1158,7 @@
 				55E24139180E10410093CF04 /* ThumbnailView.m in Sources */,
 				559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */,
 				5502670717FF97E8008A5D01 /* GrappleObjectView.m in Sources */,
+				55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */,
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
@@ -1113,7 +1179,6 @@
 				559D38C11802ABC60048F29B /* Preferences.m in Sources */,
 				5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */,
 				553ED1751806A7F000F06B45 /* TextLayer.m in Sources */,
-				55FA81541813D76E00ED67E0 /* Compatibility.m in Sources */,
 				5512BF6D17FBB04800425AD6 /* RectangleObjectView.m in Sources */,
 				5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */,
 				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
@@ -1128,6 +1193,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		55E987C6182872E200C2208A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55E987BF182870C500C2208A /* Receipt Validation */;
+			targetProxy = 55E987C5182872E200C2208A /* PBXContainerItemProxy */;
+		};
 		55F8492C181DCF1F00BABB66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = XUIKit;
@@ -1181,22 +1251,63 @@
 		557BA9BC1821DA06004A57FC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		55E987C1182870C500C2208A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		55E987C2182870C500C2208A /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Profile;
+		};
+		55E987C3182870C500C2208A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Ricci Adams (XXXXXXXXXX)";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		C01FCF4C08A954540054247B /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
+				PROVISIONING_PROFILE = "";
 			};
 			name = Profile;
 		};
@@ -1217,6 +1328,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		55E987C0182870C500C2208A /* Build configuration list for PBXAggregateTarget "Receipt Validation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55E987C1182870C500C2208A /* Debug */,
+				55E987C2182870C500C2208A /* Profile */,
+				55E987C3182870C500C2208A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

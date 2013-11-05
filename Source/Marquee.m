@@ -28,7 +28,7 @@
 
         if (!cgSubimage) return NO;
 
-        CGFloat scale = [[NSScreen mainScreen] backingScaleFactor];
+        CGFloat scale = [[[NSScreen screens] firstObject] backingScaleFactor];
 
         NSImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:cgSubimage];
 

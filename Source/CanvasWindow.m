@@ -8,7 +8,18 @@
 
 #import "CanvasWindow.h"
 
+
 @implementation CanvasWindow {
+}
+
+- (void) performClose:(id)sender
+{
+    if ([[self delegate] respondsToSelector:@selector(window:performClose:)]) {
+        BOOL result = [[self delegate] window:self performClose:sender];
+        if (result) return;
+    }
+
+    [super performClose:sender];
 }
 
 
@@ -21,7 +32,6 @@
 
     [super cancelOperation:sender];
 }
-
 
 - (void) setDelegate:(id<CanvasWindowDelegate>)anObject
 {
@@ -49,9 +59,12 @@
 
 - (NSRect) constrainFrameRect:(NSRect)frameRect toScreen:(NSScreen *)screen
 {
-    NSRect result = [super constrainFrameRect:frameRect toScreen:screen];
-    result.origin = [screen frame].origin;
-    return result;
+    return frameRect;
+//    NSLog(@"Constrain to %@", [screen winch_name]);
+//
+//    NSRect result = [super constrainFrameRect:frameRect toScreen:screen];
+//    if (screen) result.origin = [screen frame].origin;
+//    return result;
 }
 
 

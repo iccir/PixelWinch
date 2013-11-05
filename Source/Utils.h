@@ -62,5 +62,5 @@ extern void WithWhiteOnBlackTextMode(void (^callback)());
 extern void AddPopInAnimation(CALayer *layer, CGFloat duration);
 
 extern NSString *GetStringForFloat(CGFloat f);
-extern NSString *GetStringForSize(CGSize size);
-
+extern NSString *GetDisplayStringForSize(CGSize size);
+extern NSString *GetPasteboardStringForSize(CGSize size);

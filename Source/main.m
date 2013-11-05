@@ -8,8 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+#if ENABLE_APP_STORE
+#include "Validation_A.h"
+#endif
+
 int main(int argc, char *argv[])
 {
-    InstallCompatibilityIfNeeded();
+#if ENABLE_APP_STORE
+    CheckReceiptAndRun(argc, argv);
+#else
     return NSApplicationMain(argc,  (const char **) argv);
+#endif
 }

@@ -27,6 +27,11 @@ static NSDictionary *sGetDefaultValues()
         @"captureWindowShortcut":     [Shortcut emptyShortcut],
         @"showScreenshotsShortcut":   [Shortcut emptyShortcut],
         @"closeScreenshotsKey":       @( CloseScreenshotsKeyBoth ),
+        
+        @"preferredDisplay":          @( 0 ),
+        @"preferredDisplayName":      @"",
+
+        @"measurementCopyType":       @( 2 ),
 
         @"screenshotExpiration":      @( ScreenshotExpirationNever ),
 

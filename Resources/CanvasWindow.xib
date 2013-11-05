@@ -126,11 +126,11 @@
                     <rect key="frame" x="16" y="104" width="624" height="308"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="wJb-e8-loC" customClass="CenteringClipView">
-                        <rect key="frame" x="0.0" y="0.0" width="609" height="293"/>
+                        <rect key="frame" x="0.0" y="0.0" width="624" height="308"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view id="qbg-5V-qxt" customClass="CanvasView">
-                                <rect key="frame" x="0.0" y="0.0" width="609" height="293"/>
+                                <rect key="frame" x="0.0" y="0.0" width="624" height="308"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="-2" id="TPP-uA-Qdy"/>
@@ -139,11 +139,11 @@
                         </subviews>
                     </clipView>
                     <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="tNc-QP-mGi" customClass="BlackScroller">
-                        <rect key="frame" x="0.0" y="293" width="609" height="15"/>
+                        <rect key="frame" x="0.0" y="292" width="624" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="HEr-48-mI7" customClass="BlackScroller">
-                        <rect key="frame" x="609" y="0.0" width="15" height="293"/>
+                        <rect key="frame" x="608" y="0.0" width="16" height="308"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>

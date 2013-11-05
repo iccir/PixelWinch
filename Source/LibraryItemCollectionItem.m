@@ -39,6 +39,13 @@
 }
 
 
+- (void) dealloc
+{
+    [_deleteButton setTarget:nil];
+    [_deleteButton setAction:NULL];
+}
+
+
 - (void) _updateSelected
 {
     BOOL isSelected = [self isSelected];

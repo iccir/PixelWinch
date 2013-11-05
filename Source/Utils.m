@@ -463,8 +463,23 @@ NSString *GetStringForFloat(CGFloat f)
 }
 
 
-NSString *GetStringForSize(CGSize size)
+NSString *GetDisplayStringForSize(CGSize size)
 {
-    return [NSString stringWithFormat:@"%@ x %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
+    return [NSString stringWithFormat:@"%@%C%C%C%@", GetStringForFloat(size.width), (unichar)0x2009, (unichar)0xD7, (unichar)0x2009, GetStringForFloat(size.height)];
 }
 
+
+NSString *GetPasteboardStringForSize(CGSize size)
+{
+    NSInteger measurementCopyType = [[Preferences sharedInstance] measurementCopyType];
+
+    if (measurementCopyType == 1) {
+        return [NSString stringWithFormat:@"%@, %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
+   
+    } else if (measurementCopyType == 2) {
+        return [NSString stringWithFormat:@"%@ x %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
+
+    } else {
+        return [NSString stringWithFormat:@"%@ %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
+    }
+}

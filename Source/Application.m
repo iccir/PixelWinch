@@ -24,7 +24,9 @@
                 @"v": @"paste:",
                 @"x": @"cut:",
                 @"z": @"undo:",
-                @"a": @"selectAll:"
+                @"a": @"selectAll:",
+                @"w": @"performClose:",
+                @"m": @"performMiniaturize:"
             } objectForKey:characters];
 
         } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {

@@ -18,7 +18,7 @@
 
 @interface CanvasController : NSWindowController
 
-- (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect;
+- (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;
 

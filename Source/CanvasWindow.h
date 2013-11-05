@@ -20,5 +20,6 @@
 
 @protocol CanvasWindowDelegate <NSWindowDelegate>
 @optional
+- (BOOL) window:(CanvasWindow *)window performClose:(id)sender;
 - (BOOL) window:(CanvasWindow *)window cancelOperation:(id)sender;
 @end

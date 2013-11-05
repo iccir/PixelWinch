@@ -147,6 +147,17 @@
     }
 }
 
+
+- (void) applicationWillFinishLaunching:(NSNotification *)notification
+{
+//    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+#if ENABLE_APP_STORE
+    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
+        exit(173);
+    }
+#endif
+}
+
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
     _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
@@ -160,6 +171,10 @@
     [image setTemplate:YES];
     [_statusItem setImage:image];
     [_statusItem setHighlightMode:YES];
+
+#if ENABLE_APP_STORE
+    [PurchaseManager sharedInstance];
+#endif
     
     [_statusItem setMenu:[self statusBarMenu]];
 

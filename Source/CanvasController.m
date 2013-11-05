@@ -60,7 +60,7 @@
 
     ShroudView *_shroudView;
     NSView     *_transitionImageView;
-    CGRect      _transitionImageRect;
+    CGRect      _transitionImageGlobalRect;
     CGImageRef  _transitionImage;
 
     NSEvent *_zoomEvent;
@@ -121,7 +121,7 @@
     unichar   c          = [characters length] ? [characters characterAtIndex:0] : 0;
 
     NSUInteger modifierFlags = [theEvent modifierFlags] & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
-    
+
     BOOL isArrowKey = (c == NSUpArrowFunctionKey ||
                        c == NSDownArrowFunctionKey ||
                        c == NSLeftArrowFunctionKey ||
@@ -164,10 +164,6 @@
     } else if (modifierFlags == NSCommandKeyMask) {
         if (c == NSDeleteCharacter || c == NSBackspaceCharacter) {
             // Delete current screenshot
-
-        } else if (c == 'w') {
-            [self hide];
-            return;
 
         } else  if (c == ';') {
             // Toggle guides
@@ -221,6 +217,10 @@
             [self _debugResponderChain];
             return;
 
+        } else if (c == 'k') {
+            [self _debugKeyViewLoop];
+            return;
+
         } else if (c == 'a') {
             [[NSWorkspace sharedWorkspace] openFile:GetApplicationSupportDirectory()];
             return;
@@ -253,6 +253,7 @@
     [contentView setFlipped:NO];
 
     [window setContentView:contentView];
+    [window setRestorable:NO];
 
     [_horizontalRuler setCanDrawConcurrently:YES];
     [_horizontalRuler setVertical:NO];
@@ -319,6 +320,8 @@
     
     [self addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder" options:0 context:NULL];
+
+    [window setAutorecalculatesKeyViewLoop:YES];
     
     [self setWindow:window];
 }
@@ -431,6 +434,29 @@
 }
 
 
+- (void) _debugKeyViewLoop
+{
+    NSLog(@"*** Start of key view loop ***");
+    
+    NSMutableSet *printedObjects = [NSMutableSet set];
+    
+    // Walk the responder chain, logging the next responder
+    
+    NSView *view = [[self window] initialFirstResponder];
+    while ( [view nextKeyView] ) {
+        NSLog(@"%@", [view nextKeyView]);
+        view = [view nextKeyView]; // walk up the chain
+        
+        if ([printedObjects containsObject:view]) {
+            break;
+        } else {
+            [printedObjects addObject:view];
+        }
+    };
+    NSLog(@"*** End of key view loop ***");
+}
+
+
 - (void) _updateWindowForScreen:(NSScreen *)screen
 {
     CGRect entireFrame  = [screen frame];
@@ -445,9 +471,11 @@
     CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
     CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
     
-    CGRect contentRect = CGRectInset(entireFrame, leftRight + 16, topBottom + 16);
-    
     [[self window] setFrame:entireFrame display:NO];
+
+    CGRect contentRect = [[[self window] contentView] bounds];
+    contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
+
     [_contentTopLevelView setFrame:contentRect];
     [_shadowView setFrame:contentRect];
 }
@@ -463,7 +491,9 @@
 
         [contentView addSubview:_transitionImageView];
         
-        CGRect frame = [[self window] convertRectFromScreen:_transitionImageRect];
+        NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:_transitionImageGlobalRect];
+        
+        CGRect frame = [[self window] convertRectFromScreen:appKitRect];
         frame = [contentView convertRect:frame fromView:nil];
         [_transitionImageView setFrame:frame];
 
@@ -485,7 +515,7 @@
 
     __weak id weakSelf = self;
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:0.25];
+        [context setDuration:2.25];
         [[_shroudView animator] setAlphaValue:1.0];
 
         [[_contentTopLevelView animator] setAlphaValue:1.0];
@@ -614,7 +644,7 @@
     [_transitionImageView removeFromSuperview];
     _transitionImageView = nil;
 
-    _transitionImageRect = CGRectZero;
+    _transitionImageGlobalRect = CGRectZero;
 }
 
 
@@ -1055,16 +1085,38 @@
 {
     NSWindow *selfWindow = [self window];
 
+    Preferences        *preferences         = [Preferences sharedInstance];
+    CloseScreenshotsKey closeScreenshotsKey = [preferences closeScreenshotsKey];
+
+    BOOL useEscapeToClose = (closeScreenshotsKey == CloseScreenshotsKeyEscape) ||
+                            (closeScreenshotsKey == CloseScreenshotsKeyBoth);
+
     if ([selfWindow firstResponder] != selfWindow) {
         [selfWindow makeFirstResponder:selfWindow];
 
     } else if (_selectedObject) {
         [self _unselectAllObjects];
-    } else if (1 /* should close on escape */) {
+    } else if (useEscapeToClose) {
         [self hide];
     }
 
     return YES;
+}
+
+
+- (BOOL) window:(CanvasWindow *)window performClose:(id)sender
+{
+    CloseScreenshotsKey closeScreenshotsKey = [[Preferences sharedInstance] closeScreenshotsKey];
+
+    BOOL useCommandWToClose = (closeScreenshotsKey == CloseScreenshotsKeyCommandW) ||
+                              (closeScreenshotsKey == CloseScreenshotsKeyBoth);
+
+    if (useCommandWToClose) {
+        [self hide];
+        return YES;
+    }
+
+    return NO;
 }
 
 
@@ -1075,28 +1127,62 @@
 
 #pragma mark - Public Methods / IBActions
 
-- (void) presentLibraryItem:(LibraryItem *)libraryItem fromRect:(CGRect)fromRect
+- (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)globalRect
 {
     [self window];  // Force nib to load
 
-    CGImageRef image = [[libraryItem screenshot] CGImage];
+    PreferredDisplay preferredDisplay = [[Preferences sharedInstance] preferredDisplay];
 
-    CGImageRelease(_transitionImage);
-    _transitionImage = CGImageRetain(image);
+    BOOL useZoomAnimation = NO;
 
-    _transitionImageView = [[NSView alloc] initWithFrame:fromRect];
-    [_transitionImageView setWantsLayer:YES];
-    [[_transitionImageView layer] setContents:(__bridge id)_transitionImage];
-    
-    _transitionImageRect = fromRect;
+    NSScreen *preferredScreen = nil;
+    if (preferredDisplay == PreferredDisplayMain) {
+        preferredScreen = [[NSScreen screens] firstObject];
+    } else if (preferredDisplay == PreferredDisplaySame) {
+        preferredScreen = [NSScreen winch_screenWithGlobalRect:globalRect];
+    } else {
+        preferredScreen = [NSScreen winch_screenWithCGDirectDisplayID:preferredDisplay];
+    }
 
-    [self _updateWindowForScreen:[NSScreen mainScreen]];
+    if (!preferredScreen) {
+        preferredScreen = [[NSScreen screens] firstObject];
+    }
+
+    // Determine which screens intersect the rect
+    {
+        NSArray *screens = [NSScreen winch_screensWithGlobalRect:globalRect];
+        if ([screens containsObject:preferredScreen]) {
+            useZoomAnimation = YES;
+        }
+    }
+
+    [self _removeTransitionImage];
+
+    // Set up transition image if we can use the zoom animation
+    if (useZoomAnimation) {
+        CGImageRef image = [[libraryItem screenshot] CGImage];
+
+        CGImageRelease(_transitionImage);
+        _transitionImage = CGImageRetain(image);
+
+        _transitionImageView = [[NSView alloc] initWithFrame:globalRect];
+        [_transitionImageView setWantsLayer:YES];
+        [[_transitionImageView layer] setMagnificationFilter:kCAFilterNearest];
+        [[_transitionImageView layer] setContents:(__bridge id)_transitionImage];
+        
+        _transitionImageGlobalRect = globalRect;
+    }
+
+    [self _updateWindowForScreen:preferredScreen];
     [self _updateCanvasWithLibraryItem:libraryItem];
     [self _doOrderInAnimation];
 
     [NSApp activateIgnoringOtherApps:YES];
     [[CursorInfo sharedInstance] setEnabled:YES];
+
     [[self window] makeKeyAndOrderFront:self];
+
+    [[self window] makeFirstResponder:[self window]];
 }
 
 
@@ -1127,6 +1213,8 @@
         [NSApp activateIgnoringOtherApps:YES];
         [[CursorInfo sharedInstance] setEnabled:YES];
         [[self window] makeKeyAndOrderFront:self];
+
+        [[self window] makeFirstResponder:[self window]];
     }
 }
 
@@ -1159,9 +1247,19 @@
     if (toolType == ToolTypeMarquee) {
         objectToWrite = [_canvas marquee];
     }
-
+    
     if (![objectToWrite writeToPasteboard:pboard]) {
-        NSBeep();
+        CGImageRef cgImage = [[_selectedItem screenshot] CGImage];
+        
+        if (cgImage) {
+            NSImage *image = [NSImage imageWithCGImage:cgImage scale:1.0 orientation:XUIImageOrientationUp];
+
+            [pboard clearContents];
+            [pboard writeObjects:@[ image ] ];
+
+        } else {
+            NSBeep();
+        }
     }
 }
 

@@ -139,7 +139,7 @@
     }
     
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobTop || _type == ResizeKnobTopRight) {
-        rect.origin.x += deltaPoint.y;
+        rect.origin.y += deltaPoint.y;
         rect.size.height -= deltaPoint.y;
     } else if (_type == ResizeKnobBottomLeft || _type == ResizeKnobBottom || _type == ResizeKnobBottomRight) {
         rect.size.height += deltaPoint.y;

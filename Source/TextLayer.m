@@ -135,7 +135,7 @@
     NSString *text;
     
     if (_textLayerStyle == TextLayerStyleBoth) {
-        text = GetStringForSize(_dimensions);
+        text = GetDisplayStringForSize(_dimensions);
     } else if (_textLayerStyle == TextLayerStyleWidthOnly) {
         text = GetStringForFloat(_dimensions.width);
     } else if (_textLayerStyle == TextLayerStyleHeightOnly) {
