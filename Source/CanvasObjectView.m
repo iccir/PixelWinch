@@ -63,7 +63,7 @@
     CanvasObject *canvasObject = [self canvasObject];
 
     if (![canvasObject isValid]) {
-        [[canvasObject canvas] removeObject:canvasObject];
+        [[canvasObject canvas] removeCanvasObject:canvasObject];
     }
 
     [self setNewborn:NO];

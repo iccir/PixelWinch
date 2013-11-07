@@ -11,6 +11,13 @@
 @class Canvas;
 
 @interface CanvasObject : NSObject
+
++ (CanvasObject *) canvasObjectWithGroupName: (NSString *) groupName
+                    dictionaryRepresentation: (NSDictionary *) dictionaryRepresentation;
+
++ (NSString *) groupName;  // Subclasses to override
+
+
 @property (nonatomic, weak) Canvas *canvas;
 @property (nonatomic, readonly, strong) NSString *GUID;
 
@@ -29,9 +36,12 @@
 
 - (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard;
 
-@property (nonatomic, readonly) BOOL isValid;
+@property (nonatomic, readonly, getter=isValid) BOOL valid;
+@property (nonatomic, readonly) BOOL participatesInUndo; // defaults to YES
+@property (nonatomic, readonly, getter=isPersistent) BOOL Persistent; // defaults to YES
 
 @property (nonatomic, assign) CGRect rect;
+
 
 // For bindings
 @property (nonatomic, assign) CGFloat originX;

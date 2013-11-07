@@ -13,6 +13,12 @@
 
 @implementation Marquee
 
++ (NSString *) groupName
+{
+    return @"marquee";
+}
+
+
 - (BOOL) isValid
 {
     CGSize size = [self rect].size;
@@ -51,6 +57,19 @@
         return NO;
     }
 }
+
+
+- (BOOL) participatesInUndo
+{
+    return NO;
+}
+
+
+- (BOOL) isPersistent
+{
+    return NO;
+}
+
 
 
 @end

@@ -295,6 +295,12 @@
 }
 
 
+- (NSString *) groupName
+{
+    return @"grapples";
+}
+
+
 - (Grapple *) grapple
 {
     return (Grapple *)[self canvasObject];

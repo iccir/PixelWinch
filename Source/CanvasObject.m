@@ -15,10 +15,36 @@ static NSString * const sYKey      = @"y";
 static NSString * const sWidthKey  = @"width";
 static NSString * const sHeightKey = @"height";
 
+static NSMutableDictionary *sGroupNameToClassMap = nil;
+
 @implementation CanvasObject {
     CGRect _rect;
     NSInteger _changeCount;
 }
+
+
++ (void) initialize
+{
+    if (!sGroupNameToClassMap) {
+        sGroupNameToClassMap = [NSMutableDictionary dictionary];
+    }
+
+    [sGroupNameToClassMap setObject:self forKey:[self groupName]];
+}
+
+
++ (CanvasObject *) canvasObjectWithGroupName:(NSString *)groupName dictionaryRepresentation:(NSDictionary *)dictionaryRepresentation
+{
+    Class cls = [sGroupNameToClassMap objectForKey:groupName];
+    return [[cls alloc] initWithDictionaryRepresentation:dictionaryRepresentation];
+}
+
+
++ (NSString *) groupName
+{
+    return @"objects";
+}
+
 
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
 {
@@ -52,10 +78,16 @@ static NSString * const sHeightKey = @"height";
 }
 
 
+- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+{
+    return NO;
+}
+
+
 - (void) beginChanges
 {
     if (_changeCount == 0) {
-        [[self canvas] objectWillUpdate:self];
+        [[self canvas] canvasObjectWillUpdate:self];
     }
 
     _changeCount++;
@@ -67,7 +99,7 @@ static NSString * const sHeightKey = @"height";
     _changeCount--;
 
     if (_changeCount == 0) {
-        [[self canvas] objectDidUpdate:self];
+        [[self canvas] canvasObjectDidUpdate:self];
     }
 }
 
@@ -167,9 +199,17 @@ static NSString * const sHeightKey = @"height";
     return YES;
 }
 
-- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+
+- (BOOL) participatesInUndo
 {
-    return NO;
+    return YES;
 }
+
+
+- (BOOL) isPersistent
+{
+    return YES;
+}
+
 
 @end

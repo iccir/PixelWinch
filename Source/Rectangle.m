@@ -12,6 +12,12 @@
 
 @implementation Rectangle
 
++ (NSString *) groupName
+{
+    return @"rectangles";
+}
+
+
 + (instancetype) rectangle
 {
     return [[self alloc] init];
@@ -24,13 +30,13 @@
     return size.width > 0 || size.height > 0;
 }
 
+
 - (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
 {
     CGSize size = [self rect].size;
     [pasteboard writeObjects:@[ GetPasteboardStringForSize(size) ]];
     return YES;
 }
-
 
 
 @end

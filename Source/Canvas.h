@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class CanvasObject;
-@class Grapple, Guide, Marquee, Rectangle;
+@class Grapple, Guide, Rectangle;
 @class GrappleCalculator;
 @class Screenshot;
 
@@ -33,47 +33,23 @@
 
 @property (nonatomic, weak, readonly) id<CanvasDelegate> delegate;
 
-- (void) removeObject:(CanvasObject *)object;
+- (void) addCanvasObject:(CanvasObject *)object;
+- (void) removeCanvasObject:(CanvasObject *)object;
 
-// Guides
-
-- (Guide *) makeGuideVertical:(BOOL)vertical;
-- (void) removeGuide:(Guide *)guide;
-
-@property (nonatomic, readonly, strong) NSArray *guides;
-@property (nonatomic, assign, getter=areGuidesHidden) BOOL guidesHidden;
-
-
-// Grapples
-
-- (Grapple *) makeGrappleVertical:(BOOL)vertical;
-- (void) removeGrapple:(Grapple *)grapple;
-
-- (Grapple *) makePreviewGrappleVertical:(BOOL)vertical;
-- (void) removePreviewGrapple;
 
 - (void) updateGrapple:(Grapple *)grapple point:(CGPoint)point threshold:(UInt8)threshold;
 
 @property (nonatomic, readonly, strong) GrappleCalculator *grappleCalculator;
 @property (nonatomic, readonly, strong) Grapple *previewGrapple;
-@property (nonatomic, readonly, strong) NSArray *grapples;
 
 @property (nonatomic, assign) BOOL grapplesStopOnGuides;
 @property (nonatomic, assign) BOOL grapplesStopOnRectangles;
 
-// Rectangles
 
-- (Rectangle *) makeRectangle;
-- (void) removeRectangle:(Rectangle *)rectangle;
+- (NSArray *) canvasObjectsWithGroupName:(NSString *)groupName;
 
-@property (nonatomic, readonly, strong) NSArray *rectangles;
-
-
-// Marquee
-
-- (Marquee *) makeMarquee;
-@property (nonatomic, readonly, strong) Marquee *marquee;
-@property (nonatomic, assign, getter=isMarqueeHidden) BOOL marqueeHidden;
+- (void) setGroupName:(NSString *)groupName hidden:(BOOL)hidden;
+- (BOOL) isGroupNameHidden:(NSString *)groupName;
 
 @end
 
@@ -86,6 +62,6 @@
 
 
 @interface Canvas (CanvasObjectToCall)
-- (void) objectWillUpdate:(CanvasObject *)object;
-- (void) objectDidUpdate:(CanvasObject *)object;
+- (void) canvasObjectWillUpdate:(CanvasObject *)object;
+- (void) canvasObjectDidUpdate:(CanvasObject *)object;
 @end

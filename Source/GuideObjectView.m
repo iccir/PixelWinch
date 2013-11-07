@@ -155,9 +155,11 @@
     [self setCanvasObject:guide];
 }
 
+
 - (Guide *) guide
 {
     return (Guide *)[self canvasObject];
 }
+
 
 @end

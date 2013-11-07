@@ -185,4 +185,5 @@
     return (Marquee *)[self canvasObject];
 }
 
+
 @end

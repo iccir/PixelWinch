@@ -17,6 +17,12 @@ static NSString * const sVerticalKey    = @"vertical";
 }
 
 
++ (NSString *) grapples
+{
+    return @"grapples";
+}
+
+
 + (instancetype) grappleVertical:(BOOL)vertical
 {
     return [[self alloc] _initVertical:vertical];

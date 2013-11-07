@@ -11,6 +11,7 @@
 
 @interface Guide : CanvasObject
 
++ (instancetype) guideVertical:(BOOL)vertical;
 + (instancetype) guideWithOffset:(CGFloat)offset vertical:(BOOL)isVertical;
 
 @property (nonatomic, readonly, getter=isVertical) BOOL vertical;

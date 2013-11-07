@@ -57,7 +57,6 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 
 - (NSInteger) canvasOrder;
 
-
 @property (nonatomic, strong) CanvasObject *canvasObject;
 @property (nonatomic, getter=isNewborn) BOOL newborn;
 @property (nonatomic, getter=isSelected) BOOL selected;

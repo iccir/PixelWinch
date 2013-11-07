@@ -1334,6 +1334,7 @@
 				55E987C3182870C500C2208A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
 			isa = XCConfigurationList;

@@ -24,9 +24,8 @@ static NSString * const sRectanglesKey = @"rectangles";
 
 
 @implementation Canvas {
-    NSMutableArray *_guides;
-    NSMutableArray *_grapples;
-    NSMutableArray *_rectangles;
+    NSMutableDictionary *_groupNameToObjectsMap;
+    NSMutableArray *_hiddenGroupNames;
 
     GrappleCalculator *_grappleCalculator;
     
@@ -40,10 +39,10 @@ static NSString * const sRectanglesKey = @"rectangles";
 {
     if ((self = [super init])) {
         _delegate   = delegate;
-        _guides     = [NSMutableArray array];
-        _rectangles = [NSMutableArray array];
-        _grapples   = [NSMutableArray array];
 
+        _groupNameToObjectsMap = [NSMutableDictionary dictionary];
+        _hiddenGroupNames = [NSMutableArray array];
+        
         _undoManager = [[NSUndoManager alloc] init];
         
         _grapplesStopOnGuides     = YES;
@@ -60,7 +59,7 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) setupWithScreenshot:(Screenshot *)screenshot dictionary:(NSDictionary *)dictionary
+- (void) setupWithScreenshot:(Screenshot *)screenshot dictionary:(NSDictionary *)state
 {
     if (_screenshot) return;
     _screenshot = screenshot;
@@ -69,41 +68,30 @@ static NSString * const sRectanglesKey = @"rectangles";
         _size = [_screenshot size];
     }
 
-    void (^withArrayOfDictionaries)(NSString *key, void (^block)(NSDictionary *)) = ^(NSString *key, void (^block)(NSDictionary *)) {
-        NSArray *array = [dictionary objectForKey:key];
-        
-        if ([array isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *subdictionary in array) {
-                if ([subdictionary isKindOfClass:[NSDictionary class]]) {
-                    block(subdictionary);
+    NSMutableArray *allObjects = [NSMutableArray array];
+
+    if ([state isKindOfClass:[NSDictionary class]] && [state count]) {
+        for (NSString *groupName in state) {
+            if (![groupName isKindOfClass:[NSString class]]) continue;
+            
+            for (NSDictionary *dictionaryRepresentation in [state objectForKey:groupName]) {
+                if (![dictionaryRepresentation isKindOfClass:[NSDictionary class]]) {
+                    continue;
                 }
+
+                CanvasObject *object = [CanvasObject canvasObjectWithGroupName:groupName dictionaryRepresentation:dictionaryRepresentation];
+                if (object) [allObjects addObject:object];
             }
         }
-    };
-
-    withArrayOfDictionaries( sGuidesKey, ^(NSDictionary *d) {
-        Guide *guide = [[Guide alloc] initWithDictionaryRepresentation:d];
-        if (guide) [_guides addObject:guide];
-    });
-
-    withArrayOfDictionaries( sGrapplesKey, ^(NSDictionary *d) {
-        Grapple *grapple = [[Grapple alloc] initWithDictionaryRepresentation:d];
-        if (grapple) [_grapples addObject:grapple];
-    });
-
-    withArrayOfDictionaries( sRectanglesKey, ^(NSDictionary *d) {
-        Rectangle *rectangle = [[Rectangle alloc] initWithDictionaryRepresentation:d];
-        if (rectangle) [_rectangles addObject:rectangle];
-    });
+    }
     
-    NSMutableArray *allObjects = [NSMutableArray array];
-    [allObjects addObjectsFromArray:_guides];
-    [allObjects addObjectsFromArray:_grapples];
-    [allObjects addObjectsFromArray:_rectangles];
+    NSLog(@"%@ %@", state, allObjects);
     
     for (CanvasObject *object in allObjects) {
-        [object setCanvas:self];
-        [self _didAddObject:object];
+
+        [self addCanvasObject:object];
+//        [object setCanvas:self];
+//        [_delegate canvas:self didAddObject:object];
     }
     
     [_undoManager removeAllActions];
@@ -112,31 +100,24 @@ static NSString * const sRectanglesKey = @"rectangles";
 
 - (NSDictionary *) dictionaryRepresentation
 {
-    NSMutableArray *guideArray     = [NSMutableArray array];
-    NSMutableArray *rectangleArray = [NSMutableArray array];
-    NSMutableArray *grappleArray   = [NSMutableArray array];
-    
-    for (Guide *guide in _guides) {
-        NSDictionary *dictionary = [guide dictionaryRepresentation];
-        if (dictionary) [guideArray addObject:dictionary];
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+
+    for (id groupName in _groupNameToObjectsMap) {
+        NSArray        *inObjects  = [_groupNameToObjectsMap objectForKey:groupName];
+        NSMutableArray *outObjects = [NSMutableArray arrayWithCapacity:[inObjects count]];
+
+        for (CanvasObject *object in inObjects) {
+            if ([object isPersistent]) {
+                [outObjects addObject:[object dictionaryRepresentation]];
+            }
+        }
+        
+        if ([outObjects count]) {
+            [result setObject:outObjects forKey:groupName];
+        }
     }
-    
-    for (Grapple *grapple in _grapples) {
-        if ([grapple isPreview]) continue;
-        NSDictionary *dictionary = [grapple dictionaryRepresentation];
-        if (dictionary) [grappleArray addObject:dictionary];
-    }
-    
-    for (Rectangle *rectangle in _rectangles) {
-        NSDictionary *dictionary = [rectangle dictionaryRepresentation];
-        if (dictionary) [rectangleArray addObject:dictionary];
-    }
-    
-    return @{
-        sGuidesKey: guideArray,
-        sGrapplesKey: grappleArray,
-        sRectanglesKey: rectangleArray
-    };
+
+    return result;
 }
 
 
@@ -153,19 +134,7 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) _didAddObject:(CanvasObject *)object
-{
-    [_delegate canvas:self didAddObject:object];
-}
-
-
-- (void) _didRemoveObject:(CanvasObject *)object
-{
-    [_delegate canvas:self didRemoveObject:object];
-}
-
-
-- (void) objectWillUpdate:(CanvasObject *)object
+- (void) canvasObjectWillUpdate:(CanvasObject *)object
 {
     if (object == _previewGrapple) return;
 
@@ -176,7 +145,7 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) objectDidUpdate:(CanvasObject *)object
+- (void) canvasObjectDidUpdate:(CanvasObject *)object
 {
     [_delegate canvas:self didUpdateObject:object];
 
@@ -185,58 +154,56 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-- (void) removeObject:(CanvasObject *)object
+- (void) addCanvasObject:(CanvasObject *)object
 {
-    if ([object isKindOfClass:[Guide class]]) {
-        [self removeGuide:(Guide *)object];
+    if (!object) return;
 
-    } else if ([object isKindOfClass:[Grapple class]]) {
-        if (object == _previewGrapple) {
-            [self removePreviewGrapple];
-        } else {
-            [self removeGrapple:(Grapple *)object];
-        }
+    if ([object participatesInUndo]) {
+        [_undoManager registerUndoWithTarget:self selector:@selector(removeCanvasObject:) object:object];
+        [_undoManager setActionName:NSLocalizedString(@"Add Object", nil)];
+    }
 
-    } else if ([object isKindOfClass:[Rectangle class]]) {
-        [self removeRectangle:(Rectangle *)object];
+    [object setCanvas:self];
+
+    NSString *groupName = [[object class] groupName];
+    NSMutableArray *objects = [_groupNameToObjectsMap objectForKey:groupName];
+
+    if (!objects) {
+        objects = [NSMutableArray array];
+        [_groupNameToObjectsMap setObject:objects forKey:groupName];
+    }
+
+    [objects addObject:object];
+
+    if (![self isGroupNameHidden:groupName]) {
+        [_delegate canvas:self didAddObject:object];
     }
 }
 
 
-#pragma mark - Guides
-
-- (Guide *) makeGuideVertical:(BOOL)vertical
+- (void) removeCanvasObject:(CanvasObject *)object
 {
-    Guide *guide = [Guide guideWithOffset:-INFINITY vertical:vertical];
-    [self _addGuide:guide];
-    return guide;
+    if (!object) return;
+    
+    if ([object participatesInUndo]) {
+        [_undoManager registerUndoWithTarget:self selector:@selector(addCanvasObject:) object:object];
+        [_undoManager setActionName:NSLocalizedString(@"Remove Object", nil)];
+    }
+
+    [object setCanvas:nil];
+    
+    NSString *groupName = [[object class] groupName];
+    [[_groupNameToObjectsMap objectForKey:groupName] removeObject:object];
+
+    if (![self isGroupNameHidden:groupName]) {
+        [_delegate canvas:self didRemoveObject:object];
+    }
 }
 
 
-- (void) _addGuide:(Guide *)guide
+- (NSArray *) canvasObjectsWithGroupName:(NSString *)inGroupName
 {
-    if (!guide) return;
-
-    [_undoManager registerUndoWithTarget:self selector:@selector(removeGuide:) object:guide];
-    [_undoManager setActionName:NSLocalizedString(@"Add Guide", nil)];
-
-    [guide setCanvas:self];
-    [_guides addObject:guide];
-
-    [self _didAddObject:guide];
-}
-
-
-- (void) removeGuide:(Guide *)guide
-{
-    if (!guide) return;
-
-    [_undoManager registerUndoWithTarget:self selector:@selector(_addGuide:) object:guide];
-    [_undoManager setActionName:NSLocalizedString(@"Remove Guide", nil)];
-
-    [guide setCanvas:nil];
-    [_guides removeObject:guide];
-    [self _didRemoveObject:guide];
+    return [_groupNameToObjectsMap objectForKey:inGroupName];
 }
 
 
@@ -263,70 +230,29 @@ static NSString * const sRectanglesKey = @"rectangles";
     }
 }
 
-
-- (void) _addGrapple:(Grapple *)grapple
-{
-    if ([grapple isPreview]) {
-        _previewGrapple = grapple;
-
-    } else {
-        [_undoManager registerUndoWithTarget:self selector:@selector(removeGrapple:) object:grapple];
-        [_undoManager setActionName:NSLocalizedString(@"Add Grapple", nil)];
-    
-        [_grapples addObject:grapple];
-    }
-
-    [grapple setCanvas:self];
-    [self _didAddObject:grapple];
-}
-
-
-- (Grapple *) _makeGrappleVertical:(BOOL)vertical preview:(BOOL)preview
-{
-    Grapple *grapple = [Grapple grappleVertical:vertical];
-    [grapple setPreview:preview];
-
-    [self _addGrapple:grapple];
-
-    return grapple;
-}
-
-
-- (Grapple *) makeGrappleVertical:(BOOL)vertical
-{
-    return [self _makeGrappleVertical:vertical preview:NO];
-}
-
-
-- (void) removeGrapple:(Grapple *)grapple
-{
-    if (!grapple) return;
-
-    if (![grapple isPreview]) {
-        [_undoManager registerUndoWithTarget:self selector:@selector(_addGrapple:) object:grapple];
-        [_undoManager setActionName:NSLocalizedString(@"Remove Grapple", nil)];
-    }
-
-    [grapple setCanvas:nil];
-    [_grapples removeObject:grapple];
-    [self _didRemoveObject:grapple];
-}
-
-
-- (Grapple *) makePreviewGrappleVertical:(BOOL)vertical
-{
-    return [self _makeGrappleVertical:vertical preview:YES];
-}
-
-
-- (void) removePreviewGrapple
-{
-    if (!_previewGrapple) return;
-
-    Grapple *grapple = _previewGrapple;
-    _previewGrapple = nil;
-    [self _didRemoveObject:grapple];
-}
+//
+//
+//- (Grapple *) _makeGrappleVertical:(BOOL)vertical preview:(BOOL)preview
+//{
+//    Grapple *grapple = [Grapple grappleVertical:vertical];
+//    [grapple setPreview:preview];
+//
+//    [self _addGrapple:grapple];
+//
+//    return grapple;
+//}
+//
+////
+//
+//
+//- (void) removePreviewGrapple
+//{
+//    if (!_previewGrapple) return;
+//
+//    Grapple *grapple = _previewGrapple;
+//    _previewGrapple = nil;
+//    [self _didRemoveObject:grapple];
+//}
 
 
 - (void) updateGrapple:(Grapple *)grapple point:(CGPoint)point threshold:(UInt8)threshold
@@ -344,10 +270,13 @@ static NSString * const sRectanglesKey = @"rectangles";
         return;
     }
 
-    NSUInteger maxCutCount = ([_rectangles count] * 2) + [_guides count];
+    NSArray *guides     = [self canvasObjectsWithGroupName:[Guide groupName]];
+    NSArray *rectangles = [self canvasObjectsWithGroupName:[Rectangle groupName]];
+
+    NSUInteger maxCutCount = ([rectangles count] * 2) + ([guides count]);
     NSInteger  cutCount    = 0;
     CGFloat   *cutOffsets  = maxCutCount ? malloc(sizeof(CGFloat) * maxCutCount) : NULL;
-
+   
     if ([grapple isVertical]) {
         point.x = floor(point.x);
         point.y = floor(point.y);
@@ -360,7 +289,7 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                  outY2: &y2];
 
         if (_grapplesStopOnGuides) {
-            for (Guide *guide in _guides) {
+            for (Guide *guide in guides) {
                 if (![guide isVertical]) {
                     cutOffsets[cutCount++] = [guide offset];
                 }
@@ -368,7 +297,7 @@ static NSString * const sRectanglesKey = @"rectangles";
         }
 
         if (_grapplesStopOnRectangles) {
-            for (Rectangle *rectangle in _rectangles) {
+            for (Rectangle *rectangle in rectangles) {
                 CGRect rect = [rectangle rect];
 
                 if ((point.x >= rect.origin.x) && (point.x < CGRectGetMaxX(rect))) {
@@ -403,7 +332,7 @@ static NSString * const sRectanglesKey = @"rectangles";
                                                    outX2: &x2];
 
         if (_grapplesStopOnGuides) {
-            for (Guide *guide in _guides) {
+            for (Guide *guide in guides) {
                 if ([guide isVertical]) {
                     cutOffsets[cutCount++] = [guide offset];
                 }
@@ -411,7 +340,7 @@ static NSString * const sRectanglesKey = @"rectangles";
         }
         
         if (_grapplesStopOnRectangles) {
-            for (Rectangle *rectangle in _rectangles) {
+            for (Rectangle *rectangle in rectangles) {
                 CGRect rect = [rectangle rect];
 
                 if ((point.y >= rect.origin.y) && (point.y < CGRectGetMaxY(rect))) {
@@ -439,88 +368,34 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-#pragma mark - Rectangles
-
-- (Rectangle *) makeRectangle
+- (void) setGroupName:(NSString *)groupName hidden:(BOOL)hidden
 {
-    Rectangle *rectangle = [Rectangle rectangle];
-    [self _addRectangle:rectangle];
-    return rectangle;
-}
+    if (!groupName) return;
 
+    BOOL isHidden = [self isGroupNameHidden:groupName];
 
-- (void) _addRectangle:(Rectangle *)rectangle
-{
-    if (!rectangle) return;
-
-    [_undoManager registerUndoWithTarget:self selector:@selector(removeRectangle:) object:rectangle];
-    [_undoManager setActionName:NSLocalizedString(@"Add Rectangle", nil)];
-
-    [rectangle setCanvas:self];
-    [_rectangles addObject:rectangle];
-
-    [self _didAddObject:rectangle];
-}
-
-
-- (void) removeRectangle:(Rectangle *)rectangle
-{
-    if (!rectangle) return;
-
-    [_undoManager registerUndoWithTarget:self selector:@selector(_addRectangle:) object:rectangle];
-    [_undoManager setActionName:NSLocalizedString(@"Remove Rectangle", nil)];
-
-    [rectangle setCanvas:nil];
-    [_rectangles removeObject:rectangle];
-    [self _didRemoveObject:rectangle];
-}
-
-
-#pragma mark - Marquee
-
-- (void) clearMarquee
-{
-    Marquee *marquee = _marquee;
-
-    if (marquee) {
-        _marquee = nil;
-        
-        if (!_marqueeHidden) {
-            [self _didRemoveObject:marquee];
+    if (isHidden != hidden) {
+        if (hidden) {
+            [_hiddenGroupNames addObject:groupName];
+        } else {
+            [_hiddenGroupNames removeObject:groupName];
         }
-    }
-}
 
-
-- (Marquee *) makeMarquee
-{
-    [self clearMarquee];
-    _marquee = [[Marquee alloc] init];
-    [_marquee setCanvas:self];
-
-    if (!_marqueeHidden) {
-        [self _didAddObject:_marquee];
-    }
-    
-    return _marquee;
-}
-
-
-- (void) setMarqueeHidden:(BOOL)marqueeHidden
-{
-    if (_marqueeHidden != marqueeHidden) {
-        _marqueeHidden = marqueeHidden;
-        
-        if (_marquee) {
-            if (_marqueeHidden) {
-                [self _didRemoveObject:_marquee];
+        for (CanvasObject *object in [self canvasObjectsWithGroupName:groupName]) {
+            if (hidden) {
+                [_delegate canvas:self didRemoveObject:object];
             } else {
-                [self _didAddObject:_marquee];
+                [_delegate canvas:self didAddObject:object];
             }
         }
     }
 }
 
+
+- (BOOL) isGroupNameHidden:(NSString *)groupName
+{
+    return [_hiddenGroupNames containsObject:groupName];
+}
 
 
 @end

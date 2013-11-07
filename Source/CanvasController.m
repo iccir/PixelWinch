@@ -78,6 +78,16 @@
 }
 
 
++ (void) initialize
+{
+    // Force these classes to load so their +initialize is called
+    [Grapple   class];
+    [Guide     class];
+    [Marquee   class];
+    [Rectangle class];
+}
+
+
 - (id) initWithWindow:(NSWindow *)window
 {
     if ((self = [super initWithWindow:window])) {
@@ -314,7 +324,7 @@
     [window setBackgroundColor:[NSColor clearColor]];
     [window setOpaque:NO];
 
-    [window setLevel:NSScreenSaverWindowLevel];
+//    [window setLevel:NSScreenSaverWindowLevel];
 
     [window setDelegate:self];
     
@@ -357,7 +367,7 @@
             
             ToolType selectedToolType = [_toolbox selectedToolType];
             
-            [_canvas setMarqueeHidden:(selectedToolType != ToolTypeMarquee)];
+            [_canvas setGroupName:[Marquee groupName] hidden:(selectedToolType != ToolTypeMarquee)];
 
             if ([_selectedObject isKindOfClass:[Rectangle class]]) {
                 if ((selectedToolType != ToolTypeMove) && (selectedToolType != ToolTypeRectangle)) {
@@ -632,7 +642,7 @@
 - (void) _removePreviewGrapple
 {
     [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
-    [_canvas removePreviewGrapple];
+//!i:    [_canvas removePreviewGrapple];
 }
 
 
@@ -722,11 +732,11 @@
 
     if ([[_canvas previewGrapple] isVertical] != isVertical) {
         // Call this directly, don't use -_removePreviewGrapple as it nils our text
-        [_canvas removePreviewGrapple];
+//!i:        [_canvas removePreviewGrapple];
     }
 
     if (![_canvas previewGrapple]) {
-        [_canvas makePreviewGrappleVertical:isVertical];
+//!i:        [_canvas makePreviewGrappleVertical:isVertical];
     }
     
     Grapple *previewGrapple = [_canvas previewGrapple];
@@ -793,7 +803,7 @@
     CanvasObject *selectedObject = _selectedObject;
     
     if (selectedObject) {
-        [_canvas removeObject:selectedObject];
+        [_canvas removeCanvasObject:selectedObject];
         return YES;
     }
     
@@ -971,7 +981,8 @@
         [_canvasView invalidateCursors];
 
     } else if (toolType == ToolTypeRectangle) {
-        Rectangle *rectangle = [_canvas makeRectangle];
+        Rectangle *rectangle = [Rectangle rectangle];
+        [_canvas addCanvasObject:rectangle];
 
         CanvasObjectView *view = [self _viewForCanvasObject:rectangle];
        
@@ -982,7 +993,9 @@
     } else if (toolType == ToolTypeGrapple) {
         [self _removePreviewGrapple];
         
-        Grapple *grapple = [_canvas makeGrappleVertical:[[_toolbox grappleTool] calculatedIsVertical]];
+        BOOL vertical = [[_toolbox grappleTool] calculatedIsVertical];
+        Grapple *grapple = [Grapple grappleVertical:vertical];
+        [_canvas addCanvasObject:grapple];
 
         CanvasObjectView *view = [self _viewForCanvasObject:grapple];
 
@@ -1000,8 +1013,14 @@
         return NO;
     
     } else if (toolType == ToolTypeMarquee) {
-        Marquee *marquee = [_canvas makeMarquee];
+        NSArray *objects = [_canvas canvasObjectsWithGroupName:[Marquee groupName]];
+        for (CanvasObject *object in objects) {
+            [_canvas removeCanvasObject:object];
+        }
 
+        Marquee *marquee = [[Marquee alloc] init];
+        [_canvas addCanvasObject:marquee];
+        
         CanvasObjectView *view = [self _viewForCanvasObject:marquee];
         [view trackWithEvent:event newborn:YES];
 
@@ -1058,7 +1077,7 @@
 
 - (BOOL) rulerView:(RulerView *)rulerView mouseDownWithEvent:(NSEvent *)event
 {
-    Guide *guide = [_canvas makeGuideVertical:(rulerView == _verticalRuler)];
+    Guide *guide = [Guide guideVertical:(rulerView == _verticalRuler)];
     
     CanvasObjectView *view = [self _viewForCanvasObject:guide];
     [view trackWithEvent:event newborn:YES];
@@ -1245,7 +1264,8 @@
     CanvasObject *objectToWrite = _selectedObject;
 
     if (toolType == ToolTypeMarquee) {
-        objectToWrite = [_canvas marquee];
+        NSArray *marquees = [_canvas canvasObjectsWithGroupName:[Marquee groupName]];
+        objectToWrite = [marquees lastObject];
     }
     
     if (![objectToWrite writeToPasteboard:pboard]) {

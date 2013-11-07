@@ -15,6 +15,18 @@ static NSString * const sOffsetKey   = @"offset";
 
 @implementation Guide
 
++ (NSString *) groupName
+{
+    return @"guides";
+}
+
+
++ (instancetype) guideVertical:(BOOL)isVertical
+{
+    return [[self alloc] _initWithOffset:-INFINITY vertical:isVertical];
+}
+
+
 + (instancetype) guideWithOffset:(CGFloat)offset vertical:(BOOL)isVertical
 {
     return [[self alloc] _initWithOffset:offset vertical:isVertical];
@@ -87,5 +99,6 @@ static NSString * const sOffsetKey   = @"offset";
         [self endChanges];
     }
 }
+
 
 @end
