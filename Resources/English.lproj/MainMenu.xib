@@ -40,6 +40,13 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="JEW-G5-dEg"/>
+                <menuItem title="Provide Feedback…" id="Dik-fQ-Bq5">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="provideFeedback:" target="494" id="4Ny-K4-ZpK"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="E7s-CE-JGa"/>
                 <menuItem title="About Pixel Winch" id="rBw-J5-f2f">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

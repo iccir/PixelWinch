@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Tool.h"
 
-@class Tool, MoveTool, HandTool, MarqueeTool, RectangleTool, GrappleTool, ZoomTool;
+@class Tool, MoveTool, HandTool, MarqueeTool, RectangleTool, LineTool, GrappleTool, ZoomTool;
 
 @interface Toolbox : NSObject
 
@@ -18,11 +18,12 @@
 @property (nonatomic, readonly) HandTool      *handTool;
 @property (nonatomic, readonly) MarqueeTool   *marqueeTool;
 @property (nonatomic, readonly) RectangleTool *rectangleTool;
+@property (nonatomic, readonly) LineTool      *lineTool;
 @property (nonatomic, readonly) GrappleTool   *grappleTool;
 @property (nonatomic, readonly) ZoomTool      *zoomTool;
 
 @property (nonatomic, readonly) Tool *selectedTool;
 @property (nonatomic) NSInteger selectedToolIndex;
-@property (nonatomic) ToolType selectedToolType;
+@property (nonatomic) NSString *selectedToolName;
 
 @end

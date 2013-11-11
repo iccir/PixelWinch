@@ -8,30 +8,16 @@
 
 #import "Canvas.h"
 
-#import "Grapple.h"
-#import "Guide.h"
-#import "Marquee.h"
-#import "Rectangle.h"
+#import "CanvasObject.h"
+#import "ImageDistanceMap.h"
 #import "Screenshot.h"
-
-#import "GrappleCalculator.h"
-
-
-static NSString * const sGuidesKey     = @"guides";
-static NSString * const sGrapplesKey   = @"grapples";
-static NSString * const sRectanglesKey = @"rectangles";
-
 
 
 @implementation Canvas {
     NSMutableDictionary *_groupNameToObjectsMap;
-    NSMutableArray *_hiddenGroupNames;
-
-    GrappleCalculator *_grappleCalculator;
-    
-    Grapple *_waitingGrapple;
-    CGPoint  _waitingGrapplePoint;
-    UInt8    _waitingGrappleThreshold;
+    NSMutableArray   *_hiddenGroupNames;
+    ImageDistanceMap *_distanceMap;
+    NSMutableArray   *_selectedObjects;
 }
 
 
@@ -45,8 +31,7 @@ static NSString * const sRectanglesKey = @"rectangles";
         
         _undoManager = [[NSUndoManager alloc] init];
         
-        _grapplesStopOnGuides     = YES;
-        _grapplesStopOnRectangles = YES;
+        _selectedObjects = [NSMutableArray array];
     }
     
     return self;
@@ -56,6 +41,12 @@ static NSString * const sRectanglesKey = @"rectangles";
 - (id) init
 {
     return [self initWithDelegate:nil];
+}
+
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -85,16 +76,14 @@ static NSString * const sRectanglesKey = @"rectangles";
         }
     }
     
-    NSLog(@"%@ %@", state, allObjects);
-    
     for (CanvasObject *object in allObjects) {
-
         [self addCanvasObject:object];
-//        [object setCanvas:self];
-//        [_delegate canvas:self didAddObject:object];
     }
     
     [_undoManager removeAllActions];
+
+    _distanceMap = [[ImageDistanceMap alloc] initWithCGImage:[screenshot CGImage]];
+    [_distanceMap buildMaps];
 }
 
 
@@ -121,8 +110,6 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
-#pragma mark - Objects
-
 - (void) _restoreState:(NSDictionary *)stateToRestore ofObject:(CanvasObject *)object
 {
     NSDictionary *stateToSave = [object dictionaryRepresentation];
@@ -134,14 +121,16 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+#pragma mark - Subclasses to Call
+
 - (void) canvasObjectWillUpdate:(CanvasObject *)object
 {
-    if (object == _previewGrapple) return;
+    if ([object participatesInUndo]) {
+        NSDictionary *state = [object dictionaryRepresentation];
 
-    NSDictionary *state = [object dictionaryRepresentation];
-
-    [_undoManager beginUndoGrouping];
-    [[_undoManager prepareWithInvocationTarget:self] _restoreState:state ofObject:object];
+        [_undoManager beginUndoGrouping];
+        [[_undoManager prepareWithInvocationTarget:self] _restoreState:state ofObject:object];
+    }
 }
 
 
@@ -149,10 +138,13 @@ static NSString * const sRectanglesKey = @"rectangles";
 {
     [_delegate canvas:self didUpdateObject:object];
 
-    if (object == _previewGrapple) return;
-    [_undoManager endUndoGrouping];
+    if ([object participatesInUndo]) {
+        [_undoManager endUndoGrouping];
+    }
 }
 
+
+#pragma mark - Public Methods
 
 - (void) addCanvasObject:(CanvasObject *)object
 {
@@ -185,6 +177,10 @@ static NSString * const sRectanglesKey = @"rectangles";
 {
     if (!object) return;
     
+    if ([_selectedObjects containsObject:object]) {
+        [_delegate canvas:self didUnselectObject:object];
+    }
+    
     if ([object participatesInUndo]) {
         [_undoManager registerUndoWithTarget:self selector:@selector(addCanvasObject:) object:object];
         [_undoManager setActionName:NSLocalizedString(@"Remove Object", nil)];
@@ -201,170 +197,49 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+- (void) unselectAllObjects
+{
+    NSArray *selectedObjects = [_selectedObjects mutableCopy];
+
+    for (CanvasObject *object in selectedObjects) {
+        [self unselectObject:object];
+    }
+}
+
+
+- (void) selectObject:(CanvasObject *)object
+{
+    if (![_selectedObjects containsObject:object]) {
+        [_selectedObjects addObject:object];
+        [_delegate canvas:self didSelectObject:object];
+    }
+}
+
+
+- (void) unselectObject:(CanvasObject *)object
+{
+    if ([_selectedObjects containsObject:object]) {
+        [_selectedObjects removeObject:object];
+        [_delegate canvas:self didUnselectObject:object];
+    }
+}
+
+
 - (NSArray *) canvasObjectsWithGroupName:(NSString *)inGroupName
 {
     return [_groupNameToObjectsMap objectForKey:inGroupName];
 }
 
 
-#pragma mark - Grapples
-
-- (GrappleCalculator *) grappleCalculator
+- (NSArray *) allCanvasObjects
 {
-    if (!_grappleCalculator) {
-        _grappleCalculator = [[GrappleCalculator alloc] initWithCanvas:self];
+    NSMutableSet *all = [NSMutableSet set];
+
+    for (id key in _groupNameToObjectsMap) {
+        [all addObjectsFromArray:[_groupNameToObjectsMap objectForKey:key]];
     }
     
-    return _grappleCalculator;
-}
-
-
-- (void) _grappleCalculatorReady
-{
-    if (_waitingGrapple) {
-        [self updateGrapple:_waitingGrapple point:_waitingGrapplePoint threshold:_waitingGrappleThreshold];
-
-        _waitingGrapple = nil;
-        _waitingGrapplePoint = CGPointZero;
-        _waitingGrappleThreshold = 0;
-    }
-}
-
-//
-//
-//- (Grapple *) _makeGrappleVertical:(BOOL)vertical preview:(BOOL)preview
-//{
-//    Grapple *grapple = [Grapple grappleVertical:vertical];
-//    [grapple setPreview:preview];
-//
-//    [self _addGrapple:grapple];
-//
-//    return grapple;
-//}
-//
-////
-//
-//
-//- (void) removePreviewGrapple
-//{
-//    if (!_previewGrapple) return;
-//
-//    Grapple *grapple = _previewGrapple;
-//    _previewGrapple = nil;
-//    [self _didRemoveObject:grapple];
-//}
-
-
-- (void) updateGrapple:(Grapple *)grapple point:(CGPoint)point threshold:(UInt8)threshold
-{
-    if (!grapple) return;
-
-    GrappleCalculator *calculator = [self grappleCalculator];
-    if (![calculator isReady]) {
-        [calculator prepare];
-
-        _waitingGrapple = grapple;
-        _waitingGrapplePoint = point;
-        _waitingGrappleThreshold = threshold;
-
-        return;
-    }
-
-    NSArray *guides     = [self canvasObjectsWithGroupName:[Guide groupName]];
-    NSArray *rectangles = [self canvasObjectsWithGroupName:[Rectangle groupName]];
-
-    NSUInteger maxCutCount = ([rectangles count] * 2) + ([guides count]);
-    NSInteger  cutCount    = 0;
-    CGFloat   *cutOffsets  = maxCutCount ? malloc(sizeof(CGFloat) * maxCutCount) : NULL;
-   
-    if ([grapple isVertical]) {
-        point.x = floor(point.x);
-        point.y = floor(point.y);
-    
-        size_t y1, y2;
-        [calculator calculateVerticalGrappleWithStartX: point.x
-                                                startY: point.y
-                                             threshold: threshold
-                                                 outY1: &y1
-                                                 outY2: &y2];
-
-        if (_grapplesStopOnGuides) {
-            for (Guide *guide in guides) {
-                if (![guide isVertical]) {
-                    cutOffsets[cutCount++] = [guide offset];
-                }
-            }
-        }
-
-        if (_grapplesStopOnRectangles) {
-            for (Rectangle *rectangle in rectangles) {
-                CGRect rect = [rectangle rect];
-
-                if ((point.x >= rect.origin.x) && (point.x < CGRectGetMaxX(rect))) {
-                    cutOffsets[cutCount++] = CGRectGetMinY(rect);
-                    cutOffsets[cutCount++] = CGRectGetMaxY(rect);
-                }
-            }
-        }
-
-        for (NSInteger i = 0; i < cutCount; i++) {
-            CGFloat cutOffset = cutOffsets[i];
-
-            if (cutOffset < point.y && cutOffset > y1) {
-                y1 = cutOffset;
-            } else if (cutOffset >= point.y && cutOffset < y2) {
-                y2 = cutOffset;
-            }
-        }
-        
-        CGRect rect = CGRectMake(point.x, y1, 1, y2 - y1);
-        [grapple setRect:rect];
-
-    } else {
-        point.x = floor(point.x);
-        point.y = floor(point.y);
-    
-        size_t x1, x2;
-        [calculator calculateHorizontalGrappleWithStartX: point.x
-                                                  startY: point.y
-                                               threshold: threshold
-                                                   outX1: &x1
-                                                   outX2: &x2];
-
-        if (_grapplesStopOnGuides) {
-            for (Guide *guide in guides) {
-                if ([guide isVertical]) {
-                    cutOffsets[cutCount++] = [guide offset];
-                }
-            }
-        }
-        
-        if (_grapplesStopOnRectangles) {
-            for (Rectangle *rectangle in rectangles) {
-                CGRect rect = [rectangle rect];
-
-                if ((point.y >= rect.origin.y) && (point.y < CGRectGetMaxY(rect))) {
-                    cutOffsets[cutCount++] = CGRectGetMinX(rect);
-                    cutOffsets[cutCount++] = CGRectGetMaxX(rect);
-                }
-            }
-        }
-
-        for (NSInteger i = 0; i < cutCount; i++) {
-            CGFloat cutOffset = cutOffsets[i];
-
-            if (cutOffset < point.x && cutOffset > x1) {
-                x1 = cutOffset;
-            } else if (cutOffset >= point.x && cutOffset < x2) {
-                x2 = cutOffset;
-            }
-        }
-        
-        CGRect rect = CGRectMake(x1, point.y, x2 - x1, 1);
-        [grapple setRect:rect];
-    }
-    
-    free(cutOffsets);
+    return [all allObjects];
 }
 
 
@@ -388,6 +263,8 @@ static NSString * const sRectanglesKey = @"rectangles";
                 [_delegate canvas:self didAddObject:object];
             }
         }
+        
+        [_delegate canvasDidChangeHiddenGroupNames:self];
     }
 }
 
@@ -398,4 +275,43 @@ static NSString * const sRectanglesKey = @"rectangles";
 }
 
 
+- (void) dumpDistanceMaps
+{
+    [_distanceMap dump];
+}
+
+
+#pragma mark - Accessors
+
+- (size_t) distancePlaneWidth
+{
+    return [_distanceMap width];
+}
+
+
+- (size_t) distancePlaneHeight
+{
+    return [_distanceMap height];
+}
+
+
+- (UInt8 *) horizontalDistancePlane
+{
+    return [_distanceMap horizontalPlane];
+}
+
+
+- (UInt8 *) verticalDistancePlane
+{
+    return [_distanceMap verticalPlane];
+}
+
+
+- (NSArray *) selectedObjects
+{
+    return [_selectedObjects copy];
+}
+
+
 @end
+

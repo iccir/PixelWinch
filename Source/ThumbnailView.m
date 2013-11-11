@@ -44,8 +44,6 @@
 }
 
 
-
-
 - (void) dealloc
 {
     [_libraryItem removeObserver:self forKeyPath:@"thumbnail"];

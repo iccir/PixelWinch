@@ -16,7 +16,7 @@
 #include "util.h"
 #import <cpuid.h>
 
-
+#import <objc/runtime.h>
 
 
 BOOL SupportsSSE4_1(void)
@@ -40,13 +40,65 @@ BOOL SupportsSSE4_1(void)
 }
 
 
+BOOL IsInDebugger(void)
+{
+    char *value = getenv("PixelWinchInDebugger");
+    if (!value) return NO;
+    return [@(value) integerValue] > 0;
+}
+
+
 CGSize GetMaxThumbnailSize(void)
 {
     return CGSizeMake(128, 64);
 }
 
 
-extern NSColor *GetRGBColor(int rgb, CGFloat alpha)
+NSString *GetPixelWinchWebsiteURLString(void)
+{
+    return @"http://www.pixelwinch.com/";
+}
+
+
+NSString *GetPixelWinchOnAppStoreURLString(void)
+{
+    return @"macappstore://itunes.apple.com/us/app/pixel-winch/id735066709?mt=12";
+}
+
+
+NSString *GetPixelWinchOnTwitterURLString(void)
+{
+    return @"http://twitter.com/pixelwinch";
+}
+
+
+NSArray *GetClassesMatchesProtocol(Protocol *p)
+{
+    int count = objc_getClassList(NULL, 0);
+    
+    NSMutableArray *result = [NSMutableArray array];
+    Class *classes = NULL;
+
+    if (count > 0) {
+        classes = (__unsafe_unretained Class *) calloc(count, sizeof(Class));
+
+        count = objc_getClassList(classes, count);
+        for (NSInteger i = 0; i < count; i++) {
+            Class cls = classes[i];
+
+            if (class_conformsToProtocol(cls, p)) {
+                [result addObject:cls];
+            }
+        }
+
+        free(classes);
+    }
+    
+    return result;
+}
+
+
+NSColor *GetRGBColor(int rgb, CGFloat alpha)
 {
     float r = (((rgb & 0xFF0000) >> 16) / 255.0);
     float g = (((rgb & 0x00FF00) >>  8) / 255.0);
@@ -459,6 +511,10 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
 
 NSString *GetStringForFloat(CGFloat f)
 {
+    if ([[Preferences sharedInstance] usesPoints]) {
+        f /= 2.0;
+    }
+
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];
 }
 

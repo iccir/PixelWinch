@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "CanvasObject.h"
 
-@interface Grapple : CanvasObject
+@interface Line : CanvasObject
 
-+ (instancetype) grappleVertical:(BOOL)vertical;
++ (instancetype) lineVertical:(BOOL)vertical;
 
 - (CGFloat) length;
 
 @property (nonatomic, readonly, getter=isVertical) BOOL vertical;
-@property (nonatomic, assign, getter=isPreview) BOOL preview;
+@property (nonatomic, getter=isPreview) BOOL preview;
 
 @end

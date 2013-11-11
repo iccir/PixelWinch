@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, ToolType) {
-    ToolTypeMove,
-    ToolTypeHand,
-    ToolTypeMarquee,
-    ToolTypeRectangle,
-    ToolTypeGrapple,
-    ToolTypeZoom
-};
+@class Tool, Canvas, CanvasView, CanvasObject, CanvasObjectView;
+
+
+@protocol ToolOwner <NSObject>
+- (Canvas *) canvas;
+- (CanvasView *) canvasView;
+- (CanvasObjectView *) viewForCanvasObject:(CanvasObject *)canvasObject;
+- (BOOL) isToolSelected:(Tool *)tool;
+@end
 
 
 @interface Tool : NSObject
@@ -26,6 +27,25 @@ typedef NS_ENUM(NSInteger, ToolType) {
 // Subclasses to override, must call super
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary;
 
+- (BOOL) canSelectCanvasObject:(CanvasObject *)object;
+
+@property (nonatomic, weak) id<ToolOwner> owner;
+
 - (NSCursor *) cursor;
-@property (nonatomic, readonly) ToolType type;
+- (NSString *) name;
+- (unichar) shortcutKey;
+
+- (void) reset;
+- (void) didUnselect;
+- (void) didSelect;
+
+- (void) flagsChangedWithEvent:(NSEvent *)event;
+
+- (void) mouseMovedWithEvent:(NSEvent *)event;
+- (void) mouseExitedWithEvent:(NSEvent *)event;
+
+- (BOOL) mouseDownWithEvent:(NSEvent *)event;
+- (void) mouseDraggedWithEvent:(NSEvent *)event;
+- (void) mouseUpWithEvent:(NSEvent *)event;
+
 @end

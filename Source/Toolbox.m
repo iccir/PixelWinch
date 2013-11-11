@@ -8,19 +8,21 @@
 
 #import "Toolbox.h"
 
-#import "MoveTool.h"
 #import "HandTool.h"
+#import "LineTool.h"
 #import "MarqueeTool.h"
+#import "MoveTool.h"
 #import "RectangleTool.h"
 #import "GrappleTool.h"
 #import "ZoomTool.h"
 
 static NSString * const sToolsKey         = @"tools";
-static NSString * const sSelectedKey      = @"selectedToolType";
+static NSString * const sSelectedKey      = @"selectedToolName";
 static NSString * const sMoveToolKey      = @"move";
 static NSString * const sHandToolKey      = @"hand";
 static NSString * const sMarqueeToolKey   = @"marquee";
 static NSString * const sRectangleToolKey = @"rectangle";
+static NSString * const sLineToolKey      = @"line";
 static NSString * const sGrappleToolKey   = @"grapple";
 static NSString * const sZoomToolKey      = @"zoom";
 
@@ -32,10 +34,10 @@ static NSString * const sZoomToolKey      = @"zoom";
 
 
 @implementation Toolbox {
-
+    NSArray *_allTools;
 }
 
-@dynamic selectedToolIndex, selectedToolType;
+@dynamic selectedToolIndex, selectedToolName;
 
 
 
@@ -45,10 +47,10 @@ static NSString * const sZoomToolKey      = @"zoom";
     NSArray *affectingKeys = nil;
 
     if ([key isEqualToString:@"selectedTool"]) {
-        affectingKeys = @[ @"selectedToolIndex", @"selectedToolType" ];
+        affectingKeys = @[ @"selectedToolIndex", @"selectedToolName" ];
     } else if ([key isEqualToString:@"selectedToolIndex"]) {
-        affectingKeys = @[ @"selectedTool", @"selectedToolType" ];
-    } else if ([key isEqualToString:@"selectedToolType"]) {
+        affectingKeys = @[ @"selectedTool", @"selectedToolName" ];
+    } else if ([key isEqualToString:@"selectedToolName"]) {
         affectingKeys = @[ @"selectedTool", @"selectedToolIndex" ];
     }
     
@@ -69,11 +71,12 @@ static NSString * const sZoomToolKey      = @"zoom";
         _handTool      = [[HandTool      alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sHandToolKey]];
         _marqueeTool   = [[MarqueeTool   alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sMarqueeToolKey]];
         _rectangleTool = [[RectangleTool alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sRectangleToolKey]];
+        _lineTool      = [[LineTool      alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sLineToolKey]];
         _grappleTool   = [[GrappleTool   alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sGrappleToolKey]];
         _zoomTool      = [[ZoomTool      alloc] initWithDictionaryRepresentation:[dictionary objectForKey:sZoomToolKey]];
 
-        ToolType selectedToolType = [[dictionary objectForKey:sSelectedKey] integerValue];
-        [self setSelectedToolType:selectedToolType];
+        NSString *selectedToolName = [dictionary objectForKey:sSelectedKey];
+        [self setSelectedToolName:selectedToolName];
     }
     
     return self;
@@ -96,11 +99,15 @@ static NSString * const sZoomToolKey      = @"zoom";
     write(_handTool,      sHandToolKey);
     write(_marqueeTool,   sMarqueeToolKey);
     write(_rectangleTool, sRectangleToolKey);
-    write(_grappleTool,   sGrappleToolKey);
+    write(_lineTool,      sLineToolKey);
     write(_zoomTool,      sZoomToolKey);
     
-    ToolType selectedToolType = [self selectedToolType];
-    [state setObject:@(selectedToolType) forKey:sSelectedKey];
+    if (_grappleTool) {
+        write((Tool *)_grappleTool, sGrappleToolKey);
+    }
+    
+    NSString *selectedToolName = [self selectedToolName];
+    if (selectedToolName) [state setObject:selectedToolName forKey:sSelectedKey];
 
     [[NSUserDefaults standardUserDefaults] setObject:state forKey:sToolsKey];
 }
@@ -108,25 +115,40 @@ static NSString * const sZoomToolKey      = @"zoom";
 
 - (NSArray *) allTools
 {
-    return @[ _moveTool, _handTool, _marqueeTool, _rectangleTool, _grappleTool, _zoomTool ];
+    if (!_allTools) {
+        _allTools = @[ _moveTool, _handTool, _marqueeTool, _rectangleTool, _lineTool, _grappleTool, _zoomTool ];
+
+        if (![GrappleTool isEnabled]) {
+            NSMutableArray *allTools = [_allTools mutableCopy];
+            [allTools removeObject:_grappleTool];
+            _allTools = allTools;
+        }
+    }
+
+    return _allTools;
 }
 
 
 - (void) setSelectedTool:(Tool *)tool
 {
     if (_selectedTool != tool) {
+        Tool *oldTool = _selectedTool;
         _selectedTool = tool;
+
+        [oldTool didUnselect];
+        [_selectedTool didSelect];
+
         [self _writeState];
     }
 }
 
 
-- (void) setSelectedToolType:(ToolType)toolType
+- (void) setSelectedToolName:(NSString *)name
 {
     Tool *selectedTool = nil;
 
     for (Tool *tool in [self allTools]) {
-        if ([tool type] == toolType) {
+        if ([name isEqualToString:[tool name]]) {
             selectedTool = tool;
             break;
         }
@@ -138,9 +160,9 @@ static NSString * const sZoomToolKey      = @"zoom";
 }
 
 
-- (ToolType) selectedToolType
+- (NSString *) selectedToolName
 {
-    return [_selectedTool type];
+    return [_selectedTool name];
 }
 
 

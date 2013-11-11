@@ -10,10 +10,14 @@
 
 @interface GrappleTool : Tool
 
++ (BOOL) isEnabled;
+
 // Applies key modifier masks
 - (BOOL) calculatedIsVertical;
 
 - (UInt8) calculatedThreshold;
+
+- (void) updatePreviewGrapple;
 
 @property (nonatomic) NSInteger tolerance;
 @property (nonatomic) BOOL attachesToGuides;

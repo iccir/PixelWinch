@@ -7,15 +7,39 @@
 //
 
 #import "MoveTool.h"
+#import "Canvas.h"
+
 
 @implementation MoveTool
-
-- (ToolType) type { return ToolTypeMove; }
-
 
 - (NSCursor *) cursor
 {
     return [NSCursor arrowCursor];
+}
+
+
+- (NSString *) name
+{
+    return @"move";
+}
+
+
+- (unichar) shortcutKey
+{
+    return 'v';
+}
+
+
+- (BOOL) canSelectCanvasObject:(CanvasObject *)object
+{
+    return YES;
+}
+
+
+- (BOOL) mouseDownWithEvent:(NSEvent *)event
+{
+    [[[self owner] canvas] unselectAllObjects];
+    return NO;
 }
 
 

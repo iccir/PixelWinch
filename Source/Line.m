@@ -6,24 +6,24 @@
 //
 //
 
-#import "Grapple.h"
+#import "Line.h"
 #import "Canvas.h"
 
-static NSString * const sVerticalKey    = @"vertical";
+static NSString * const sVerticalKey = @"vertical";
 
 
-@implementation Grapple {
+@implementation Line {
     BOOL _preview;
 }
 
 
-+ (NSString *) grapples
++ (NSString *) groupName
 {
-    return @"grapples";
+    return @"lines";
 }
 
 
-+ (instancetype) grappleVertical:(BOOL)vertical
++ (instancetype) lineVertical:(BOOL)vertical
 {
     return [[self alloc] _initVertical:vertical];
 }
@@ -64,7 +64,6 @@ static NSString * const sVerticalKey    = @"vertical";
 }
 
 
-
 - (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
 {
     if ([self isValid]) {
@@ -91,12 +90,23 @@ static NSString * const sVerticalKey    = @"vertical";
 }
 
 
+- (BOOL) isPersistent
+{
+    return [super isPersistent] && ![self isPreview];
+}
+
+
 - (CGFloat) length
 {
     CGRect rect = [self rect];
     return _vertical ? rect.size.height : rect.size.width;
 }
 
+
+- (BOOL) isSelectable
+{
+    return YES;
+}
 
 @end
 

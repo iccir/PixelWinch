@@ -1,33 +1,31 @@
 //
 //  GrappleCalculator.h
-//  PixelWinch
+//  Pixel Winch
 //
-//  Created by Ricci Adams on 2013-10-06.
+//  Created by Ricci Adams on 2013-11-07.
 //
 //
 
-#import <Foundation/Foundation.h>
+@protocol GrappleCalculator <NSObject>
 
-@class Canvas;
++ (id) sharedInstance;
 
-@interface GrappleCalculator : NSObject
+- (void) calculateHorizontalGrappleWithPlane: (UInt8  *) plane
+                                  planeWidth: (size_t  ) width
+                                 planeHeight: (size_t  ) height
+                                      startX: (size_t  ) startX
+                                      startY: (size_t  ) startY
+                                   threshold: (UInt8   ) threshold
+                                       outX1: (size_t *) outX1
+                                       outX2: (size_t *) outX2;
 
-- (id) initWithCanvas:(Canvas *)canvas;
-
-- (void) prepare;
-
-- (void) calculateHorizontalGrappleWithStartX: (size_t  ) startX
-                                       startY: (size_t  ) startY
-                                    threshold: (UInt8   ) threshold
-                                        outX1: (size_t *) outX1
-                                        outX2: (size_t *) outX2;
-
-- (void) calculateVerticalGrappleWithStartX: (size_t  ) startX
-                                     startY: (size_t  ) startY
-                                  threshold: (UInt8   ) threshold
-                                      outY1: (size_t *) outY1
-                                      outY2: (size_t *) outY2;
-
-@property (nonatomic, readonly, getter=isReady) BOOL ready;
+- (void)   calculateVerticalGrappleWithPlane: (UInt8  *) plane
+                                  planeWidth: (size_t  ) width
+                                 planeHeight: (size_t  ) height
+                                      startX: (size_t  ) startX
+                                      startY: (size_t  ) startY
+                                   threshold: (UInt8   ) threshold
+                                       outY1: (size_t *) outY1
+                                       outY2: (size_t *) outY2;
 
 @end

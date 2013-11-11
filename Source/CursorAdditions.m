@@ -141,6 +141,22 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
 #endif
 
 
++ (NSCursor *) winch_wandCursor
+{
+    static NSCursor *sCursor = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!sCursor) {
+            NSImage *image = [NSImage imageNamed:@"cursor_wand"];
+            sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(7, 7)];
+        }
+    });
+
+    return sCursor;
+}
+
+
 + (NSCursor *) winch_grappleHorizontalCursor
 {
     static NSCursor *sCursor = nil;

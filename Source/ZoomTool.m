@@ -8,12 +8,14 @@
 
 #import "ZoomTool.h"
 #import "CursorAdditions.h"
+#import "CanvasView.h"
+
 
 static NSString * const sZoomsInKey = @"zoomsIn";
 
 
 @implementation ZoomTool {
-    
+    NSEvent *_zoomEvent;
 }
 
 - (id) init
@@ -62,17 +64,29 @@ static NSString * const sZoomsInKey = @"zoomsIn";
 }
 
 
-- (ToolType) type
-{
-    return ToolTypeZoom;
-}
-
-
 - (NSCursor *) cursor
 {
     return [self calculatedZoomsIn] ? [NSCursor winch_zoomInCursor] : [NSCursor winch_zoomOutCursor];
 }
 
+
+- (NSString *) name
+{
+    return @"zoom";
+}
+
+
+- (unichar) shortcutKey
+{
+    return 'z';
+}
+
+
+- (void) reset
+{
+    [super reset];
+    _zoomEvent = nil;
+}
 
 - (NSInteger) magnificationIndexForLevel:(CGFloat)neededLevelFloat
 {
@@ -157,7 +171,6 @@ static NSString * const sZoomsInKey = @"zoomsIn";
 }
 
 
-
 - (void) zoomToMagnificationLevel:(CGFloat)magnificationLevel
 {
     NSInteger index = [self magnificationIndexForLevel:magnificationLevel];
@@ -176,6 +189,35 @@ static NSString * const sZoomsInKey = @"zoomsIn";
 {
     NSInteger m = [[[self _levels] objectAtIndex:_magnificationIndex] integerValue];
     return [NSString stringWithFormat:@"%ld%%", (long)m];
+}
+
+
+- (void) mouseUpWithEvent:(NSEvent *)event
+{
+    _zoomEvent = event;
+    [self zoom];
+}
+
+
+- (void) centerScrollViewOnLastEventPoint
+{
+    if (_zoomEvent) {
+        CanvasView *canvasView = [[self owner] canvasView];
+        NSScrollView *scrollView = [canvasView enclosingScrollView];
+
+        CGRect  clipViewFrame = [[scrollView contentView] frame];
+        CGPoint zoomPoint    = [canvasView canvasPointForEvent:_zoomEvent];
+        
+        zoomPoint.x *= [self magnificationLevel];
+        zoomPoint.y *= [self magnificationLevel];
+
+        zoomPoint.x -= NSWidth( clipViewFrame) / 2.0;
+        zoomPoint.y -= NSHeight(clipViewFrame) / 2.0;
+        
+        [[scrollView documentView] scrollPoint:zoomPoint];
+
+        _zoomEvent = nil;
+    }
 }
 
 

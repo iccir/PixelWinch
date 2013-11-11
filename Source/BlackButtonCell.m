@@ -28,7 +28,7 @@
     NSRange entireRange = NSMakeRange(0, [as length]);
     
     [as setAttributes:@{
-        NSForegroundColorAttributeName: GetRGBColor(0xFFFFFF, 1.0),
+        NSForegroundColorAttributeName: GetRGBColor(0xd8d8d8, 1.0),
         NSFontAttributeName: [self font]
     } range:entireRange];
     

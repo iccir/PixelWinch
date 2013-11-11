@@ -125,7 +125,7 @@
         _downMousePoint.y - currentMousePoint.y
     );
     
-    CGPoint deltaPoint = [self snappedPointForPoint:deltaMousePoint];
+    CGPoint deltaPoint = [[self canvasView] roundedCanvasPointForPoint:deltaMousePoint];
     
     CanvasObject *object = [[self canvasObjectView] canvasObject];
 

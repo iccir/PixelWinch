@@ -23,6 +23,30 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 }
 
 
++ (NSSet *) keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+    NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+    NSArray *affectingKeys = nil;
+ 
+    if ([key isEqualToString:@"originX"]) {
+        affectingKeys = @[ @"rect" ];
+    } else if ([key isEqualToString:@"originY"]) {
+        affectingKeys = @[ @"rect" ];
+    } else if ([key isEqualToString:@"sizeWidth"]) {
+        affectingKeys = @[ @"rect" ];
+    } else if ([key isEqualToString:@"sizeHeight"]) {
+        affectingKeys = @[ @"rect" ];
+    }
+
+    if (affectingKeys) {
+        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
+    }
+ 
+    return keyPaths;
+}
+
+
+
 + (void) initialize
 {
     if (!sGroupNameToClassMap) {
@@ -48,7 +72,7 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary
 {
-    if ((self = [super init])) {
+    if ((self = [self init])) {
         if (![self readFromDictionary:dictionary]) {
             self = nil;
             return nil;
@@ -63,6 +87,8 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 {
     if ((self = [super init])) {
         _GUID = [NSString stringWithFormat:@"%@-%@", NSStringFromClass([self class]), [[NSUUID UUID] UUIDString]];
+        [self setParticipatesInUndo:YES];
+        [self setPersistent:YES];
     }
 
     return self;
@@ -194,22 +220,16 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 - (CGFloat) sizeWidth  { return _rect.size.width;  }
 - (CGFloat) sizeHeight { return _rect.size.height; }
 
+
 - (BOOL) isValid
 {
     return YES;
 }
 
 
-- (BOOL) participatesInUndo
+- (BOOL) isSelectable
 {
-    return YES;
+    return NO;
 }
-
-
-- (BOOL) isPersistent
-{
-    return YES;
-}
-
 
 @end

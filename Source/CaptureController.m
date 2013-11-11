@@ -13,6 +13,32 @@
 #import "Library.h"
 #import "LibraryItem.h"
 
+#if ENABLE_APP_STORE
+#import "ReceiptValidation_B.h"
+#else
+#import "Expiration.h"
+#endif
+
+#define sCheckAndProtect _
+static inline __attribute__((always_inline)) void sCheckAndProtect()
+{
+#if ENABLE_APP_STORE
+    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
+        exit(173);
+    }
+#else
+    __block long long expiration = kExpirationLong;
+
+    if (CFAbsoluteTimeGetCurrent() > expiration) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
+            int *zero = (int *)(long)(rand() >> 31);
+            *zero = 0;
+        });
+    }
+#endif
+}
+
 
 @interface CaptureController ()
 @end
@@ -94,6 +120,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
     CGPoint downPoint = _eventTapUserInfo->downPoint;
     CGPoint upPoint   = _eventTapUserInfo->upPoint;
+
+    sCheckAndProtect();
 
     if (downPoint.x < upPoint.x) {
         downPoint.x = floor(downPoint.x);

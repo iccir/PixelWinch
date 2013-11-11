@@ -6,16 +6,16 @@
 //
 //
 
-#import "GrappleObjectView.h"
+#import "LineObjectView.h"
 
 #import "Guide.h"
 #import "Canvas.h"
-#import "Grapple.h"
+#import "Line.h"
 #import "TextLayer.h"
 #import "Canvas.h"
 #import "CursorAdditions.h"
 
-@implementation GrappleObjectView {
+@implementation LineObjectView {
     CALayer   *_lineLayer;
     CALayer   *_startAnchorLayer;
     CALayer   *_endAnchorLayer;
@@ -27,7 +27,7 @@
     BOOL _tracking;
 }
 
-@dynamic grapple;
+@dynamic line;
 
 
 - (id) initWithFrame:(CGRect)frame
@@ -65,7 +65,7 @@
 
 - (NSArray *) resizeKnobTypes
 {
-    if ([[self grapple] isVertical]) {
+    if ([[self line] isVertical]) {
         return @[ @( ResizeKnobTop  ), @( ResizeKnobBottom ) ];
     } else {
         return @[ @( ResizeKnobLeft ), @( ResizeKnobRight  ) ];
@@ -75,7 +75,7 @@
 
 - (NSInteger) canvasOrder
 {
-    return [[self grapple] isPreview] ? CanvasOrderPreviewGrapple : CanvasOrderGrapple;
+    return [[self line] isPreview] ? CanvasOrderPreviewLine : CanvasOrderLine;
 }
 
 
@@ -93,8 +93,8 @@
 
 - (void) layoutSubviews
 {
-    Grapple *grapple = [self grapple];
-    CGRect   frame   = [self bounds];
+    Line   *line  = [self line];
+    CGRect  frame = [self bounds];
 
     XUIEdgeInsets insets = [self paddingForCanvasLayout];
     CGRect insetRect = XUIEdgeInsetsInsetRect(frame, insets);
@@ -104,7 +104,7 @@
     
     BOOL showAnchors = NO;
 
-    if ([grapple isVertical]) {
+    if ([line isVertical]) {
         frame.origin.x = ScaleRound((frame.size.width - 1) / 2, 2);
         frame.size.width = 1;
         
@@ -131,7 +131,7 @@
     
     [_lineLayer setFrame:frame];
     [_textLayer setFrame:frame];
-    [_textLayer setDimensions:[[self grapple] rect].size];
+    [_textLayer setDimensions:[[self line] rect].size];
 
     [_startAnchorLayer setFrame:startAnchorFrame];
     [_endAnchorLayer   setFrame:endAnchorFrame];
@@ -139,7 +139,7 @@
     [_startAnchorLayer setHidden:!showAnchors];
     [_endAnchorLayer   setHidden:!showAnchors];
     
-    if ([[self grapple] isVertical]) {
+    if ([[self line] isVertical]) {
         [_textLayer setTextLayerStyle:TextLayerStyleHeightOnly];
     } else {
         [_textLayer setTextLayerStyle:TextLayerStyleWidthOnly];
@@ -157,36 +157,7 @@
 
 - (void) _updateVisibilityOfTextLayer
 {
-    [_textLayer setHidden:([self isNewborn] || [[self grapple] isPreview])];
-}
-
-
-- (void) _updateNewGrappleWithEvent:(NSEvent *)event point:(CGPoint)point
-{
-    CGPoint currentPoint = [event locationInWindow];
-    
-    CGFloat xDelta = currentPoint.x - _downPoint.x;
-    CGFloat yDelta = currentPoint.y - _downPoint.y;
-    
-    CGFloat larger = (xDelta > yDelta) ? xDelta : yDelta;
-    
-    NSInteger threshold  = _originalThreshold + larger;
-    if (threshold < 0) threshold = 0;
-    else if (threshold > 255) threshold = 255;
-
-    NSString *cursorText = nil;
-
-    Grapple *grapple = [self grapple];
-    [[grapple canvas] updateGrapple:grapple point:_originalPoint threshold:threshold];
-
-    if (threshold != _originalThreshold) {
-        CGFloat percent = round((threshold / 255.0f) * 100);
-        cursorText = [NSString stringWithFormat:@"%@ %C %g%%", GetStringForFloat([grapple length]), (unichar)0x2014, percent];
-    } else {
-        cursorText = GetStringForFloat([grapple length]);
-    }
-        
-    [[CursorInfo sharedInstance] setText:cursorText forKey:@"new-grapple"];
+    [_textLayer setHidden:([self isNewborn] || [[self line] isPreview])];
 }
 
 
@@ -196,7 +167,7 @@
 
     NSColor *lineColor = nil;
 
-    if ([[self grapple] isPreview] || (_tracking && [self isNewborn])) {
+    if ([[self line] isPreview] || (_tracking && [self isNewborn])) {
         lineColor = [preferences previewGrappleColor];
     } else {
         lineColor = [preferences placedGrappleColor];
@@ -228,28 +199,14 @@
     _tracking = YES;
     [self _updateLayersAnimated:YES];
 
-    if ([self isNewborn]) {
-        [self _updateNewGrappleWithEvent:event point:point];
-    } else {
+    if (![self isNewborn]) {
         [super startTrackingWithEvent:event point:point];
-    }
-}
-
-
-- (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
-{
-    if ([self isNewborn]) {
-        [self _updateNewGrappleWithEvent:event point:point];
-    } else {
-        [super continueTrackingWithEvent:event point:point];
     }
 }
 
 
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    [[CursorInfo sharedInstance] setText:nil forKey:@"new-grapple"];
-
     _tracking = NO;
     [self _updateLayersAnimated:YES];
 
@@ -263,13 +220,13 @@
 
 - (CGRect) rectForCanvasLayout
 {
-    return [[self grapple] rect];
+    return [[self line] rect];
 }
 
 
 - (XUIEdgeInsets) paddingForCanvasLayout
 {
-    if ([[self grapple] isVertical]) {
+    if ([[self line] isVertical]) {
         return XUIEdgeInsetsMake(0, 1, 0, 1);
     } else {
         return XUIEdgeInsetsMake(1, 0, 1, 0);
@@ -279,9 +236,9 @@
 
 #pragma - Accessors
 
-- (void) setGrapple:(Grapple *)grapple
+- (void) setLine:(Line *)line
 {
-    [self setCanvasObject:grapple];
+    [self setCanvasObject:line];
     [self _updateVisibilityOfTextLayer];
     [self _updateLayersAnimated:NO];
 }
@@ -301,9 +258,9 @@
 }
 
 
-- (Grapple *) grapple
+- (Line *) line
 {
-    return (Grapple *)[self canvasObject];
+    return (Line *)[self canvasObject];
 }
 
 

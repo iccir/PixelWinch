@@ -32,6 +32,8 @@
         return;
     }
 
+    [[self canvasView] willTrackObjectView:self];
+
     [self trackWithEvent:event newborn:NO];
 
     [[self canvasView] didTrackObjectView:self];
@@ -42,7 +44,9 @@
 {
     [self setNewborn:newborn];
 
-    CGPoint snappedPoint = [self snappedPointForEvent:event];
+    CanvasView *canvasView = [self canvasView];
+
+    CGPoint snappedPoint = [canvasView roundedCanvasPointForEvent:event];
     [self startTrackingWithEvent:event point:snappedPoint];
     
     while (1) {
@@ -50,12 +54,12 @@
             
         NSEventType type = [event type];
         if (type == NSLeftMouseUp) {
-            snappedPoint = [self snappedPointForEvent:event];
+            snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self endTrackingWithEvent:event point:snappedPoint];
             break;
 
         } else if (type == NSLeftMouseDragged) {
-            snappedPoint = [self snappedPointForEvent:event];
+            snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self continueTrackingWithEvent:event point:snappedPoint];
         }
     }
@@ -82,14 +86,15 @@
 
 - (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    CGPoint pointInCanvasView = [[self canvasView] convertPoint:[event locationInWindow] fromView:nil];
+    CanvasView *canvasView = [self canvasView];
+    CGPoint pointInCanvasView = [canvasView convertPoint:[event locationInWindow] fromView:nil];
 
     CGPoint deltaPoint = CGPointMake(
         pointInCanvasView.x - _moveTrackingMousePoint.x,
         pointInCanvasView.y - _moveTrackingMousePoint.y
     );
 
-    deltaPoint = [self snappedPointForPoint:deltaPoint];
+    deltaPoint = [canvasView roundedCanvasPointForPoint:deltaPoint];
 
     CanvasObject *canvasObject = [self canvasObject];
 
@@ -147,40 +152,6 @@
 - (XUIEdgeInsets) paddingForCanvasLayout
 {
     return XUIEdgeInsetsZero;
-}
-
-
-- (CGPoint) snappedPointForEvent:(NSEvent *)event
-{
-    SnappingPolicy horizontalSnappingPolicy = [self horizontalSnappingPolicy];
-    SnappingPolicy verticalSnappingPolicy   = [self verticalSnappingPolicy];
-    
-    return [[self canvasView] canvasPointForEvent: event
-                         horizontalSnappingPolicy: horizontalSnappingPolicy
-                           verticalSnappingPolicy: verticalSnappingPolicy];
-}
-
-
-- (CGPoint) snappedPointForPoint:(CGPoint)inPoint
-{
-    SnappingPolicy horizontalSnappingPolicy = [self horizontalSnappingPolicy];
-    SnappingPolicy verticalSnappingPolicy   = [self verticalSnappingPolicy];
-    
-    return [[self canvasView] canvasPointForPoint: inPoint
-                         horizontalSnappingPolicy: horizontalSnappingPolicy
-                           verticalSnappingPolicy: verticalSnappingPolicy];
-}
-
-
-- (SnappingPolicy) horizontalSnappingPolicy
-{
-    return SnappingPolicyToPixelEdge;
-}
-
-
-- (SnappingPolicy) verticalSnappingPolicy
-{
-    return SnappingPolicyToPixelEdge;
 }
 
 

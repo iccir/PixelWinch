@@ -6,41 +6,29 @@
 //
 //
 
-#import "ImageMapper.h"
-#import "Screenshot.h"
+#import "ImageDistanceMap.h"
 
 #import <Accelerate/Accelerate.h>
 #include <smmintrin.h>
 
 
-NSString * const ImageMapperDidBuildMapsNotification = @"ImageMapperDidBuildMaps";
+NSString * const ImageDistanceMapReadyNotificationName = @"ImageDistanceMapReady";
 
-
-static __inline__ __m128 load_floats(const float *value) {
-    __m128 xy = _mm_loadl_pi(_mm_setzero_ps(), (const __m64*)value);
-    __m128 z = _mm_load_ss(&value[2]);
-    return _mm_movelh_ps(xy, z);
-}
 
 #define DUMP_MAPS  0
 
-@implementation ImageMapper {
-    Screenshot *_screenshot;
-    size_t      _width;
-    size_t      _height;
-    UInt8      *_horizontalMap;
-    UInt8      *_verticalMap;
+@implementation ImageDistanceMap {
+    CGImageRef  _image;
+    UInt8      *_horizontalPlane;
+    UInt8      *_verticalPlane;
     BOOL        _building;
-    BOOL        _ready;
 }
 
 
-- (id) initWithScreenshot:(Screenshot *)screenshot
+- (id) initWithCGImage:(CGImageRef)image
 {
     if ((self = [super init])) {
-        _screenshot = screenshot;
-        _width  = [_screenshot width];
-        _height = [_screenshot height];
+        _image = CGImageRetain(image);
     }
     
     return self;
@@ -49,14 +37,23 @@ static __inline__ __m128 load_floats(const float *value) {
 
 - (void) dealloc
 {
-    free(_horizontalMap);
-    free(_verticalMap);
+    CGImageRelease(_image);
+
+    free(_horizontalPlane);
+    free(_verticalPlane);
 }
 
 
 #pragma mark - Private Methods
 
-static void sMakeLAB_Accelerate(UInt8 *inRGB, float *outLAB, size_t width, size_t height)
+static __inline__ __m128 sLoadFloats(const float *value) {
+    __m128 xy = _mm_loadl_pi(_mm_setzero_ps(), (const __m64*)value);
+    __m128 z = _mm_load_ss(&value[2]);
+    return _mm_movelh_ps(xy, z);
+}
+
+
+static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_t height)
 {
      dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
@@ -131,20 +128,30 @@ static void sMakeLAB_Accelerate(UInt8 *inRGB, float *outLAB, size_t width, size_
 }
 
 
-static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *outVerticalMap, size_t width, size_t height)
+static __inline__ void sMakeMap(float *inLAB, UInt8 *outHorizontalMap, UInt8 *outVerticalMap, const size_t width, const size_t height)
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
+    size_t width_height = width * height;
+
+    float *hDistance = malloc(sizeof(float) * width_height);
+    float *vDistance = malloc(sizeof(float) * width_height);
+    float *maxArray  = malloc(sizeof(float) * height);
+
     dispatch_apply(height, queue, ^(size_t y) {
-        float *here  = &inLAB[(y * width * 4)];
-        float *right = &inLAB[((y * width) + 1)     * 4];
-        float *down  = &inLAB[((y * width) + width) * 4];
+        size_t y_width = y * width;
+
+        float max = 0;
+
+        float *here  = &inLAB[(y_width * 4)];
+        float *right = &inLAB[((y_width) + 1)     * 4];
+        float *down  = &inLAB[((y_width) + width) * 4];
         
         if (SupportsSSE4_1()) {
             for (size_t x = 0; x < width; x++) {
-                __m128 here128  = load_floats(here);
-                __m128 right128 = load_floats(right);
-                __m128 down128  = load_floats(down);
+                __m128 here128  = sLoadFloats(here);
+                __m128 right128 = sLoadFloats(right);
+                __m128 down128  = sLoadFloats(down);
 
                 __m128 hDelta   = _mm_sub_ps(here128, right128);
                 __m128 vDelta   = _mm_sub_ps(here128, down128);
@@ -155,19 +162,24 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
                 float hD = _mm_cvtss_f32(hDelta);
                 float vD = _mm_cvtss_f32(vDelta);
                 
-                outHorizontalMap[(y * width) + x] = (UInt8)ceil((hD / 258.693) * 254.0);
-                outVerticalMap[  (y * width) + x] = (UInt8)ceil((vD / 258.693) * 254.0);
+                hDistance[y_width + x] = hD;
+                vDistance[y_width + x] = vD;
+
+                if (hD > max) max = hD;
+                if (vD > max) max = vD;
 
                 here  += 4;
                 right += 4;
                 down  += 4;
             }
+            
+            maxArray[y] = max;
 
         } else {
             for (size_t x = 0; x < width; x++) {
-                __m128 here128  = load_floats(here);
-                __m128 right128 = load_floats(right);
-                __m128 down128  = load_floats(down);
+                __m128 here128  = sLoadFloats(here);
+                __m128 right128 = sLoadFloats(right);
+                __m128 down128  = sLoadFloats(down);
 
                 __m128 hDelta = _mm_sub_ps(here128, right128);
                 __m128 vDelta = _mm_sub_ps(here128, down128);
@@ -185,22 +197,55 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
                 float hD = _mm_cvtss_f32(hDelta);
                 float vD = _mm_cvtss_f32(vDelta);
 
-                outHorizontalMap[(y * width) + x] = (UInt8)ceil((hD / 258.693) * 254.0);
-                outVerticalMap[  (y * width) + x] = (UInt8)ceil((vD / 258.693) * 254.0);
+                hDistance[y_width + x] = hD;
+                vDistance[y_width + x] = vD;
+
+                if (hD > max) max = hD;
+                if (vD > max) max = vD;
 
                 here  += 4;
                 right += 4;
                 down  += 4;
             }
+
+            maxArray[y] = max;
         }
     });
+    
+    float actualMax;
+    vDSP_maxv(maxArray, 1, &actualMax, height);
+
+    dispatch_apply(height, queue, ^(size_t y) {
+        const size_t y_width = y * width;
+        const float f254 = 254.0f;
+
+        float *hDistance_row = &hDistance[y_width];
+        float *vDistance_row = &vDistance[y_width];
+
+        vDSP_vsdiv(hDistance_row, 1, &actualMax, hDistance_row, 1, width);
+        vDSP_vsmul(hDistance_row, 1, &f254,      hDistance_row, 1, width);
+
+        vDSP_vsdiv(vDistance_row, 1, &actualMax, vDistance_row, 1, width);
+        vDSP_vsmul(vDistance_row, 1, &f254,      vDistance_row, 1, width);
+
+        for (size_t x = 0; x < width; x++) {
+            size_t index = (y * width) + x;
+
+            outHorizontalMap[index] = (UInt8)ceil(hDistance[index]);
+            outVerticalMap[  index] = (UInt8)ceil(vDistance[index]);
+        }
+    });
+    
+    free(hDistance);
+    free(vDistance);
+    free(maxArray);
 }
 
 
 - (void) _worker_buildMaps
 {
-    size_t width  = _width;
-    size_t height = _height;
+    size_t width  = CGImageGetWidth(_image);
+    size_t height = CGImageGetHeight(_image);
 
     NSInteger bytesPerRow = 4 * width;
     UInt8    *input = malloc(sizeof(UInt8) * bytesPerRow * (height + 1));
@@ -212,51 +257,50 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
     // Draw image into input buffer
     //
     {
-        CGImageRef image = [_screenshot CGImage];
-        CGContextRef context = CGBitmapContextCreate(input, width, height, 8, bytesPerRow, CGImageGetColorSpace(image), kCGImageAlphaNoneSkipLast);
+        CGContextRef context = CGBitmapContextCreate(input, width, height, 8, bytesPerRow, CGImageGetColorSpace(_image), kCGImageAlphaNoneSkipLast);
 
         CGContextFillRect(context, CGRectMake(0, 0, width, height));
-        CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
+        CGContextDrawImage(context, CGRectMake(0, 0, width, height), _image);
 
         CGContextRelease(context);
     }
     memset(&lab_accelerate[4 * width * height], 0, sizeof(float) * width * 4);
 
-    sMakeLAB_Accelerate(input, lab_accelerate, _width, _height);
-    sMakeMap_Accelerate(lab_accelerate, hmap_accelerate, vmap_accelerate, _width, _height);
+    sMakeLAB(input, lab_accelerate, width, height);
+    sMakeMap(lab_accelerate, hmap_accelerate, vmap_accelerate, width, height);
 
     free(lab_accelerate);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         _building = NO;
-        _ready = YES;
-        _horizontalMap = hmap_accelerate;
-        _verticalMap   = vmap_accelerate;
+        _horizontalPlane = hmap_accelerate;
+        _verticalPlane   = vmap_accelerate;
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:ImageMapperDidBuildMapsNotification object:self];
-
-#if DUMP_MAPS
-        [self _dumpMaps];
-#endif
+        [[NSNotificationCenter defaultCenter] postNotificationName:ImageDistanceMapReadyNotificationName object:self];
     });
 }
 
 
-#if DUMP_MAPS
-
-- (void) _dumpMaps
+- (void) dump
 {
+    if (!_horizontalPlane || !_verticalPlane) {
+        return;
+    }
+
+    size_t width  = CGImageGetWidth(_image);
+    size_t height = CGImageGetHeight(_image);
+
     CGColorSpaceRef gray = CGColorSpaceCreateDeviceGray();
     
-    CGContextRef vertical = CGBitmapContextCreate(NULL, _width, _height, 8, _width, gray, kCGImageAlphaNone);
+    CGContextRef vertical = CGBitmapContextCreate(NULL, width, height, 8, width, gray, kCGImageAlphaNone);
     UInt8 *vBytes = (UInt8 *)CGBitmapContextGetData(vertical);
 
-    CGContextRef horizontal = CGBitmapContextCreate(NULL, _width, _height, 8, _width, gray, kCGImageAlphaNone);
+    CGContextRef horizontal = CGBitmapContextCreate(NULL, width, height, 8, width, gray, kCGImageAlphaNone);
     UInt8 *hBytes = (UInt8 *)CGBitmapContextGetData(horizontal);
     
-    for (NSInteger i = 0; i < (_width * _height); i++) {
-        vBytes[i] = _verticalMap[i];
-        hBytes[i] = _horizontalMap[i];
+    for (NSInteger i = 0; i < (width * height); i++) {
+        vBytes[i] = _verticalPlane[i];
+        hBytes[i] = _horizontalPlane[i];
     }
     
     CGImageRef vImage = CGBitmapContextCreateImage(vertical);
@@ -269,7 +313,6 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
     
     [[NSWorkspace sharedWorkspace] openFile:NSTemporaryDirectory()];
     
-    
     CFRelease(gray);
     CGImageRelease(vImage);
     CGImageRelease(hImage);
@@ -277,14 +320,12 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
     CGContextRelease(horizontal);
 }
 
-#endif
-
 
 #pragma mark - Accessors
 
 - (void) buildMaps
 {
-    if (_ready || _building) return;
+    if (_horizontalPlane || _verticalPlane || _building) return;
     _building = YES;
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -293,21 +334,27 @@ static void sMakeMap_Accelerate(float *inLAB, UInt8 *outHorizontalMap, UInt8 *ou
 }
 
 
-- (BOOL) isReady
+- (size_t) width
 {
-    return _ready;
+    return CGImageGetWidth(_image);
 }
 
 
-- (UInt8 *) horizontalMap
+- (size_t) height
 {
-    return _horizontalMap;
+    return CGImageGetHeight(_image);
 }
 
 
-- (UInt8 *) verticalMap
+- (UInt8 *) horizontalPlane
 {
-    return _verticalMap;
+    return _horizontalPlane;
+}
+
+
+- (UInt8 *) verticalPlane
+{
+    return _verticalPlane;
 }
 
 

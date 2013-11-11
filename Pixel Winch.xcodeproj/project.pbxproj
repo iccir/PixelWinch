@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		5502670717FF97E8008A5D01 /* GrappleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5502670517FF97E8008A5D01 /* GrappleObjectView.m */; };
 		5512BF3117F94EA100425AD6 /* Guide.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3017F94EA100425AD6 /* Guide.m */; };
 		5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3917F968E300425AD6 /* MarqueeObjectView.m */; };
 		5512BF4417FA4EDA00425AD6 /* marquee.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4317FA4EDA00425AD6 /* marquee.png */; };
@@ -33,9 +32,6 @@
 		5512BF5B17FB9F6700425AD6 /* GuideObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5A17FB9F6700425AD6 /* GuideObjectView.m */; };
 		5512BF5E17FBA44400425AD6 /* CanvasObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5D17FBA44400425AD6 /* CanvasObjectView.m */; };
 		5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6017FBA67D00425AD6 /* Marquee.m */; };
-		5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6317FBA9E300425AD6 /* Grapple.m */; };
-		5512BF6717FBAA8D00425AD6 /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6617FBAA8D00425AD6 /* Rectangle.m */; };
-		5512BF6D17FBB04800425AD6 /* RectangleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6C17FBB04800425AD6 /* RectangleObjectView.m */; };
 		5512BF7017FCD44000425AD6 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF6F17FCD44000425AD6 /* Canvas.m */; };
 		5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7217FCD47F00425AD6 /* CanvasObject.m */; };
 		5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobView.m */; };
@@ -84,7 +80,7 @@
 		553ED1711806549B00F06B45 /* knob_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 553ED16E1806549B00F06B45 /* knob_normal@2x.png */; };
 		553ED1721806549B00F06B45 /* slider_well@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 553ED16F1806549B00F06B45 /* slider_well@2x.png */; };
 		553ED1751806A7F000F06B45 /* TextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED1741806A7F000F06B45 /* TextLayer.m */; };
-		554B43A61808D1DE00804373 /* ImageMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 554B43A51808D1DE00804373 /* ImageMapper.m */; };
+		554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 554B43A51808D1DE00804373 /* ImageDistanceMap.m */; };
 		554B43B1180A237900804373 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554B43B0180A237900804373 /* OpenGL.framework */; };
 		554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D895A135BEECB003BFC89 /* AppDelegate.m */; };
 		554D8988135BEFCF003BFC89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D8987135BEFCF003BFC89 /* main.m */; };
@@ -105,8 +101,19 @@
 		557BA9B91821D99A004A57FC /* PixelWinch_Profile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */; };
 		557BA9BA1821D99A004A57FC /* PixelWinch_Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */; };
 		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
+		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
+		5588EF8B182C7A54000B6224 /* toolbar_line_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF83182C7A54000B6224 /* toolbar_line_normal.png */; };
+		5588EF8C182C7A54000B6224 /* toolbar_line_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF84182C7A54000B6224 /* toolbar_line_selected.png */; };
+		5588EF8D182C7A54000B6224 /* toolbar_wand_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF85182C7A54000B6224 /* toolbar_wand_normal.png */; };
+		5588EF8E182C7A54000B6224 /* toolbar_wand_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF86182C7A54000B6224 /* toolbar_wand_selected.png */; };
+		5588EF8F182C7A54000B6224 /* toolbar_line_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF87182C7A54000B6224 /* toolbar_line_normal@2x.png */; };
+		5588EF90182C7A54000B6224 /* toolbar_line_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF88182C7A54000B6224 /* toolbar_line_selected@2x.png */; };
+		5588EF91182C7A54000B6224 /* toolbar_wand_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF89182C7A54000B6224 /* toolbar_wand_normal@2x.png */; };
+		5588EF92182C7A54000B6224 /* toolbar_wand_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF8A182C7A54000B6224 /* toolbar_wand_selected@2x.png */; };
+		5588EF98182C8BD3000B6224 /* cursor_wand.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF96182C8BD3000B6224 /* cursor_wand.png */; };
+		5588EF99182C8BD3000B6224 /* cursor_wand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF97182C8BD3000B6224 /* cursor_wand@2x.png */; };
+		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
 		559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 559B45961803DB5B00849B87 /* CanvasWindow.m */; };
-		559D38B1180229B50048F29B /* GrappleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38B0180229B50048F29B /* GrappleCalculator.m */; };
 		559D38B81802972E0048F29B /* cursor_grapple_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B41802972E0048F29B /* cursor_grapple_h.png */; };
 		559D38B91802972E0048F29B /* cursor_grapple_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B51802972E0048F29B /* cursor_grapple_h@2x.png */; };
 		559D38BA1802972E0048F29B /* cursor_grapple_v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B61802972E0048F29B /* cursor_grapple_v@2x.png */; };
@@ -120,9 +127,17 @@
 		559D38D2180399B90048F29B /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38CE180399B90048F29B /* PreferencesController.m */; };
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
+		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
+		55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EC182B7E42008F1CEB /* LineObjectView.m */; };
+		55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */; };
+		55ADF90D182B8CF6008F1CEB /* RectangleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E4182B7E20008F1CEB /* RectangleTool.m */; };
+		55ADF90E182B8CFF008F1CEB /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EB182B7E42008F1CEB /* Line.m */; };
+		55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E6182B7E20008F1CEB /* Rectangle.m */; };
 		55B07A6A17F654400013B05C /* CaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureController.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
+		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
+		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
 		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
 		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
 		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
@@ -164,8 +179,6 @@
 		55C20CE4180109AF00ECE184 /* Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CE3180109AF00ECE184 /* Tool.m */; };
 		55C20CEA180109FC00ECE184 /* ZoomTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CE9180109FC00ECE184 /* ZoomTool.m */; };
 		55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CEC18010A0900ECE184 /* MarqueeTool.m */; };
-		55C20CF018010A2A00ECE184 /* RectangleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CEF18010A2A00ECE184 /* RectangleTool.m */; };
-		55C20CF318010A4700ECE184 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF218010A4700ECE184 /* GrappleTool.m */; };
 		55C20CF61801171E00ECE184 /* MoveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF51801171E00ECE184 /* MoveTool.m */; };
 		55C20CF91801172F00ECE184 /* HandTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF81801172F00ECE184 /* HandTool.m */; };
 		55C20CFB18012FA400ECE184 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55C20CFA18012FA400ECE184 /* CanvasWindow.xib */; };
@@ -174,6 +187,9 @@
 		55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2412E180DF4170093CF04 /* LibraryItem.m */; };
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
+		55E29A4218307A1200D9D933 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E29A4018307A1200D9D933 /* About.xib */; };
+		55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E29A44183088C200D9D933 /* AboutWindowController.m */; };
+		55E29A4818309B0F00D9D933 /* Legal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 55E29A4618309B0F00D9D933 /* Legal.rtf */; };
 		55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55CB053418285F80001DD1A0 /* libcrypto.a */; };
 		55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E987CD1828E37A00C2208A /* ScreenAdditions.m */; };
 		55E987D11828FF0E00C2208A /* toolbar_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E987CF1828FF0E00C2208A /* toolbar_keyboard@2x.png */; };
@@ -216,6 +232,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
 				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -227,8 +244,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		5502670517FF97E8008A5D01 /* GrappleObjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleObjectView.m; path = Source/GrappleObjectView.m; sourceTree = "<group>"; };
-		5502670617FF97E8008A5D01 /* GrappleObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleObjectView.h; path = Source/GrappleObjectView.h; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -246,12 +261,6 @@
 		5512BF5D17FBA44400425AD6 /* CanvasObjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasObjectView.m; path = Source/CanvasObjectView.m; sourceTree = "<group>"; };
 		5512BF5F17FBA67D00425AD6 /* Marquee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Marquee.h; path = Source/Marquee.h; sourceTree = "<group>"; };
 		5512BF6017FBA67D00425AD6 /* Marquee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Marquee.m; path = Source/Marquee.m; sourceTree = "<group>"; };
-		5512BF6217FBA9E300425AD6 /* Grapple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Grapple.h; path = Source/Grapple.h; sourceTree = "<group>"; };
-		5512BF6317FBA9E300425AD6 /* Grapple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Grapple.m; path = Source/Grapple.m; sourceTree = "<group>"; };
-		5512BF6517FBAA8D00425AD6 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rectangle.h; path = Source/Rectangle.h; sourceTree = "<group>"; };
-		5512BF6617FBAA8D00425AD6 /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rectangle.m; path = Source/Rectangle.m; sourceTree = "<group>"; };
-		5512BF6B17FBB04800425AD6 /* RectangleObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RectangleObjectView.h; path = Source/RectangleObjectView.h; sourceTree = "<group>"; };
-		5512BF6C17FBB04800425AD6 /* RectangleObjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RectangleObjectView.m; path = Source/RectangleObjectView.m; sourceTree = "<group>"; };
 		5512BF6E17FCD44000425AD6 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Canvas.h; path = Source/Canvas.h; sourceTree = "<group>"; };
 		5512BF6F17FCD44000425AD6 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Canvas.m; path = Source/Canvas.m; sourceTree = "<group>"; };
 		5512BF7117FCD47F00425AD6 /* CanvasObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasObject.h; path = Source/CanvasObject.h; sourceTree = "<group>"; };
@@ -259,7 +268,7 @@
 		5512BF7417FCF30400425AD6 /* ResizeKnobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResizeKnobView.h; path = Source/ResizeKnobView.h; sourceTree = "<group>"; };
 		5512BF7517FCF30400425AD6 /* ResizeKnobView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResizeKnobView.m; path = Source/ResizeKnobView.m; sourceTree = "<group>"; };
 		55163C3513569D6000CDE290 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
-		5516B687180402C3002AED2E /* Pixel Winch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Pixel Winch.entitlements"; sourceTree = "<group>"; };
+		5516B687180402C3002AED2E /* Pixel Winch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Pixel Winch.entitlements"; path = "Resources/Pixel Winch.entitlements"; sourceTree = "<group>"; };
 		5516B68B1804ECAD002AED2E /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Library.h; path = Source/Library.h; sourceTree = "<group>"; };
 		5516B68C1804ECAD002AED2E /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Library.m; path = Source/Library.m; sourceTree = "<group>"; };
 		5520DF5F180F8069002D5451 /* delete_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "delete_pressed@2x.png"; path = "Resources/delete_pressed@2x.png"; sourceTree = "<group>"; };
@@ -286,7 +295,7 @@
 		55336A29180CB05900F053C7 /* cursor_resize_ne_sw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_ne_sw.png; path = Resources/cursor_resize_ne_sw.png; sourceTree = "<group>"; };
 		55336A2A180CB05900F053C7 /* cursor_resize_nw_se.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_nw_se.png; path = Resources/cursor_resize_nw_se.png; sourceTree = "<group>"; };
 		55336A2B180CB05900F053C7 /* cursor_resize_w_e.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_w_e.png; path = Resources/cursor_resize_w_e.png; sourceTree = "<group>"; };
-		55336A38180CD61E00F053C7 /* LibraryItemPrototype.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LibraryItemPrototype.xib; sourceTree = "<group>"; };
+		55336A38180CD61E00F053C7 /* LibraryItemPrototype.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LibraryItemPrototype.xib; path = Resources/English.lproj/LibraryItemPrototype.xib; sourceTree = "<group>"; };
 		5536B41C17F8F1D000D9B4E9 /* RulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulerView.h; path = Source/RulerView.h; sourceTree = "<group>"; };
 		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
 		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
@@ -317,8 +326,8 @@
 		553ED1731806A7F000F06B45 /* TextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextLayer.h; path = Source/TextLayer.h; sourceTree = "<group>"; };
 		553ED1741806A7F000F06B45 /* TextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextLayer.m; path = Source/TextLayer.m; sourceTree = "<group>"; };
 		554B43A01808C30700804373 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
-		554B43A41808D1DE00804373 /* ImageMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageMapper.h; path = Source/ImageMapper.h; sourceTree = "<group>"; };
-		554B43A51808D1DE00804373 /* ImageMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageMapper.m; path = Source/ImageMapper.m; sourceTree = "<group>"; };
+		554B43A41808D1DE00804373 /* ImageDistanceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageDistanceMap.h; path = Source/ImageDistanceMap.h; sourceTree = "<group>"; };
+		554B43A51808D1DE00804373 /* ImageDistanceMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageDistanceMap.m; path = Source/ImageDistanceMap.m; sourceTree = "<group>"; };
 		554B43B0180A237900804373 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		554D8959135BEECB003BFC89 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Source/AppDelegate.h; sourceTree = "<group>"; };
 		554D895A135BEECB003BFC89 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
@@ -345,10 +354,21 @@
 		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
 		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
 		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
+		5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculatorImpl.h; path = Source/GrappleCalculatorImpl.h; sourceTree = "<group>"; };
+		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
+		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
+		5588EF83182C7A54000B6224 /* toolbar_line_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_line_normal.png; path = Resources/toolbar_line_normal.png; sourceTree = "<group>"; };
+		5588EF84182C7A54000B6224 /* toolbar_line_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_line_selected.png; path = Resources/toolbar_line_selected.png; sourceTree = "<group>"; };
+		5588EF85182C7A54000B6224 /* toolbar_wand_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_wand_normal.png; path = Resources/toolbar_wand_normal.png; sourceTree = "<group>"; };
+		5588EF86182C7A54000B6224 /* toolbar_wand_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbar_wand_selected.png; path = Resources/toolbar_wand_selected.png; sourceTree = "<group>"; };
+		5588EF87182C7A54000B6224 /* toolbar_line_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_line_normal@2x.png"; path = "Resources/toolbar_line_normal@2x.png"; sourceTree = "<group>"; };
+		5588EF88182C7A54000B6224 /* toolbar_line_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_line_selected@2x.png"; path = "Resources/toolbar_line_selected@2x.png"; sourceTree = "<group>"; };
+		5588EF89182C7A54000B6224 /* toolbar_wand_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_wand_normal@2x.png"; path = "Resources/toolbar_wand_normal@2x.png"; sourceTree = "<group>"; };
+		5588EF8A182C7A54000B6224 /* toolbar_wand_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_wand_selected@2x.png"; path = "Resources/toolbar_wand_selected@2x.png"; sourceTree = "<group>"; };
+		5588EF96182C8BD3000B6224 /* cursor_wand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_wand.png; path = Resources/cursor_wand.png; sourceTree = "<group>"; };
+		5588EF97182C8BD3000B6224 /* cursor_wand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_wand@2x.png"; path = "Resources/cursor_wand@2x.png"; sourceTree = "<group>"; };
 		559B45951803DB5B00849B87 /* CanvasWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindow.h; path = Source/CanvasWindow.h; sourceTree = "<group>"; };
 		559B45961803DB5B00849B87 /* CanvasWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindow.m; path = Source/CanvasWindow.m; sourceTree = "<group>"; };
-		559D38AF180229B50048F29B /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
-		559D38B0180229B50048F29B /* GrappleCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculator.m; path = Source/GrappleCalculator.m; sourceTree = "<group>"; };
 		559D38B41802972E0048F29B /* cursor_grapple_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_grapple_h.png; path = Resources/cursor_grapple_h.png; sourceTree = "<group>"; };
 		559D38B51802972E0048F29B /* cursor_grapple_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_grapple_h@2x.png"; path = "Resources/cursor_grapple_h@2x.png"; sourceTree = "<group>"; };
 		559D38B61802972E0048F29B /* cursor_grapple_v@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_grapple_v@2x.png"; path = "Resources/cursor_grapple_v@2x.png"; sourceTree = "<group>"; };
@@ -367,12 +387,33 @@
 		559D38D1180399B90048F29B /* ShortcutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutManager.h; path = Source/ShortcutManager.h; sourceTree = "<group>"; };
 		559D38D418039D930048F29B /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShortcutView.m; path = Source/ShortcutView.m; sourceTree = "<group>"; };
 		559D38D518039D930048F29B /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutView.h; path = Source/ShortcutView.h; sourceTree = "<group>"; };
+		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		55ADF8E4182B7E20008F1CEB /* RectangleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
+		55ADF8E5182B7E20008F1CEB /* RectangleTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RectangleTool.h; path = Source/RectangleTool.h; sourceTree = "<group>"; };
+		55ADF8E6182B7E20008F1CEB /* Rectangle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Rectangle.m; path = Source/Rectangle.m; sourceTree = "<group>"; };
+		55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleObjectView.m; path = Source/RectangleObjectView.m; sourceTree = "<group>"; };
+		55ADF8E8182B7E20008F1CEB /* Rectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Rectangle.h; path = Source/Rectangle.h; sourceTree = "<group>"; };
+		55ADF8E9182B7E20008F1CEB /* RectangleObjectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RectangleObjectView.h; path = Source/RectangleObjectView.h; sourceTree = "<group>"; };
+		55ADF8EA182B7E42008F1CEB /* GrappleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GrappleTool.m; path = Source/GrappleTool.m; sourceTree = "<group>"; };
+		55ADF8EB182B7E42008F1CEB /* Line.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Line.m; path = Source/Line.m; sourceTree = "<group>"; };
+		55ADF8EC182B7E42008F1CEB /* LineObjectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LineObjectView.m; path = Source/LineObjectView.m; sourceTree = "<group>"; };
+		55ADF8ED182B7E42008F1CEB /* Line.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Line.h; path = Source/Line.h; sourceTree = "<group>"; };
+		55ADF8EE182B7E42008F1CEB /* LineObjectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LineObjectView.h; path = Source/LineObjectView.h; sourceTree = "<group>"; };
+		55ADF8EF182B7E42008F1CEB /* GrappleTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrappleTool.h; path = Source/GrappleTool.h; sourceTree = "<group>"; };
+		55ADF908182B8A84008F1CEB /* LineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineTool.m; path = Source/LineTool.m; sourceTree = "<group>"; };
+		55ADF909182B8A84008F1CEB /* LineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineTool.h; path = Source/LineTool.h; sourceTree = "<group>"; };
 		55B07A6817F654400013B05C /* CaptureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureController.h; path = Source/CaptureController.h; sourceTree = "<group>"; };
 		55B07A6917F654400013B05C /* CaptureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureController.m; path = Source/CaptureController.m; sourceTree = "<group>"; };
 		55B07A7417F6CE7B0013B05C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasView.h; path = Source/CanvasView.h; sourceTree = "<group>"; };
 		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
 		55B07A8817F7A19D0013B05C /* CanvasController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasController.h; path = Source/CanvasController.h; sourceTree = "<group>"; };
 		55B07A8917F7A19D0013B05C /* CanvasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasController.m; path = Source/CanvasController.m; sourceTree = "<group>"; };
+		55B94D98182F2B9900FE39F3 /* ReceiptValidation_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_C.h; path = Source/ReceiptValidation_C.h; sourceTree = SOURCE_ROOT; };
+		55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_A.h; path = Source/ReceiptValidation_A.h; sourceTree = SOURCE_ROOT; };
+		55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_B.h; path = Source/ReceiptValidation_B.h; sourceTree = SOURCE_ROOT; };
+		55B94D9B182F5A9B00FE39F3 /* Expiration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expiration.h; path = Source/Expiration.h; sourceTree = SOURCE_ROOT; };
+		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
 		55BB972B180602A600DED9B5 /* ShroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShroudView.h; path = Source/ShroudView.h; sourceTree = "<group>"; };
 		55BB972C180602A600DED9B5 /* ShroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShroudView.m; path = Source/ShroudView.m; sourceTree = "<group>"; };
 		55BBCD08182793CB00AC9A26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -421,10 +462,6 @@
 		55C20CE9180109FC00ECE184 /* ZoomTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomTool.m; path = Source/ZoomTool.m; sourceTree = "<group>"; };
 		55C20CEB18010A0900ECE184 /* MarqueeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeTool.h; path = Source/MarqueeTool.h; sourceTree = "<group>"; };
 		55C20CEC18010A0900ECE184 /* MarqueeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarqueeTool.m; path = Source/MarqueeTool.m; sourceTree = "<group>"; };
-		55C20CEE18010A2A00ECE184 /* RectangleTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RectangleTool.h; path = Source/RectangleTool.h; sourceTree = "<group>"; };
-		55C20CEF18010A2A00ECE184 /* RectangleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
-		55C20CF118010A4700ECE184 /* GrappleTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleTool.h; path = Source/GrappleTool.h; sourceTree = "<group>"; };
-		55C20CF218010A4700ECE184 /* GrappleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleTool.m; path = Source/GrappleTool.m; sourceTree = "<group>"; };
 		55C20CF41801171E00ECE184 /* MoveTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoveTool.h; path = Source/MoveTool.h; sourceTree = "<group>"; };
 		55C20CF51801171E00ECE184 /* MoveTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoveTool.m; path = Source/MoveTool.m; sourceTree = "<group>"; };
 		55C20CF71801172F00ECE184 /* HandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTool.h; path = Source/HandTool.h; sourceTree = "<group>"; };
@@ -442,9 +479,10 @@
 		55E24135180E101D0093CF04 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		55E24137180E10410093CF04 /* ThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThumbnailView.h; path = Source/ThumbnailView.h; sourceTree = "<group>"; };
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
-		55E987C7182874DA00C2208A /* Validation_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_C.h; path = Source/Validation_C.h; sourceTree = "<group>"; };
-		55E987C8182874DA00C2208A /* Validation_B.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_B.h; path = Source/Validation_B.h; sourceTree = "<group>"; };
-		55E987C9182874DA00C2208A /* Validation_A.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Validation_A.h; path = Source/Validation_A.h; sourceTree = "<group>"; };
+		55E29A4118307A1200D9D933 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/About.xib; sourceTree = "<group>"; };
+		55E29A43183088C200D9D933 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = Source/AboutWindowController.h; sourceTree = "<group>"; };
+		55E29A44183088C200D9D933 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = Source/AboutWindowController.m; sourceTree = "<group>"; };
+		55E29A4718309B0F00D9D933 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Resources/English.lproj/Legal.rtf; sourceTree = "<group>"; };
 		55E987CC1828E37A00C2208A /* ScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenAdditions.h; path = Source/ScreenAdditions.h; sourceTree = "<group>"; };
 		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
 		55E987CF1828FF0E00C2208A /* toolbar_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_keyboard@2x.png"; path = "Resources/toolbar_keyboard@2x.png"; sourceTree = "<group>"; };
@@ -461,6 +499,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
 				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
 				55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */,
 				55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */,
@@ -503,6 +542,7 @@
 			children = (
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				55ADF8B2182B7DAB008F1CEB /* CoreData.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -521,8 +561,10 @@
 				55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */,
 				5516B687180402C3002AED2E /* Pixel Winch.entitlements */,
 				557BA9A11821D967004A57FC /* Config */,
+				55B94D97182F2B6B00FE39F3 /* Protection */,
 				559D38BC1802AB220048F29B /* Model */,
 				5512BF5817FB9EE600425AD6 /* Canvas Views */,
+				55C20CE1180109A500ECE184 /* Tools */,
 				55B07A6C17F6C93E0013B05C /* View */,
 				55B07A8717F7A1710013B05C /* Controller */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -537,9 +579,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				55E987C9182874DA00C2208A /* Validation_A.h */,
-				55E987C8182874DA00C2208A /* Validation_B.h */,
-				55E987C7182874DA00C2208A /* Validation_C.h */,
 				555153421819FC3A004485F6 /* Application.h */,
 				555153431819FC3A004485F6 /* Application.m */,
 				553AC78F17F7DCC200C253C2 /* Utils.h */,
@@ -574,6 +613,8 @@
 				554D8995135BF064003BFC89 /* InfoPlist.strings */,
 				559D38C3180376F30048F29B /* Preferences.xib */,
 				554D8997135BF064003BFC89 /* MainMenu.xib */,
+				55E29A4018307A1200D9D933 /* About.xib */,
+				55E29A4618309B0F00D9D933 /* Legal.rtf */,
 				555152F91819E6E5004485F6 /* Controls.xib */,
 				55C20CFA18012FA400ECE184 /* CanvasWindow.xib */,
 				55336A38180CD61E00F053C7 /* LibraryItemPrototype.xib */,
@@ -584,6 +625,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */,
 				55CB053418285F80001DD1A0 /* libcrypto.a */,
 				55BBCD08182793CB00AC9A26 /* StoreKit.framework */,
 				55FA814E18134F9B00ED67E0 /* Accelerate.framework */,
@@ -591,6 +633,7 @@
 				554B43B0180A237900804373 /* OpenGL.framework */,
 				554B43A01808C30700804373 /* OpenCL.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -603,14 +646,14 @@
 				5512BF6F17FCD44000425AD6 /* Canvas.m */,
 				5512BF7117FCD47F00425AD6 /* CanvasObject.h */,
 				5512BF7217FCD47F00425AD6 /* CanvasObject.m */,
-				5512BF6217FBA9E300425AD6 /* Grapple.h */,
-				5512BF6317FBA9E300425AD6 /* Grapple.m */,
+				55ADF8ED182B7E42008F1CEB /* Line.h */,
+				55ADF8EB182B7E42008F1CEB /* Line.m */,
 				5512BF2F17F94EA100425AD6 /* Guide.h */,
 				5512BF3017F94EA100425AD6 /* Guide.m */,
 				5512BF5F17FBA67D00425AD6 /* Marquee.h */,
 				5512BF6017FBA67D00425AD6 /* Marquee.m */,
-				5512BF6517FBAA8D00425AD6 /* Rectangle.h */,
-				5512BF6617FBAA8D00425AD6 /* Rectangle.m */,
+				55ADF8E8182B7E20008F1CEB /* Rectangle.h */,
+				55ADF8E6182B7E20008F1CEB /* Rectangle.m */,
 			);
 			name = "Canvas Model";
 			sourceTree = "<group>";
@@ -622,14 +665,14 @@
 				55B07A7517F6CE7B0013B05C /* CanvasView.m */,
 				5512BF5C17FBA44400425AD6 /* CanvasObjectView.h */,
 				5512BF5D17FBA44400425AD6 /* CanvasObjectView.m */,
-				5502670617FF97E8008A5D01 /* GrappleObjectView.h */,
-				5502670517FF97E8008A5D01 /* GrappleObjectView.m */,
+				55ADF8EE182B7E42008F1CEB /* LineObjectView.h */,
+				55ADF8EC182B7E42008F1CEB /* LineObjectView.m */,
 				5512BF5917FB9F6700425AD6 /* GuideObjectView.h */,
 				5512BF5A17FB9F6700425AD6 /* GuideObjectView.m */,
 				5512BF3817F968E300425AD6 /* MarqueeObjectView.h */,
 				5512BF3917F968E300425AD6 /* MarqueeObjectView.m */,
-				5512BF6B17FBB04800425AD6 /* RectangleObjectView.h */,
-				5512BF6C17FBB04800425AD6 /* RectangleObjectView.m */,
+				55ADF8E9182B7E20008F1CEB /* RectangleObjectView.h */,
+				55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */,
 				5512BF7417FCF30400425AD6 /* ResizeKnobView.h */,
 				5512BF7517FCF30400425AD6 /* ResizeKnobView.m */,
 				553ED1731806A7F000F06B45 /* TextLayer.h */,
@@ -670,6 +713,8 @@
 				55336A25180CB05900F053C7 /* cursor_resize_ne_sw@2x.png */,
 				55336A2A180CB05900F053C7 /* cursor_resize_nw_se.png */,
 				55336A26180CB05900F053C7 /* cursor_resize_nw_se@2x.png */,
+				5588EF96182C8BD3000B6224 /* cursor_wand.png */,
+				5588EF97182C8BD3000B6224 /* cursor_wand@2x.png */,
 			);
 			name = Cursors;
 			sourceTree = "<group>";
@@ -754,11 +799,11 @@
 			children = (
 				5516B68E1804EE3B002AED2E /* Disk Model */,
 				5512BF2E17F94E9300425AD6 /* Canvas Model */,
-				55C20CE1180109A500ECE184 /* Tools */,
-				559D38AF180229B50048F29B /* GrappleCalculator.h */,
-				559D38B0180229B50048F29B /* GrappleCalculator.m */,
-				554B43A41808D1DE00804373 /* ImageMapper.h */,
-				554B43A51808D1DE00804373 /* ImageMapper.m */,
+				5588EF82182C623F000B6224 /* GrappleCalculator.h */,
+				5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */,
+				5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */,
+				554B43A41808D1DE00804373 /* ImageDistanceMap.h */,
+				554B43A51808D1DE00804373 /* ImageDistanceMap.m */,
 				559D38BD1802ABC60048F29B /* Preferences.h */,
 				559D38BE1802ABC60048F29B /* Preferences.m */,
 				559D38D1180399B90048F29B /* ShortcutManager.h */,
@@ -806,6 +851,8 @@
 		55B07A8717F7A1710013B05C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				55E29A43183088C200D9D933 /* AboutWindowController.h */,
+				55E29A44183088C200D9D933 /* AboutWindowController.m */,
 				555152FC1819E768004485F6 /* DebugControlsController.h */,
 				555152FD1819E768004485F6 /* DebugControlsController.m */,
 				55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */,
@@ -820,9 +867,29 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		55B94D97182F2B6B00FE39F3 /* Protection */ = {
+			isa = PBXGroup;
+			children = (
+				55B94D9B182F5A9B00FE39F3 /* Expiration.h */,
+				55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */,
+				55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */,
+				55B94D98182F2B9900FE39F3 /* ReceiptValidation_C.h */,
+			);
+			name = Protection;
+			path = Config;
+			sourceTree = "<group>";
+		};
 		55C20CCD1800EBC100ECE184 /* Toolbar Icons */ = {
 			isa = PBXGroup;
 			children = (
+				5588EF83182C7A54000B6224 /* toolbar_line_normal.png */,
+				5588EF84182C7A54000B6224 /* toolbar_line_selected.png */,
+				5588EF85182C7A54000B6224 /* toolbar_wand_normal.png */,
+				5588EF86182C7A54000B6224 /* toolbar_wand_selected.png */,
+				5588EF87182C7A54000B6224 /* toolbar_line_normal@2x.png */,
+				5588EF88182C7A54000B6224 /* toolbar_line_selected@2x.png */,
+				5588EF89182C7A54000B6224 /* toolbar_wand_normal@2x.png */,
+				5588EF8A182C7A54000B6224 /* toolbar_wand_selected@2x.png */,
 				55C20C981800108F00ECE184 /* toolbar_arrow_normal.png */,
 				55C20C991800108F00ECE184 /* toolbar_arrow_normal@2x.png */,
 				55C20C9A1800108F00ECE184 /* toolbar_arrow_selected.png */,
@@ -874,16 +941,18 @@
 				555152F71818AC6D004485F6 /* Toolbox.m */,
 				55C20CE2180109AF00ECE184 /* Tool.h */,
 				55C20CE3180109AF00ECE184 /* Tool.m */,
-				55C20CF118010A4700ECE184 /* GrappleTool.h */,
-				55C20CF218010A4700ECE184 /* GrappleTool.m */,
+				55ADF8EF182B7E42008F1CEB /* GrappleTool.h */,
+				55ADF8EA182B7E42008F1CEB /* GrappleTool.m */,
 				55C20CF71801172F00ECE184 /* HandTool.h */,
 				55C20CF81801172F00ECE184 /* HandTool.m */,
+				55ADF909182B8A84008F1CEB /* LineTool.h */,
+				55ADF908182B8A84008F1CEB /* LineTool.m */,
 				55C20CEB18010A0900ECE184 /* MarqueeTool.h */,
 				55C20CEC18010A0900ECE184 /* MarqueeTool.m */,
 				55C20CF41801171E00ECE184 /* MoveTool.h */,
 				55C20CF51801171E00ECE184 /* MoveTool.m */,
-				55C20CEE18010A2A00ECE184 /* RectangleTool.h */,
-				55C20CEF18010A2A00ECE184 /* RectangleTool.m */,
+				55ADF8E5182B7E20008F1CEB /* RectangleTool.h */,
+				55ADF8E4182B7E20008F1CEB /* RectangleTool.m */,
 				55C20CE8180109FC00ECE184 /* ZoomTool.h */,
 				55C20CE9180109FC00ECE184 /* ZoomTool.m */,
 			);
@@ -915,8 +984,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				55E987C6182872E200C2208A /* PBXTargetDependency */,
 				55F8492C181DCF1F00BABB66 /* PBXTargetDependency */,
+				55E987C6182872E200C2208A /* PBXTargetDependency */,
 			);
 			name = "Pixel Winch";
 			productInstallPath = "$(HOME)/Applications";
@@ -950,6 +1019,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Pixels */;
 			projectDirPath = "";
@@ -995,8 +1065,11 @@
 				55C20CC01800108F00ECE184 /* toolbar_rectangle_normal.png in Resources */,
 				55336A31180CB05900F053C7 /* cursor_resize_ne_sw.png in Resources */,
 				553ED16518064E6200F06B45 /* check_highlighted.png in Resources */,
+				5588EF8D182C7A54000B6224 /* toolbar_wand_normal.png in Resources */,
+				5588EF8F182C7A54000B6224 /* toolbar_line_normal@2x.png in Resources */,
 				55C20CC41800108F00ECE184 /* toolbar_zoom_normal.png in Resources */,
 				55C20CB41800108F00ECE184 /* toolbar_grapple_normal.png in Resources */,
+				5588EF8E182C7A54000B6224 /* toolbar_wand_selected.png in Resources */,
 				55C20CBD1800108F00ECE184 /* toolbar_marquee_normal@2x.png in Resources */,
 				55C20CDE1800EBDB00ECE184 /* segmented_right_highlighted@2x.png in Resources */,
 				557BA9B71821D99A004A57FC /* PixelWinch_Mac.xcconfig in Resources */,
@@ -1011,13 +1084,16 @@
 				55C20CBB1800108F00ECE184 /* toolbar_hand_selected@2x.png in Resources */,
 				553ED16818064E6200F06B45 /* check_selected.png in Resources */,
 				55C20CC61800108F00ECE184 /* toolbar_zoom_selected.png in Resources */,
+				5588EF99182C8BD3000B6224 /* cursor_wand@2x.png in Resources */,
 				557BA9B91821D99A004A57FC /* PixelWinch_Profile.xcconfig in Resources */,
 				553ED16718064E6200F06B45 /* check_selected_highlighted.png in Resources */,
 				55C20CDF1800EBDB00ECE184 /* segmented_right_normal@2x.png in Resources */,
 				557BA9AE1821D992004A57FC /* PixelWinch_Mac_Debug.xcconfig in Resources */,
 				55C20CE01800EBDB00ECE184 /* segmented_right_selected@2x.png in Resources */,
+				5588EF98182C8BD3000B6224 /* cursor_wand.png in Resources */,
 				55336A2C180CB05900F053C7 /* cursor_resize_n_s@2x.png in Resources */,
 				55C20CC51800108F00ECE184 /* toolbar_zoom_normal@2x.png in Resources */,
+				55E29A4218307A1200D9D933 /* About.xib in Resources */,
 				559D38BA1802972E0048F29B /* cursor_grapple_v@2x.png in Resources */,
 				5520DF65180F8069002D5451 /* delete_normal@2x.png in Resources */,
 				557BA9B01821D992004A57FC /* PixelWinch_Mac_Release.xcconfig in Resources */,
@@ -1025,6 +1101,7 @@
 				55C20CDD1800EBDB00ECE184 /* segmented_middle_selected@2x.png in Resources */,
 				553ED15C18064E6200F06B45 /* check_normal@2x.png in Resources */,
 				55C20CBC1800108F00ECE184 /* toolbar_marquee_normal.png in Resources */,
+				5588EF8B182C7A54000B6224 /* toolbar_line_normal.png in Resources */,
 				553ED16018064E6200F06B45 /* radio_highlighted@2x.png in Resources */,
 				5520DF73180FE507002D5451 /* bottom_shadow.png in Resources */,
 				559D38C9180392B10048F29B /* PixelWinch.icns in Resources */,
@@ -1039,11 +1116,14 @@
 				55C20CB71800108F00ECE184 /* toolbar_grapple_selected@2x.png in Resources */,
 				55C20CBE1800108F00ECE184 /* toolbar_marquee_selected.png in Resources */,
 				55C20CB51800108F00ECE184 /* toolbar_grapple_normal@2x.png in Resources */,
+				55E29A4818309B0F00D9D933 /* Legal.rtf in Resources */,
+				5588EF92182C7A54000B6224 /* toolbar_wand_selected@2x.png in Resources */,
 				55C20CD91800EBDB00ECE184 /* segmented_left_normal@2x.png in Resources */,
 				553ED1711806549B00F06B45 /* knob_normal@2x.png in Resources */,
 				55C20CB01800108F00ECE184 /* toolbar_arrow_normal.png in Resources */,
 				55336A32180CB05900F053C7 /* cursor_resize_nw_se.png in Resources */,
 				55C20CC11800108F00ECE184 /* toolbar_rectangle_normal@2x.png in Resources */,
+				5588EF91182C7A54000B6224 /* toolbar_wand_normal@2x.png in Resources */,
 				553ED16118064E6200F06B45 /* radio_normal.png in Resources */,
 				55336A30180CB05900F053C7 /* cursor_resize_n_s.png in Resources */,
 				553ED1721806549B00F06B45 /* slider_well@2x.png in Resources */,
@@ -1063,6 +1143,7 @@
 				55336A39180CD61E00F053C7 /* LibraryItemPrototype.xib in Resources */,
 				559D38CC1803941C0048F29B /* status_bar.png in Resources */,
 				55E987D11828FF0E00C2208A /* toolbar_keyboard@2x.png in Resources */,
+				5588EF8C182C7A54000B6224 /* toolbar_line_selected.png in Resources */,
 				55C20CDA1800EBDB00ECE184 /* segmented_left_selected@2x.png in Resources */,
 				553ED16218064E6200F06B45 /* radio_normal@2x.png in Resources */,
 				55C20CC71800108F00ECE184 /* toolbar_zoom_selected@2x.png in Resources */,
@@ -1070,6 +1151,7 @@
 				55336A2E180CB05900F053C7 /* cursor_resize_nw_se@2x.png in Resources */,
 				55E987D21828FF0E00C2208A /* toolbar_keyboard.png in Resources */,
 				554D899A135BF064003BFC89 /* MainMenu.xib in Resources */,
+				5588EF90182C7A54000B6224 /* toolbar_line_selected@2x.png in Resources */,
 				55C20CB31800108F00ECE184 /* toolbar_arrow_selected@2x.png in Resources */,
 				55C20CBA1800108F00ECE184 /* toolbar_hand_selected.png in Resources */,
 				55336A2F180CB05900F053C7 /* cursor_resize_w_e@2x.png in Resources */,
@@ -1092,7 +1174,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A/Frameworks/CrashReporter.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n";
 		};
 		55E987C4182870DD00C2208A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1105,7 +1187,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BUNDLE_VERSION=$(defaults read \"$PROJECT_DIR/Resources/Info\" CFBundleShortVersionString)\n\nexit 0\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix A \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success runapplication --failure exitwith173 > \\\n        \"$PROJECT_DIR/Source/Validation_A.h\"\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix B \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success callblock --failure callblock > \\\n        \"$PROJECT_DIR/Source/Validation_B.h\"\n\n/Applications/Receigen.app/Contents/MacOS/Receigen --prefix C \\\n    --identifier com.pixelwinch.PixelWinch --version $BUNDLE_VERSION \\\n    --os osx --success callblock --failure callblock > \\\n        \"$PROJECT_DIR/Source/Validation_C.h\"\n";
+			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=`eval \"echo $BUNDLE_ID\"`\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\nHEADER_C=\"$PROJECT_DIR/Source/ReceiptValidation_C.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPB=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_C\" ]; then\n    SKIPC=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_C\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_C\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n\nif [ \"x$SKIPC\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix C --success checkinapp --failure docrash > \"$HEADER_C\"\nfi\n";
 		};
 		55FA815A1815DE8600ED67E0 /* rchook */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1133,23 +1215,28 @@
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
 				5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */,
 				553ACC5D1820E027009AB09E /* ShadowView.m in Sources */,
+				55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */,
 				5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */,
 				553ED14A18061AB000F06B45 /* ScrollView.m in Sources */,
 				559D38D3180399B90048F29B /* ShortcutManager.m in Sources */,
 				555153011819F19E004485F6 /* BlackTextView.m in Sources */,
+				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
 				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
 				55C4E4DF18013EB80015B8C1 /* BlackButtonCell.m in Sources */,
-				55C20CF018010A2A00ECE184 /* RectangleTool.m in Sources */,
-				554B43A61808D1DE00804373 /* ImageMapper.m in Sources */,
+				554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */,
+				55ADF90D182B8CF6008F1CEB /* RectangleTool.m in Sources */,
 				55C20CEA180109FC00ECE184 /* ZoomTool.m in Sources */,
+				55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */,
 				55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */,
 				555153441819FC3A004485F6 /* Application.m in Sources */,
 				55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */,
 				5516B68D1804ECAD002AED2E /* Library.m in Sources */,
+				55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */,
 				55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */,
 				553ED16B180651FA00F06B45 /* BlackSlider.m in Sources */,
 				554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */,
+				5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */,
 				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
 				555152F81818AC6D004485F6 /* Toolbox.m in Sources */,
 				559D38C21802ABC60048F29B /* Shortcut.m in Sources */,
@@ -1157,30 +1244,27 @@
 				55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */,
 				55E24139180E10410093CF04 /* ThumbnailView.m in Sources */,
 				559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */,
-				5502670717FF97E8008A5D01 /* GrappleObjectView.m in Sources */,
 				55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */,
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureController.m in Sources */,
-				55C20CF318010A4700ECE184 /* GrappleTool.m in Sources */,
 				55BB972D180602A600DED9B5 /* ShroudView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
 				555152FE1819E768004485F6 /* DebugControlsController.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
-				559D38B1180229B50048F29B /* GrappleCalculator.m in Sources */,
 				5520DF69180F8420002D5451 /* BlackScroller.m in Sources */,
 				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
+				55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */,
+				55ADF90E182B8CFF008F1CEB /* Line.m in Sources */,
 				559D38D618039D930048F29B /* ShortcutView.m in Sources */,
 				55C20CF61801171E00ECE184 /* MoveTool.m in Sources */,
 				5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */,
-				5512BF6717FBAA8D00425AD6 /* Rectangle.m in Sources */,
 				5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */,
 				559D38C11802ABC60048F29B /* Preferences.m in Sources */,
 				5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */,
+				5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */,
 				553ED1751806A7F000F06B45 /* TextLayer.m in Sources */,
-				5512BF6D17FBB04800425AD6 /* RectangleObjectView.m in Sources */,
-				5512BF6417FBA9E300425AD6 /* Grapple.m in Sources */,
 				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
 				5512BF5E17FBA44400425AD6 /* CanvasObjectView.m in Sources */,
 				559D38D2180399B90048F29B /* PreferencesController.m in Sources */,
@@ -1238,6 +1322,22 @@
 			name = Preferences.xib;
 			sourceTree = "<group>";
 		};
+		55E29A4018307A1200D9D933 /* About.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55E29A4118307A1200D9D933 /* English */,
+			);
+			name = About.xib;
+			sourceTree = "<group>";
+		};
+		55E29A4618309B0F00D9D933 /* Legal.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55E29A4718309B0F00D9D933 /* English */,
+			);
+			name = Legal.rtf;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1251,8 +1351,12 @@
 		557BA9BC1821DA06004A57FC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_ENTITLEMENTS = "Resources/Pixel Winch.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer: Ricci Adams (XXXXXXXXXX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
@@ -1285,8 +1389,12 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_ENTITLEMENTS = "Resources/Pixel Winch.entitlements";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1299,8 +1407,12 @@
 		C01FCF4C08A954540054247B /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Pixel Winch.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Resources/Pixel Winch.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,

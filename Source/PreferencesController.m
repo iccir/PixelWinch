@@ -11,6 +11,8 @@
 #import "Preferences.h"
 #import "ShortcutView.h"
 
+#import "Expiration.h"
+
 @interface PreferencesController ()
 - (void) _handlePreferencesDidChange:(NSNotification *)note;
 @end
@@ -167,10 +169,31 @@
 #if ENABLE_APP_STORE
         pane = _purchasePane;
 #else
-        [_timedRemainingField setStringValue:NSLocalizedString(@"Wheeee!", nil)];
+        __block long long expiration = kExpirationLong;
+
+        [_timedRemainingField setStringValue:@""];
+        
+        ^{
+            if (CFAbsoluteTimeGetCurrent() > expiration) {
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
+                    int *zero = (int *)(long)(rand() >> 31);
+                    *zero = 0;
+                });
+
+            } else {
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:expiration];
+
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateStyle:NSDateFormatterFullStyle];
+                [formatter setTimeStyle:NSDateFormatterNoStyle];
+                
+                [_timedRemainingField setStringValue:[formatter stringFromDate:date]];
+            }
+        }();
+
         pane = _timedPane;
 #endif
-
 
     } else {
         item = _generalItem;
@@ -252,6 +275,8 @@
 
 - (IBAction) visitWebsite:(id)sender
 {
+    NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 

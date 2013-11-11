@@ -18,6 +18,7 @@
 - (IBAction) showScreenshots:(id)sender;
 - (IBAction) showPreferences:(id)sender;
 - (IBAction) showAbout:(id)sender;
+- (IBAction) provideFeedback:(id)sender;
 - (IBAction) quit:(id)sender;
 
 @property (strong, readonly) CanvasController      *canvasController;

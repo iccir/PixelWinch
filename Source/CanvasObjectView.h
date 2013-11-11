@@ -19,16 +19,16 @@ typedef NS_ENUM(NSInteger, ResizeKnobType) {
 
 
 typedef NS_ENUM(NSInteger, CanvasOrder) {
-    CanvasOrderNormal         =     0,
+    CanvasOrderNormal      =     0,
 
-    CanvasOrderRectangle      =  500,
-    CanvasOrderPreviewGrapple =  501,
-    CanvasOrderGrapple        =  502,
+    CanvasOrderRectangle   =  500,
+    CanvasOrderPreviewLine =  501,
+    CanvasOrderLine        =  502,
 
-    CanvasOrderResizeKnob     =  900,
+    CanvasOrderResizeKnob  =  900,
 
-    CanvasOrderMarquee        =  1000,
-    CanvasOrderGuide          =  1001,
+    CanvasOrderMarquee     =  1000,
+    CanvasOrderGuide       =  1001,
 };
 
 
@@ -48,12 +48,6 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (CGRect) rectForCanvasLayout;
 - (XUIEdgeInsets) paddingForCanvasLayout;
 - (NSArray *) resizeKnobTypes; // Subclasses to override
-
-- (CGPoint) snappedPointForEvent:(NSEvent *)event;
-- (CGPoint) snappedPointForPoint:(CGPoint)inPoint;
-
-- (SnappingPolicy) horizontalSnappingPolicy;
-- (SnappingPolicy) verticalSnappingPolicy;
 
 - (NSInteger) canvasOrder;
 

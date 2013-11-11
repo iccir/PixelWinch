@@ -10,67 +10,73 @@
 
 #import "ShortcutManager.h"
 
+#import "AboutWindowController.h"
 #import "CanvasController.h"
 #import "CaptureController.h"
 #import "PreferencesController.h"
 
 #import "Library.h"
+#import "LibraryItem.h"
 #import "DebugControlsController.h"
+
+#import <HockeySDK/HockeySDK.h>
+#import <HockeySDK/BITHockeyManager.h>
+
+#if ENABLE_APP_STORE
+#import "ReceiptValidation_A.h"
+#else
+#import "Expiration.h"
+#endif
+
 
 #define SHOW_DEBUG_CONTROLS 0
 
 
-#if TRIAL
-
-@interface NSObject (Moo)
-@end
-
-@implementation NSObject (Moo)
-
-- (id) _mooInit
+#define sCheckAndProtect _
+static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
-    NSLog(@"MOO INIT");
-    id result = [self _mooInit];
+#if ENABLE_APP_STORE
+    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
+        exit(173);
+    }
+#else
+    ^{
+        NSString *message = NSLocalizedString(@"Version Expired", nil);
+        NSString *text    = NSLocalizedString(@"This version of Pixel Winch has expired.  A newer version may be available on the Pixel Winch website.", nil);
+        NSString *quit    = NSLocalizedString(@"Quit",    nil);
+        NSString *visit   = NSLocalizedString(@"Visit Website",    nil);
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:message defaultButton:quit alternateButton:visit otherButton:nil informativeTextWithFormat:@"%@", text];
 
-    [result setMaximumSignificantDigits:2];
-    [result setUsesSignificantDigits:YES];
-    [result setMultiplier:@(1.0f/10.0f)];
-    [result setPositiveSuffix:@"_"];
+        if (CFAbsoluteTimeGetCurrent() > kExpirationDouble) {
+            if ([alert runModal] == 0) {
+                NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
+                [[NSWorkspace sharedWorkspace] openURL:url];
+            }
+            
+            [NSApp terminate:nil];
+            exit(0);
 
-    return result;
-}
-
-+ (void) initialize
-{
-    objc_getClass("");
-
-    Class cls = [NSNumberFormatter class];
-
-    Method myMethod = class_getInstanceMethod(cls, @selector(_mooInit));
-
-    // Alias in my method to UIKit
-    class_addMethod(cls, @selector(_mooInit), method_getImplementation(myMethod), method_getTypeEncoding(myMethod));
-
-    // Move method to subclass if needed
-    Method originalMethod = class_getInstanceMethod(cls, @selector(init));
-
-    method_exchangeImplementations(
-        class_getInstanceMethod(cls,  @selector(init)),
-        class_getInstanceMethod(cls,  @selector(_mooInit))
-    );
-
-}
-
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
+                int *zero = (int *)(long)(rand() >> 31);
+                *zero = 0;
+            });
+        }
+    }();
 #endif
+}
 
 
-@interface AppDelegate () <ShortcutListener>
+@interface AppDelegate () <ShortcutListener, BITCrashReportManagerDelegate>
 @end
 
 
 @implementation AppDelegate {
     NSStatusItem *_statusItem;
+    NSTimer      *_periodicTimer;
 
+    AboutWindowController *_aboutController;
     PreferencesController *_preferencesController;
     CanvasController      *_canvasController;
     CaptureController     *_captureController;
@@ -80,12 +86,6 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-- (void) cancelOperation:(id)sender
-{
-    NSLog(@"CANCEL OP!");
 }
 
 
@@ -148,15 +148,57 @@
 }
 
 
+
+- (void) _cleanupLibrary:(BOOL)isTerminating
+{
+    ScreenshotExpiration screenshotExpiration = [[Preferences sharedInstance] screenshotExpiration];
+    if (screenshotExpiration == 0) {
+        return;
+    }
+
+    Library *library = [Library sharedInstance];
+    NSMutableArray *items = [[library items] mutableCopy];
+
+    NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+
+    if (screenshotExpiration > 0) {
+        for (LibraryItem *item in items) {
+            NSInteger daysOld = (now - [[item date] timeIntervalSinceReferenceDate]) / (60.0 * 60.0 * 24.0);
+
+            if (daysOld >= screenshotExpiration) {
+                [library removeItem:item];
+            }
+        }
+    
+    } else if (screenshotExpiration == ScreenshotExpirationOnQuit) {
+        if (isTerminating) {
+            for (LibraryItem *item in items) {
+                [library removeItem:item];
+            }
+        }
+        
+        return;
+    }
+}
+
+
+- (void) _handlePeriodicUpdate:(NSTimer *)timer
+{
+    [self _cleanupLibrary:NO];
+}
+
+
 - (void) applicationWillFinishLaunching:(NSNotification *)notification
 {
-//    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-#if ENABLE_APP_STORE
-    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
-        exit(173);
-    }
-#endif
+    sCheckAndProtect();
 }
+
+
+- (void) applicationWillTerminate:(NSNotification *)notification
+{
+    [self _cleanupLibrary:YES];
+}
+
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
@@ -166,16 +208,34 @@
 
     // Load library
     [Library sharedInstance];
-    
+
+    _periodicTimer = [[NSTimer alloc] initWithFireDate: [NSDate date]
+                                              interval: 60 * 60 * 3
+                                                target: self
+                                              selector: @selector(_handlePeriodicUpdate:)
+                                              userInfo: nil
+                                               repeats: YES];
+
+    [[NSRunLoop currentRunLoop] addTimer:_periodicTimer forMode:NSRunLoopCommonModes];
+
+
+    if (IsInDebugger()) {
+        [self showMainApplicationWindow];
+
+    } else {
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" companyName:@"Ricci Adams" crashReportManagerDelegate:self];
+        [[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:YES];
+        [[BITHockeyManager sharedHockeyManager] startManager];
+    }
+}
+
+
+- (void) showMainApplicationWindow
+{
     NSImage *image = [NSImage imageNamed:@"status_bar"];
     [image setTemplate:YES];
     [_statusItem setImage:image];
     [_statusItem setHighlightMode:YES];
-
-#if ENABLE_APP_STORE
-    [PurchaseManager sharedInstance];
-#endif
-    
     [_statusItem setMenu:[self statusBarMenu]];
 
 #ifdef DEBUG
@@ -212,7 +272,20 @@
 - (IBAction) showAbout:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
-    [NSApp orderFrontStandardAboutPanel:self];
+
+    if (!_aboutController) {
+        _aboutController = [[AboutWindowController alloc] initWithWindowNibName:@"About"];
+    }
+    
+    [[_aboutController window] center];
+    [[_aboutController window] makeKeyAndOrderFront:self];
+}
+
+
+- (IBAction) provideFeedback:(id)sender
+{
+    NSURL *mailto = [NSURL URLWithString:@"<redacted>"];
+    [[NSWorkspace sharedWorkspace] openURL:mailto];
 }
 
 

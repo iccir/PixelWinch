@@ -24,9 +24,11 @@
 
 @property (nonatomic) Toolbox *toolbox;
 
-@property (nonatomic, strong) CanvasObject *selectedObject;
+@property (nonatomic, readonly) Canvas *canvas;
+
 
 @property (nonatomic, weak)   Library *library; // So we can bind to it
+@property (nonatomic, strong) CanvasObject *selectedObject;   // So we can bind to it
 @property (nonatomic, strong) NSIndexSet *librarySelectionIndexes;
 
 // Nib top-level objects
@@ -54,7 +56,8 @@
 @property (nonatomic, strong) IBOutlet NSView *zoomToolView;
 @property (nonatomic, strong) IBOutlet NSView *rectangleObjectView;
 
-
+- (IBAction) selectPreviousLibraryItem:(id)sender;
+- (IBAction) selectNextLibraryItem:(id)sender;
 - (IBAction) deleteSelectedLibraryItem:(id)sender;
 
 @end

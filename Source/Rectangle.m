@@ -39,4 +39,10 @@
 }
 
 
+- (BOOL) isSelectable
+{
+    return YES;
+}
+
+
 @end

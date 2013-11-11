@@ -9,7 +9,7 @@
 #import "GuideObjectView.h"
 #import "Guide.h"
 #import "Canvas.h"
-#import "Grapple.h"
+#import "Line.h"
 
 @implementation GuideObjectView {
     CALayer *_sublayer;

@@ -10,6 +10,8 @@
 
 @interface NSCursor (PixelWinch)
 
++ (NSCursor *) winch_wandCursor;
+
 + (NSCursor *) winch_zoomInCursor;
 + (NSCursor *) winch_zoomOutCursor;
 

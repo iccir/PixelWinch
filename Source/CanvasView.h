@@ -12,12 +12,6 @@
 @protocol CanvasViewDelegate;
 
 
-typedef NS_ENUM(NSInteger, SnappingPolicy) {
-    SnappingPolicyNone,
-    SnappingPolicyToPixelEdge,
-    SnappingPolicyToPixelCenter
-};
-
 @interface CanvasView : XUIView
 
 - (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas;
@@ -34,32 +28,31 @@ typedef NS_ENUM(NSInteger, SnappingPolicy) {
 
 @property (nonatomic, weak) id<CanvasViewDelegate> IBOutlet delegate;
 
-- (CGPoint) canvasPointForPoint: (CGPoint) point;
-- (CGPoint) canvasPointForEvent: (NSEvent *) event;
+- (CGPoint) canvasPointForPoint:(CGPoint)point;
+- (CGPoint) canvasPointForEvent:(NSEvent *)event;
 
-- (CGPoint) canvasPointForPoint: (CGPoint) point
-       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
-         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy;
+- (CGPoint) roundedCanvasPointForPoint:(CGPoint)point;
+- (CGPoint) roundedCanvasPointForEvent:(NSEvent *)event;
 
-- (CGPoint) canvasPointForEvent: (NSEvent *) event
-       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
-         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy;
+- (BOOL) convertMouseLocationToCanvasPoint:(CGPoint *)outPoint;
 
 @property (nonatomic, assign) CGFloat magnification;
 
-@property (nonatomic, assign) BOOL hidesGuides;
-
 @end
+
 
 @interface CanvasView (CalledByCanvasObjectViews)
 - (BOOL) shouldTrackObjectView:(CanvasObjectView *)objectView;
+- (void) willTrackObjectView:(CanvasObjectView *)objectView;
 - (void) didTrackObjectView:(CanvasObjectView *)objectView;
 @end
+
 
 @protocol CanvasViewDelegate <NSObject>
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view ;
 
 - (BOOL) canvasView:(CanvasView *)view shouldTrackObjectView:(CanvasObjectView *)objectView;
+- (void) canvasView:(CanvasView *)view willTrackObjectView:(CanvasObjectView *)objectView;
 - (void) canvasView:(CanvasView *)view didTrackObjectView:(CanvasObjectView *)objectView;
 
 - (void) canvasView:(CanvasView *)view mouseMovedWithEvent:(NSEvent *)event;

@@ -9,8 +9,7 @@
 #import "BlackTextField.h"
 #import "BlackTextView.h"
 
-
-@interface BlackTextFieldCell () <NSTextViewDelegate>
+@interface NSTextField () <NSTextViewDelegate>
 @end
 
 
@@ -38,20 +37,13 @@
 
 - (NSTextView *) fieldEditorForView:(NSView *)aControlView
 {
-    NSTextView *blackFieldEditor = [[BlackTextView alloc] initWithFrame:[aControlView bounds]];
-    [blackFieldEditor setDelegate:self];
-    return blackFieldEditor;
-}
-
-
-- (BOOL) textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
-{
-    if (aSelector == @selector(insertTab:)) {
-        [[aTextView window] selectNextKeyView:nil];
-        return YES;
+    if ([aControlView isKindOfClass:[BlackTextField class]]) {
+        BlackTextView *editor = [[BlackTextView alloc] initWithFrame:[aControlView bounds]];
+        [editor setFieldEditor:YES];
+        return editor;
     }
-
-    return NO;
+    
+    return nil;
 }
 
 
@@ -121,7 +113,7 @@
 
 - (NSColor *) textColor
 {
-    return GetRGBColor(0xFFFFFF, 1.0);
+    return GetRGBColor(0xd8d8d8, 1.0);
 }
 
 

@@ -92,6 +92,10 @@
 
     NSPoint locationInSelf = [self convertPoint:windowPoint fromView:nil];
     
+    if (![self hitTest:locationInSelf]) {
+        return;
+    }
+    
     CanvasObjectView *view = [self canvasObjectHitTest:locationInSelf];
     NSCursor *cursor = [(id)view cursor];
 
@@ -122,49 +126,72 @@
 }
 
 
-- (CGPoint) canvasPointForPoint:(CGPoint)point
-{
-    return [self canvasPointForPoint:point horizontalSnappingPolicy:SnappingPolicyNone verticalSnappingPolicy:SnappingPolicyNone];
-}
-
-
-- (CGPoint) canvasPointForEvent:(NSEvent *)event
-{
-    return [self canvasPointForEvent:event horizontalSnappingPolicy:SnappingPolicyNone verticalSnappingPolicy:SnappingPolicyNone];
-}
-
-
-- (CGPoint) canvasPointForEvent: (NSEvent *)event
-       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
-         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy
-{
-    CGPoint location = [event locationInWindow];
-    NSView *contentView = [[self window] contentView];
-    
-    location = [self convertPoint:location fromView:contentView];
-
-    return [self canvasPointForPoint:location horizontalSnappingPolicy:horizontalSnappingPolicy verticalSnappingPolicy:verticalSnappingPolicy];
-}
-
-
-- (CGPoint) canvasPointForPoint: (CGPoint)point
-       horizontalSnappingPolicy: (SnappingPolicy) horizontalSnappingPolicy
-         verticalSnappingPolicy: (SnappingPolicy) verticalSnappingPolicy
+- (CGPoint) _canvasPointForPoint:(CGPoint)point round:(BOOL)shouldRound
 {
     CGFloat scale = [[self window] backingScaleFactor];
     
     point.x = point.x / (_magnification / scale);
     point.y = point.y / (_magnification / scale);
 
-    if (horizontalSnappingPolicy == SnappingPolicyToPixelEdge) {
+    if (shouldRound) {
         point.x = round(point.x);
-    }
-    
-    if (verticalSnappingPolicy == SnappingPolicyToPixelEdge) {
         point.y = round(point.y);
     }
 
     return point;
+}
+
+
+- (CGPoint) canvasPointForPoint:(CGPoint)point
+{
+    return [self _canvasPointForPoint:point round:NO];
+}
+
+
+- (CGPoint) canvasPointForEvent:(NSEvent *)event
+{
+    CGPoint location = [event locationInWindow];
+    NSView *contentView = [[self window] contentView];
+    
+    location = [self convertPoint:location fromView:contentView];
+
+    return [self _canvasPointForPoint:location round:NO];
+}
+
+
+- (CGPoint) roundedCanvasPointForPoint:(CGPoint)point
+{
+    return [self _canvasPointForPoint:point round:YES];
+}
+
+
+- (CGPoint) roundedCanvasPointForEvent:(NSEvent *)event
+{
+    CGPoint location = [event locationInWindow];
+    NSView *contentView = [[self window] contentView];
+    
+    location = [self convertPoint:location fromView:contentView];
+
+    return [self _canvasPointForPoint:location round:YES];
+}
+
+
+- (BOOL) convertMouseLocationToCanvasPoint:(CGPoint *)outPoint
+{
+    CGPoint globalMousePoint = [NSEvent mouseLocation];
+    NSRect  globalMouseRect  = NSMakeRect(globalMousePoint.x, globalMousePoint.y, 0, 0);
+
+    CGPoint location    = [[self window] convertRectFromScreen:globalMouseRect].origin;
+    NSView *contentView = [[self window] contentView];
+
+    location = [self convertPoint:location fromView:contentView];
+    
+    if ([self hitTest:location]) {
+        *outPoint = [self _canvasPointForPoint:location round:NO];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 
@@ -210,6 +237,7 @@
 
 - (void) mouseExited:(NSEvent *)event
 {
+    [[NSCursor arrowCursor] set];
     [_delegate canvasView:self mouseExitedWithEvent:event];
     [self invalidateCursors];
 }
@@ -251,13 +279,14 @@
     for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
         CGRect rect = [objectView rectForCanvasLayout];
 
-        if ((rect.size.width != INFINITY) && (rect.size.width > frame.size.width)) {
-            rect.size.width = frame.size.width;
-        }
-
-        if ((rect.size.height != INFINITY) && (rect.size.height > frame.size.height)) {
-            rect.size.height = frame.size.height;
-        }
+//        if ((rect.size.width != INFINITY) && (rect.size.width > frame.size.width)) {
+//            NSLog(@"clamping width: %g -> %g, %@ %g", rect.size.width, frame.size.width, NSStringFromSize([_canvas size]), scale);
+//            rect.size.width = frame.size.width;
+//        }
+//
+//        if ((rect.size.height != INFINITY) && (rect.size.height > frame.size.height)) {
+//            rect.size.height = frame.size.height;
+//        }
 
         const XUIEdgeInsets padding = [objectView paddingForCanvasLayout];
 
@@ -324,10 +353,6 @@
 - (void) invalidateCursors
 {
     [self _recomputeCursorRects];
-    return;
-    
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_recomputeCursorRects) object:nil];
-    [self performSelector:@selector(_recomputeCursorRects) withObject:nil afterDelay:0];
 }
 
 
@@ -362,6 +387,12 @@
 - (BOOL) shouldTrackObjectView:(CanvasObjectView *)objectView
 {
     return [_delegate canvasView:self shouldTrackObjectView:objectView];
+}
+
+
+- (void) willTrackObjectView:(CanvasObjectView *)objectView
+{
+    [_delegate canvasView:self willTrackObjectView:objectView];
 }
 
 

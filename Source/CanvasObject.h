@@ -37,11 +37,12 @@
 - (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard;
 
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
-@property (nonatomic, readonly) BOOL participatesInUndo; // defaults to YES
-@property (nonatomic, readonly, getter=isPersistent) BOOL Persistent; // defaults to YES
+@property (nonatomic) BOOL participatesInUndo; // defaults to YES
+@property (nonatomic, getter=isPersistent) BOOL persistent; // defaults to YES
 
 @property (nonatomic, assign) CGRect rect;
 
+@property (nonatomic, getter=isSelectable) BOOL selectable;
 
 // For bindings
 @property (nonatomic, assign) CGFloat originX;

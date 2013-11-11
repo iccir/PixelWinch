@@ -22,7 +22,7 @@
 
 - (CGDirectDisplayID) winch_CGDirectDisplayID;
 
-- (CGRect) winch_globalBounds;
+- (CGRect) winch_globalFrame;
 
 - (NSString *) winch_name;
 

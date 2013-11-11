@@ -44,7 +44,16 @@
         }
     }
 
-	[super sendEvent:event];
+    if (IsInDebugger()) {
+        [super sendEvent:event];
+    
+    } else {
+        @try {
+            [super sendEvent:event];
+        } @catch (NSException *exception) {
+            (NSGetUncaughtExceptionHandler())(exception);
+        }
+    }
 }
 
 

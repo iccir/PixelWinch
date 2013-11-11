@@ -29,7 +29,15 @@ extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCT
 
 extern BOOL SupportsSSE4_1(void);
 
+extern BOOL IsInDebugger(void);
+
 extern CGSize GetMaxThumbnailSize(void);
+
+extern NSString *GetPixelWinchWebsiteURLString(void);
+extern NSString *GetPixelWinchOnAppStoreURLString(void);
+extern NSString *GetPixelWinchOnTwitterURLString(void);
+
+extern NSArray *GetClassesMatchesProtocol(Protocol *p);
 
 extern NSColor *GetRGBColor(int rgb, CGFloat alpha);
 extern NSColor *GetDarkWindowColor(void);
