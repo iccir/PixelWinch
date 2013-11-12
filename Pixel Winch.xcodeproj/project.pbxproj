@@ -1352,7 +1352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Resources/Pixel Winch.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,

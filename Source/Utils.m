@@ -511,8 +511,12 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
 
 NSString *GetStringForFloat(CGFloat f)
 {
-    if ([[Preferences sharedInstance] usesPoints]) {
+    MeasurementMode measurementMode = [[Preferences sharedInstance] measurementMode];
+
+    if (measurementMode == MeasurementModeDivideBy2) {
         f /= 2.0;
+    } else if (measurementMode == MeasurementModeDivideBy4) {
+        f /= 4.0;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];

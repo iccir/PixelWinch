@@ -28,6 +28,12 @@ typedef NS_ENUM(NSInteger, PreferredDisplay) {
     PreferredDisplayMain = -1
 };
 
+typedef NS_ENUM(NSInteger, MeasurementMode) {
+    MeasurementModeIdentity  = 0,
+    MeasurementModeDivideBy2 = 1,
+    MeasurementModeDivideBy4 = 2
+};
+
 
 @interface Preferences : NSObject
 
@@ -36,7 +42,7 @@ typedef NS_ENUM(NSInteger, PreferredDisplay) {
 - (void) restoreDefaultColors;
 
 @property (nonatomic) BOOL pausesDuringCapture;
-@property (nonatomic) BOOL usesPoints;
+@property (nonatomic) NSInteger measurementMode;
 
 @property (nonatomic) Shortcut *captureSelectionShortcut;
 @property (nonatomic) Shortcut *captureWindowShortcut;

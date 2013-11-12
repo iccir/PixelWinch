@@ -82,7 +82,7 @@
                 <popUpButton verticalHuggingPriority="750" id="46">
                     <rect key="frame" x="186" y="130" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Points" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="59" id="47">
+                    <popUpButtonCell key="cell" type="push" title="Ken Mode™" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="UZZ-ML-C2X" id="47">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="48">
@@ -90,7 +90,10 @@
                                 <menuItem title="Pixels" id="55">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Points" state="on" tag="1" id="59">
+                                <menuItem title="Points" tag="1" id="59">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="Ken Mode™" state="on" tag="2" id="UZZ-ML-C2X">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>
@@ -373,12 +376,12 @@
                 <popUpButton verticalHuggingPriority="750" id="AHg-fO-1e3">
                     <rect key="frame" x="186" y="17" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="⌘W" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FMX-Iz-sZ4">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FMX-Iz-sZ4">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="crC-Yd-bgh">
                             <items>
-                                <menuItem title="⌘W" state="on" id="QCh-fp-Isc">
+                                <menuItem title="⌘W" id="QCh-fp-Isc">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem title="Escape (⎋)" tag="1" id="9xx-HB-7KK">

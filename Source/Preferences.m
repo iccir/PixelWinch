@@ -21,7 +21,7 @@ static NSDictionary *sGetDefaultValues()
 
     sDefaultValues = @{
         @"pausesDuringCapture":   @(YES),
-        @"usesPoints":            @(NO),
+        @"measurementMode":       @( MeasurementModeIdentity ),
 
         @"captureSelectionShortcut":  [Shortcut emptyShortcut],
         @"captureWindowShortcut":     [Shortcut emptyShortcut],

@@ -196,6 +196,14 @@ static NSString * const sToleranceKey = @"tolerance";
         return;
     }
 
+    if (point.x < 0 ||
+        point.y < 0 ||
+        point.x >= planeWidth ||
+        point.y >= planeHeight)
+    {
+        return;
+    }
+
     _waitingLine = nil;
 
     NSString *guidesGroupName     = [Guide groupName];
