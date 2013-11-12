@@ -100,7 +100,7 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.usesPoints" id="jkJ-kt-8Mf"/>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.measurementMode" id="wc1-FA-n9t"/>
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="yDE-dF-B84">
