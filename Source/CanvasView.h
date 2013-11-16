@@ -16,9 +16,11 @@
 
 - (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas;
 
-- (void) addCanvasObjectView:(CanvasObjectView *)layer;
-- (void) removeCanvasObjectView:(CanvasObjectView *)layer;
-- (void) updateCanvasObjectView:(CanvasObjectView *)layer;
+- (void) addCanvasObjectView:(CanvasObjectView *)view;
+- (void) removeCanvasObjectView:(CanvasObjectView *)view;
+- (void) updateCanvasObjectView:(CanvasObjectView *)view;
+
+- (void) makeVisibleAndPopInLabelForView:(CanvasObjectView *)view;
 
 - (void) sizeToFit;
 
@@ -34,8 +36,11 @@
 - (CGPoint) roundedCanvasPointForPoint:(CGPoint)point;
 - (CGPoint) roundedCanvasPointForEvent:(NSEvent *)event;
 
+- (CGPoint) canvasPointAtCenter;
 - (BOOL) convertMouseLocationToCanvasPoint:(CGPoint *)outPoint;
 
+- (void) setMagnification:(CGFloat)magnification centeredAtCanvasPoint:(NSPoint)point;
+- (void) setMagnification:(CGFloat)magnification pinnedAtCanvasPoint:(NSPoint)point;
 @property (nonatomic, assign) CGFloat magnification;
 
 @end

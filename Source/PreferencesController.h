@@ -22,10 +22,14 @@
 
 - (IBAction) updatePreferredDisplay:(id)sender;
 
+- (IBAction) updateMeasurementMode:(id)sender;
+
 @property (nonatomic, weak) Preferences *preferences;
 
 @property (nonatomic, weak) IBOutlet ShortcutView *captureSelectionShortcutView;
 @property (nonatomic, weak) IBOutlet ShortcutView *showScreenshotsShortcutView;
+
+@property (nonatomic, weak) IBOutlet NSTextField *measurementModeField;
 
 @property (nonatomic, weak) IBOutlet NSToolbar *toolbar;
 @property (nonatomic, weak) IBOutlet NSToolbarItem *generalItem;

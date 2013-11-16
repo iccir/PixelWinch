@@ -76,7 +76,7 @@
 
 - (CGRect) rectForCanvasLayout
 {
-    CGRect rect = [[self canvasObjectView] rectForCanvasLayout];
+    CGRect rect = [[self owningObjectView] rectForCanvasLayout];
     
     if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
         rect.origin.x = CGRectGetMinX(rect);
@@ -111,7 +111,7 @@
 {
     _downMousePoint = [event locationInWindow];
 
-    CanvasObject *object = [[self canvasObjectView] canvasObject];
+    CanvasObject *object = [[self owningObjectView] canvasObject];
     _rectForResize = [object rect];
 }
 
@@ -127,7 +127,7 @@
     
     CGPoint deltaPoint = [[self canvasView] roundedCanvasPointForPoint:deltaMousePoint];
     
-    CanvasObject *object = [[self canvasObjectView] canvasObject];
+    CanvasObject *object = [[self owningObjectView] canvasObject];
 
     CGRect rect = _rectForResize;
 

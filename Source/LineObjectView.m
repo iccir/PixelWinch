@@ -11,7 +11,6 @@
 #import "Guide.h"
 #import "Canvas.h"
 #import "Line.h"
-#import "TextLayer.h"
 #import "Canvas.h"
 #import "CursorAdditions.h"
 
@@ -20,7 +19,6 @@
     CALayer   *_startAnchorLayer;
     CALayer   *_endAnchorLayer;
 
-    TextLayer *_textLayer;
     CGPoint    _downPoint;
     CGPoint    _originalPoint;
     
@@ -42,13 +40,9 @@
         _endAnchorLayer = [CALayer layer];
         [_endAnchorLayer setDelegate:self];
 
-        _textLayer = [TextLayer layer];
-        [_textLayer setDelegate:self];
-        
         [[self layer] addSublayer:_lineLayer];
         [[self layer] addSublayer:_endAnchorLayer];
         [[self layer] addSublayer:_startAnchorLayer];
-        [[self layer] addSublayer:_textLayer];
         
         [self _updateLayersAnimated:NO];
     }
@@ -130,20 +124,12 @@
     }
     
     [_lineLayer setFrame:frame];
-    [_textLayer setFrame:frame];
-    [_textLayer setDimensions:[[self line] rect].size];
 
     [_startAnchorLayer setFrame:startAnchorFrame];
     [_endAnchorLayer   setFrame:endAnchorFrame];
 
     [_startAnchorLayer setHidden:!showAnchors];
     [_endAnchorLayer   setHidden:!showAnchors];
-    
-    if ([[self line] isVertical]) {
-        [_textLayer setTextLayerStyle:TextLayerStyleHeightOnly];
-    } else {
-        [_textLayer setTextLayerStyle:TextLayerStyleWidthOnly];
-    }
 }
 
 
@@ -154,12 +140,6 @@
 
 
 #pragma mark - Private Methods
-
-- (void) _updateVisibilityOfTextLayer
-{
-    [_textLayer setHidden:([self isNewborn] || [[self line] isPreview])];
-}
-
 
 - (void) _updateLayersAnimated:(BOOL)animated
 {
@@ -211,7 +191,7 @@
     [self _updateLayersAnimated:YES];
 
     if ([self isNewborn]) {
-        AddPopInAnimation(_textLayer, 0.25);
+        [[self canvasView] makeVisibleAndPopInLabelForView:self];
     } else {
         [super endTrackingWithEvent:event point:point];
     }
@@ -239,7 +219,6 @@
 - (void) setLine:(Line *)line
 {
     [self setCanvasObject:line];
-    [self _updateVisibilityOfTextLayer];
     [self _updateLayersAnimated:NO];
 }
 
@@ -247,7 +226,6 @@
 - (void) setNewborn:(BOOL)newborn
 {
     [super setNewborn:newborn];
-    [self _updateVisibilityOfTextLayer];
     [self _updateLayersAnimated:NO];
 }
 
@@ -255,6 +233,22 @@
 - (NSString *) groupName
 {
     return @"grapples";
+}
+
+
+- (MeasurementLabelStyle) measurementLabelStyle
+{
+    if ([[self line] isVertical]) {
+        return MeasurementLabelStyleHeightOnly;
+    } else {
+        return MeasurementLabelStyleWidthOnly;
+    }
+}
+
+
+- (BOOL) isMeasurementLabelHidden
+{
+    return [self isNewborn] || [[self line] isPreview];
 }
 
 

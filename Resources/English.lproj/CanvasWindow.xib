@@ -146,7 +146,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="HEr-48-mI7" customClass="BlackScroller">
-                        <rect key="frame" x="609" y="0.0" width="15" height="308"/>
+                        <rect key="frame" x="608" y="0.0" width="16" height="308"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
@@ -207,7 +207,7 @@
                             <rect key="frame" x="0.0" y="2" width="166" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="80" height="17"/>
+                            <size key="cellSize" width="78" height="18"/>
                             <size key="intercellSpacing" width="0.0" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="WGb-oz-mri" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -241,7 +241,7 @@
                             <rect key="frame" x="0.0" y="2" width="158" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="80" height="18"/>
+                            <size key="cellSize" width="76" height="18"/>
                             <size key="intercellSpacing" width="0.0" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="Kb8-sJ-JYc" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -266,15 +266,15 @@
                             </connections>
                         </matrix>
                         <slider verticalHuggingPriority="750" id="W5c-xV-hmI" customClass="BlackSlider">
-                            <rect key="frame" x="174" y="0.0" width="64" height="19"/>
+                            <rect key="frame" x="174" y="0.0" width="69" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="15" tickMarkPosition="below" numberOfTickMarks="16" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
+                            <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="68" tickMarkPosition="below" numberOfTickMarks="69" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.toolbox.zoomTool.magnificationIndex" id="Ei3-mF-GPg"/>
+                                <binding destination="-2" name="value" keyPath="self.magnificationManager.tickMarkPosition" id="46O-U0-ceS"/>
                             </connections>
                         </slider>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="0dA-4M-K3W" customClass="BlackTextField">
-                            <rect key="frame" x="244" y="3" width="38" height="14"/>
+                            <rect key="frame" x="249" y="3" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>
@@ -282,7 +282,7 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.toolbox.zoomTool.magnificationString" id="jJ5-RY-YET"/>
+                                <binding destination="-2" name="value" keyPath="self.magnificationManager.stringValue" id="X1d-Ao-LoE"/>
                             </connections>
                         </textField>
                     </subviews>
@@ -330,7 +330,7 @@
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="GQV-eF-sgZ" customClass="BlackTextField">
                             <rect key="frame" x="21" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9999" id="HBZ-L7-GhA" customClass="BlackTextFieldCell">
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="HBZ-L7-GhA" customClass="BlackTextFieldCell">
                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="YnC-Mu-brW">
                                     <real key="roundingIncrement" value="0.0"/>
                                     <metadata>
@@ -348,7 +348,7 @@
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="mLx-If-INE" customClass="BlackTextField">
                             <rect key="frame" x="84" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9999" id="cu2-AP-N1f" customClass="BlackTextFieldCell">
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="cu2-AP-N1f" customClass="BlackTextFieldCell">
                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="zu3-z8-AYR">
                                     <real key="roundingIncrement" value="0.0"/>
                                     <metadata>
@@ -366,7 +366,7 @@
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="z3e-a5-IK6" customClass="BlackTextField">
                             <rect key="frame" x="149" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9999" id="04Y-HY-CZe" customClass="BlackTextFieldCell">
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="04Y-HY-CZe" customClass="BlackTextFieldCell">
                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="alP-Og-W7W">
                                     <real key="roundingIncrement" value="0.0"/>
                                     <metadata>
@@ -384,7 +384,7 @@
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="sVZ-rP-yxV" customClass="BlackTextField">
                             <rect key="frame" x="213" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9999" id="Ndt-Fm-7Bx" customClass="BlackTextFieldCell">
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="Ndt-Fm-7Bx" customClass="BlackTextFieldCell">
                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="o3L-aM-kEu">
                                     <real key="roundingIncrement" value="0.0"/>
                                     <metadata>

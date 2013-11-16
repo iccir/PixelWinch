@@ -15,6 +15,7 @@
 - (Canvas *) canvas;
 - (CanvasView *) canvasView;
 - (CanvasObjectView *) viewForCanvasObject:(CanvasObject *)canvasObject;
+- (void) zoomWithDirection:(NSInteger)direction event:(NSEvent *)event;
 - (BOOL) isToolSelected:(Tool *)tool;
 @end
 

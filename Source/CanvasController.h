@@ -11,6 +11,7 @@
 
 @class BlackSegmentedControl;
 @class CanvasObject;
+@class MagnificationManager;
 @class Toolbox;
 @class Library;
 @class LibraryItem;
@@ -26,9 +27,13 @@
 
 @property (nonatomic, readonly) Canvas *canvas;
 
+@property (nonatomic, readonly) MagnificationManager *magnificationManager;
 
-@property (nonatomic, weak)   Library *library; // So we can bind to it
-@property (nonatomic, strong) CanvasObject *selectedObject;   // So we can bind to it
+
+// Adapters for bindings
+@property (nonatomic, weak) Library *library;
+@property (nonatomic, strong) CanvasObject *selectedObject;
+
 @property (nonatomic, strong) NSIndexSet *librarySelectionIndexes;
 
 // Nib top-level objects

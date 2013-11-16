@@ -18,6 +18,14 @@ typedef NS_ENUM(NSInteger, ResizeKnobType) {
 };
 
 
+typedef NS_ENUM(NSInteger, MeasurementLabelStyle) {
+    MeasurementLabelStyleNone = 0,
+    MeasurementLabelStyleWidthOnly,
+    MeasurementLabelStyleHeightOnly,
+    MeasurementLabelStyleBoth
+};
+
+
 typedef NS_ENUM(NSInteger, CanvasOrder) {
     CanvasOrderNormal      =     0,
 
@@ -50,6 +58,8 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (NSArray *) resizeKnobTypes; // Subclasses to override
 
 - (NSInteger) canvasOrder;
+- (MeasurementLabelStyle) measurementLabelStyle;
+- (BOOL) isMeasurementLabelHidden;
 
 @property (nonatomic, strong) CanvasObject *canvasObject;
 @property (nonatomic, getter=isNewborn) BOOL newborn;

@@ -10,8 +10,10 @@
 
 @implementation ShadowView
 
-- (void) layout
+- (void) layoutSubviews
 {
+    [super layoutSubviews];
+
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bounds] cornerRadius:_cornerRadius];
     [[self layer] setShadowPath:[path CGPath]];
 }

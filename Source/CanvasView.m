@@ -12,13 +12,24 @@
 #import "CanvasObjectView.h"
 #import "Canvas.h"
 #import "Screenshot.h"
+#import "MeasurementLabel.h"
+
+#import "LineObjectView.h"
+#import "Line.h"
+
 
 @implementation CanvasView {
-    CALayer         *_imageLayer;
-    XUIView         *_root;
-    NSMutableArray  *_canvasObjectViews;
+    CALayer *_imageLayer;
+    XUIView *_root;
+
+    NSMutableArray      *_canvasObjectViews;
+    NSMutableArray      *_measurementLabels;
+    NSMutableDictionary *_GUIDToMeasurementLabelMap;
+
+    NSMutableArray      *_labelConstraints;
+
     NSTrackingArea  *_trackingArea;
-    NSPoint          _cursorInvalidationMouseLocation;
+    BOOL             _needsObjectViewReorder;
 }
 
 
@@ -52,6 +63,8 @@
         _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:_trackingArea];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
+
         _magnification = 1;
     }
 
@@ -62,6 +75,13 @@
 - (id) initWithFrame:(CGRect)frameRect
 {
     return [self initWithFrame:frameRect canvas:nil];
+}
+
+
+- (void) dealloc
+{
+    [self removeTrackingArea:_trackingArea];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -105,12 +125,6 @@
     }
     
     [[_delegate cursorForCanvasView:self] set];
-}
-
-
-- (void) dealloc
-{
-    [self removeTrackingArea:_trackingArea];
 }
 
 
@@ -252,6 +266,145 @@
 }
 
 
+- (CGRect) _labelFrameForLineObjectView: (LineObjectView *) lineObjectView
+                           initialFrame: (CGRect) labelFrame
+                   notIntersectingViews: (NSArray *) otherViews
+{
+    Line  *line     = [lineObjectView line];
+    BOOL   vertical = [line isVertical];
+
+    CGRect  myFrame = [lineObjectView frame];
+    CGFloat weight  = 0;
+
+    NSMutableArray *touchingLines = [NSMutableArray array];
+
+    for (NSView *otherView in otherViews) {
+        CGRect otherFrame   = [otherView frame];
+        CGRect intersection = CGRectIntersection(otherFrame, myFrame);
+
+        if (!CGRectIsEmpty(intersection)) {
+            [touchingLines addObject:otherView];
+            
+            if (vertical) {
+                weight += CGRectGetMidY(otherFrame) - CGRectGetMidY(myFrame);
+            } else {
+                weight += CGRectGetMidX(otherFrame) - CGRectGetMidX(myFrame);
+            }
+        }
+    }
+
+    NSInteger loopGuard = 1000;
+    while (loopGuard-- > 0) {
+        BOOL didCollide = NO;
+
+        for (NSView *otherView in touchingLines) {
+            CGRect otherFrame   = [otherView frame];
+            CGRect intersection = CGRectIntersection(otherFrame, labelFrame);
+
+            if (!CGRectIsEmpty(intersection)) {
+                didCollide = YES;
+                break;
+            }
+        }
+            
+        if (!didCollide) {
+            break;
+        }
+        
+        // Tweak the value of the label
+        if (weight > 0) {
+            if (vertical) {
+                labelFrame.origin.y -= 1.0;
+
+                if (labelFrame.origin.y < myFrame.origin.y) {
+                    labelFrame.origin.y = myFrame.origin.y;
+                    break;
+                }
+
+            } else {
+                labelFrame.origin.x -= 1.0;
+
+                if (labelFrame.origin.x < myFrame.origin.x) {
+                    labelFrame.origin.x = myFrame.origin.x;
+                    break;
+                }
+            }
+
+        } else {
+            if (vertical) {
+                labelFrame.origin.y += 1.0;
+
+                if ((labelFrame.origin.y + labelFrame.size.height) > CGRectGetMaxY(myFrame)) {
+                    labelFrame.origin.y = CGRectGetMaxY(myFrame) - labelFrame.size.height;
+                    break;
+                }
+
+            } else {
+                labelFrame.origin.x += 1.0;
+
+                if ((labelFrame.origin.x + labelFrame.size.width) > CGRectGetMaxX(myFrame)) {
+                    labelFrame.origin.x = CGRectGetMaxX(myFrame) - labelFrame.size.width;
+                    break;
+                }
+            }
+        }
+    }
+
+    return labelFrame;
+}
+
+
+- (void) _layoutMeasurementLabels
+{
+    NSMutableArray *horizontalLineViews = [NSMutableArray array];
+    NSMutableArray *verticalLineViews   = [NSMutableArray array];
+
+    for (MeasurementLabel *canvasObjectView in _canvasObjectViews) {
+        if ([canvasObjectView isKindOfClass:[LineObjectView class]]) {
+            LineObjectView *lineObjectView = (LineObjectView *)canvasObjectView;
+            Line *line = [lineObjectView line];
+
+            if ([line isPreview]) continue;
+
+            if ([[lineObjectView line] isVertical]) {
+                [verticalLineViews addObject:lineObjectView];
+            } else {
+                [horizontalLineViews addObject:lineObjectView];
+            }
+        }
+    }
+
+    for (MeasurementLabel *label in _measurementLabels) {
+        CanvasObjectView *objectView = [label owningObjectView];
+
+        CGRect objectViewFrame = [objectView frame];
+
+        CGSize contentSize = [label intrinsicContentSize];
+       
+        CGRect labelFrame = objectViewFrame;
+        labelFrame.size = contentSize;
+        labelFrame.origin.x += round((objectViewFrame.size.width  - contentSize.width)  / 2);
+        labelFrame.origin.y += round((objectViewFrame.size.height - contentSize.height) / 2);
+        
+        [label setHidden:[objectView isMeasurementLabelHidden]];
+
+        // Special case for lines - we don't want the text label for one line overlapping another line
+        //
+        if ([objectView isKindOfClass:[LineObjectView class]]) {
+            LineObjectView *lineObjectView = (LineObjectView *)objectView;
+
+            if ([[lineObjectView line] isVertical]) {
+                labelFrame = [self _labelFrameForLineObjectView:lineObjectView initialFrame:labelFrame notIntersectingViews:horizontalLineViews];
+            } else {
+                labelFrame = [self _labelFrameForLineObjectView:lineObjectView initialFrame:labelFrame notIntersectingViews:verticalLineViews];
+            }
+        }
+
+        [label setFrame:labelFrame];
+    }
+}
+
+
 - (void) layoutSubviews
 {
     CGSize  size = [_canvas size];
@@ -278,15 +431,6 @@
     
     for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
         CGRect rect = [objectView rectForCanvasLayout];
-
-//        if ((rect.size.width != INFINITY) && (rect.size.width > frame.size.width)) {
-//            NSLog(@"clamping width: %g -> %g, %@ %g", rect.size.width, frame.size.width, NSStringFromSize([_canvas size]), scale);
-//            rect.size.width = frame.size.width;
-//        }
-//
-//        if ((rect.size.height != INFINITY) && (rect.size.height > frame.size.height)) {
-//            rect.size.height = frame.size.height;
-//        }
 
         const XUIEdgeInsets padding = [objectView paddingForCanvasLayout];
 
@@ -326,11 +470,107 @@
         
         [objectView setFrame:rect];
         
-        [objectView removeFromSuperview];
-        [_root addSubview:objectView];
+        if (_needsObjectViewReorder) {
+            [objectView removeFromSuperview];
+            [_root addSubview:objectView];
+        }
     }
     
+    [self _layoutMeasurementLabels];
+
+    _needsObjectViewReorder = NO;
+
     [self _recomputeCursorRects];
+}
+
+
+- (CGPoint) canvasPointAtCenter
+{
+    NSRect visibleRect = [self visibleRect];
+    
+    CGPoint centerPoint = CGPointMake(
+        NSMidX(visibleRect),
+        NSMidY(visibleRect)
+    );
+
+    return [self canvasPointForPoint:centerPoint];
+}
+
+
+- (void) _centerOnCanvasPoint:(CGPoint)point
+{
+    NSScrollView *scrollView = [self enclosingScrollView];
+
+    CGRect clipViewFrame = [[scrollView contentView] frame];
+
+    CGFloat scale = [[self window] backingScaleFactor];
+    if (!scale) scale = 1;
+    
+    CGFloat m = (_magnification / scale);
+    point.x *= m;
+    point.y *= m;
+
+    point.x -= NSWidth( clipViewFrame) / 2.0;
+    point.y -= NSHeight(clipViewFrame) / 2.0;
+        
+    [self scrollPoint:point];
+}
+
+
+- (void) _pinOnCanvasPoint:(CGPoint)point
+{
+    CGPoint pointUnderMouse;
+
+    if ([self convertMouseLocationToCanvasPoint:&pointUnderMouse]) {
+        CGPoint delta = CGPointMake(
+            point.x - pointUnderMouse.x,
+            point.y - pointUnderMouse.y
+        );
+
+        CGFloat scale = [[self window] backingScaleFactor];
+        if (!scale) scale = 1;
+
+        CGFloat m = (_magnification / scale);
+        delta.x *= m;
+        delta.y *= m;
+        
+        CGPoint origin = [self visibleRect].origin;
+        origin.x += delta.x;
+        origin.y += delta.y;
+
+        [self scrollPoint:origin];
+    }
+}
+
+
+#pragma mark - Magnification
+
+- (void) setMagnification:(CGFloat)magnification pinnedAtCanvasPoint:(NSPoint)point
+{
+    if (_magnification != magnification) {
+        [self setMagnification:magnification];
+        [self _pinOnCanvasPoint:point];
+    }
+}
+
+
+- (void) setMagnification:(CGFloat)magnification centeredAtCanvasPoint:(NSPoint)point
+{
+    if (_magnification != magnification) {
+        [self setMagnification:magnification];
+        [self _centerOnCanvasPoint:point];
+    }
+}
+
+
+- (void) setMagnification:(CGFloat)magnification
+{
+    if (_magnification != magnification) {
+        _magnification = magnification;
+        [self sizeToFit];
+        [self setNeedsLayout];
+        [self invalidateCursors];
+    }
 }
 
 
@@ -343,10 +583,21 @@
     CGFloat scale = [[self window] backingScaleFactor];
     if (!scale) scale = 1;
 
-    size.width  *= (_magnification / scale);
-    size.height *= (_magnification / scale);
+    CGFloat m = (_magnification / scale);
+    size.width  *= m;
+    size.height *= m;
 
     [self setFrame:CGRectMake(0, 0, size.width, size.height)];
+}
+
+
+- (void) _handlePreferencesDidChange:(NSNotification *)note
+{
+    for (MeasurementLabel *label in _measurementLabels) {
+        [label updateText];
+    }
+
+    [self setNeedsLayout];
 }
 
 
@@ -367,20 +618,66 @@
         return [b canvasOrder] - [a canvasOrder];
     }];
     
+    _needsObjectViewReorder = YES;
+
     [self addSubview:view];
+
+    if ([view measurementLabelStyle] != MeasurementLabelStyleNone) {
+        if (!_measurementLabels) {
+            _measurementLabels = [NSMutableArray array];
+        }
+        
+        if (!_GUIDToMeasurementLabelMap) {
+            _GUIDToMeasurementLabelMap = [[NSMutableDictionary alloc] init];
+        }
+
+        MeasurementLabel *label = [[MeasurementLabel alloc] initWithFrame:CGRectZero];
+        [label setOwningObjectView:view];
+        [label setHidden:[view isMeasurementLabelHidden]];
+        [label setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+        [_measurementLabels addObject:label];
+
+        NSString *GUID = [[view canvasObject] GUID];
+        [_GUIDToMeasurementLabelMap setObject:label forKey:GUID];
+
+        [self addSubview:label];
+    }
 }
 
 
 - (void) removeCanvasObjectView:(CanvasObjectView *)view
 {
+    NSString *GUID = [[view canvasObject] GUID];
+    MeasurementLabel *label = [_GUIDToMeasurementLabelMap objectForKey:GUID];
+    
+    if (label) {
+        [label removeFromSuperview];
+    }
+
     [view removeFromSuperview];
     [_canvasObjectViews removeObject:view];
 }
 
 
-- (void) updateCanvasObjectView:(CanvasObjectView *)layer
+- (void) updateCanvasObjectView:(CanvasObjectView *)view
 {
+    NSString *GUID = [[view canvasObject] GUID];
+    MeasurementLabel *label = [_GUIDToMeasurementLabelMap objectForKey:GUID];
+
     [self setNeedsLayout];
+
+    [label updateText];
+}
+
+
+- (void) makeVisibleAndPopInLabelForView:(CanvasObjectView *)view
+{
+    NSString *GUID = [[view canvasObject] GUID];
+    MeasurementLabel *label = [_GUIDToMeasurementLabelMap objectForKey:GUID];
+
+    [label setHidden:NO];
+    [label doPopInAnimationWithDuration:0.25];
 }
 
 
@@ -404,17 +701,6 @@
 
 #pragma mark -
 #pragma mark Accessors
-
-- (void) setMagnification:(CGFloat)magnification
-{
-    if (_magnification != magnification) {
-        _magnification = magnification;
-        [self sizeToFit];
-        [self setNeedsLayout];
-        [self invalidateCursors];
-    }
-}
-
 
 - (BOOL) isOpaque
 {

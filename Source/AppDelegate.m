@@ -18,6 +18,7 @@
 #import "Library.h"
 #import "LibraryItem.h"
 #import "DebugControlsController.h"
+#import "TutorialWindowController.h"
 
 #import <HockeySDK/HockeySDK.h>
 #import <HockeySDK/BITHockeyManager.h>
@@ -68,7 +69,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-@interface AppDelegate () <ShortcutListener, BITCrashReportManagerDelegate>
+@interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITCrashReportManagerDelegate>
 @end
 
 
@@ -76,10 +77,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     NSStatusItem *_statusItem;
     NSTimer      *_periodicTimer;
 
-    AboutWindowController *_aboutController;
-    PreferencesController *_preferencesController;
-    CanvasController      *_canvasController;
-    CaptureController     *_captureController;
+    AboutWindowController    *_aboutController;
+    PreferencesController    *_preferencesController;
+    CanvasController         *_canvasController;
+    CaptureController        *_captureController;
+    TutorialWindowController *_tutorialWindowController;
 }
 
 
@@ -234,9 +236,18 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     NSImage *image = [NSImage imageNamed:@"status_bar"];
     [image setTemplate:YES];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
+        _tutorialWindowController = [[TutorialWindowController alloc] init];
+        [_tutorialWindowController orderInWithStatusItem:_statusItem];
+    }
+    
+    [[self statusBarMenu] setDelegate:self];
+
     [_statusItem setImage:image];
     [_statusItem setHighlightMode:YES];
     [_statusItem setMenu:[self statusBarMenu]];
+    
 
 #ifdef DEBUG
 #if SHOW_DEBUG_CONTROLS
@@ -248,6 +259,18 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
     [self _updateShortcuts];
 }
+
+- (void) menuWillOpen:(NSMenu *)menu
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"did-show-arrow"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (_tutorialWindowController) {
+        [_tutorialWindowController orderOut];
+        _tutorialWindowController = nil;
+    }
+}
+
 
 
 - (IBAction) captureSelection:(id)sender

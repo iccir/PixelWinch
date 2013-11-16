@@ -131,6 +131,18 @@
 }
 
 
+- (MeasurementLabelStyle) measurementLabelStyle
+{
+    return MeasurementLabelStyleNone;
+}
+
+
+- (BOOL) isMeasurementLabelHidden
+{
+    return YES;
+}
+
+
 - (NSCursor *) cursor
 {
     return nil;

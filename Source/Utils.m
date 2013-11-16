@@ -503,7 +503,7 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
     [opacity setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     [opacity setFromValue:@(0)];
     [opacity setToValue:@(1)];
-        
+    
     [layer addAnimation:transform forKey:@"popIn"];
     [layer addAnimation:opacity forKey:@"opacity"];
 }
@@ -517,6 +517,8 @@ NSString *GetStringForFloat(CGFloat f)
         f /= 2.0;
     } else if (measurementMode == MeasurementModeDivideBy4) {
         f /= 4.0;
+    } else if (measurementMode == MeasurementModeMultiplyBy2) {
+        f *= 2.0;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];

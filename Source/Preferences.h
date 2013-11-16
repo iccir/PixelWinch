@@ -29,9 +29,10 @@ typedef NS_ENUM(NSInteger, PreferredDisplay) {
 };
 
 typedef NS_ENUM(NSInteger, MeasurementMode) {
-    MeasurementModeIdentity  = 0,
-    MeasurementModeDivideBy2 = 1,
-    MeasurementModeDivideBy4 = 2
+    MeasurementModeIdentity    = 0,
+    MeasurementModeDivideBy2   = 1,
+    MeasurementModeDivideBy4   = 2,
+    MeasurementModeMultiplyBy2 = 3
 };
 
 

@@ -20,6 +20,7 @@
 #import "CanvasView.h"
 #import "RulerView.h"
 #import "CenteringClipView.h"
+#import "MagnificationManager.h"
 
 #import "Toolbox.h"
 #import "Tool.h"
@@ -100,6 +101,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     CGRect      _transitionImageGlobalRect;
     CGImageRef  _transitionImage;
 
+    CGFloat     _liveMagnificationLevel;
+    CGPoint     _liveMagnificationPoint;
+
     Canvas  *_canvas;
     LibraryItem *_selectedItem;
 
@@ -117,11 +121,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
+
+
 - (id) initWithWindow:(NSWindow *)window
 {
     if ((self = [super initWithWindow:window])) {
         _GUIDToViewMap = [NSMutableDictionary dictionary];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
         _toolbox = [[Toolbox alloc] init];
 
@@ -129,10 +134,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             [tool setOwner:self];
         }
 
-        [_toolbox            addObserver:self forKeyPath:@"selectedTool"       options:0 context:NULL];
-        [[_toolbox zoomTool] addObserver:self forKeyPath:@"magnificationLevel" options:0 context:NULL];
+        [_toolbox addObserver:self forKeyPath:@"selectedTool" options:0 context:NULL];
 
         _library = [Library sharedInstance];
+        
+        _magnificationManager = [[MagnificationManager alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleApplicationDidResignActiveNotification:) name:NSApplicationDidResignActiveNotification object:nil];
     }
@@ -143,8 +149,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) dealloc
 {
-    [_toolbox            removeObserver:self forKeyPath:@"selectedTool"       context:NULL];
-    [[_toolbox zoomTool] removeObserver:self forKeyPath:@"magnificationLevel" context:NULL];
+    [_toolbox removeObserver:self forKeyPath:@"selectedTool" context:NULL];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -205,26 +210,26 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             return;
 
         } else if (c == '-') {
-            [[_toolbox zoomTool] zoomOut];
+            [_magnificationManager zoomOut];
             return;
 
         } else if (c == '=') {
-            [[_toolbox zoomTool] zoomIn];
+            [_magnificationManager zoomIn];
             return;
 
         } else if (c >= '1' && c <= '8') {
             NSInteger level = (c - '0');
-            [[_toolbox zoomTool] zoomToMagnificationLevel:level];
+            [_magnificationManager setMagnification:level];
             return;
         }
 
     } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {
         if (c == '+') {
-            [[_toolbox zoomTool] zoomIn];
+            [_magnificationManager zoomIn];
             return;
 
         } else if (c == '_') {
-            [[_toolbox zoomTool] zoomOut];
+            [_magnificationManager zoomOut];
             return;
 
         } else if (c == '{') {
@@ -270,6 +275,40 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
+- (void) beginGestureWithEvent:(NSEvent *)event
+{
+    CGPoint canvasPoint = [_canvasView canvasPointForEvent:event];
+    CGSize  canvasSize  = [_canvas size];
+
+    if (canvasPoint.x >= 0 &&
+        canvasPoint.y >= 0 &&
+        canvasPoint.x < canvasSize.width &&
+        canvasPoint.y < canvasSize.height)
+    {
+        _liveMagnificationLevel = [_magnificationManager magnification];
+        _liveMagnificationPoint = canvasPoint;
+    } else {
+        _liveMagnificationLevel = NAN;
+    }
+}
+
+
+- (void) magnifyWithEvent:(NSEvent *)event
+{
+    if (!isnan(_liveMagnificationLevel)) {
+        _liveMagnificationLevel *= ([event magnification] + 1);
+        
+        NSArray *levels = [_magnificationManager levelsForSlider];
+        NSInteger index = [_magnificationManager indexInArray:levels forMagnification:_liveMagnificationLevel];
+        
+        CGFloat level = [[levels objectAtIndex:index] doubleValue];
+
+        [_canvasView setMagnification:level pinnedAtCanvasPoint:_liveMagnificationPoint];
+        [_magnificationManager setMagnification:level];
+    }
+}
+
+
 - (void) awakeFromNib
 {
     NSImage *arrowSelected     = [NSImage imageNamed:@"toolbar_arrow_selected"];
@@ -301,6 +340,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     
     [_verticalRuler setCanDrawConcurrently:YES];
     [_verticalRuler setVertical:YES];
+    
+    [_magnificationManager setHorizontalRuler:_horizontalRuler];
+    [_magnificationManager setVerticalRuler:_verticalRuler];
     
     _shroudView = [[ShroudView alloc] initWithFrame:[contentView bounds]];
     [_shroudView setBackgroundColor:[NSColor colorWithCalibratedWhite:0 alpha:0.5]];
@@ -361,9 +403,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
     [window setDelegate:self];
     
-    [self addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
-    [self addObserver:self forKeyPath:@"selectedObject" options:0 context:NULL];
-    [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder" options:0 context:NULL];
+    [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
+    [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
+    [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
 
     [window setAutorecalculatesKeyViewLoop:YES];
     
@@ -392,17 +434,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             }
 
             [_canvasView invalidateCursors];
-        }
-
-    } else if (object == [_toolbox zoomTool]) {
-        if ([keyPath isEqualToString:@"magnificationLevel"]) {
-            CGFloat magnification = [[_toolbox zoomTool] magnificationLevel];
-
-            [_horizontalRuler setMagnification:magnification];
-            [_verticalRuler   setMagnification:magnification];
-            [_canvasView      setMagnification:magnification];
-
-            [[_toolbox zoomTool] centerScrollViewOnLastEventPoint];
         }
 
     } else if (object == self) {
@@ -694,11 +725,15 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         if (canvas) {
             CanvasView *canvasView = [[CanvasView alloc] initWithFrame:CGRectZero canvas:canvas];
             [canvasView setDelegate:self];
+            
             _canvasView = canvasView;
+            [_magnificationManager setCanvasView:_canvasView];
 
             [_canvasScrollView setDocumentView:canvasView];
         } else {
             _canvasView = nil;
+            [_magnificationManager setCanvasView:nil];
+
             [_canvasScrollView setDocumentView:[[NSView alloc] init]];
         }
         
@@ -720,10 +755,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         CGFloat xScale = availableSize.width / canvasSize.width;
         CGFloat yScale = availableSize.height / canvasSize.height;
-        
-        NSInteger index = [[_toolbox zoomTool] magnificationIndexForLevel:(xScale < yScale ? xScale : yScale)];
-        
-        [[_toolbox zoomTool] setMagnificationIndex:index];
+
+        NSArray *levels = [_magnificationManager levelsForSlider];
+        NSInteger index = [_magnificationManager indexInArray:levels forMagnification:(xScale < yScale ? xScale : yScale)];
+
+        CGFloat level = [[levels objectAtIndex:index] doubleValue];
+        [_magnificationManager setMagnification:level];
     }
 }
 
@@ -843,7 +880,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             ResizeKnobView *knob = [[ResizeKnobView alloc] initWithFrame:NSZeroRect];
             
             [knob setType:knobType];
-            [knob setCanvasObjectView:parent];
+            [knob setOwningObjectView:parent];
         
             [_canvasView addCanvasObjectView:knob];
         
@@ -868,7 +905,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:GUID];
     
     for (ResizeKnobView *knob in resizeKnobs) {
-        [knob setCanvasObjectView:nil];
+        [knob setOwningObjectView:nil];
         [_canvasView removeCanvasObjectView:knob];
     }
 
@@ -945,10 +982,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     }
 }
 
+
 - (void) canvasView:(CanvasView *)view didTrackObjectView:(CanvasObjectView *)objectView
 {
-
+    // No op
 }
+
 
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view
 {
@@ -991,6 +1030,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     if (!object) return nil;
     return [_GUIDToViewMap objectForKey:[object GUID]];
+}
+
+
+- (void) zoomWithDirection:(NSInteger)direction event:(NSEvent *)event
+{
+    [_magnificationManager zoomWithDirection:direction event:event];
 }
 
 
@@ -1124,6 +1169,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         _transitionImageGlobalRect = globalRect;
     }
 
+    NSDisableScreenUpdates();
+
     [self _updateWindowForScreen:preferredScreen];
     [self _updateCanvasWithLibraryItem:libraryItem];
     [self _doOrderInAnimation];
@@ -1132,6 +1179,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     [[CursorInfo sharedInstance] setEnabled:YES];
 
     [[self window] makeKeyAndOrderFront:self];
+    
+    NSEnableScreenUpdates();
 
     [[self window] makeFirstResponder:[self window]];
 }
@@ -1282,6 +1331,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [self hide];
     }
 }
+
 
 
 @end

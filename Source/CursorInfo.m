@@ -140,7 +140,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 {
     if (_window) return;
 
-    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 256, 32) styleMask:0 backing:NSBackingStoreRetained defer:NO];
+    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 256, 32) styleMask:0 backing:NSBackingStoreBuffered defer:NO];
     
     [_window setBackgroundColor:[NSColor clearColor]];
     [_window setOpaque:NO];

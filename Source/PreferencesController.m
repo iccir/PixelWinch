@@ -51,6 +51,7 @@
     [self selectPane:0 animated:NO];
 
     [self _setupScreenMenu];
+    [self _updateMeasurementModeText];
 
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 }
@@ -126,6 +127,28 @@
     }
 
     [_screenPopUp selectItemWithTag:[[Preferences sharedInstance] preferredDisplay]];
+}
+
+
+- (void) _updateMeasurementModeText
+{
+    NSString *text;
+    MeasurementMode mode = [[Preferences sharedInstance] measurementMode];
+
+    if (mode == MeasurementModeIdentity) {
+        text = NSLocalizedString(@"Measurements display as the exact number of device pixels.  This corresponds to UIKit or AppKit logical points on a non-retina display.", nil);
+
+    } else if (mode == MeasurementModeDivideBy2) {
+        text = NSLocalizedString(@"Measurements display as half the number of device pixels.  This corresponds to UIKit or AppKit logical points on a retina display.", nil);
+
+    } else if (mode == MeasurementModeMultiplyBy2) {
+        text = NSLocalizedString(@"Measurements display as double the number of device pixels.  Use this mode only if your workflow requires it.", nil);
+
+    } else if (mode == MeasurementModeDivideBy4) {
+        text = NSLocalizedString(@"Measurements display as one quarter the number of device pixels.  Use this mode only if your workflow requires it.", nil);
+    }
+    
+    [[self measurementModeField] setStringValue:text];
 }
 
 
@@ -261,6 +284,14 @@
 #if ENABLE_APP_STORE
 
 #endif
+}
+
+
+- (IBAction) updateMeasurementMode:(id)sender
+{
+    MeasurementMode mode = [sender selectedTag];
+    [[Preferences sharedInstance] setMeasurementMode:mode];
+    [self _updateMeasurementModeText];
 }
 
 

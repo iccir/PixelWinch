@@ -17,6 +17,7 @@
                 <outlet property="generalPane" destination="251" id="ELS-uE-CEE"/>
                 <outlet property="keyboardItem" destination="2cG-c1-4p4" id="o4e-Kl-tjv"/>
                 <outlet property="keyboardPane" destination="cwh-za-zMQ" id="xSX-f7-fRq"/>
+                <outlet property="measurementModeField" destination="S8Z-eb-E9L" id="3gW-Cp-3DZ"/>
                 <outlet property="myClippedColorWell" destination="356" id="386"/>
                 <outlet property="purchaseItem" destination="cbx-I5-8j1" id="h1k-b1-O1c"/>
                 <outlet property="purchasePane" destination="g52-iv-nqa" id="3Zx-rm-Xd6"/>
@@ -76,30 +77,34 @@
         </window>
         <customObject id="-3" userLabel="Application"/>
         <customView id="251" userLabel="General Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="174"/>
+            <rect key="frame" x="0.0" y="0.0" width="368" height="234"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <popUpButton verticalHuggingPriority="750" id="46">
-                    <rect key="frame" x="186" y="130" width="165" height="26"/>
+                    <rect key="frame" x="186" y="190" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Ken Mode™" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="UZZ-ML-C2X" id="47">
+                    <popUpButtonCell key="cell" type="push" title="100%" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="55" id="47">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="48">
                             <items>
-                                <menuItem title="Pixels" id="55">
+                                <menuItem title="200%" tag="3" id="Wxq-Lm-Euj">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Points" tag="1" id="59">
+                                <menuItem title="100%" state="on" id="55">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
-                                <menuItem title="Ken Mode™" state="on" tag="2" id="UZZ-ML-C2X">
+                                <menuItem title="50%" tag="1" id="59">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="25%" tag="2" id="UZZ-ML-C2X">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>
                         </menu>
                     </popUpButtonCell>
                     <connections>
+                        <action selector="updateMeasurementMode:" target="-2" id="u3O-4f-lbY"/>
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.measurementMode" id="wc1-FA-n9t"/>
                     </connections>
                 </popUpButton>
@@ -170,9 +175,9 @@
                     </connections>
                 </popUpButton>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="gd0-bG-dRS">
-                    <rect key="frame" x="18" y="136" width="164" height="17"/>
+                    <rect key="frame" x="13" y="196" width="169" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Display measurements in" id="QiB-5a-ciS">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Multiply measurements by" id="QiB-5a-ciS">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -218,6 +223,18 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="S8Z-eb-E9L">
+                    <rect key="frame" x="21" y="143" width="327" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="w8k-rh-KTS">
+                        <font key="font" size="11" name="LucidaGrande"/>
+                        <string key="title">&lt;DO NOT LOCALIZE&gt;
+&lt;DO NOT LOCALIZE&gt;
+&lt;DO NOT LOCALIZE&gt;</string>
+                        <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
         </customView>
         <customView id="337" userLabel="Appearance Pane">
@@ -236,7 +253,7 @@
                 <textField verticalHuggingPriority="750" id="d4o-nm-M3r">
                     <rect key="frame" x="29" y="126" width="65" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Grapples" id="rmc-wD-lpI">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Lines" id="rmc-wD-lpI">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

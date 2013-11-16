@@ -17,5 +17,14 @@ INFOPLIST_FILE = Resources/Info.plist
 GCC_PREFIX_HEADER = Source/Prefix.pch
 LD_RUNPATH_SEARCH_PATHS = @executable_path/../Frameworks
 ALWAYS_SEARCH_USER_PATHS = YES
-USER_HEADER_SEARCH_PATHS = $(PROJECT_DIR)/lib/include
-CODE_SIGN_ENTITLEMENTS = "Resources/Pixel Winch.entitlements"
+
+ARCHS = x86_64
+CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1
+MACOSX_DEPLOYMENT_TARGET = 10.8
+SDKROOT = macosx
+COMBINE_HIDPI_IMAGES = YES
+CODE_SIGN_ENTITLEMENTS = Resources/Pixel Winch.entitlements
+
+USER_HEADER_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/lib/include
+FRAMEWORK_SEARCH_PATHS = $(inherited) <redacted>
+LIBRARY_SEARCH_PATHS = $(inherited) <redacted>

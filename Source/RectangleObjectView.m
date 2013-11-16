@@ -9,14 +9,14 @@
 
 #import "RectangleObjectView.h"
 #import "Rectangle.h"
-#import "TextLayer.h"
+#import "MeasurementLabel.h"
 
 #import <objc/objc-runtime.h>
 
 @implementation RectangleObjectView {
     CALayer   *_sublayer;
-    TextLayer *_textLayer;
     CGPoint    _downPoint;
+    MeasurementLabel *_label;
 }
 
 @dynamic rectangle;
@@ -29,10 +29,6 @@
         [_sublayer setDelegate:self];
         [[self layer] addSublayer:_sublayer];
         
-        _textLayer = [TextLayer layer];
-        [_textLayer setDelegate:self];
-        [[self layer] addSublayer:_textLayer];
-
         [self _updateLayers];
     }
 
@@ -103,7 +99,8 @@
 {
     if ([self isNewborn]) {
         [[CursorInfo sharedInstance] setText:nil forKey:@"new-rectangle"];
-        AddPopInAnimation(_textLayer, 0.25);
+        [[self canvasView] makeVisibleAndPopInLabelForView:self];
+
     } else {
         [super endTrackingWithEvent:event point:point];
     }
@@ -113,9 +110,6 @@
 - (void) layoutSubviews
 {
     [_sublayer setFrame:[self bounds]];
-
-    [_textLayer setFrame:[self bounds]];
-    [_textLayer setDimensions:[[self rectangle] rect].size];
 }
 
 
@@ -150,10 +144,21 @@
 }
 
 
+- (MeasurementLabelStyle) measurementLabelStyle
+{
+    return MeasurementLabelStyleBoth;
+}
+
+
+- (BOOL) isMeasurementLabelHidden
+{
+    return [self isNewborn];
+}
+
+
 - (void) setNewborn:(BOOL)newborn
 {
     [super setNewborn:newborn];
-    [_textLayer setHidden:newborn];
 }
 
 

@@ -172,11 +172,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="566" height="480"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="520" height="480"/>
-                                    <size key="maxSize" width="520" height="10000000"/>
+                                    <size key="minSize" width="560" height="480"/>
+                                    <size key="maxSize" width="566" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="520" height="480"/>
-                                    <size key="maxSize" width="520" height="10000000"/>
+                                    <size key="minSize" width="560" height="480"/>
+                                    <size key="maxSize" width="566" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
