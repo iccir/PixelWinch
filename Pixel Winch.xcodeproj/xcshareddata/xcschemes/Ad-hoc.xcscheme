@@ -99,6 +99,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Pixel Winch"
       revealArchiveInOrganizer = "YES">
       <PostActions>
          <ExecutionAction
