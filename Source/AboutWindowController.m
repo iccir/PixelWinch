@@ -70,10 +70,11 @@
     [[closeButton superview] bringSubviewToFront:closeButton];
 
 
-    NSString *versionFormat = NSLocalizedString(@"Version %@", nil);
+    NSString *versionFormat = NSLocalizedString(@"Version %@, Build %@", nil);
+    id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
-    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion]];
+    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
 
     NSScrollView *legalScrollView = [[self legalText] enclosingScrollView];
 
