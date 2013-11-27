@@ -69,7 +69,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-@interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITCrashReportManagerDelegate>
+@interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITHockeyManagerDelegate>
 @end
 
 
@@ -222,17 +222,16 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 
     if (IsInDebugger()) {
-        [self showMainApplicationWindow];
+        [self showMainApplicationWindowForCrashManager:nil];
 
     } else {
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" companyName:@"Ricci Adams" crashReportManagerDelegate:self];
-        [[BITHockeyManager sharedHockeyManager] setExceptionInterceptionEnabled:YES];
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" companyName:@"Ricci Adams" delegate:self];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
 }
 
 
-- (void) showMainApplicationWindow
+- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
 {
     NSImage *image = [NSImage imageNamed:@"status_bar"];
     [image setTemplate:YES];

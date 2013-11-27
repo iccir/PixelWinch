@@ -54,7 +54,6 @@
     return NO;
 }
 
-
 - (void) reset { }
 - (void) didSelect { }
 - (void) didUnselect { }

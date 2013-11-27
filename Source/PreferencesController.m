@@ -205,7 +205,7 @@
                 });
 
             } else {
-                NSDate *date = [NSDate dateWithTimeIntervalSince1970:expiration];
+                NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:expiration];
 
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                 [formatter setDateStyle:NSDateFormatterFullStyle];

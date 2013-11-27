@@ -970,6 +970,7 @@
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
 				55CC21A81832F24F004076CF /* Generate Receipt Validation */,
+				55F4A49D1845F236000AFDB6 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rchook */,
 				8D1107290486CEB800E47090 /* Resources */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
@@ -1162,7 +1163,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A/Frameworks/CrashReporter.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n";
 		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1177,6 +1178,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=`eval \"echo $BUNDLE_ID\"`\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\nHEADER_C=\"$PROJECT_DIR/Source/ReceiptValidation_C.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPB=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_C\" ]; then\n    SKIPC=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_C\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_C\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n\nif [ \"x$SKIPC\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix C --success checkinapp --failure docrash > \"$HEADER_C\"\nfi\n";
+		};
+		55F4A49D1845F236000AFDB6 /* Generate Expiration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Expiration";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "#!/usr/bin/ruby\n\nexpiration = ((Time.now.to_f - 978307200) / (24 * 60 * 60)).floor\nexpiration += 30\nexpiration *= 24 * 60 * 60;\n\n\noutput = <<-EOF\n#define kExpirationDouble ((double)    #{expiration}.0 )\n#define kExpirationFloat  ((float)     #{expiration}.0f)\n#define kExpirationLong   ((long long) #{expiration}   )\nEOF\n\nFile.open(ENV[\"PROJECT_DIR\"] + \"/Source/Expiration.h\", \"w\") do |f|\n\tf.write(output)\nend";
 		};
 		55FA815A1815DE8600ED67E0 /* rchook */ = {
 			isa = PBXShellScriptBuildPhase;

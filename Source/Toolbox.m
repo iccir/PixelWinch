@@ -117,12 +117,6 @@ static NSString * const sZoomToolKey      = @"zoom";
 {
     if (!_allTools) {
         _allTools = @[ _moveTool, _handTool, _marqueeTool, _rectangleTool, _lineTool, _grappleTool, _zoomTool ];
-
-        if (![GrappleTool isEnabled]) {
-            NSMutableArray *allTools = [_allTools mutableCopy];
-            [allTools removeObject:_grappleTool];
-            _allTools = allTools;
-        }
     }
 
     return _allTools;

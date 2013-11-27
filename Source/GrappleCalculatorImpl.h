@@ -9,6 +9,5 @@
 #import <Foundation/Foundation.h>
 #import "GrappleCalculator.h"
 
-
 @interface GrappleCalculator : NSObject <GrappleCalculator>
 @end

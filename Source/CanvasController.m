@@ -398,7 +398,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     [window setOpaque:NO];
 
     if (!IsInDebugger()) {
-        [window setLevel:NSScreenSaverWindowLevel];
+        [window setLevel:NSModalPanelWindowLevel-1];
     }
 
     [window setDelegate:self];
