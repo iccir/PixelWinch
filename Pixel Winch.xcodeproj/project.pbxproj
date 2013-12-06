@@ -32,6 +32,7 @@
 		5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF6E180FE436002D5451 /* BottomShadowView.m */; };
 		5520DF72180FE507002D5451 /* bottom_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5520DF70180FE507002D5451 /* bottom_shadow@2x.png */; };
 		5520DF73180FE507002D5451 /* bottom_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5520DF71180FE507002D5451 /* bottom_shadow.png */; };
+		55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
 		55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A20180BC4A400F053C7 /* CursorInfo.m */; };
 		55336A2C180CB05900F053C7 /* cursor_resize_n_s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55336A24180CB05900F053C7 /* cursor_resize_n_s@2x.png */; };
@@ -258,6 +259,9 @@
 		5520DF6E180FE436002D5451 /* BottomShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomShadowView.m; path = Source/BottomShadowView.m; sourceTree = "<group>"; };
 		5520DF70180FE507002D5451 /* bottom_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bottom_shadow@2x.png"; path = "Resources/bottom_shadow@2x.png"; sourceTree = "<group>"; };
 		5520DF71180FE507002D5451 /* bottom_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bottom_shadow.png; path = Resources/bottom_shadow.png; sourceTree = "<group>"; };
+		552486B318500B4000276F67 /* CanvasTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasTypes.h; path = Source/CanvasTypes.h; sourceTree = "<group>"; };
+		55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeakTargetActionPair.m; path = Source/WeakTargetActionPair.m; sourceTree = "<group>"; };
+		55314E56185154B9005BDAE8 /* WeakTargetActionPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeakTargetActionPair.h; path = Source/WeakTargetActionPair.h; sourceTree = "<group>"; };
 		55336A1A180B5C8400F053C7 /* Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Screenshot.h; path = Source/Screenshot.h; sourceTree = "<group>"; };
 		55336A1B180B5C8400F053C7 /* Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Screenshot.m; path = Source/Screenshot.m; sourceTree = "<group>"; };
 		55336A1F180BC4A400F053C7 /* CursorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CursorInfo.h; path = Source/CursorInfo.h; sourceTree = "<group>"; };
@@ -629,6 +633,7 @@
 		5512BF2E17F94E9300425AD6 /* Canvas Model */ = {
 			isa = PBXGroup;
 			children = (
+				552486B318500B4000276F67 /* CanvasTypes.h */,
 				5512BF6E17FCD44000425AD6 /* Canvas.h */,
 				5512BF6F17FCD44000425AD6 /* Canvas.m */,
 				5512BF7117FCD47F00425AD6 /* CanvasObject.h */,
@@ -788,6 +793,8 @@
 		559D38BC1802AB220048F29B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				55314E56185154B9005BDAE8 /* WeakTargetActionPair.h */,
+				55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */,
 				5516B68E1804EE3B002AED2E /* Disk Model */,
 				5512BF2E17F94E9300425AD6 /* Canvas Model */,
 				5588EF82182C623F000B6224 /* GrappleCalculator.h */,
@@ -1163,7 +1170,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\ncodesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\nfi\n";
 		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1224,6 +1231,7 @@
 				553ED14A18061AB000F06B45 /* ScrollView.m in Sources */,
 				559D38D3180399B90048F29B /* ShortcutManager.m in Sources */,
 				555153011819F19E004485F6 /* BlackTextView.m in Sources */,
+				55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */,
 				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
 				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
@@ -1402,7 +1410,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
 					"\"$(BUILD_DIR)/Debug\"",
@@ -1431,7 +1438,6 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
 			name = Debug;

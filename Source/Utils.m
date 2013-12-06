@@ -356,6 +356,22 @@ extern CGImageRef CopyImageNamed(NSString *name)
 }
 
 
+extern CGFloat GetEdgeValueOfRect(CGRect rect, CGRectEdge edge)
+{
+    if (edge == CGRectMinXEdge) {
+        return CGRectGetMinX(rect);
+    } else if (edge == CGRectMaxXEdge) {
+        return CGRectGetMaxX(rect);
+    } else if (edge == CGRectMinYEdge) {
+        return CGRectGetMinY(rect);
+    } else if (edge == CGRectMaxYEdge) {
+        return CGRectGetMaxY(rect);
+    } else {
+        return 0;
+    }
+}
+
+
 extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value)
 {
     if (edge == CGRectMinXEdge) {

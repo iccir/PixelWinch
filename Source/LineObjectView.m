@@ -57,12 +57,12 @@
 }
 
 
-- (NSArray *) resizeKnobTypes
+- (NSArray *) resizeKnobEdges
 {
     if ([[self line] isVertical]) {
-        return @[ @( ResizeKnobTop  ), @( ResizeKnobBottom ) ];
+        return @[ @( ObjectEdgeTop  ), @( ObjectEdgeBottom ) ];
     } else {
-        return @[ @( ResizeKnobLeft ), @( ResizeKnobRight  ) ];
+        return @[ @( ObjectEdgeLeft ), @( ObjectEdgeRight  ) ];
     }
 }
 

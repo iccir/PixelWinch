@@ -99,6 +99,30 @@
 }
 
 
+- (void) calculateExpansionWithPlane: (UInt8 *) plane
+                          planeWidth: (size_t ) width
+                         planeHeight: (size_t ) height
+                              inRect: (CGRect ) inRect
+                                edge: (ObjectEdge) edge
+                             outRect: (CGRect *) outRect
+{
+    *outRect = inRect;
+    //!i: To implement
+}
+
+
+- (void) calculateShrinkageWithPlane: (UInt8 *) plane
+                          planeWidth: (size_t ) width
+                         planeHeight: (size_t ) height
+                              inRect: (CGRect ) inRect
+                                edge: (ObjectEdge) edge
+                             outRect: (CGRect *) outRect
+{
+    *outRect = inRect;
+    //!i: To implement
+}
+
+
 @end
 
 

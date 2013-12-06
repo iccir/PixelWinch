@@ -60,6 +60,7 @@ extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat 
 
 extern CGImageRef CopyImageNamed(NSString *name);
 
+extern CGFloat GetEdgeValueOfRect(CGRect rect, CGRectEdge edge);
 extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value);
 
 extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow);

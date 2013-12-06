@@ -26,6 +26,11 @@
         [super mouseDown:event];
         return;
     }
+    
+    if ([event clickCount] == 2) {
+        [[self canvasView] objectViewDoubleClick:self];
+        return;
+    }
 
     if (![[self canvasView] shouldTrackObjectView:self]) {
         [super mouseDown:event];
@@ -49,8 +54,11 @@
     CGPoint snappedPoint = [canvasView roundedCanvasPointForEvent:event];
     [self startTrackingWithEvent:event point:snappedPoint];
     
+    
+    NSEvent *lastDragEvent = nil;
+
     while (1) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask)];
             
         NSEventType type = [event type];
         if (type == NSLeftMouseUp) {
@@ -61,6 +69,11 @@
         } else if (type == NSLeftMouseDragged) {
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self continueTrackingWithEvent:event point:snappedPoint];
+            lastDragEvent = event;
+
+        } else if ((type == NSFlagsChanged) && lastDragEvent) {
+            snappedPoint = [canvasView roundedCanvasPointForEvent:lastDragEvent];
+            [self continueTrackingWithEvent:lastDragEvent point:snappedPoint];
         }
     }
 
@@ -149,7 +162,7 @@
 }
 
 
-- (NSArray *) resizeKnobTypes
+- (NSArray *) resizeKnobEdges
 {
     return nil;
 }

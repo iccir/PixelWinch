@@ -48,17 +48,17 @@
 }
 
 
-- (NSArray *) resizeKnobTypes
+- (NSArray *) resizeKnobEdges
 {
     return @[
-        @( ResizeKnobTopLeft     ),
-        @( ResizeKnobTop         ),
-        @( ResizeKnobTopRight    ),
-        @( ResizeKnobLeft        ),
-        @( ResizeKnobRight       ),
-        @( ResizeKnobBottomLeft  ),
-        @( ResizeKnobBottom      ),
-        @( ResizeKnobBottomRight )
+        @( ObjectEdgeTopLeft     ),
+        @( ObjectEdgeTop         ),
+        @( ObjectEdgeTopRight    ),
+        @( ObjectEdgeLeft        ),
+        @( ObjectEdgeRight       ),
+        @( ObjectEdgeBottomLeft  ),
+        @( ObjectEdgeBottom      ),
+        @( ObjectEdgeBottomRight )
     ];
 }
 
@@ -81,6 +81,11 @@
         CGFloat deltaY = point.y - _downPoint.y;
 
         Rectangle *rectangle = [self rectangle];
+
+        if ([NSEvent modifierFlags] & NSShiftKeyMask) {
+            if (deltaX > deltaY) deltaY = deltaX;
+            if (deltaY > deltaX) deltaX = deltaY;
+        }
 
         [rectangle setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
     

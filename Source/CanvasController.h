@@ -61,8 +61,8 @@
 @property (nonatomic, strong) IBOutlet NSView *zoomToolView;
 @property (nonatomic, strong) IBOutlet NSView *rectangleObjectView;
 
-- (IBAction) selectPreviousLibraryItem:(id)sender;
-- (IBAction) selectNextLibraryItem:(id)sender;
+- (IBAction) loadPreviousLibraryItem:(id)sender;
+- (IBAction) loadNextLibraryItem:(id)sender;
 - (IBAction) deleteSelectedLibraryItem:(id)sender;
 
 @end

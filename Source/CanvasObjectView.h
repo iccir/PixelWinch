@@ -11,13 +11,6 @@
 
 @class CanvasObject, CanvasView;
 
-typedef NS_ENUM(NSInteger, ResizeKnobType) {
-    ResizeKnobTopLeft,     ResizeKnobTop,     ResizeKnobTopRight,
-    ResizeKnobLeft,                           ResizeKnobRight,
-    ResizeKnobBottomLeft,  ResizeKnobBottom,  ResizeKnobBottomRight
-};
-
-
 typedef NS_ENUM(NSInteger, MeasurementLabelStyle) {
     MeasurementLabelStyleNone = 0,
     MeasurementLabelStyleWidthOnly,
@@ -55,7 +48,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 
 - (CGRect) rectForCanvasLayout;
 - (XUIEdgeInsets) paddingForCanvasLayout;
-- (NSArray *) resizeKnobTypes; // Subclasses to override
+- (NSArray *) resizeKnobEdges; // Subclasses to override
 
 - (NSInteger) canvasOrder;
 - (MeasurementLabelStyle) measurementLabelStyle;

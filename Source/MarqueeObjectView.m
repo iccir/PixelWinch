@@ -78,6 +78,11 @@
     CGFloat deltaX = point.x - _downPoint.x;
     CGFloat deltaY = point.y - _downPoint.y;
 
+    if ([NSEvent modifierFlags] & NSShiftKeyMask) {
+        if (deltaX < deltaY) deltaY = deltaX;
+        if (deltaY < deltaX) deltaX = deltaY;
+    }
+
     Marquee *marquee = [self marquee];
 
     [marquee setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];

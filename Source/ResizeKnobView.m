@@ -8,10 +8,14 @@
 
 #import "ResizeKnobView.h"
 
+#import "Canvas.h"
 #import "CanvasObjectView.h"
 #import "CanvasObject.h"
 #import "CursorAdditions.h"
+#import "WeakTargetActionPair.h"
 
+static const CGFloat sPaddingForShadow = 8;
+static const CGFloat sBorderWidth = 2;
 
 @implementation ResizeKnobView {
     CALayer *_sublayer;
@@ -25,27 +29,77 @@
     if ((self = [super initWithFrame:frame])) {
         _sublayer = [CALayer layer];
 
-        [_sublayer setDelegate:self];
-        [_sublayer setBackgroundColor:[[NSColor blackColor] CGColor]];
-        [_sublayer setCornerRadius:4];
-        [_sublayer setBorderColor:[[NSColor whiteColor] CGColor]];
-        [_sublayer setBorderWidth:2];
-        
-        [_sublayer setShadowOpacity:0.5];
-        [_sublayer setShadowRadius:1];
-        [_sublayer setShadowOffset:CGSizeMake(0, 1)];
-       
         [[self layer] addSublayer:_sublayer];
+        [_sublayer setDelegate:self];
+        [_sublayer setNeedsDisplay];
+
+        [self setNeedsLayout];
     }
 
     return self;
 }
 
 
+- (void) drawLayer:(CALayer *)layer inContext:(CGContextRef)context
+{
+    if (layer == _sublayer) {
+        XUIGraphicsPushContext(context);
+
+        NSColor *borderColor = [NSColor whiteColor];
+        NSColor *fillColor   = [NSColor blackColor];
+
+        CGRect rect = CGRectInset([_sublayer bounds], sPaddingForShadow, sPaddingForShadow);
+
+        CGContextSaveGState(context);
+
+        // Shadow
+        if (_highlighted) {
+            NSColor *shadowColor = [NSColor blueColor];
+            fillColor = shadowColor;
+
+            [borderColor set];
+
+            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 8, [shadowColor CGColor]);
+            CGContextFillEllipseInRect(context, rect);
+
+            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);
+            CGContextFillEllipseInRect(context, rect);
+
+        } else {
+            NSColor *shadowColor = [NSColor blackColor];
+            shadowColor = [shadowColor colorWithAlphaComponent:0.5];
+            CGContextSetShadowWithColor(context, CGSizeMake(0, 1), 2, [shadowColor CGColor]);
+
+            [borderColor set];
+            CGContextFillEllipseInRect(context, rect);
+        }
+        
+        CGContextRestoreGState(context);
+        
+        rect = CGRectInset(rect, sBorderWidth, sBorderWidth);
+
+        [fillColor set];
+        CGContextFillEllipseInRect(context, rect);
+        
+        
+        XUIGraphicsPopContext();
+    }
+}
+
+- (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    [[self layer] setContentsScale:newScale];
+    [_sublayer setContentsScale:newScale];
+    [_sublayer setNeedsDisplay];
+
+    return YES;
+}
+
+
 - (void) layoutSubviews
 {
     CGRect frame = [self bounds];
-    [_sublayer setFrame:CGRectInset(frame, 1, 1)];
+    [_sublayer setFrame:CGRectInset(frame, -sPaddingForShadow, -sPaddingForShadow)];
 }
 
 
@@ -57,16 +111,16 @@
 
 - (NSCursor *) cursor
 {
-    if (_type == ResizeKnobTop || _type == ResizeKnobBottom) {
+    if (_edge == ObjectEdgeTop || _edge == ObjectEdgeBottom) {
         return [NSCursor winch_resizeNorthSouthCursor];
 
-    } else if (_type == ResizeKnobLeft || _type == ResizeKnobRight) {
+    } else if (_edge == ObjectEdgeLeft || _edge == ObjectEdgeRight) {
         return [NSCursor winch_resizeEastWestCursor];
 
-    } else if (_type == ResizeKnobTopLeft || _type == ResizeKnobBottomRight) {
+    } else if (_edge == ObjectEdgeTopLeft || _edge == ObjectEdgeBottomRight) {
         return [NSCursor winch_resizeNorthWestSouthEastCursor];
 
-    } else if (_type == ResizeKnobTopRight || _type == ResizeKnobBottomLeft) {
+    } else if (_edge == ObjectEdgeTopRight || _edge == ObjectEdgeBottomLeft) {
         return [NSCursor winch_resizeNorthEastSouthWestCursor];
     }
 
@@ -78,17 +132,17 @@
 {
     CGRect rect = [[self owningObjectView] rectForCanvasLayout];
     
-    if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
+    if (_edge == ObjectEdgeTopLeft || _edge == ObjectEdgeLeft || _edge == ObjectEdgeBottomLeft) {
         rect.origin.x = CGRectGetMinX(rect);
-    } else if (_type == ResizeKnobTopRight || _type == ResizeKnobRight || _type == ResizeKnobBottomRight) {
+    } else if (_edge == ObjectEdgeTopRight || _edge == ObjectEdgeRight || _edge == ObjectEdgeBottomRight) {
         rect.origin.x = CGRectGetMaxX(rect);
     } else {
         rect.origin.x = CGRectGetMidX(rect);
     }
 
-    if (_type == ResizeKnobTopLeft || _type == ResizeKnobTop || _type == ResizeKnobTopRight) {
+    if (_edge == ObjectEdgeTopLeft || _edge == ObjectEdgeTop || _edge == ObjectEdgeTopRight) {
         rect.origin.y = CGRectGetMinY(rect);
-    } else if (_type == ResizeKnobBottomLeft || _type == ResizeKnobBottom || _type == ResizeKnobBottomRight) {
+    } else if (_edge == ObjectEdgeBottomLeft || _edge == ObjectEdgeBottom || _edge == ObjectEdgeBottomRight) {
         rect.origin.y = CGRectGetMaxY(rect);
     } else {
         rect.origin.y = CGRectGetMidY(rect);
@@ -110,7 +164,6 @@
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _downMousePoint = [event locationInWindow];
-
     CanvasObject *object = [[self owningObjectView] canvasObject];
     _rectForResize = [object rect];
 }
@@ -124,29 +177,37 @@
         _downMousePoint.x - currentMousePoint.x,
         _downMousePoint.y - currentMousePoint.y
     );
-    
+   
     CGPoint deltaPoint = [[self canvasView] roundedCanvasPointForPoint:deltaMousePoint];
     
     CanvasObject *object = [[self owningObjectView] canvasObject];
 
     CGRect rect = _rectForResize;
 
-    if (_type == ResizeKnobTopLeft || _type == ResizeKnobLeft || _type == ResizeKnobBottomLeft) {
+    if (_edge == ObjectEdgeTopLeft || _edge == ObjectEdgeLeft || _edge == ObjectEdgeBottomLeft) {
         rect.origin.x -= deltaPoint.x;
         rect.size.width += deltaPoint.x;
-    } else if (_type == ResizeKnobTopRight || _type == ResizeKnobRight || _type == ResizeKnobBottomRight) {
+    } else if (_edge == ObjectEdgeTopRight || _edge == ObjectEdgeRight || _edge == ObjectEdgeBottomRight) {
         rect.size.width -= deltaPoint.x;
     }
     
-    if (_type == ResizeKnobTopLeft || _type == ResizeKnobTop || _type == ResizeKnobTopRight) {
+    if (_edge == ObjectEdgeTopLeft || _edge == ObjectEdgeTop || _edge == ObjectEdgeTopRight) {
         rect.origin.y += deltaPoint.y;
         rect.size.height -= deltaPoint.y;
-    } else if (_type == ResizeKnobBottomLeft || _type == ResizeKnobBottom || _type == ResizeKnobBottomRight) {
+    } else if (_edge == ObjectEdgeBottomLeft || _edge == ObjectEdgeBottom || _edge == ObjectEdgeBottomRight) {
         rect.size.height += deltaPoint.y;
     }
     
     [object setRect:rect];
 }
 
+
+- (void) setHighlighted:(BOOL)highlighted
+{
+    if (_highlighted != highlighted) {
+        _highlighted = highlighted;
+        [_sublayer setNeedsDisplay];
+    }
+}
 
 @end

@@ -104,8 +104,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     CGFloat     _liveMagnificationLevel;
     CGPoint     _liveMagnificationPoint;
 
-    Canvas  *_canvas;
-    LibraryItem *_selectedItem;
+    Canvas     *_canvas;
+    ObjectEdge  _selectedEdge;
+    
+    LibraryItem *_currentLibraryItem;
 
     NSMutableDictionary *_GUIDToViewMap;
     NSMutableDictionary *_GUIDToResizeKnobsMap;
@@ -190,8 +192,14 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         if (c == NSDeleteCharacter || c == NSBackspaceCharacter) {
             if ([self _deleteSelectedObjects]) return;
 
+        } else if (c == 'S') {
+            if ([self _shrinkCurrentSelection]) return;
+
+        } else if (c == 'E') {
+            if ([self _expandCurrentSelection]) return;
+
         } else if (isArrowKey) {
-            if ([self _moveSelectedObjectWithArrowKey:c delta:1]) {
+            if ([self _moveSelectionWithArrowKey:c delta:1]) {
                 return;
             }
         }
@@ -221,6 +229,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             NSInteger level = (c - '0');
             [_magnificationManager setMagnification:level];
             return;
+
+        } else if (isArrowKey) {
+            if ([self _selectEdgeWithArrowKey:c]) {
+                return;
+            }
         }
 
     } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {
@@ -233,11 +246,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             return;
 
         } else if (c == '{') {
-            [self selectPreviousLibraryItem:nil];
+            [self loadPreviousLibraryItem:nil];
             return;
 
         } else if (c == '}') {
-            [self selectNextLibraryItem:nil];
+            [self loadNextLibraryItem:nil];
             return;
             
         } else if (c == 'S') {
@@ -247,7 +260,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
     } else if (modifierFlags == NSShiftKeyMask) {
         if (isArrowKey) {
-            if ([self _moveSelectedObjectWithArrowKey:c delta:10]) {
+            if ([self _moveSelectionWithArrowKey:c delta:10]) {
                 return;
             }
         }
@@ -440,7 +453,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         if ([keyPath isEqualToString:@"librarySelectionIndexes"]) {
             LibraryItem *item = [[_libraryArrayController selectedObjects] lastObject];
 
-            if (item != _selectedItem) {
+            if (item != _currentLibraryItem) {
                 [self _updateCanvasWithLibraryItem:item];
             }
 
@@ -711,9 +724,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         
         Canvas *canvas = [[Canvas alloc] initWithDelegate:self];
         _canvas = canvas;
-        _selectedItem = item;
-        if (_selectedItem) {
-            [_libraryArrayController setSelectedObjects:@[ _selectedItem ] ];
+        _currentLibraryItem = item;
+        if (_currentLibraryItem) {
+            [_libraryArrayController setSelectedObjects:@[ _currentLibraryItem ] ];
         } else {
             [_libraryArrayController setSelectedObjects:@[ ]];
         }
@@ -783,28 +796,186 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-- (BOOL) _moveSelectedObjectWithArrowKey:(unichar)key delta:(CGFloat)delta
+- (BOOL) _moveSelectionWithArrowKey:(unichar)key delta:(CGFloat)delta
 {
     CanvasObject *selectedObject = [self selectedObject];
+    ObjectEdge edge = _selectedEdge;
 
     if ([selectedObject isKindOfClass:[CanvasObject class]]) {
-        CGRect rect = [selectedObject rect];
+        if (edge == ObjectEdgeNone) {
+            CGRect rect = [selectedObject rect];
 
-        if (key == NSUpArrowFunctionKey) {
-            rect.origin.y -= delta;
-        } else if (key == NSDownArrowFunctionKey) {
-            rect.origin.y += delta;
-        } else if (key == NSLeftArrowFunctionKey) {
-            rect.origin.x -= delta;
-        } else if (key == NSRightArrowFunctionKey) {
-            rect.origin.x += delta;
-        }
+            if (key == NSUpArrowFunctionKey) {
+                rect.origin.y -= delta;
+            } else if (key == NSDownArrowFunctionKey) {
+                rect.origin.y += delta;
+            } else if (key == NSLeftArrowFunctionKey) {
+                rect.origin.x -= delta;
+            } else if (key == NSRightArrowFunctionKey) {
+                rect.origin.x += delta;
+            }
+            
+            [selectedObject setRect:rect];
+
+        } else {
+            CGRect rect = [selectedObject rect];
+            
+            if (key == NSUpArrowFunctionKey || key == NSLeftArrowFunctionKey) {
+                delta = -delta;
+            }
         
-        [selectedObject setRect:rect];
+            if (key == NSUpArrowFunctionKey || key == NSDownArrowFunctionKey) {
+                if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeTop || edge == ObjectEdgeTopRight) {
+                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMinYEdge);
+                    value += delta;
+                    rect = GetRectByAdjustingEdge(rect, CGRectMinYEdge, value);
+
+                } else if (edge == ObjectEdgeBottomLeft || edge == ObjectEdgeBottom || edge == ObjectEdgeBottomRight) {
+                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxYEdge);
+                    value += delta;
+                    rect = GetRectByAdjustingEdge(rect, CGRectMaxYEdge, value);
+                }
+
+            } else {
+                if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeLeft || edge == ObjectEdgeBottomLeft) {
+                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMinXEdge);
+                    value += delta;
+                    rect = GetRectByAdjustingEdge(rect, CGRectMinXEdge, value);
+
+                } else if (edge == ObjectEdgeTopRight || edge == ObjectEdgeRight || edge == ObjectEdgeBottomRight) {
+                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxXEdge);
+                    value += delta;
+                    rect = GetRectByAdjustingEdge(rect, CGRectMaxXEdge, value);
+                }
+            }
+    
+            [selectedObject setRect:rect];
+        }
 
         return YES;
     }
     
+    return NO;
+}
+
+
+- (ObjectEdge) _edgeOfRectangleByApplyingArrowKey:(unichar)key toEdge:(ObjectEdge)edge
+{
+    const BOOL isLeftArrow  = (key == NSLeftArrowFunctionKey);
+    const BOOL isRightArrow = (key == NSRightArrowFunctionKey);
+    const BOOL isUpArrow    = (key == NSUpArrowFunctionKey);
+    const BOOL isDownArrow  = (key == NSDownArrowFunctionKey);
+    
+    if (edge == ObjectEdgeTop || edge == ObjectEdgeBottom) {
+        if      (isLeftArrow)  return (edge == ObjectEdgeTop) ? ObjectEdgeTopLeft  : ObjectEdgeBottomLeft;
+        else if (isRightArrow) return (edge == ObjectEdgeTop) ? ObjectEdgeTopRight : ObjectEdgeBottomRight;
+        else if (isUpArrow)    return ObjectEdgeTop;
+        else if (isDownArrow)  return ObjectEdgeBottom;
+
+    } else if (edge == ObjectEdgeLeft || edge == ObjectEdgeRight) {
+        if      (isUpArrow)    return (edge == ObjectEdgeLeft) ? ObjectEdgeTopLeft    : ObjectEdgeTopRight;
+        else if (isDownArrow)  return (edge == ObjectEdgeLeft) ? ObjectEdgeBottomLeft : ObjectEdgeBottomRight;
+        else if (isLeftArrow)  return ObjectEdgeLeft;
+        else if (isRightArrow) return ObjectEdgeRight;
+
+    } else if (edge == ObjectEdgeTopLeft) {
+        if (isRightArrow) return ObjectEdgeTop;
+        if (isDownArrow)  return ObjectEdgeLeft;
+
+    } else if (edge == ObjectEdgeTopRight) {
+        if (isLeftArrow) return ObjectEdgeTop;
+        if (isDownArrow) return ObjectEdgeRight;
+
+    } else if (edge == ObjectEdgeBottomLeft) {
+        if (isRightArrow) return ObjectEdgeBottom;
+        if (isUpArrow)    return ObjectEdgeLeft;
+
+    } else if (edge == ObjectEdgeBottomRight) {
+        if (isLeftArrow) return ObjectEdgeBottom;
+        if (isUpArrow)   return ObjectEdgeRight;
+
+    } else if (edge == ObjectEdgeNone) {
+        if (isUpArrow)    return ObjectEdgeTop;
+        if (isDownArrow)  return ObjectEdgeBottom;
+        if (isLeftArrow)  return ObjectEdgeLeft;
+        if (isRightArrow) return ObjectEdgeRight;
+    }
+    
+    return edge;
+}
+
+
+- (BOOL) _selectEdgeWithArrowKey:(unichar)key
+{
+    NSArray *selectedObjects = [_canvas selectedObjects];
+    CanvasObject *object = [selectedObjects count] == 1 ? [selectedObjects lastObject] : nil;
+    
+    if (!object) {
+        return NO;
+    }
+    
+    ObjectEdge newSelectedEdge = ObjectEdgeNone;
+    
+    if ([object isKindOfClass:[Rectangle class]]) {
+        newSelectedEdge = [self _edgeOfRectangleByApplyingArrowKey:key toEdge:_selectedEdge];
+
+    } else if ([object isKindOfClass:[Line class]]) {
+        Line *line = (Line *)object;
+
+        if ([line isVertical]) {
+            if (key == NSUpArrowFunctionKey) {
+                newSelectedEdge = ObjectEdgeTop;
+            } else if (key == NSDownArrowFunctionKey) {
+                newSelectedEdge = ObjectEdgeBottom;
+            } else {
+                return NO;
+            }
+            
+        } else {
+            if (key == NSLeftArrowFunctionKey) {
+                newSelectedEdge = ObjectEdgeLeft;
+            } else if (key == NSRightArrowFunctionKey) {
+                newSelectedEdge = ObjectEdgeRight;
+            } else {
+                return NO;
+            }
+        }
+    }
+    
+    [self _updateSelectedEdge:newSelectedEdge];
+    
+    return YES;
+}
+
+
+- (void) _updateSelectedEdge:(ObjectEdge)edge
+{
+    NSArray *selectedObjects = [_canvas selectedObjects];
+    CanvasObject *object = [selectedObjects count] == 1 ? [selectedObjects lastObject] : nil;
+    if (!object) return;
+
+    _selectedEdge = edge;
+    
+    NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[object GUID]];
+ 
+    for (ResizeKnobView *knob in resizeKnobs) {
+        if ([knob edge] == _selectedEdge) {
+            [knob setHighlighted:[[[knob owningObjectView] canvasObject] isEqual:object]];
+        } else {
+            [knob setHighlighted:NO];
+        }
+    }
+}
+
+
+- (BOOL) _shrinkCurrentSelection
+{
+    return NO;
+}
+
+
+- (BOOL) _expandCurrentSelection
+{
     return NO;
 }
 
@@ -876,10 +1047,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         [_GUIDToResizeKnobsMap setObject:resizeKnobs forKey:GUID];
         
-        void (^addResizeKnob)(CanvasObjectView *, ResizeKnobType) = ^(CanvasObjectView *parent, ResizeKnobType knobType) {
+        void (^addResizeKnob)(CanvasObjectView *, ObjectEdge) = ^(CanvasObjectView *parent, ObjectEdge edge) {
             ResizeKnobView *knob = [[ResizeKnobView alloc] initWithFrame:NSZeroRect];
             
-            [knob setType:knobType];
+            [knob setEdge:edge];
             [knob setOwningObjectView:parent];
         
             [_canvasView addCanvasObjectView:knob];
@@ -888,12 +1059,14 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         };
 
         CanvasObjectView *parentView = [self viewForCanvasObject:object];
-        NSArray *resizeKnobTypes = [parentView resizeKnobTypes];
+        NSArray *resizeKnobEdges = [parentView resizeKnobEdges];
 
-        for (NSNumber *resizeKnobNumber in resizeKnobTypes) {
-            addResizeKnob(parentView, [resizeKnobNumber integerValue]);
+        for (NSNumber *resizeKnobEdge in resizeKnobEdges) {
+            addResizeKnob(parentView, [resizeKnobEdge integerValue]);
         }
     }
+
+    [self _updateSelectedEdge:ObjectEdgeNone];
     
     [self _updateSelectedObject];
 }
@@ -903,6 +1076,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     NSString *GUID = [object GUID];
     NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:GUID];
+ 
+    [self _updateSelectedEdge:ObjectEdgeNone];
     
     for (ResizeKnobView *knob in resizeKnobs) {
         [knob setOwningObjectView:nil];
@@ -926,6 +1101,20 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 
 #pragma mark - CanvasView Delegate
+
+- (void) canvasView:(CanvasView *)view objectViewDoubleClick:(CanvasObjectView *)objectView
+{
+    if ([objectView isKindOfClass:[ResizeKnobView class]]) {
+        ResizeKnobView *knobView = (ResizeKnobView *)objectView;
+        CanvasObject *object = [[knobView owningObjectView] canvasObject];
+
+        ObjectEdge edge = [knobView edge];
+
+        [self setSelectedObject:object];
+        [self _updateSelectedEdge:edge];
+    }
+}
+
 
 - (BOOL) canvasView:(CanvasView *)view shouldTrackObjectView:(CanvasObjectView *)objectView
 {
@@ -1086,6 +1275,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     if ([selfWindow firstResponder] != selfWindow) {
         [selfWindow makeFirstResponder:selfWindow];
 
+    } else if (_selectedEdge != ObjectEdgeNone) {
+        [self _updateSelectedEdge:ObjectEdgeNone];
+
     } else if ([[_canvas selectedObjects] count]) {
         [_canvas unselectAllObjects];
 
@@ -1198,7 +1390,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         [self _removeTransitionImage];
 
-        if (!_selectedItem) {
+        if (!_currentLibraryItem) {
             LibraryItem *item = [[[Library sharedInstance] items] lastObject];
             if (!item) {
                 NSBeep();
@@ -1221,9 +1413,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) saveCurrentLibraryItem
 {
-    if (_selectedItem && _canvas) {
+    if (_currentLibraryItem && _canvas) {
         NSDictionary *dictionary = [_canvas dictionaryRepresentation];
-        [_selectedItem setCanvasDictionary:dictionary];
+        [_currentLibraryItem setCanvasDictionary:dictionary];
     }
 }
 
@@ -1253,7 +1445,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     }
     
     if (![objectToWrite writeToPasteboard:pboard]) {
-        CGImageRef cgImage = [[_selectedItem screenshot] CGImage];
+        CGImageRef cgImage = [[_currentLibraryItem screenshot] CGImage];
         
         if (cgImage) {
             NSImage *image = [NSImage imageWithCGImage:cgImage scale:1.0 orientation:XUIImageOrientationUp];
@@ -1268,7 +1460,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-- (void) _selectNextOrPreviousLibraryItem:(NSInteger)offset
+- (void) _loadNextOrPreviousLibraryItem:(NSInteger)offset
 {
     NSIndexSet *selected = _librarySelectionIndexes;
     NSArray    *items    = [[Library sharedInstance] items];
@@ -1293,15 +1485,15 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-- (IBAction) selectPreviousLibraryItem:(id)sender
+- (IBAction) loadPreviousLibraryItem:(id)sender
 {
-    [self _selectNextOrPreviousLibraryItem:-1];
+    [self _loadNextOrPreviousLibraryItem:-1];
 }
 
 
-- (IBAction) selectNextLibraryItem:(id)sender
+- (IBAction) loadNextLibraryItem:(id)sender
 {
-    [self _selectNextOrPreviousLibraryItem:1];
+    [self _loadNextOrPreviousLibraryItem:1];
 }
 
 

@@ -699,6 +699,12 @@
 }
 
 
+- (void) objectViewDoubleClick:(CanvasObjectView *)objectView
+{
+    [_delegate canvasView:self objectViewDoubleClick:objectView];
+}
+
+
 #pragma mark -
 #pragma mark Accessors
 

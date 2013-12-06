@@ -12,6 +12,8 @@
 @interface ResizeKnobView : CanvasObjectView
 
 @property (nonatomic, weak) CanvasObjectView *owningObjectView;
-@property (nonatomic) ResizeKnobType type;
+@property (nonatomic) ObjectEdge edge;
+
+@property (nonatomic) BOOL highlighted;
 
 @end

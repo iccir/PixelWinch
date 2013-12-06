@@ -47,6 +47,8 @@
 
 
 @interface CanvasView (CalledByCanvasObjectViews)
+- (void) objectViewDoubleClick:(CanvasObjectView *)objectView;
+
 - (BOOL) shouldTrackObjectView:(CanvasObjectView *)objectView;
 - (void) willTrackObjectView:(CanvasObjectView *)objectView;
 - (void) didTrackObjectView:(CanvasObjectView *)objectView;
@@ -55,6 +57,8 @@
 
 @protocol CanvasViewDelegate <NSObject>
 - (NSCursor *) cursorForCanvasView:(CanvasView *)view ;
+
+- (void) canvasView:(CanvasView *)view objectViewDoubleClick:(CanvasObjectView *)objectView;
 
 - (BOOL) canvasView:(CanvasView *)view shouldTrackObjectView:(CanvasObjectView *)objectView;
 - (void) canvasView:(CanvasView *)view willTrackObjectView:(CanvasObjectView *)objectView;
