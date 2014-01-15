@@ -228,6 +228,22 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" companyName:@"Ricci Adams" delegate:self];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
+    
+#if 0
+#if !ENABLE_APP_STORE
+    NSString *sparklePath = [[NSBundle mainBundle] resourcePath];
+    sparklePath = [sparklePath stringByDeletingLastPathComponent];
+    sparklePath = [sparklePath stringByAppendingPathComponent:@"Frameworks"];
+    sparklePath = [sparklePath stringByAppendingPathComponent:@"Sparkle.framework"];
+
+    [[NSBundle bundleWithPath:sparklePath] load];
+    
+    SUUpdater *updater = [NSClassFromString(@"SUUpdater") updaterForBundle:[NSBundle mainBundle]];
+    [updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
+    [updater setAutomaticallyChecksForUpdates:YES];
+    [updater checkForUpdatesInBackground];
+#endif
+#endif
 }
 
 

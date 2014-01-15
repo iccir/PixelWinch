@@ -1198,7 +1198,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/ruby;
-			shellScript = "#!/usr/bin/ruby\n\nexpiration = ((Time.now.to_f - 978307200) / (24 * 60 * 60)).floor\nexpiration += 30\nexpiration *= 24 * 60 * 60;\n\n\noutput = <<-EOF\n#define kExpirationDouble ((double)    #{expiration}.0 )\n#define kExpirationFloat  ((float)     #{expiration}.0f)\n#define kExpirationLong   ((long long) #{expiration}   )\nEOF\n\nFile.open(ENV[\"PROJECT_DIR\"] + \"/Source/Expiration.h\", \"w\") do |f|\n\tf.write(output)\nend";
+			shellScript = "#!/usr/bin/ruby\n\nexpiration = ((Time.now.to_f - 978307200) / (24 * 60 * 60)).floor\nexpiration += 60\nexpiration *= 24 * 60 * 60;\n\n\noutput = <<-EOF\n#define kExpirationDouble ((double)    #{expiration}.0 )\n#define kExpirationFloat  ((float)     #{expiration}.0f)\n#define kExpirationLong   ((long long) #{expiration}   )\nEOF\n\nFile.open(ENV[\"PROJECT_DIR\"] + \"/Source/Expiration.h\", \"w\") do |f|\n\tf.write(output)\nend";
 		};
 		55FA815A1815DE8600ED67E0 /* rchook */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1380,7 +1380,8 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
-					"\"$(BUILD_DIR)/Profile\"",
+					"\\\"$(BUILD_DIR)/Profile\\\"",
+					<redacted>,
 				);
 			};
 			name = "Profile Store";
@@ -1396,6 +1397,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
 			name = Profile;
@@ -1412,7 +1417,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
-					"\"$(BUILD_DIR)/Debug\"",
+					"\\\"$(BUILD_DIR)/Debug\\\"",
+					<redacted>,
 				);
 			};
 			name = "Debug Store";
@@ -1430,7 +1436,8 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(BUILD_DIR)/Release\"",
+					"\\\"$(BUILD_DIR)/Release\\\"",
+					<redacted>,
 				);
 			};
 			name = "Release Store";
@@ -1438,6 +1445,10 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
 			name = Debug;
@@ -1446,6 +1457,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					<redacted>,
+				);
 			};
 			name = Release;
 		};
