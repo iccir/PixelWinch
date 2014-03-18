@@ -1,3 +1,3 @@
-#define kExpirationDouble ((double)    416620800.0 )
-#define kExpirationFloat  ((float)     416620800.0f)
-#define kExpirationLong   ((long long) 416620800   )
+#define kExpirationDouble ((double)    420854400.0 )
+#define kExpirationFloat  ((float)     420854400.0f)
+#define kExpirationLong   ((long long) 420854400   )
