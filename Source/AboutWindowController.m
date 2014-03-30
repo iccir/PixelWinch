@@ -7,6 +7,7 @@
 //
 
 #import "AboutWindowController.h"
+#import "Expiration.h"
 
 @interface AboutWindowController ()
 
@@ -69,12 +70,39 @@
     NSButton *closeButton = [window standardWindowButton:NSWindowCloseButton];
     [[closeButton superview] bringSubviewToFront:closeButton];
 
-
-    NSString *versionFormat = NSLocalizedString(@"Version %@, Build %@", nil);
+    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\n%@", nil);
     id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+
+#if ENABLE_APP_STORE
+    NSString *betaString = @"";
+#else
+    __block NSString *timeRemaining = @"";
+    __block long long expiration = kExpirationLong;
     
-    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
+    ^{
+        if (CFAbsoluteTimeGetCurrent() > expiration) {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
+                int *zero = (int *)(long)(rand() >> 31);
+                *zero = 0;
+            });
+
+        } else {
+            NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:expiration];
+
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateStyle:NSDateFormatterMediumStyle];
+            [formatter setTimeStyle:NSDateFormatterNoStyle];
+            
+            timeRemaining = [formatter stringFromDate:date];
+        }
+    }();
+
+    NSString *betaString = [NSString stringWithFormat:@"Beta expires on %@", timeRemaining];
+#endif
+
+    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber, betaString]];
 
     NSScrollView *legalScrollView = [[self legalText] enclosingScrollView];
 
@@ -88,13 +116,6 @@
     NSRect frame = [[self legalText] frame];
     frame.size.width -= 20;
     [[self legalText] setFrame:frame];
-
-#if ENABLE_APP_STORE
-
-#else
-    [[self appStoreButton] setEnabled:NO];
-#endif
-
 }
 
 
@@ -112,9 +133,9 @@
 }
 
 
-- (IBAction) viewOnTwitter:(id)sender
+- (IBAction) provideFeedback:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchOnTwitterURLString()];
+    NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

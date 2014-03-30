@@ -33,9 +33,9 @@ extern BOOL IsInDebugger(void);
 
 extern CGSize GetMaxThumbnailSize(void);
 
+extern NSString *GetPixelWinchFeedbackURLString(void);
 extern NSString *GetPixelWinchWebsiteURLString(void);
 extern NSString *GetPixelWinchOnAppStoreURLString(void);
-extern NSString *GetPixelWinchOnTwitterURLString(void);
 
 extern NSArray *GetClassesMatchesProtocol(Protocol *p);
 

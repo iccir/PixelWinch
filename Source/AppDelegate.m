@@ -322,8 +322,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) provideFeedback:(id)sender
 {
-    NSURL *mailto = [NSURL URLWithString:@"<redacted>"];
-    [[NSWorkspace sharedWorkspace] openURL:mailto];
+    NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 

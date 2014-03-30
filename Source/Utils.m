@@ -54,21 +54,21 @@ CGSize GetMaxThumbnailSize(void)
 }
 
 
+NSString *GetPixelWinchFeedbackURLString(void)
+{
+    return @"http://www.ricciadams.com/contact/pixel-winch";
+}
+
+
 NSString *GetPixelWinchWebsiteURLString(void)
 {
-    return @"http://www.pixelwinch.com/";
+    return @"http://www.ricciadams.com/projects/pixel-winch";
 }
 
 
 NSString *GetPixelWinchOnAppStoreURLString(void)
 {
-    return @"macappstore://itunes.apple.com/us/app/pixel-winch/id735066709?mt=12";
-}
-
-
-NSString *GetPixelWinchOnTwitterURLString(void)
-{
-    return @"http://twitter.com/pixelwinch";
+    return @"http://www.ricciadams.com/buy/pixel-winch";
 }
 
 

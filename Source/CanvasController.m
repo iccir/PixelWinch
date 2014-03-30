@@ -584,6 +584,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     } completionHandler:^{
         NSDisableScreenUpdates();
         [_canvasScrollView setHidden:NO];
+
+        for (Tool *tool in [_toolbox allTools]) {
+            [tool canvasWindowDidAppear];
+        }
+
         [weakSelf _removeTransitionImage];
         [[self window] display];
         NSEnableScreenUpdates();

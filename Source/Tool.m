@@ -58,6 +58,8 @@
 - (void) didSelect { }
 - (void) didUnselect { }
 
+- (void) canvasWindowDidAppear { }
+
 - (void) flagsChangedWithEvent:(NSEvent *)event { }
 
 - (void) mouseMovedWithEvent:(NSEvent *)event { }

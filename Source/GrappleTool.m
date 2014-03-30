@@ -164,11 +164,25 @@ static NSString * const sToleranceKey = @"tolerance";
 
 #pragma mark - Private Methods
 
+- (void) _updateLastPreviewGrapplePointWithCurrentMouseLocation
+{
+    CanvasView *canvasView = [[self owner] canvasView];
+
+    CGPoint point = CGPointMake(NAN, NAN);
+    if ([canvasView convertMouseLocationToCanvasPoint:&point]) {
+        _lastPreviewGrapplePoint = point;
+    }
+}
+
+
 - (void) _handleDistanceMapReady:(NSNotification *)note
 {
     if (_waitingLine) {
         [self _updateLine:_waitingLine point:_waitingPoint threshold:_waitingThreshold];
     }
+
+    NSLog(@"UPDATING: %@", NSStringFromPoint(_lastPreviewGrapplePoint));
+    [self updatePreviewGrapple];
 }
 
 
@@ -434,19 +448,24 @@ static NSString * const sToleranceKey = @"tolerance";
 - (void) reset
 {
     [super reset];
+    [self _removePreviewGrapple];
     _lastPreviewGrapplePoint = CGPointMake(NAN, NAN);
 }
 
 
+- (void) canvasWindowDidAppear
+{
+    if ([[self owner] isToolSelected:self]) {
+        [self _updateLastPreviewGrapplePointWithCurrentMouseLocation];
+        [self updatePreviewGrapple];
+    }
+}
+
+
+
 - (void) didSelect
 {
-    CanvasView *canvasView = [[self owner] canvasView];
-    
-    CGPoint point = CGPointMake(NAN, NAN);
-    if ([canvasView convertMouseLocationToCanvasPoint:&point]) {
-        _lastPreviewGrapplePoint = point;
-    }
-
+    [self _updateLastPreviewGrapplePointWithCurrentMouseLocation];
     [self updatePreviewGrapple];
 }
 

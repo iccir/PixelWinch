@@ -186,7 +186,7 @@
         title = NSLocalizedString(@"Keyboard", nil);
 
     } else if (tag == 10) {
-        title = NSLocalizedString(@"Purchase", nil);
+        title = NSLocalizedString(@"Beta", nil);
         item = _purchaseItem;
 
 #if ENABLE_APP_STORE
