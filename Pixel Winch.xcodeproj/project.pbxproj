@@ -118,7 +118,6 @@
 		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
 		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
-		55BB34E71935E1AD00E3F022 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; };
 		55BB34E81935E1CA00E3F022 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; };
 		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
 		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
@@ -504,7 +503,6 @@
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				55BB34E71935E1AD00E3F022 /* Sparkle.framework in Frameworks */,
 				5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */,
 				55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */,
 				55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */,

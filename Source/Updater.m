@@ -12,6 +12,10 @@
 
 #import <Sparkle/SUUpdater.h>
 
+@interface Updater () <SUVersionDisplay>
+@end
+
+
 @implementation Updater {
     SUUpdater *_updater;
 }
@@ -48,6 +52,7 @@
         [_updater setAutomaticallyChecksForUpdates:YES];
         [_updater checkForUpdatesInBackground];
         [_updater setSendsSystemProfile:NO];
+        [_updater setDelegate:self];
     }
 
     return self;
@@ -62,6 +67,31 @@
 {
     [_updater checkForUpdatesInBackground];
 }
+
+
+- (id <SUVersionDisplay>)versionDisplayerForUpdater:(SUUpdater *)updater
+{
+    return self;
+}
+
+- (void) formatVersion:(NSString **)inOutVersionA andVersion:(NSString **)inOutVersionB
+{
+    NSString *(^format)(NSString *) = ^(NSString *inString) {
+        NSInteger build = [inString integerValue];
+
+        if ([inString isEqualToString:@"Public Beta"]) {
+            build = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue];
+        } else {
+            build = [inString integerValue];
+        }
+
+        return [NSString stringWithFormat:@"%C%ld", 0x03B2, (long)build];
+    };
+
+    *inOutVersionA = format(*inOutVersionA);
+    *inOutVersionB = format(*inOutVersionB);
+}
+
 
 @end
 
