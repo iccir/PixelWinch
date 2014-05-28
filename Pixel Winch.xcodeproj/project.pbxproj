@@ -1393,7 +1393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
 					"\\\"$(BUILD_DIR)/Profile\\\"",
@@ -1413,7 +1413,7 @@
 		55CC21B41832F4C2004076CF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
@@ -1433,6 +1433,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					$inherited,
 					"\\\"$(BUILD_DIR)/Debug\\\"",
@@ -1452,7 +1453,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(BUILD_DIR)/Release\\\"",
@@ -1465,6 +1466,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
@@ -1477,7 +1479,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Ricci Adams (XXXXXXXXXX)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
