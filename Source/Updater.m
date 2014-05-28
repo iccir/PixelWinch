@@ -48,7 +48,6 @@
         [_updater setAutomaticallyChecksForUpdates:YES];
         [_updater checkForUpdatesInBackground];
         [_updater setSendsSystemProfile:NO];
-        [_updater setDelegate:self];
     }
 
     return self;
@@ -62,11 +61,6 @@
 - (void) checkForUpdatesInBackground
 {
     [_updater checkForUpdatesInBackground];
-}
-
-- (void)updater:(SUUpdater *)updater didFinishLoadingAppcast:(SUAppcast *)appcast
-{
-    NSLog(@"%@", appcast);
 }
 
 @end
