@@ -1185,7 +1185,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\nfi\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n\nfi\n";
 		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
