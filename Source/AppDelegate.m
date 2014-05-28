@@ -22,6 +22,7 @@
 
 #import <HockeySDK/HockeySDK.h>
 #import <HockeySDK/BITHockeyManager.h>
+#import "Updater.h"
 
 #if ENABLE_APP_STORE
 #import "ReceiptValidation_A.h"
@@ -229,20 +230,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
     
-#if 0
 #if !ENABLE_APP_STORE
-    NSString *sparklePath = [[NSBundle mainBundle] resourcePath];
-    sparklePath = [sparklePath stringByDeletingLastPathComponent];
-    sparklePath = [sparklePath stringByAppendingPathComponent:@"Frameworks"];
-    sparklePath = [sparklePath stringByAppendingPathComponent:@"Sparkle.framework"];
-
-    [[NSBundle bundleWithPath:sparklePath] load];
-    
-    SUUpdater *updater = [NSClassFromString(@"SUUpdater") updaterForBundle:[NSBundle mainBundle]];
-    [updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
-    [updater setAutomaticallyChecksForUpdates:YES];
-    [updater checkForUpdatesInBackground];
-#endif
+    [[Updater sharedInstance] checkForUpdatesInBackground];
 #endif
 }
 

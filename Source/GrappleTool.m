@@ -181,7 +181,6 @@ static NSString * const sToleranceKey = @"tolerance";
         [self _updateLine:_waitingLine point:_waitingPoint threshold:_waitingThreshold];
     }
 
-    NSLog(@"UPDATING: %@", NSStringFromPoint(_lastPreviewGrapplePoint));
     [self updatePreviewGrapple];
 }
 

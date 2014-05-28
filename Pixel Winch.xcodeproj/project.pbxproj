@@ -78,6 +78,9 @@
 		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
+		556D37341935C7E400C90B11 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; };
+		556D37361935C96500C90B11 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 556D37351935C96500C90B11 /* dsa_pub.pem */; };
+		556D37391935CFDD00C90B11 /* Updater.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D37381935CFDD00C90B11 /* Updater.m */; };
 		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF8B182C7A54000B6224 /* toolbar_line_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF83182C7A54000B6224 /* toolbar_line_normal.png */; };
@@ -208,6 +211,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				556D37341935C7E400C90B11 /* Sparkle.framework in Copy Frameworks */,
 				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
 				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
@@ -324,6 +328,10 @@
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
+		556D37351935C96500C90B11 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		556D37371935CFDD00C90B11 /* Updater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Updater.h; path = Source/Updater.h; sourceTree = "<group>"; };
+		556D37381935CFDD00C90B11 /* Updater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Updater.m; path = Source/Updater.m; sourceTree = "<group>"; };
 		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
 		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
 		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
@@ -602,6 +610,7 @@
 				5512BF4317FA4EDA00425AD6 /* marquee.png */,
 				554D898F135BF027003BFC89 /* Info.plist */,
 				554D8995135BF064003BFC89 /* InfoPlist.strings */,
+				556D37351935C96500C90B11 /* dsa_pub.pem */,
 				559D38C3180376F30048F29B /* Preferences.xib */,
 				554D8997135BF064003BFC89 /* MainMenu.xib */,
 				55E29A4018307A1200D9D933 /* About.xib */,
@@ -616,15 +625,16 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */,
 				55CB053418285F80001DD1A0 /* libcrypto.a */,
+				556D37321935C7B500C90B11 /* Sparkle.framework */,
+				55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */,
 				55BBCD08182793CB00AC9A26 /* StoreKit.framework */,
 				55FA814E18134F9B00ED67E0 /* Accelerate.framework */,
 				55E24135180E101D0093CF04 /* QuickLook.framework */,
 				554B43B0180A237900804373 /* OpenGL.framework */,
 				554B43A01808C30700804373 /* OpenCL.framework */,
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -810,6 +820,8 @@
 				559D38BF1802ABC60048F29B /* Shortcut.m */,
 				55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */,
 				55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */,
+				556D37371935CFDD00C90B11 /* Updater.h */,
+				556D37381935CFDD00C90B11 /* Updater.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1139,6 +1151,7 @@
 				55C9E4301835B1170059651B /* tutorial_arrow.png in Resources */,
 				55C72BD6183308C0007A640A /* LibraryItemPrototype.xib in Resources */,
 				559D38CC1803941C0048F29B /* status_bar.png in Resources */,
+				556D37361935C96500C90B11 /* dsa_pub.pem in Resources */,
 				55E987D11828FF0E00C2208A /* toolbar_keyboard@2x.png in Resources */,
 				5588EF8C182C7A54000B6224 /* toolbar_line_selected.png in Resources */,
 				55C20CDA1800EBDB00ECE184 /* segmented_left_selected@2x.png in Resources */,
@@ -1262,6 +1275,7 @@
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureController.m in Sources */,
+				556D37391935CFDD00C90B11 /* Updater.m in Sources */,
 				55BB972D180602A600DED9B5 /* ShroudView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
 				555152FE1819E768004485F6 /* DebugControlsController.m in Sources */,
@@ -1382,6 +1396,7 @@
 					$inherited,
 					"\\\"$(BUILD_DIR)/Profile\\\"",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 			};
 			name = "Profile Store";
@@ -1400,6 +1415,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
@@ -1419,6 +1435,7 @@
 					$inherited,
 					"\\\"$(BUILD_DIR)/Debug\\\"",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 			};
 			name = "Debug Store";
@@ -1438,6 +1455,7 @@
 					"$(inherited)",
 					"\\\"$(BUILD_DIR)/Release\\\"",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 			};
 			name = "Release Store";
@@ -1448,6 +1466,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
@@ -1460,6 +1479,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					<redacted>,
+					"$(PROJECT_DIR)/lib",
 				);
 			};
 			name = Release;

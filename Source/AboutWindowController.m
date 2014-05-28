@@ -8,6 +8,7 @@
 
 #import "AboutWindowController.h"
 #import "Expiration.h"
+#import "Updater.h"
 
 @interface AboutWindowController ()
 
@@ -77,6 +78,8 @@
 #if ENABLE_APP_STORE
     NSString *betaString = @"";
 #else
+    [[self viewOnAppStoreButton] setTitle:NSLocalizedString(@"Check for Updates", nil)];
+
     __block NSString *timeRemaining = @"";
     __block long long expiration = kExpirationLong;
     
@@ -128,8 +131,12 @@
 
 - (IBAction) viewOnAppStore:(id)sender
 {
+#if ENABLE_APP_STORE
     NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
+#else
+   [[Updater sharedInstance] checkForUpdatesInForeground];
+#endif
 }
 
 

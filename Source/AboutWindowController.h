@@ -16,6 +16,8 @@
 
 @property (nonatomic, weak) IBOutlet NSTextField *versionField;
 
+@property (nonatomic, weak) IBOutlet NSButton *viewOnAppStoreButton;
+
 - (IBAction) viewWebsite:(id)sender;
 - (IBAction) viewOnAppStore:(id)sender;
 - (IBAction) provideFeedback:(id)sender;
