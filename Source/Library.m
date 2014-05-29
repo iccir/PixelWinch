@@ -55,6 +55,20 @@
     NSString *screenshotsPath = GetScreenshotsDirectory();
     NSFileManager *manager = [NSFileManager defaultManager];
 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-add-tips"]) {
+        LibraryItem *item = [LibraryItem libraryItem];
+        [item setTitle:NSLocalizedString(@"Tips", nil)];
+
+        NSString *tipsPath = [[NSBundle mainBundle] pathForResource:@"tips" ofType:@"png"];
+
+        NSError *error = nil;
+        [manager copyItemAtPath:tipsPath toPath:[item screenshotPath] error:&error];
+        
+        if (!error) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"did-add-tips"];
+        }
+    }
+
     if ([manager fileExistsAtPath:screenshotsPath]) {
         NSError *error = nil;
         for (NSString *pathComponent in [manager contentsOfDirectoryAtPath:screenshotsPath error:&error]) {

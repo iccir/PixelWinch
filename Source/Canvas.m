@@ -55,6 +55,8 @@
     if (_screenshot) return;
     _screenshot = screenshot;
     
+    if (!screenshot) return;
+    
     if (screenshot) {
         _size = [_screenshot size];
     }
