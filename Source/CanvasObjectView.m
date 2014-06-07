@@ -15,6 +15,7 @@
 @implementation CanvasObjectView {
     CGPoint _moveTrackingOriginPoint;
     CGPoint _moveTrackingMousePoint;
+    BOOL    _spaceBarModifierDown;
 }
 
 - (void) preferencesDidChange:(Preferences *)preferences { }
@@ -58,10 +59,25 @@
     NSEvent *lastDragEvent = nil;
 
     while (1) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask)];
-            
+        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask | NSKeyDownMask | NSKeyUpMask)];
+
         NSEventType type = [event type];
+        
+        BOOL isSpaceBarEvent = NO;
+        if (type == NSKeyDown || type == NSKeyUp) {
+            isSpaceBarEvent =[[event characters] isEqualToString:@" "];
+            
+            BOOL inMoveMode = (type == NSKeyDown);
+            if (inMoveMode != _inMoveMode) {
+                _inMoveMode = inMoveMode;
+                _canvasObjectRectWhenEnteredMoveMode = [[self canvasObject] rect];
+                _pointWhenEnteredMoveMode = snappedPoint;
+                [self switchTrackingWithEvent:event point:snappedPoint];
+            }
+        }
+
         if (type == NSLeftMouseUp) {
+            _inMoveMode = NO;
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self endTrackingWithEvent:event point:snappedPoint];
             break;
@@ -118,6 +134,8 @@
     [[self canvasObject] setRect:rect];
 }
 
+
+- (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point { }
 
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point { }
 

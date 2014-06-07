@@ -23,15 +23,15 @@
 {
     CALayer *layer = [self layer];
 
-    NSColor *shadowColor = [_shadow shadowColor];
+    NSColor *shadowColor = [[self shadow] shadowColor];
     
     [layer setCornerRadius:_cornerRadius];
     
     if (shadowColor) {
         [layer setShadowColor:[[shadowColor colorWithAlphaComponent:1.0] CGColor]];
         [layer setShadowOpacity:[shadowColor alphaComponent]];
-        [layer setShadowRadius:[_shadow shadowBlurRadius]];
-        [layer setShadowOffset:[_shadow shadowOffset]];
+        [layer setShadowRadius:[[self shadow] shadowBlurRadius]];
+        [layer setShadowOffset:[[self shadow] shadowOffset]];
     } else {
         [layer setShadowOpacity:0];
     }
@@ -48,11 +48,4 @@
 }
 
 
-- (void) setShadow:(NSShadow *)shadow
-{
-    if (_shadow != shadow) {
-        _shadow = shadow;
-        [self updateLayer];
-    }
-}
 @end

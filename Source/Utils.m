@@ -283,7 +283,7 @@ CGImageRef CreateImageMask(CGSize size, CGFloat scale, void (^callback)(CGContex
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
 
     if (colorSpace && width > 0 && height > 0) {
-        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, width, colorSpace, kCGImageAlphaNone);
+        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, width, colorSpace, 0|kCGImageAlphaNone);
     
         if (context) {
             CGContextTranslateCTM(context, 0, height);
@@ -316,7 +316,7 @@ CGImageRef CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
     if (colorSpace && width > 0 && height > 0) {
-        CGBitmapInfo bitmapInfo = (opaque ? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst);
+        CGBitmapInfo bitmapInfo = 0 | (opaque ? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst);
         CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, bitmapInfo);
     
         if (context) {
@@ -394,6 +394,56 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
     }
     
     return rect;
+}
+
+
+extern CGPoint GetFurthestCornerInRect(CGRect rect, CGPoint point)
+{
+    CGFloat minX = CGRectGetMinX(rect);
+    CGFloat minY = CGRectGetMinY(rect);
+
+    CGFloat maxX = CGRectGetMaxX(rect);
+    CGFloat maxY = CGRectGetMaxY(rect);
+    
+    CGPoint topLeft     = CGPointMake(minX, minY);
+    CGPoint topRight    = CGPointMake(maxX, minY);
+    CGPoint bottomLeft  = CGPointMake(minX, maxY);
+    CGPoint bottomRight = CGPointMake(maxX, maxY);
+
+    CGFloat topLeftDistance     = GetDistance(point, topLeft);
+    CGFloat topRightDistance    = GetDistance(point, topRight);
+    CGFloat bottomLeftDistance  = GetDistance(point, bottomLeft);
+    CGFloat bottomRightDistance = GetDistance(point, bottomRight);
+
+    CGFloat distance = topLeftDistance;
+    CGPoint result = topLeft;
+
+    if (topRightDistance > distance) {
+        distance = topRightDistance;
+        result   = topRight;
+    }
+
+    if (bottomLeftDistance > distance) {
+        distance = bottomLeftDistance;
+        result   = bottomLeft;
+    }
+
+    if (bottomRightDistance > distance) {
+        distance = bottomRightDistance;
+        result   = bottomRight;
+    }
+
+    return result;
+}
+
+
+extern CGFloat GetDistance(CGPoint p1, CGPoint p2)
+{
+#if defined(__LP64__) && __LP64__
+    return sqrt(pow(p2.x - p1.x, 2.0) + pow(p2.y - p1.y, 2.0));
+#else
+    return sqrtf(powf(p2.x - p1.x, 2.0f) + powf(p2.y - p1.y, 2.0f));
+#endif
 }
 
 

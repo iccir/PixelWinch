@@ -63,6 +63,11 @@ extern CGImageRef CopyImageNamed(NSString *name);
 extern CGFloat GetEdgeValueOfRect(CGRect rect, CGRectEdge edge);
 extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value);
 
+extern CGFloat GetDistance(CGPoint p1, CGPoint p2);
+
+extern CGPoint GetFurthestCornerInRect(CGRect rect, CGPoint point);
+
+
 extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow);
 
 extern NSShadow *GetWhiteOnBlackTextShadow(void);

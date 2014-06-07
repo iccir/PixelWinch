@@ -11,6 +11,5 @@
 @interface ShadowView : XUIView
 
 @property (nonatomic, assign) CGFloat cornerRadius;
-@property (nonatomic, strong) NSShadow *shadow;
 
 @end

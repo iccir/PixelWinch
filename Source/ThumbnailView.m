@@ -75,7 +75,7 @@
             CGColorSpaceRef colorSpace = CGImageGetColorSpace(inImage);
             size_t numberOfComponents = (CGColorSpaceGetNumberOfComponents(colorSpace) + 1);
 
-            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, kCGImageAlphaNoneSkipLast);
+            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, 0|kCGImageAlphaNoneSkipLast);
 
             CGContextDrawImage(context, CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height), inImage);
 

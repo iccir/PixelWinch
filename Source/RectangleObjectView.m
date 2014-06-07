@@ -77,25 +77,51 @@
 - (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     if ([self isNewborn]) {
-        CGFloat deltaX = point.x - _downPoint.x;
-        CGFloat deltaY = point.y - _downPoint.y;
+        CGRect newRect = CGRectMake(
+            _downPoint.x,
+            _downPoint.y,
+            point.x - _downPoint.x,
+            point.y - _downPoint.y
+        );
+
+        if ([self inMoveMode]) {
+            CGPoint startPoint = [self pointWhenEnteredMoveMode];
+            CGRect  objectRect = [self canvasObjectRectWhenEnteredMoveMode];
+
+            newRect = objectRect;
+            newRect.origin.x += (point.x - startPoint.x);
+            newRect.origin.y += (point.y - startPoint.y);
+        }
 
         Rectangle *rectangle = [self rectangle];
 
         if ([NSEvent modifierFlags] & NSShiftKeyMask) {
-            if (deltaX > deltaY) deltaY = deltaX;
-            if (deltaY > deltaX) deltaX = deltaY;
+            if (newRect.size.width  > newRect.size.height) newRect.size.height = newRect.size.width;
+            if (newRect.size.height > newRect.size.width)  newRect.size.width  = newRect.size.height;
         }
-
-        [rectangle setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
-    
+        
+        [rectangle setRect:newRect];
+        
         CursorInfo *cursorInfo = [CursorInfo sharedInstance];
         
-        CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
+        CGSize size = CGSizeMake(fabs(newRect.size.width), fabs(newRect.size.height));
         [cursorInfo setText:GetDisplayStringForSize(size) forKey:@"new-rectangle"];
         
     } else {
         [super continueTrackingWithEvent:event point:point];
+    }
+}
+
+
+- (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    if ([self isNewborn]) {
+        if (![self inMoveMode]) {
+            NSRect rect = [[self canvasObject] rect];
+            _downPoint = GetFurthestCornerInRect(rect, point);
+        }
+    } else {
+        [super switchTrackingWithEvent:event point:point];
     }
 }
 
@@ -116,7 +142,6 @@
 {
     [_sublayer setFrame:[self bounds]];
 }
-
 
 
 - (void) _updateLayers

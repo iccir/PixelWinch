@@ -42,6 +42,8 @@ typedef NS_ENUM(NSInteger, MeasurementMode) {
 
 - (void) restoreDefaultColors;
 
+@property (nonatomic) BOOL launchAtLogin;
+
 @property (nonatomic) BOOL pausesDuringCapture;
 @property (nonatomic) NSInteger measurementMode;
 

@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 
+#import <HockeySDK/HockeySDK.h>
+#import <HockeySDK/BITHockeyManager.h>
+#import <ServiceManagement/ServiceManagement.h>
+
 #import "ShortcutManager.h"
 
 #import "AboutWindowController.h"
@@ -20,9 +24,9 @@
 #import "DebugControlsController.h"
 #import "TutorialWindowController.h"
 
-#import <HockeySDK/HockeySDK.h>
-#import <HockeySDK/BITHockeyManager.h>
 #import "Updater.h"
+
+
 
 #if ENABLE_APP_STORE
 #import "ReceiptValidation_A.h"
@@ -59,11 +63,17 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             [NSApp terminate:nil];
             exit(0);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
                 int *zero = (int *)(long)(rand() >> 31);
                 *zero = 0;
             });
+
+#pragma clang diagnostic pop
+
         }
     }();
 #endif
@@ -95,6 +105,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 - (void) _handlePreferencesDidChange:(NSNotification *)note
 {
     [self _updateShortcuts];
+    [self _updateLaunchHelper];
 }
 
 
@@ -124,6 +135,33 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     }
 
     return yn;
+}
+
+
+- (void) _updateLaunchHelper
+{
+    BOOL launchAtLogin = [[Preferences sharedInstance] launchAtLogin];
+
+    CFStringRef bundleID = CFSTR("com.pixelwinch.LaunchPixelWinch");
+
+    if (launchAtLogin) {
+        if (!SMLoginItemSetEnabled(bundleID, YES)) {
+            NSString *errorMessage = NSLocalizedString(@"Couldn't add Pixel Winch to Login Items list.", nil);
+
+            NSAlert *alert = [NSAlert alertWithMessageText:nil
+                                            defaultButton:nil
+                                          alternateButton:nil 
+                                              otherButton:nil 
+                                informativeTextWithFormat:@"%@", errorMessage];
+
+            [alert runModal];
+            
+            [[Preferences sharedInstance] setLaunchAtLogin:NO];
+        }
+
+    } else {
+        SMLoginItemSetEnabled (bundleID, NO);
+    }
 }
 
 

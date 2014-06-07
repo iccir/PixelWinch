@@ -23,6 +23,8 @@ static NSDictionary *sGetDefaultValues()
         @"pausesDuringCapture":   @(YES),
         @"measurementMode":       @( MeasurementModeIdentity ),
 
+        @"launchAtLogin":         @(NO),
+
         @"captureSelectionShortcut":  [Shortcut emptyShortcut],
         @"captureWindowShortcut":     [Shortcut emptyShortcut],
         @"showScreenshotsShortcut":   [Shortcut emptyShortcut],

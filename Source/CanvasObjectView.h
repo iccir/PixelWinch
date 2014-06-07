@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (void) trackWithEvent:(NSEvent *)event newborn:(BOOL)newborn;
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
+- (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
 
 - (NSCursor *) cursor;
@@ -57,5 +58,10 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 @property (nonatomic, strong) CanvasObject *canvasObject;
 @property (nonatomic, getter=isNewborn) BOOL newborn;
 @property (nonatomic, getter=isSelected) BOOL selected;
+
+// When space bar is down during a drag
+@property (nonatomic) BOOL    inMoveMode;
+@property (nonatomic) CGPoint pointWhenEnteredMoveMode;
+@property (nonatomic) CGRect  canvasObjectRectWhenEnteredMoveMode;
 
 @end
