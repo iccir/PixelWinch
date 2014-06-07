@@ -75,19 +75,32 @@
 
 - (void) _updateMarqueeWithPoint:(CGPoint)point
 {
-    CGFloat deltaX = point.x - _downPoint.x;
-    CGFloat deltaY = point.y - _downPoint.y;
+    CGRect newRect = CGRectMake(
+        _downPoint.x,
+        _downPoint.y,
+        point.x - _downPoint.x,
+        point.y - _downPoint.y
+    );
 
-    if ([NSEvent modifierFlags] & NSShiftKeyMask) {
-        if (deltaX < deltaY) deltaY = deltaX;
-        if (deltaY < deltaX) deltaX = deltaY;
+    if ([self inMoveMode]) {
+        CGPoint startPoint = [self pointWhenEnteredMoveMode];
+        CGRect  objectRect = [self canvasObjectRectWhenEnteredMoveMode];
+
+        newRect = objectRect;
+        newRect.origin.x += (point.x - startPoint.x);
+        newRect.origin.y += (point.y - startPoint.y);
     }
 
     Marquee *marquee = [self marquee];
 
-    [marquee setRect:CGRectMake(_downPoint.x, _downPoint.y, deltaX, deltaY)];
-
-    CGSize size = CGSizeMake(fabs(deltaX), fabs(deltaY));
+    if ([NSEvent modifierFlags] & NSShiftKeyMask) {
+        if (newRect.size.width  > newRect.size.height) newRect.size.height = newRect.size.width;
+        if (newRect.size.height > newRect.size.width)  newRect.size.width  = newRect.size.height;
+    }
+    
+    [marquee setRect:newRect];
+    
+    CGSize size = CGSizeMake(fabs(newRect.size.width), fabs(newRect.size.height));
     if ((size.width > 0) && (size.height > 0)) {
         [[CursorInfo sharedInstance] setText:GetDisplayStringForSize(size) forKey:@"new-marquee"];
     } else {
@@ -106,6 +119,16 @@
 - (void) continueTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     [self _updateMarqueeWithPoint:point];
+}
+
+
+
+- (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    if (![self inMoveMode]) {
+        NSRect rect = [[self canvasObject] rect];
+        _downPoint = GetFurthestCornerInRect(rect, point);
+    }
 }
 
 

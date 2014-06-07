@@ -177,6 +177,14 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
                        c == NSLeftArrowFunctionKey ||
                        c == NSRightArrowFunctionKey);
     
+    if (c == ' ') {
+        if (![theEvent isARepeat]) {
+            [_toolbox beginTemporaryHand];
+        }
+
+        return;
+    }
+
     if (modifierFlags == 0) {
         NSArray *tools = [_toolbox allTools];
 
@@ -285,6 +293,19 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     }
 
     [super keyDown:theEvent];
+}
+
+- (void) keyUp:(NSEvent *)theEvent
+{
+    NSString *characters = [theEvent charactersIgnoringModifiers];
+    unichar   c          = [characters length] ? [characters characterAtIndex:0] : 0;
+
+    if (c == ' ') {
+        [_toolbox endTemporaryHand];
+        return;
+    }
+
+    [super keyUp:theEvent];
 }
 
 

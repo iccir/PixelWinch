@@ -77,8 +77,13 @@
         }
 
         if (type == NSLeftMouseUp) {
-            _inMoveMode = NO;
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
+
+            if (_inMoveMode) {
+                _inMoveMode = NO;
+                [self switchTrackingWithEvent:event point:snappedPoint];
+            }
+
             [self endTrackingWithEvent:event point:snappedPoint];
             break;
 

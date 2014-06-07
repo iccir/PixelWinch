@@ -8,11 +8,19 @@
 
 #import "Application.h"
 
+NSString * const SpaceBarWillGoUpNotificationName = @"SpaceBarWillGoUpNotification";
+
 @implementation Application
 
 - (void) sendEvent:(NSEvent *)event
 {
     NSString *selectorName = nil;
+
+	if ([event type] == NSKeyUp) {
+        if ([[event charactersIgnoringModifiers] isEqualToString:@" "]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:SpaceBarWillGoUpNotificationName object:nil];
+        }
+    }
 
 	if ([event type] == NSKeyDown) {
         NSUInteger modifierFlags = [event modifierFlags] & NSDeviceIndependentModifierFlagsMask;
@@ -46,7 +54,7 @@
 
     if (IsInDebugger()) {
         [super sendEvent:event];
-    
+
     } else {
         @try {
             [super sendEvent:event];

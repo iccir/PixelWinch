@@ -8,6 +8,7 @@
 
 #import "Toolbox.h"
 
+#import "Application.h"
 #import "HandTool.h"
 #import "LineTool.h"
 #import "MarqueeTool.h"
@@ -35,6 +36,7 @@ static NSString * const sZoomToolKey      = @"zoom";
 
 @implementation Toolbox {
     NSArray *_allTools;
+    Tool *_toolBeforeTemporaryHand;
 }
 
 @dynamic selectedToolIndex, selectedToolName;
@@ -77,11 +79,18 @@ static NSString * const sZoomToolKey      = @"zoom";
 
         NSString *selectedToolName = [dictionary objectForKey:sSelectedKey];
         [self setSelectedToolName:selectedToolName];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleSpaceBarWillGoUp:) name:SpaceBarWillGoUpNotificationName object:nil];
     }
     
     return self;
 }
 
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void) _writeState
 {
@@ -110,6 +119,12 @@ static NSString * const sZoomToolKey      = @"zoom";
     if (selectedToolName) [state setObject:selectedToolName forKey:sSelectedKey];
 
     [[NSUserDefaults standardUserDefaults] setObject:state forKey:sToolsKey];
+}
+
+
+- (void) _handleSpaceBarWillGoUp:(NSNotification *)note
+{
+    [self endTemporaryHand];
 }
 
 
@@ -170,6 +185,26 @@ static NSString * const sZoomToolKey      = @"zoom";
 - (NSInteger) selectedToolIndex
 {
     return [[self allTools] indexOfObject:_selectedTool];
+}
+
+
+- (void) beginTemporaryHand
+{
+    Tool *toolBeforeTemporaryHand = [self selectedTool];
+
+    if (toolBeforeTemporaryHand != [self handTool]) {
+        _toolBeforeTemporaryHand = toolBeforeTemporaryHand;
+        [self setSelectedTool:[self handTool]];
+    }
+}
+
+
+- (void) endTemporaryHand
+{
+    if (_toolBeforeTemporaryHand) {
+        [self setSelectedTool:_toolBeforeTemporaryHand];
+        _toolBeforeTemporaryHand = nil;
+    }
 }
 
 

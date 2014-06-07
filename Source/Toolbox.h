@@ -26,4 +26,7 @@
 @property (nonatomic) NSInteger selectedToolIndex;
 @property (nonatomic) NSString *selectedToolName;
 
+- (void) beginTemporaryHand;
+- (void) endTemporaryHand;
+
 @end
