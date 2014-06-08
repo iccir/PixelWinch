@@ -50,8 +50,6 @@
         _updater = [NSClassFromString(@"SUUpdater") updaterForBundle:[NSBundle mainBundle]];
 
         [_updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
-
-        [_updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
         [_updater setAutomaticallyChecksForUpdates:YES];
         [_updater checkForUpdatesInBackground];
         [_updater setSendsSystemProfile:NO];
@@ -61,20 +59,16 @@
     return self;
 }
 
+
 - (void) checkForUpdatesInForeground
 {
     [_updater checkForUpdates:nil];
 }
 
+
 - (void) checkForUpdatesInBackground
 {
     [_updater checkForUpdatesInBackground];
-}
-
-
-- (BOOL) updaterShouldRelaunchApplication:(SUUpdater *)updater
-{
-    return NO;
 }
 
 
