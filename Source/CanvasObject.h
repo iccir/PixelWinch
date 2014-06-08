@@ -20,6 +20,7 @@
 
 @property (nonatomic, weak) Canvas *canvas;
 @property (nonatomic, readonly, strong) NSString *GUID;
+@property (nonatomic, readonly) NSTimeInterval timestamp;
 
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary;
 - (NSDictionary *) dictionaryRepresentation;

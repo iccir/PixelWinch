@@ -48,11 +48,10 @@
 {
     if ((self = [super init])) {
         _updater = [NSClassFromString(@"SUUpdater") updaterForBundle:[NSBundle mainBundle]];
-        [_updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
 
         [_updater setFeedURL:[NSURL URLWithString:@"<redacted>"]];
         [_updater setAutomaticallyChecksForUpdates:YES];
-        [_updater checkForUpdatesInBackground];
+        [_updater setAutomaticallyDownloadsUpdates:NO];
         [_updater setSendsSystemProfile:NO];
         [_updater setDelegate:self];
     }

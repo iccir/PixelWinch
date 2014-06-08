@@ -615,7 +615,13 @@
 
     [_canvasObjectViews addObject:view];
     [_canvasObjectViews sortUsingComparator:^(id a, id b) {
-        return [b canvasOrder] - [a canvasOrder];
+        NSComparisonResult result = [b canvasOrder] - [a canvasOrder];
+        
+        if (result == 0) {
+            result = [[b canvasObject] timestamp] - [[a canvasObject] timestamp];
+        }
+
+        return result;
     }];
     
     _needsObjectViewReorder = YES;

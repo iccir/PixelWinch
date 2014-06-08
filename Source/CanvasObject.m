@@ -9,11 +9,12 @@
 #import "CanvasObject.h"
 #import "Canvas.h"
 
-static NSString * const sGUIDKey   = @"GUID";
-static NSString * const sXKey      = @"x";
-static NSString * const sYKey      = @"y";
-static NSString * const sWidthKey  = @"width";
-static NSString * const sHeightKey = @"height";
+static NSString * const sGUIDKey      = @"GUID";
+static NSString * const sTimestampKey = @"t";
+static NSString * const sXKey         = @"x";
+static NSString * const sYKey         = @"y";
+static NSString * const sWidthKey     = @"width";
+static NSString * const sHeightKey    = @"height";
 
 static NSMutableDictionary *sGroupNameToClassMap = nil;
 
@@ -87,6 +88,7 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 {
     if ((self = [super init])) {
         _GUID = [NSString stringWithFormat:@"%@-%@", NSStringFromClass([self class]), [[NSUUID UUID] UUIDString]];
+        _timestamp = [NSDate timeIntervalSinceReferenceDate];
         [self setParticipatesInUndo:YES];
         [self setPersistent:YES];
     }
@@ -132,11 +134,12 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 
 - (BOOL) readFromDictionary:(NSDictionary *)dictionary
 {
-    NSString *GUID         = [dictionary objectForKey:sGUIDKey];
-    NSNumber *xNumber      = [dictionary objectForKey:sXKey];
-    NSNumber *yNumber      = [dictionary objectForKey:sYKey];
-    NSNumber *widthNumber  = [dictionary objectForKey:sWidthKey];
-    NSNumber *heightNumber = [dictionary objectForKey:sHeightKey];
+    NSString *GUID            = [dictionary objectForKey:sGUIDKey];
+    NSNumber *xNumber         = [dictionary objectForKey:sXKey];
+    NSNumber *yNumber         = [dictionary objectForKey:sYKey];
+    NSNumber *widthNumber     = [dictionary objectForKey:sWidthKey];
+    NSNumber *heightNumber    = [dictionary objectForKey:sHeightKey];
+    NSNumber *timestampNumber = [dictionary objectForKey:sTimestampKey];
 
     if (![GUID         isKindOfClass:[NSString class]] ||
         ![xNumber      isKindOfClass:[NSNumber class]] ||
@@ -149,6 +152,7 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 
 
     _GUID = GUID;
+    _timestamp = [timestampNumber doubleValue];
     _rect = CGRectMake(
         [xNumber doubleValue],
         [yNumber doubleValue],
@@ -162,7 +166,8 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary
 {
-    [dictionary setObject:_GUID forKey:sGUIDKey];
+    [dictionary setObject:_GUID         forKey:sGUIDKey];
+    [dictionary setObject:@(_timestamp) forKey:sTimestampKey];
 
     [dictionary setObject:@(_rect.origin.x)    forKey:sXKey];
     [dictionary setObject:@(_rect.origin.y)    forKey:sYKey];

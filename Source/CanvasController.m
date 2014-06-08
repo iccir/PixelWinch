@@ -233,6 +233,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             [_magnificationManager zoomIn];
             return;
 
+        } else if (c == 'd') {
+            if ([self _duplicateCurrentSelection]) return;
+            return;
+
         } else if (c >= '1' && c <= '8') {
             NSInteger level = (c - '0');
             [_magnificationManager setMagnification:level];
@@ -1006,6 +1010,34 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
+- (BOOL) _duplicateCurrentSelection
+{
+    NSMutableArray *duplicates = [NSMutableArray array];
+
+    for (CanvasObject *object in [_canvas selectedObjects]) {
+        CanvasObject *duplicate = [object duplicate];
+
+        if (duplicate) {
+            CGRect rect = [duplicate rect];
+            rect.origin.x += 10;
+            rect.origin.y += 10;
+            [duplicate setRect:rect];
+            
+            [_canvas addCanvasObject:duplicate];
+            [duplicates addObject:duplicate];
+        }
+    }
+
+    CanvasObject *lastDuplicate = [duplicates lastObject];
+    if (lastDuplicate) {
+        [_canvas unselectAllObjects];
+        [_canvas selectObject:lastDuplicate];
+    }
+
+    return (lastDuplicate != nil);
+}
+
+
 #pragma mark - Canvas Delegate
 
 - (void) canvas:(Canvas *)canvas didAddObject:(CanvasObject *)object
@@ -1157,6 +1189,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 - (void) canvasView:(CanvasView *)view didFinalizeNewbornWithView:(CanvasObjectView *)objectView
 {
     CanvasObject *object = [objectView canvasObject];
+    
+    // Don't do this for grapple yet, only Rectangle and Line
+    if ([[_toolbox selectedTool] isEqual:[_toolbox grappleTool]]) {
+        return;
+    }
     
     if ([object isKindOfClass:[Rectangle class]] ||
         [object isKindOfClass:[Line class]])

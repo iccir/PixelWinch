@@ -264,13 +264,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [self showMainApplicationWindowForCrashManager:nil];
 
     } else {
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" companyName:@"Ricci Adams" delegate:self];
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" delegate:self];
+        [[BITHockeyManager sharedHockeyManager] setDisableFeedbackManager:YES];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
-    
-#if !ENABLE_APP_STORE
-    [[Updater sharedInstance] checkForUpdatesInBackground];
-#endif
 }
 
 
@@ -300,6 +297,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 #endif
 
     [self _updateShortcuts];
+
+#if !ENABLE_APP_STORE
+    [[Updater sharedInstance] checkForUpdatesInBackground];
+#endif
 }
 
 - (void) menuWillOpen:(NSMenu *)menu

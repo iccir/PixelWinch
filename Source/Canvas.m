@@ -180,6 +180,7 @@
     if (!object) return;
     
     if ([_selectedObjects containsObject:object]) {
+        [_selectedObjects removeObject:object];
         [_delegate canvas:self didUnselectObject:object];
     }
     
