@@ -24,6 +24,8 @@
 - (id) initWithDictionaryRepresentation:(NSDictionary *)dictionary;
 - (NSDictionary *) dictionaryRepresentation;
 
+- (id) duplicate;
+
 // Subclasses to override, must call super.  Return YES if dictionary is valid
 - (BOOL) readFromDictionary:(NSDictionary *)dictionary;
 

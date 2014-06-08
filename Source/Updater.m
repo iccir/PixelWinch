@@ -81,8 +81,6 @@
 
         if ([inString isEqualToString:@"Public Beta"]) {
             build = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue];
-        } else {
-            build = [inString integerValue];
         }
 
         return [NSString stringWithFormat:@"%C%ld", 0x03B2, (long)build];

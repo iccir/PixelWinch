@@ -24,6 +24,14 @@
 }
 
 
+- (id) duplicate
+{
+    Rectangle *result = [[Rectangle alloc] init];
+    [result setRect:[self rect]];
+    return result;
+}
+
+
 - (BOOL) isValid
 {
     CGSize size = [self rect].size;

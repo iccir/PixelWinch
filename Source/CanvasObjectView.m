@@ -12,10 +12,22 @@
 #import "Canvas.h"
 
 
+typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
+    CanvasObjectMoveConstraintNone,
+    CanvasObjectMoveConstraintXAxis,
+    CanvasObjectMoveConstraintYAxis
+};
+
+
 @implementation CanvasObjectView {
     CGPoint _moveTrackingOriginPoint;
     CGPoint _moveTrackingMousePoint;
+    CanvasObjectMoveConstraintState _moveConstraintState;
     BOOL    _spaceBarModifierDown;
+
+    CanvasObjectView *_duplicateObjectView;
+    NSEvent *_duplicateMouseDownEvent;
+    NSEvent *_duplicateMouseDragEvent;
 }
 
 - (void) preferencesDidChange:(Preferences *)preferences { }
@@ -40,39 +52,59 @@
 
     [[self canvasView] willTrackObjectView:self];
 
+    BOOL altOptionDownAtStart = ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) > 0;
+    if (altOptionDownAtStart) {
+        _duplicateMouseDownEvent = event;
+    }
+
     [self trackWithEvent:event newborn:NO];
 
     [[self canvasView] didTrackObjectView:self];
+
+    // We have a _duplicateObjectView, hand over control to it
+    if (_duplicateObjectView) {
+        NSArray *otherEvents = _duplicateMouseDragEvent ? @[ _duplicateMouseDragEvent ] : nil;
+        [[self canvasView] willTrackObjectView:_duplicateObjectView];
+        [_duplicateObjectView _trackWithStartEvent:_duplicateMouseDownEvent otherEvents:otherEvents newborn:NO];
+        [[self canvasView] didTrackObjectView:_duplicateObjectView];
+    }
+
+    _duplicateMouseDownEvent = nil;
+    _duplicateMouseDragEvent = nil;
+    _duplicateObjectView     = nil;
 }
 
 
-- (void) trackWithEvent:(NSEvent *)event newborn:(BOOL)newborn
+- (void) _trackWithStartEvent: (NSEvent *) startEvent
+                  otherEvents: (NSArray *) otherEvents
+                      newborn: (BOOL) newborn
 {
     [self setNewborn:newborn];
 
     CanvasView *canvasView = [self canvasView];
 
-    CGPoint snappedPoint = [canvasView roundedCanvasPointForEvent:event];
-    [self startTrackingWithEvent:event point:snappedPoint];
+    __block CGPoint snappedPoint = [canvasView roundedCanvasPointForEvent:startEvent];
+    [self startTrackingWithEvent:startEvent point:snappedPoint];
     
-    
-    NSEvent *lastDragEvent = nil;
+    __block NSEvent *lastDragEvent = nil;
 
-    while (1) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask | NSKeyDownMask | NSKeyUpMask)];
-
+    void (^handleEvent)(NSEvent *event, BOOL *stop) = ^(NSEvent *event, BOOL *stop) {
         NSEventType type = [event type];
+        
+        *stop = NO;
         
         BOOL isSpaceBarEvent = NO;
         if (type == NSKeyDown || type == NSKeyUp) {
-            isSpaceBarEvent =[[event characters] isEqualToString:@" "];
+            isSpaceBarEvent = [[event characters] isEqualToString:@" "];
             
-            BOOL inMoveMode = (type == NSKeyDown);
-            if (inMoveMode != _inMoveMode) {
-                _inMoveMode = inMoveMode;
-                _canvasObjectRectWhenEnteredMoveMode = [[self canvasObject] rect];
-                _pointWhenEnteredMoveMode = snappedPoint;
-                [self switchTrackingWithEvent:event point:snappedPoint];
+            if (isSpaceBarEvent) {
+                BOOL inMoveMode = (type == NSKeyDown);
+                if (inMoveMode != _inMoveMode) {
+                    _inMoveMode = inMoveMode;
+                    _canvasObjectRectWhenEnteredMoveMode = [[self canvasObject] rect];
+                    _pointWhenEnteredMoveMode = snappedPoint;
+                    [self switchTrackingWithEvent:event point:snappedPoint];
+                }
             }
         }
 
@@ -85,17 +117,49 @@
             }
 
             [self endTrackingWithEvent:event point:snappedPoint];
-            break;
+            *stop = YES;
+            return;
 
         } else if (type == NSLeftMouseDragged) {
+            if (_duplicateMouseDownEvent) {
+                _duplicateObjectView = [[self canvasView] duplicateObjectView:self];
+                
+                if (_duplicateObjectView) {
+                    _duplicateMouseDragEvent = event;
+                    *stop = YES;
+                    return;
+                } else {
+                    _duplicateMouseDownEvent = nil;
+                }
+            }
+        
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self continueTrackingWithEvent:event point:snappedPoint];
             lastDragEvent = event;
 
-        } else if ((type == NSFlagsChanged) && lastDragEvent) {
+        } else if ((type == NSFlagsChanged || type == NSKeyUp || type == NSKeyDown) && lastDragEvent) {
             snappedPoint = [canvasView roundedCanvasPointForEvent:lastDragEvent];
             [self continueTrackingWithEvent:lastDragEvent point:snappedPoint];
         }
+    };
+
+    for (NSEvent *event in otherEvents) {
+        BOOL stop = NO;
+        handleEvent(event, &stop);
+        if (stop) break;
+    }
+
+    while (1) {
+        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask | NSKeyDownMask | NSKeyUpMask)];
+        BOOL stop = NO;
+        
+        handleEvent(event, &stop);
+
+        if (stop) break;
+    }
+
+    if (_duplicateObjectView) {
+        return;
     }
 
     CanvasObject *canvasObject = [self canvasObject];
@@ -110,11 +174,18 @@
 }
 
 
+- (void) trackWithEvent:(NSEvent *)event newborn:(BOOL)newborn
+{
+    [self _trackWithStartEvent:event otherEvents:nil newborn:newborn];
+}
+
+
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     CanvasObject *canvasObject = [self canvasObject];
     _moveTrackingOriginPoint = canvasObject ? [canvasObject rect].origin : CGPointZero;
     _moveTrackingMousePoint = [[self canvasView] convertPoint:[event locationInWindow] fromView:nil];
+    _moveConstraintState = CanvasObjectMoveConstraintNone;
 }
 
 
@@ -127,6 +198,25 @@
         pointInCanvasView.x - _moveTrackingMousePoint.x,
         pointInCanvasView.y - _moveTrackingMousePoint.y
     );
+
+    if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
+        if (_moveConstraintState == CanvasObjectMoveConstraintNone) {
+            if (abs(deltaPoint.x) >= abs(deltaPoint.y)) {
+                _moveConstraintState = CanvasObjectMoveConstraintYAxis;
+            } else {
+                _moveConstraintState = CanvasObjectMoveConstraintXAxis;
+            }
+        }
+
+        if (_moveConstraintState == CanvasObjectMoveConstraintXAxis) {
+            deltaPoint.x = 0;
+        } else if (_moveConstraintState == CanvasObjectMoveConstraintYAxis) {
+            deltaPoint.y = 0;
+        }
+
+    } else {
+        _moveConstraintState = CanvasObjectMoveConstraintNone;
+    }
 
     deltaPoint = [canvasView roundedCanvasPointForPoint:deltaPoint];
 

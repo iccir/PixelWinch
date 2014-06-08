@@ -27,8 +27,6 @@ static inline CGFLOAT_TYPE ScaleCeil( CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
 extern void WinchLog(NSString *category,  NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 
-extern BOOL SupportsSSE4_1(void);
-
 extern BOOL IsInDebugger(void);
 
 extern CGSize GetMaxThumbnailSize(void);

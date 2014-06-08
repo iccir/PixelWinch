@@ -42,6 +42,17 @@
 }
 
 
+- (void) mouseDown:(NSEvent *) event
+{
+    if ([self owningObjectView]) {
+        [[self owningObjectView] mouseDown:event];
+        return;
+    }
+    
+    [super mouseDown:event];
+}
+
+
 - (NSDictionary *) _attributes
 {
     if (!_attributes) {

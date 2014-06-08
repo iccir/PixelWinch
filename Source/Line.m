@@ -80,6 +80,16 @@ static NSString * const sVerticalKey = @"vertical";
 }
 
 
+- (id) duplicate
+{
+    if (_preview) return nil;
+
+    Line *result = [Line lineVertical:[self isVertical]];
+    [result setRect:[self rect]];
+    return result;
+}
+
+
 - (void) setPreview:(BOOL)preview
 {
     if (_preview != preview) {

@@ -1128,6 +1128,18 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 #pragma mark - CanvasView Delegate
 
+
+- (CanvasObjectView *) canvasView:(CanvasView *)view duplicateObjectView:(CanvasObjectView *)objectView
+{
+    CanvasObject *duplicate = [[objectView canvasObject] duplicate];
+    if (!duplicate) return nil;
+    
+    [[view canvas] addCanvasObject:duplicate];
+    
+    return [self viewForCanvasObject:duplicate];
+}
+
+
 - (void) canvasView:(CanvasView *)view objectViewDoubleClick:(CanvasObjectView *)objectView
 {
     if ([objectView isKindOfClass:[ResizeKnobView class]]) {
@@ -1138,6 +1150,19 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         [self setSelectedObject:object];
         [self _updateSelectedEdge:edge];
+    }
+}
+
+
+- (void) canvasView:(CanvasView *)view didFinalizeNewbornWithView:(CanvasObjectView *)objectView
+{
+    CanvasObject *object = [objectView canvasObject];
+    
+    if ([object isKindOfClass:[Rectangle class]] ||
+        [object isKindOfClass:[Line class]])
+    {
+        [_canvas unselectAllObjects];
+        [_canvas selectObject:object];
     }
 }
 

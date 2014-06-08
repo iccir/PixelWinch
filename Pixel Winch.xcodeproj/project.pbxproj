@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		550DF71D1943EC9C00E941E3 /* WinchFastMath_SSE4.c in Sources */ = {isa = PBXBuildFile; fileRef = 550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */; settings = {COMPILER_FLAGS = "-msse4.1"; }; };
 		5512BF3117F94EA100425AD6 /* Guide.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3017F94EA100425AD6 /* Guide.m */; };
 		5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3917F968E300425AD6 /* MarqueeObjectView.m */; };
 		5512BF4417FA4EDA00425AD6 /* marquee.png in Resources */ = {isa = PBXBuildFile; fileRef = 5512BF4317FA4EDA00425AD6 /* marquee.png */; };
@@ -80,7 +81,7 @@
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		556D37391935CFDD00C90B11 /* Updater.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D37381935CFDD00C90B11 /* Updater.m */; };
-		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
+		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF8B182C7A54000B6224 /* toolbar_line_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF83182C7A54000B6224 /* toolbar_line_normal.png */; };
 		5588EF8C182C7A54000B6224 /* toolbar_line_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF84182C7A54000B6224 /* toolbar_line_selected.png */; };
@@ -93,6 +94,10 @@
 		5588EF98182C8BD3000B6224 /* cursor_wand.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF96182C8BD3000B6224 /* cursor_wand.png */; };
 		5588EF99182C8BD3000B6224 /* cursor_wand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5588EF97182C8BD3000B6224 /* cursor_wand@2x.png */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
+		558E47751943E7080028255C /* WinchFastMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 558E47741943E7080028255C /* WinchFastMath.c */; };
+		55916E5C194137FF00F28F4C /* LaunchPixelWinch_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */; };
+		55916E611941388900F28F4C /* Launch Pixel Winch.app in Copy LoginItems */ = {isa = PBXBuildFile; fileRef = 55346D84194130C900896455 /* Launch Pixel Winch.app */; };
+		55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55916E6219413B2100F28F4C /* ServiceManagement.framework */; };
 		559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 559B45961803DB5B00849B87 /* CanvasWindow.m */; };
 		559D38B81802972E0048F29B /* cursor_grapple_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B41802972E0048F29B /* cursor_grapple_h.png */; };
 		559D38B91802972E0048F29B /* cursor_grapple_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 559D38B51802972E0048F29B /* cursor_grapple_h@2x.png */; };
@@ -116,9 +121,9 @@
 		55B07A6A17F654400013B05C /* CaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureController.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
-		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
+		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
-		55BB34E81935E1CA00E3F022 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; };
+		55BB34E81935E1CA00E3F022 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
 		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
 		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
@@ -188,6 +193,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		55916E5D1941381000F28F4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55346D83194130C900896455;
+			remoteInfo = "Launch Pixel Winch";
+		};
 		55F84928181DCEFB00BABB66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */;
@@ -218,12 +230,24 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		55916E601941387800F28F4C /* Copy LoginItems */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				55916E611941388900F28F4C /* Launch Pixel Winch.app in Copy LoginItems */,
+			);
+			name = "Copy LoginItems";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath_SSE4.c; path = Source/WinchFastMath_SSE4.c; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -279,6 +303,7 @@
 		55336A29180CB05900F053C7 /* cursor_resize_ne_sw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_ne_sw.png; path = Resources/cursor_resize_ne_sw.png; sourceTree = "<group>"; };
 		55336A2A180CB05900F053C7 /* cursor_resize_nw_se.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_nw_se.png; path = Resources/cursor_resize_nw_se.png; sourceTree = "<group>"; };
 		55336A2B180CB05900F053C7 /* cursor_resize_w_e.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_resize_w_e.png; path = Resources/cursor_resize_w_e.png; sourceTree = "<group>"; };
+		55346D84194130C900896455 /* Launch Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Launch Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5536B41C17F8F1D000D9B4E9 /* RulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulerView.h; path = Source/RulerView.h; sourceTree = "<group>"; };
 		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
 		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
@@ -349,6 +374,12 @@
 		5588EF8A182C7A54000B6224 /* toolbar_wand_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_wand_selected@2x.png"; path = "Resources/toolbar_wand_selected@2x.png"; sourceTree = "<group>"; };
 		5588EF96182C8BD3000B6224 /* cursor_wand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_wand.png; path = Resources/cursor_wand.png; sourceTree = "<group>"; };
 		5588EF97182C8BD3000B6224 /* cursor_wand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cursor_wand@2x.png"; path = "Resources/cursor_wand@2x.png"; sourceTree = "<group>"; };
+		558E47741943E7080028255C /* WinchFastMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath.c; path = Source/WinchFastMath.c; sourceTree = "<group>"; };
+		558E47781943E87A0028255C /* WinchFastMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WinchFastMath.h; path = Source/WinchFastMath.h; sourceTree = "<group>"; };
+		55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchPixelWinch_main.m; path = Source/LaunchPixelWinch_main.m; sourceTree = SOURCE_ROOT; };
+		55916E5A194137F700F28F4C /* LaunchPixelWinch_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LaunchPixelWinch_Info.plist; path = Resources/LaunchPixelWinch_Info.plist; sourceTree = SOURCE_ROOT; };
+		55916E6219413B2100F28F4C /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		55916E6419413CB400F28F4C /* Launch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Launch.entitlements; path = Resources/Launch.entitlements; sourceTree = "<group>"; };
 		559B45951803DB5B00849B87 /* CanvasWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindow.h; path = Source/CanvasWindow.h; sourceTree = "<group>"; };
 		559B45961803DB5B00849B87 /* CanvasWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindow.m; path = Source/CanvasWindow.m; sourceTree = "<group>"; };
 		559D38B41802972E0048F29B /* cursor_grapple_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor_grapple_h.png; path = Resources/cursor_grapple_h.png; sourceTree = "<group>"; };
@@ -492,10 +523,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		55346D81194130C900896455 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
 				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
 				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
 				55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */,
@@ -548,6 +587,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* Pixel Winch.app */,
+				55346D84194130C900896455 /* Launch Pixel Winch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -557,6 +597,7 @@
 			children = (
 				55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */,
 				5516B687180402C3002AED2E /* Pixel Winch.entitlements */,
+				55916E6419413CB400F28F4C /* Launch.entitlements */,
 				557BA9A11821D967004A57FC /* Config */,
 				55B94D97182F2B6B00FE39F3 /* Protection */,
 				559D38BC1802AB220048F29B /* Model */,
@@ -567,6 +608,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				55346D85194130C900896455 /* LaunchAtLogin */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -625,6 +667,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55916E6219413B2100F28F4C /* ServiceManagement.framework */,
 				55CB053418285F80001DD1A0 /* libcrypto.a */,
 				556D37321935C7B500C90B11 /* Sparkle.framework */,
 				55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */,
@@ -721,6 +764,23 @@
 			name = Cursors;
 			sourceTree = "<group>";
 		};
+		55346D85194130C900896455 /* LaunchAtLogin */ = {
+			isa = PBXGroup;
+			children = (
+				55916E5A194137F700F28F4C /* LaunchPixelWinch_Info.plist */,
+				55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */,
+				55346D86194130C900896455 /* Supporting Files */,
+			);
+			path = LaunchAtLogin;
+			sourceTree = "<group>";
+		};
+		55346D86194130C900896455 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		553ED14B180636DB00F06B45 /* Black AppKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -807,6 +867,9 @@
 				55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */,
 				5516B68E1804EE3B002AED2E /* Disk Model */,
 				5512BF2E17F94E9300425AD6 /* Canvas Model */,
+				558E47781943E87A0028255C /* WinchFastMath.h */,
+				558E47741943E7080028255C /* WinchFastMath.c */,
+				550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */,
 				5588EF82182C623F000B6224 /* GrappleCalculator.h */,
 				5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */,
 				5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */,
@@ -984,6 +1047,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		55346D83194130C900896455 /* Launch Pixel Winch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55346DAA194130C900896455 /* Build configuration list for PBXNativeTarget "Launch Pixel Winch" */;
+			buildPhases = (
+				55346D80194130C900896455 /* Sources */,
+				55346D81194130C900896455 /* Frameworks */,
+				55346D82194130C900896455 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Launch Pixel Winch";
+			productName = LaunchAtLogin;
+			productReference = 55346D84194130C900896455 /* Launch Pixel Winch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8D1107260486CEB800E47090 /* Pixel Winch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
@@ -992,6 +1072,7 @@
 				55F4A49D1845F236000AFDB6 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rchook */,
 				8D1107290486CEB800E47090 /* Resources */,
+				55916E601941387800F28F4C /* Copy LoginItems */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
 				557BA9C01821EA72004A57FC /* Lipo & Sign Frameworks */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -1000,6 +1081,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				55916E5E1941381000F28F4C /* PBXTargetDependency */,
 				55F8492C181DCF1F00BABB66 /* PBXTargetDependency */,
 			);
 			name = "Pixel Winch";
@@ -1014,7 +1096,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0600;
 				TargetAttributes = {
+					55346D83194130C900896455 = {
+						CreatedOnToolsVersion = 6.0;
+					};
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = XXXXXXXXXX;
 						SystemCapabilities = {
@@ -1026,7 +1112,7 @@
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Pixel Winch" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1035,6 +1121,7 @@
 				French,
 				German,
 				en,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Pixels */;
 			projectDirPath = "";
@@ -1047,6 +1134,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Pixel Winch */,
+				55346D83194130C900896455 /* Launch Pixel Winch */,
 			);
 		};
 /* End PBXProject section */
@@ -1062,6 +1150,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		55346D82194130C900896455 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D1107290486CEB800E47090 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1183,7 +1278,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n\nfi\n";
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Library/LoginItems/Launch Pixel Winch.app\"\n\nfi\n";
 		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1230,6 +1325,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		55346D80194130C900896455 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55916E5C194137FF00F28F4C /* LaunchPixelWinch_main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1299,12 +1402,19 @@
 				5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */,
 				55C20CF91801172F00ECE184 /* HandTool.m in Sources */,
 				5512BF5B17FB9F6700425AD6 /* GuideObjectView.m in Sources */,
+				558E47751943E7080028255C /* WinchFastMath.c in Sources */,
+				550DF71D1943EC9C00E941E3 /* WinchFastMath_SSE4.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		55916E5E1941381000F28F4C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55346D83194130C900896455 /* Launch Pixel Winch */;
+			targetProxy = 55916E5D1941381000F28F4C /* PBXContainerItemProxy */;
+		};
 		55F8492C181DCF1F00BABB66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = XUIKit;
@@ -1381,9 +1491,283 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		55346D9E194130C900896455 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		55346D9F194130C900896455 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Profile;
+		};
+		55346DA0194130C900896455 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		55346DA1194130C900896455 /* Debug Store */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "Debug Store";
+		};
+		55346DA2194130C900896455 /* Profile Store */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "Profile Store";
+		};
+		55346DA3194130C900896455 /* Release Store */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "Release Store";
+		};
 		557BA9BB1821DA06004A57FC /* Profile Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = "Profile Store";
 		};
@@ -1404,6 +1788,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AC1832F3F6004076CF /* PixelWinch_Evaluation_Profile.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Profile;
 		};
@@ -1422,6 +1816,16 @@
 		55CC21B51832F4CF004076CF /* Debug Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = "Debug Store";
 		};
@@ -1441,6 +1845,16 @@
 		55CC21B71832F4DB004076CF /* Release Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = "Release Store";
 		};
@@ -1484,6 +1898,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AE1832F3F6004076CF /* PixelWinch_Evaluation_Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1491,12 +1916,35 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AA1832F3F6004076CF /* PixelWinch_Evaluation_Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		55346DAA194130C900896455 /* Build configuration list for PBXNativeTarget "Launch Pixel Winch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55346D9E194130C900896455 /* Debug */,
+				55346D9F194130C900896455 /* Profile */,
+				55346DA0194130C900896455 /* Release */,
+				55346DA1194130C900896455 /* Debug Store */,
+				55346DA2194130C900896455 /* Profile Store */,
+				55346DA3194130C900896455 /* Release Store */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release Store";
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

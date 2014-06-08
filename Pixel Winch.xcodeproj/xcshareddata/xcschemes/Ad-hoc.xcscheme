@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0600"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -113,7 +113,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "which rchook &amp;&amp; rchook xcode-app-archive-post-action -s &quot;Developer ID Application: Ricci Adams (XXXXXXXXXX)&quot; -z &quot;$HOME/Desktop/PixelWinch&quot; -u &quot;<redacted>&quot; -f &quot;$PROJECT_DIR/bin/update_appcast.rb&quot; &gt; /tmp/output.rc&#10;&#10;/usr/local/bin/hoch &quot;${ARCHIVE_PATH}&quot;&#10;">
+               scriptText = "which rchook &amp;&amp; rchook xcode-app-archive-post-action -s &quot;Developer ID Application: Ricci Adams (XXXXXXXXXX)&quot; -z &quot;$HOME/Desktop/PixelWinch&quot; -u &quot;<redacted>&quot; -f &quot;$PROJECT_DIR/bin/update_appcast.rb&quot; &gt; /tmp/output.rc&#10;&#10;/usr/local/bin/puck &quot;${ARCHIVE_PATH}&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

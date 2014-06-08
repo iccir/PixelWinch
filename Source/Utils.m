@@ -7,10 +7,6 @@
 //
 
 #import "Utils.h"
-#import <cpuid.h>
-
-#define SSE4_1_FLAG     0x080000
-#define SSE4_2_FLAG     0x100000
 
 
 #include "util.h"
@@ -18,26 +14,6 @@
 
 #import <objc/runtime.h>
 
-
-BOOL SupportsSSE4_1(void)
-{
-    static BOOL yn;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-		uint32 a,b,c,d;
-		__get_cpuid(1, &a, &b, &c, &d);
-
-//		BOOL sse_3  = (c & (1 <<  0)) ? YES : NO;
-//		BOOL sse_3e = (c & (1 <<  9)) ? YES : NO;
-		BOOL sse_41 = (c & (1 << 19)) ? YES : NO;
-//		BOOL sse_42 = (c & (1 << 20)) ? YES : NO;
-        
-        yn = sse_41;
-    });
-   
-    return yn;
-}
 
 
 BOOL IsInDebugger(void)
@@ -432,6 +408,8 @@ extern CGPoint GetFurthestCornerInRect(CGRect rect, CGPoint point)
         distance = bottomRightDistance;
         result   = bottomRight;
     }
+    
+    (void)distance;
 
     return result;
 }

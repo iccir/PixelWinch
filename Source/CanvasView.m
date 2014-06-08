@@ -678,6 +678,21 @@
 
     [label setHidden:NO];
     [label doPopInAnimationWithDuration:0.25];
+    
+    [_delegate canvasView:self didFinalizeNewbornWithView:view];
+}
+
+
+
+- (CanvasObjectView *) duplicateObjectView:(CanvasObjectView *)objectView
+{
+    return [_delegate canvasView:self duplicateObjectView:objectView];
+}
+
+
+- (void) objectViewDoubleClick:(CanvasObjectView *)objectView
+{
+    [_delegate canvasView:self objectViewDoubleClick:objectView];
 }
 
 
@@ -696,12 +711,6 @@
 - (void) didTrackObjectView:(CanvasObjectView *)objectView
 {
     [_delegate canvasView:self didTrackObjectView:objectView];
-}
-
-
-- (void) objectViewDoubleClick:(CanvasObjectView *)objectView
-{
-    [_delegate canvasView:self objectViewDoubleClick:objectView];
 }
 
 

@@ -10,5 +10,4 @@
 
 @interface RectangleTool : Tool
 
-
 @end

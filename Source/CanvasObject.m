@@ -232,4 +232,11 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
     return NO;
 }
 
+
+- (id) duplicate
+{
+    return nil;
+}
+
+
 @end
