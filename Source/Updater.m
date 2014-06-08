@@ -69,6 +69,12 @@
 }
 
 
+- (BOOL) updaterShouldRelaunchApplication:(SUUpdater *)updater
+{
+    return NO;
+}
+
+
 - (id <SUVersionDisplay>)versionDisplayerForUpdater:(SUUpdater *)updater
 {
     return self;
