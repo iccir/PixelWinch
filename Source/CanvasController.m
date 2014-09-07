@@ -229,7 +229,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             [_magnificationManager zoomOut];
             return;
 
-        } else if (c == '=') {
+        } else if (c == '=' || c == '+') {
             [_magnificationManager zoomIn];
             return;
 
