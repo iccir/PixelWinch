@@ -563,6 +563,11 @@ NSString *GetStringForFloat(CGFloat f)
         f /= 4.0;
     } else if (measurementMode == MeasurementModeMultiplyBy2) {
         f *= 2.0;
+    } else if (measurementMode == MeasurementModeDivideBy3) {
+        f /= 3.0;
+        f *= 10.0;
+        f = floor(f);
+        f /= 10.0;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];

@@ -139,13 +139,16 @@
         text = NSLocalizedString(@"Measurements display as the exact number of device pixels.  This corresponds to UIKit or AppKit logical points on a non-retina display.", nil);
 
     } else if (mode == MeasurementModeDivideBy2) {
-        text = NSLocalizedString(@"Measurements display as half the number of device pixels.  This corresponds to UIKit or AppKit logical points on a retina display.", nil);
+        text = NSLocalizedString(@"Measurements display as half the number of device pixels.  This corresponds to UIKit or AppKit logical points on a 2x retina display.", nil);
 
     } else if (mode == MeasurementModeMultiplyBy2) {
         text = NSLocalizedString(@"Measurements display as double the number of device pixels.  Use this mode only if your workflow requires it.", nil);
 
     } else if (mode == MeasurementModeDivideBy4) {
         text = NSLocalizedString(@"Measurements display as one quarter the number of device pixels.  Use this mode only if your workflow requires it.", nil);
+
+    } else if (mode == MeasurementModeDivideBy3) {
+        text = NSLocalizedString(@"Measurements display as one third the number of device pixels.  This corresponds to UIKit logical points on a 3x retina display.", nil);
     }
     
     [[self measurementModeField] setStringValue:text];

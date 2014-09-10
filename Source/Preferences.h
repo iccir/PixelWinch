@@ -32,7 +32,8 @@ typedef NS_ENUM(NSInteger, MeasurementMode) {
     MeasurementModeIdentity    = 0,
     MeasurementModeDivideBy2   = 1,
     MeasurementModeDivideBy4   = 2,
-    MeasurementModeMultiplyBy2 = 3
+    MeasurementModeMultiplyBy2 = 3,
+    MeasurementModeDivideBy3   = 4
 };
 
 
