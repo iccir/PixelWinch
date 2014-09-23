@@ -1074,7 +1074,6 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				55916E601941387800F28F4C /* Copy LoginItems */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
-				557BA9C01821EA72004A57FC /* Lipo & Sign Frameworks */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -1266,20 +1265,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		557BA9C01821EA72004A57FC /* Lipo & Sign Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Lipo & Sign Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\nif [ -n \"$CODE_SIGN_IDENTITY\" ]; then\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/XUIKit.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/HockeySDK.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n\n    codesign --verbose --force --sign \"$CODE_SIGN_IDENTITY\" \"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Library/LoginItems/Launch Pixel Winch.app\"\n\nfi\n";
-		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
