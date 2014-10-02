@@ -23,9 +23,9 @@
 static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
 #if ENABLE_APP_STORE
-    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
-        exit(173);
-    }
+#ifndef DEBUG
+    B_CheckReceipt();
+#endif
 #else
     __block long long expiration = kExpirationLong;
 

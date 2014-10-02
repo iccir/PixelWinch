@@ -41,11 +41,7 @@
 #define sCheckAndProtect _
 static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
-#if ENABLE_APP_STORE
-    if (![[PurchaseManager sharedInstance] doesReceiptExist]) {
-        exit(173);
-    }
-#else
+#ifndef ENABLE_APP_STORE
     ^{
         NSString *message = NSLocalizedString(@"Version Expired", nil);
         NSString *text    = NSLocalizedString(@"This version of Pixel Winch has expired.  A newer version may be available on the Pixel Winch website.", nil);
@@ -268,6 +264,33 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[BITHockeyManager sharedHockeyManager] setDisableFeedbackManager:YES];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
+}
+
+
+- (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
+{
+/*
+    EmbraceLogMethod();
+
+    NSURL *fileURL = [NSURL fileURLWithPath:filename];
+
+    if (IsAudioFileAtURL(fileURL)) {
+        [_setlistController openFileAtURL:fileURL];
+        return YES;
+    }
+*/
+    NSLog(@"openFile: %@", filename);
+
+    return NO;
+}
+
+
+- (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    
+    NSLog(@"openFiles: %@", filenames);
+
+
 }
 
 

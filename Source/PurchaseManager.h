@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define ENABLE_APP_STORE 0
-
 #if ENABLE_APP_STORE
 
 @interface PurchaseManager : NSObject

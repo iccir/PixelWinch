@@ -9,12 +9,12 @@
 #import <Cocoa/Cocoa.h>
 
 #if ENABLE_APP_STORE
-#include "Validation_A.h"
+#include "ReceiptValidation_A.h"
 #endif
 
 int main(int argc, char *argv[])
 {
-#if ENABLE_APP_STORE
+#if ENABLE_APP_STORE && !defined(DEBUG)
     CheckReceiptAndRun(argc, argv);
 #else
     return NSApplicationMain(argc,  (const char **) argv);

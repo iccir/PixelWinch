@@ -354,6 +354,7 @@
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		5564B8FA19DCD2D500D0139C /* Info-AppStore.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-AppStore.plist"; path = "Resources/Info-AppStore.plist"; sourceTree = "<group>"; };
 		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
 		556D37371935CFDD00C90B11 /* Updater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Updater.h; path = Source/Updater.h; sourceTree = "<group>"; };
 		556D37381935CFDD00C90B11 /* Updater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Updater.m; path = Source/Updater.m; sourceTree = "<group>"; };
@@ -652,6 +653,7 @@
 				55C20CCD1800EBC100ECE184 /* Toolbar Icons */,
 				5512BF4317FA4EDA00425AD6 /* marquee.png */,
 				554D898F135BF027003BFC89 /* Info.plist */,
+				5564B8FA19DCD2D500D0139C /* Info-AppStore.plist */,
 				554D8995135BF064003BFC89 /* InfoPlist.strings */,
 				559D38C3180376F30048F29B /* Preferences.xib */,
 				554D8997135BF064003BFC89 /* MainMenu.xib */,
@@ -1277,7 +1279,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=`eval \"echo $BUNDLE_ID\"`\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\nHEADER_C=\"$PROJECT_DIR/Source/ReceiptValidation_C.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPB=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_C\" ]; then\n    SKIPC=`grep -q \"$EXPANDED_BUNDLE_ID\" \"$HEADER_C\" && grep -q \"$EXPANDED_BUNDLE_VERSION\" \"$HEADER_C\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n\nif [ \"x$SKIPC\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix C --success checkinapp --failure docrash > \"$HEADER_C\"\nfi\n";
+			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=`eval \"echo $BUNDLE_ID\"`\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\nHEADER_C=\"$PROJECT_DIR/Source/ReceiptValidation_C.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_C\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_C\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_C\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n\nif [ \"x$SKIPC\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix C --success checkinapp --failure docrash > \"$HEADER_C\"\nfi\n";
 		};
 		55F4A49D1845F236000AFDB6 /* Generate Expiration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1745,6 +1747,7 @@
 		};
 		557BA9BB1821DA06004A57FC /* Profile Store */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1761,13 +1764,10 @@
 		};
 		557BA9BC1821DA06004A57FC /* Profile Store */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					$inherited,
-					"\\\"$(BUILD_DIR)/Profile\\\"",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
 			name = "Profile Store";
@@ -1792,10 +1792,10 @@
 		55CC21B41832F4C2004076CF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
@@ -1803,6 +1803,7 @@
 		};
 		55CC21B51832F4CF004076CF /* Debug Store */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1819,19 +1820,21 @@
 		};
 		55CC21B61832F4CF004076CF /* Debug Store */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					$inherited,
-					"\\\"$(BUILD_DIR)/Debug\\\"",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					ENABLE_APP_STORE,
 				);
 			};
 			name = "Debug Store";
 		};
 		55CC21B71832F4DB004076CF /* Release Store */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1848,13 +1851,10 @@
 		};
 		55CC21B81832F4DB004076CF /* Release Store */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(BUILD_DIR)/Release\\\"",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
 			name = "Release Store";
@@ -1862,10 +1862,10 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
@@ -1874,10 +1874,10 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					<redacted>,
-					"$(PROJECT_DIR)/lib",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
 			name = Release;
