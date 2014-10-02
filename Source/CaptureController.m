@@ -24,7 +24,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
 #if ENABLE_APP_STORE
 #ifndef DEBUG
-    B_CheckReceipt();
+//    B_CheckReceipt();
 #endif
 #else
     __block long long expiration = kExpirationLong;

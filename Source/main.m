@@ -14,7 +14,7 @@
 
 int main(int argc, char *argv[])
 {
-#if ENABLE_APP_STORE && !defined(DEBUG)
+#if 0 && ENABLE_APP_STORE && !defined(DEBUG)
     CheckReceiptAndRun(argc, argv);
 #else
     return NSApplicationMain(argc,  (const char **) argv);

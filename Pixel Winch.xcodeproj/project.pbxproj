@@ -123,7 +123,6 @@
 		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
 		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
-		55BB34E81935E1CA00E3F022 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
 		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
 		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
@@ -223,7 +222,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				55BB34E81935E1CA00E3F022 /* Sparkle.framework in Copy Frameworks */,
 				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
 				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
