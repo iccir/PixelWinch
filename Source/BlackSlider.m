@@ -20,9 +20,9 @@
     NSImage *image;
 
     if ([self isHighlighted]) {
-        image = [NSImage imageNamed:@"knob_highlighted"];
+        image = [NSImage imageNamed:@"SliderKnobHighlighted"];
     } else {
-        image = [NSImage imageNamed:@"knob_normal"];
+        image = [NSImage imageNamed:@"SliderKnobNormal"];
     }
 
     DrawImageAtPoint(image, knobRect.origin);
@@ -31,7 +31,7 @@
 
 - (void) drawBarInside:(NSRect)aRect flipped:(BOOL)flipped
 {
-    NSImage *well = [NSImage imageNamed:@"slider_well"];
+    NSImage *well = [NSImage imageNamed:@"SliderWell"];
     aRect = CGRectInset(aRect, -1, -1);
     
     DrawThreePart(well, aRect, 5, 5);

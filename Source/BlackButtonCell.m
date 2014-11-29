@@ -44,12 +44,12 @@
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSButton *)controlView
 {
     if (_type == NSRadioButton) {
-        NSImage *image = [NSImage imageNamed:@"radio_normal"];
+        NSImage *image = [NSImage imageNamed:@"RadioNormal"];
 
         if ([self state] == NSOnState) {
-            image = [NSImage imageNamed:@"radio_selected"];
+            image = [NSImage imageNamed:@"RadioSelected"];
         } else if ([self isHighlighted]) {
-            image = [NSImage imageNamed:@"radio_highlighted"];
+            image = [NSImage imageNamed:@"RadioHighlighted"];
         }
         
         DrawImageAtPoint(image, CGPointMake(cellFrame.origin.x + 2, cellFrame.origin.y + 2));

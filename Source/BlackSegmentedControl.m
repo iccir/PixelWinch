@@ -8,39 +8,12 @@
 
 #import "BlackSegmentedControl.h"
 
-typedef NS_ENUM(NSInteger, SegmentShape) {
-    SegmentShapeLeft,
-    SegmentShapeMiddle,
-    SegmentShapeRight
-};
-
-
-static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL selected)
-{
-    NSString *shapeName = @"middle";
-    if (shape == SegmentShapeLeft) {
-        shapeName = @"left";
-    } else if (shape == SegmentShapeRight) {
-        shapeName = @"right";
-    }
-
-    NSString *stateName = @"normal";
-    if (selected) {
-        stateName = @"selected";
-    } else if (highlighted) {
-        stateName = @"highlighted";
-    }
-
-    NSString *imageName = [NSString stringWithFormat:@"segmented_%@_%@", shapeName, stateName];
-    return [NSImage imageNamed:imageName];
-}
-
 
 @implementation BlackSegmentedControl {
     NSMutableDictionary *_segmentNumberToImageMap;
 }
 
-- (void) setSelectedImage:(NSImage *)image forSegment:(NSInteger)segment
+- (void) setTemplateImage:(NSImage *)image forSegment:(NSInteger)segment
 {
     if (!_segmentNumberToImageMap) {
         _segmentNumberToImageMap = [NSMutableDictionary dictionary];
@@ -49,7 +22,7 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
     [_segmentNumberToImageMap setObject:image forKey:@(segment)];
 }
 
-- (NSImage *) selectedImageForSegment:(NSInteger)segment
+- (NSImage *) templateImageForSegment:(NSInteger)segment
 {
     return [_segmentNumberToImageMap objectForKey:@(segment)];
 }
@@ -77,34 +50,29 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
     NSRect shadowFrame = cellFrame;
     shadowFrame.size.height -= 1.0;
 
-    NSInteger count = [controlView segmentCount];
-    for (NSInteger i = 0; i < [controlView segmentCount]; i++) {
+    CGContextRef context = XUIGraphicsGetCurrentContext();
+
+    NSInteger segmentCount = [controlView segmentCount];
+    for (NSInteger i = 0; i < segmentCount; i++) {
         BOOL isSelected = [controlView isSelectedForSegment:i];
         CGRect frame = [[_segmentToFrameMap objectForKey:@(i)] rectValue];
 
-        SegmentShape shape = SegmentShapeMiddle;
-        if (i == 0) shape = SegmentShapeLeft;
-        else if (i == (count - 1)) shape = SegmentShapeRight;
-
-        NSImage *segmentImage = sGetSegmentImage(shape, NO, isSelected);
-
-        frame.origin.x -= 1.0;
-        frame.origin.y    = cellFrame.origin.y;
-        frame.size.height = [segmentImage size].height;
-        frame.size.width += 1.0;
-
-        if (shape == SegmentShapeRight) {
-            frame.size.width += 1.0;
-        }
-        
-        DrawThreePart(segmentImage, frame, 5, 5);
-
-        NSImage *image;
         if (isSelected) {
-            image = [controlView selectedImageForSegment:i];
-        } else {
-            image = [controlView imageForSegment:i];
+            CGRect roundedRect = [[_segmentToFrameMap objectForKey:@(i)] rectValue];
+            roundedRect.origin.y    = cellFrame.origin.y;
+            roundedRect.size.height = cellFrame.size.height - 1;
+
+            NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:6];
+
+            NSGradient *g = [[NSGradient alloc] initWithColors:@[
+                GetRGBColor(0xffffff, 0.1),
+                GetRGBColor(0xffffff, 0.15)
+            ]];
+            
+            [g drawInBezierPath:path angle:90];
         }
+
+        NSImage *image = [controlView templateImageForSegment:i];
 
         NSSize imageSize = [image size];
         NSRect imageRect = { frame.origin, imageSize };
@@ -113,7 +81,40 @@ static NSImage *sGetSegmentImage(SegmentShape shape, BOOL highlighted, BOOL sele
         imageRect.origin.x += round((frame.size.width  - imageSize.width)  / 2);
         imageRect.origin.y += round(((cellFrame.size.height - 1) - imageSize.height) / 2);
 
-        [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
+        CGContextSaveGState(context);
+
+        NSShadow *shadow = [[NSShadow alloc] init];
+        
+        [shadow setShadowBlurRadius:(isSelected ? 4 : 2)];
+        [shadow setShadowOffset:NSMakeSize(0, 0)];
+        [shadow setShadowColor:[NSColor blackColor]];
+        
+        [shadow set];
+        
+        CGContextBeginTransparencyLayer(context, NULL);
+
+        ClipToImage(image, imageRect);
+
+        NSGradient *g;
+
+        if (isSelected) {
+            g = [[NSGradient alloc] initWithColors:@[
+                GetRGBColor(0xfffff0, 1.0),
+                GetRGBColor(0xffffff, 1.0)
+            ]];
+        } else {
+            g = [[NSGradient alloc] initWithColors:@[
+                GetRGBColor(0xb0b0b0, 1.0),
+                GetRGBColor(0x989898, 1.0)
+            ]];
+        }
+        
+        [g drawInRect:imageRect angle:90];
+
+        CGContextEndTransparencyLayer(context);
+
+        CGContextRestoreGState(context);
+
     }
 
     _segmentToFrameMap = nil;

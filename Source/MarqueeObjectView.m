@@ -28,7 +28,7 @@
 - (id) initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
-        _pattern     = CopyImageNamed(@"marquee");
+        _pattern     = CopyImageNamed(@"Marquee");
         _patternSize = CGSizeMake(CGImageGetWidth(_pattern), CGImageGetHeight(_pattern));
 
         _start = [NSDate timeIntervalSinceReferenceDate];

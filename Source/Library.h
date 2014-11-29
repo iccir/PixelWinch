@@ -14,6 +14,8 @@
 
 + (instancetype) sharedInstance;
 
+- (LibraryItem *) importedItemAtPath:(NSString *)filePath;
+
 - (void) addItem:(LibraryItem *)item;
 - (void) removeItem:(LibraryItem *)item;
 - (void) discardItem:(LibraryItem *)item;

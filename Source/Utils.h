@@ -56,6 +56,9 @@ extern CGImageRef   CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^
 extern void DrawImageAtPoint(NSImage *image, CGPoint point);
 extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat rightCap);
 
+extern void ClipToImage(NSImage *image, CGRect rect);
+
+
 extern CGImageRef CopyImageNamed(NSString *name);
 
 extern CGFloat GetEdgeValueOfRect(CGRect rect, CGRectEdge edge);

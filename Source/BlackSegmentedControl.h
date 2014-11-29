@@ -10,8 +10,8 @@
 
 @interface BlackSegmentedControl : NSSegmentedControl
 
-- (void) setSelectedImage:(NSImage *)image forSegment:(NSInteger)segment;
-- (NSImage *) selectedImageForSegment:(NSInteger)segment;
+- (void) setTemplateImage:(NSImage *)image forSegment:(NSInteger)segment;
+- (NSImage *) templateImageForSegment:(NSInteger)segment;
 
 @end
 

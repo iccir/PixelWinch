@@ -148,7 +148,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_wand"];
+            NSImage *image = [NSImage imageNamed:@"CursorWand"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(7, 7)];
         }
     });
@@ -164,7 +164,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_grapple_h"];
+            NSImage *image = [NSImage imageNamed:@"CursorGrappleH"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(12, 12)];
         }
     });
@@ -180,7 +180,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_grapple_v"];
+            NSImage *image = [NSImage imageNamed:@"CursorGrappleV"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(12, 12)];
         }
     });
@@ -196,7 +196,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_resize_nw_se"];
+            NSImage *image = [NSImage imageNamed:@"CursorResize_NW_SE"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
         }
     });
@@ -212,7 +212,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_resize_ne_sw"];
+            NSImage *image = [NSImage imageNamed:@"CursorResize_NE_SW"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
         }
     });
@@ -228,7 +228,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_resize_n_s"];
+            NSImage *image = [NSImage imageNamed:@"CursorResize_N_S"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
         }
     });
@@ -244,7 +244,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_resize_w_e"];
+            NSImage *image = [NSImage imageNamed:@"CursorResize_W_E"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(9, 9)];
         }
     });
@@ -260,7 +260,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_zoom_in"];
+            NSImage *image = [NSImage imageNamed:@"CursorZoomIn"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(8, 7)];
         }
     });
@@ -276,7 +276,7 @@ static NSMutableDictionary *sInstancesToNameMap = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (!sCursor) {
-            NSImage *image = [NSImage imageNamed:@"cursor_zoom_out"];
+            NSImage *image = [NSImage imageNamed:@"CursorZoomOut"];
             sCursor = [[NSCursor alloc] initWithImage:image hotSpot:CGPointMake(8, 7)];
         }
     });

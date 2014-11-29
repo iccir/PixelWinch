@@ -269,34 +269,20 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
-/*
-    EmbraceLogMethod();
-
-    NSURL *fileURL = [NSURL fileURLWithPath:filename];
-
-    if (IsAudioFileAtURL(fileURL)) {
-        [_setlistController openFileAtURL:fileURL];
-        return YES;
-    }
-*/
-    NSLog(@"openFile: %@", filename);
-
-    return NO;
+    if (!filename) return NO;
+    return [[self canvasController] importFilesAtPaths:@[ filename ]];
 }
 
 
 - (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
-    
-    NSLog(@"openFiles: %@", filenames);
-
-
+    [[self canvasController] importFilesAtPaths:filenames];
 }
 
 
 - (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
 {
-    NSImage *image = [NSImage imageNamed:@"status_bar"];
+    NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
     [image setTemplate:YES];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {

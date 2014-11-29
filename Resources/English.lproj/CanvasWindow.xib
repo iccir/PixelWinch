@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CanvasController">
@@ -10,7 +10,6 @@
                 <outlet property="canvasScrollView" destination="lMB-yE-vpe" id="CEK-pN-oPw"/>
                 <outlet property="canvasView" destination="qbg-5V-qxt" id="N5v-kD-ZkN"/>
                 <outlet property="contentTopLevelView" destination="Ba3-HT-LZG" id="dk7-aB-D99"/>
-                <outlet property="contentView" destination="Ba3-HT-LZG" id="0nT-LG-DnK"/>
                 <outlet property="grappleToolView" destination="jka-Rj-MMg" id="1fJ-9N-spt"/>
                 <outlet property="horizontalRuler" destination="8Dg-wx-IlB" id="Uj6-UW-h9z"/>
                 <outlet property="inspectorContainer" destination="rKi-rg-iQD" id="2mZ-Xz-xge"/>
@@ -19,18 +18,14 @@
                 <outlet property="libraryCollectionView" destination="9ix-Lp-IXy" id="TIR-8s-UIT"/>
                 <outlet property="libraryItemPrototype" destination="lNn-9t-2vp" id="WLg-Ia-3Jd"/>
                 <outlet property="libraryScrollView" destination="meG-px-oP9" id="t8t-SU-7Kr"/>
-                <outlet property="mainContentView" destination="Ba3-HT-LZG" id="lE0-uD-G4T"/>
                 <outlet property="rectangleObjectView" destination="qVI-V6-cQx" id="ziO-Hr-Hvc"/>
-                <outlet property="scrollView" destination="lMB-yE-vpe" id="ch3-04-cCC"/>
-                <outlet property="segmentedControl" destination="5KM-8b-Puk" id="OqI-gx-biV"/>
-                <outlet property="toolContainer" destination="HDR-yg-Zz5" id="Vex-mc-FMV"/>
                 <outlet property="toolPicker" destination="5KM-8b-Puk" id="lRb-7k-Qpl"/>
                 <outlet property="verticalRuler" destination="78j-k9-6E4" id="NsJ-f7-pIy"/>
                 <outlet property="zoomToolView" destination="LEE-so-sRZ" id="86v-2m-6mN"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView wantsLayer="YES" id="Ba3-HT-LZG" userLabel="Main Content View" customClass="ShroudView">
             <rect key="frame" x="0.0" y="0.0" width="640" height="468"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -40,30 +35,30 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <segmentedControl verticalHuggingPriority="750" id="5KM-8b-Puk" customClass="BlackSegmentedControl">
-                            <rect key="frame" x="8" y="7" width="288" height="25"/>
+                            <rect key="frame" x="8" y="6" width="288" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <segmentedCell key="cell" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT" customClass="BlackSegmentedCell">
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT" customClass="BlackSegmentedCell">
                                 <font key="font" metaFont="system"/>
                                 <segments>
-                                    <segment toolTip="Move Tool (V)" image="toolbar_arrow_normal" imageScaling="none" width="40" selected="YES">
+                                    <segment toolTip="Move Tool (V)" imageScaling="none" width="40" selected="YES">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Hand Tool (H)" image="toolbar_hand_normal" imageScaling="none" width="40" tag="1">
+                                    <segment toolTip="Hand Tool (H)" imageScaling="none" width="40" tag="1">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Marquee Tool (M)" image="toolbar_marquee_normal" imageScaling="none" width="40" tag="2">
+                                    <segment toolTip="Marquee Tool (M)" imageScaling="none" width="40" tag="2">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Rectangle Tool (R)" image="toolbar_rectangle_normal" imageScaling="none" width="40" tag="3">
+                                    <segment toolTip="Rectangle Tool (R)" imageScaling="none" width="40" tag="3">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Line Tool (L)" image="toolbar_line_normal" imageScaling="none" width="40" tag="4">
+                                    <segment toolTip="Line Tool (L)" imageScaling="none" width="40" tag="4">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Grapple Tool (G)" image="toolbar_grapple_normal" imageScaling="none" width="40" tag="5">
+                                    <segment toolTip="Grapple Tool (G)" imageScaling="none" width="40" tag="5">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Zoom Tool (Z)" image="toolbar_zoom_normal" imageScaling="none" width="40" tag="7">
+                                    <segment toolTip="Zoom Tool (Z)" imageScaling="none" width="40" tag="7">
                                         <nil key="label"/>
                                     </segment>
                                 </segments>
@@ -153,7 +148,7 @@
                 <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Zvr-vs-PPX">
                     <rect key="frame" x="0.0" y="96" width="640" height="8"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="bottom_shadow" id="plN-i9-iNw"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="BottomShadow" id="plN-i9-iNw"/>
                 </imageView>
             </subviews>
         </customView>
@@ -163,37 +158,16 @@
             <subviews>
                 <customView id="jka-Rj-MMg" userLabel="Grapple Tool View">
                     <rect key="frame" x="0.0" y="74" width="380" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <slider verticalHuggingPriority="750" id="wRw-NE-Rb7" customClass="BlackSlider">
-                            <rect key="frame" x="274" y="1" width="100" height="17"/>
+                            <rect key="frame" x="261" y="0.0" width="100" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="KLe-U1-eOS" customClass="BlackSliderCell"/>
                             <connections>
                                 <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="ARN-GM-MNn"/>
                             </connections>
                         </slider>
-                        <textField verticalHuggingPriority="750" id="Pxo-YO-EGD" customClass="BlackTextField">
-                            <rect key="frame" x="237" y="0.0" width="29" height="19"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="100" drawsBackground="YES" id="ktK-eV-7kU" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" numberStyle="decimal" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" id="bQy-rF-fWW">
-                                    <real key="roundingIncrement" value="0.0"/>
-                                    <real key="minimum" value="0.0"/>
-                                    <real key="maximum" value="100"/>
-                                    <metadata>
-                                        <bool key="localizesFormat" value="YES"/>
-                                        <real key="inspectorSampleValue" value="1"/>
-                                    </metadata>
-                                </numberFormatter>
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <connections>
-                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="YB3-7e-fjh"/>
-                            </connections>
-                        </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="UdJ-LV-L0R" customClass="BlackTextField">
                             <rect key="frame" x="172" y="3" width="59" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -207,7 +181,7 @@
                             <rect key="frame" x="0.0" y="2" width="166" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="78" height="18"/>
+                            <size key="cellSize" width="76" height="18"/>
                             <size key="intercellSpacing" width="0.0" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="WGb-oz-mri" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -231,17 +205,30 @@
                                 <binding destination="-2" name="selectedTag" keyPath="self.toolbox.grappleTool.vertical" id="mym-rP-brO"/>
                             </connections>
                         </matrix>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="fcR-5i-P94" customClass="BlackTextField">
+                            <rect key="frame" x="233" y="3" width="24" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="100" id="g9U-fD-jCa" customClass="BlackTextFieldCell">
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" minimumIntegerDigits="0" maximumIntegerDigits="42" id="tqZ-MV-oWg"/>
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <connections>
+                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="th6-M4-zdk"/>
+                            </connections>
+                        </textField>
                     </subviews>
                 </customView>
                 <customView id="LEE-so-sRZ" userLabel="Zoom Tool View">
                     <rect key="frame" x="0.0" y="47" width="300" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="ihd-HV-att">
                             <rect key="frame" x="0.0" y="2" width="158" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="76" height="18"/>
+                            <size key="cellSize" width="75" height="18"/>
                             <size key="intercellSpacing" width="0.0" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="Kb8-sJ-JYc" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -289,7 +276,7 @@
                 </customView>
                 <customView id="qVI-V6-cQx" userLabel="Rectangle Object View">
                     <rect key="frame" x="0.0" y="20" width="300" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="GPG-UO-RhY" customClass="BlackTextField">
                             <rect key="frame" x="6" y="3" width="15" height="14"/>
@@ -331,12 +318,7 @@
                             <rect key="frame" x="21" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="HBZ-L7-GhA" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="YnC-Mu-brW">
-                                    <real key="roundingIncrement" value="0.0"/>
-                                    <metadata>
-                                        <bool key="localizesFormat" value="YES"/>
-                                    </metadata>
-                                </numberFormatter>
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" paddingCharacter="*" minimumIntegerDigits="1" maximumIntegerDigits="309" maximumFractionDigits="3" decimalSeparator="." groupingSeparator="," currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="" positiveSuffix="" negativePrefix="-" negativeSuffix="" id="YnC-Mu-brW"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -349,12 +331,7 @@
                             <rect key="frame" x="84" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="cu2-AP-N1f" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="zu3-z8-AYR">
-                                    <real key="roundingIncrement" value="0.0"/>
-                                    <metadata>
-                                        <bool key="localizesFormat" value="YES"/>
-                                    </metadata>
-                                </numberFormatter>
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" paddingCharacter="*" minimumIntegerDigits="1" maximumIntegerDigits="309" maximumFractionDigits="3" decimalSeparator="." groupingSeparator="," currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="" positiveSuffix="" negativePrefix="-" negativeSuffix="" id="zu3-z8-AYR"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -367,12 +344,7 @@
                             <rect key="frame" x="149" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="04Y-HY-CZe" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="alP-Og-W7W">
-                                    <real key="roundingIncrement" value="0.0"/>
-                                    <metadata>
-                                        <bool key="localizesFormat" value="YES"/>
-                                    </metadata>
-                                </numberFormatter>
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" paddingCharacter="*" minimumIntegerDigits="1" maximumIntegerDigits="309" maximumFractionDigits="3" decimalSeparator="." groupingSeparator="," currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="" positiveSuffix="" negativePrefix="-" negativeSuffix="" id="alP-Og-W7W"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -385,12 +357,7 @@
                             <rect key="frame" x="213" y="3" width="44" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="9,999" id="Ndt-Fm-7Bx" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="o3L-aM-kEu">
-                                    <real key="roundingIncrement" value="0.0"/>
-                                    <metadata>
-                                        <bool key="localizesFormat" value="YES"/>
-                                    </metadata>
-                                </numberFormatter>
+                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" paddingCharacter="*" minimumIntegerDigits="1" maximumIntegerDigits="309" maximumFractionDigits="3" decimalSeparator="." groupingSeparator="," currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="" positiveSuffix="" negativePrefix="-" negativeSuffix="" id="o3L-aM-kEu"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -416,13 +383,6 @@
         </arrayController>
     </objects>
     <resources>
-        <image name="bottom_shadow" width="8" height="8"/>
-        <image name="toolbar_arrow_normal" width="12.083915710449219" height="12.083915710449219"/>
-        <image name="toolbar_grapple_normal" width="24" height="24"/>
-        <image name="toolbar_hand_normal" width="12.083915710449219" height="12.083915710449219"/>
-        <image name="toolbar_line_normal" width="24" height="24"/>
-        <image name="toolbar_marquee_normal" width="12.083915710449219" height="12.083915710449219"/>
-        <image name="toolbar_rectangle_normal" width="12.083915710449219" height="12.083915710449219"/>
-        <image name="toolbar_zoom_normal" width="12.083915710449219" height="12.083915710449219"/>
+        <image name="BottomShadow" width="8" height="8"/>
     </resources>
 </document>

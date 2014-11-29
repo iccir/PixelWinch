@@ -38,7 +38,7 @@
 
 - (void) _calculateStartAndEndFrame
 {
-    NSImage *image = [NSImage imageNamed:@"tutorial_arrow"];
+    NSImage *image = [NSImage imageNamed:@"TutorialArrow"];
     NSSize imageSize = [image size];
     
     NSRect imageRect = NSMakeRect(0, 0, imageSize.width, imageSize.height);
@@ -61,7 +61,7 @@
 {
     _statusItem = statusItem;
     
-    NSImage *image = [NSImage imageNamed:@"tutorial_arrow"];
+    NSImage *image = [NSImage imageNamed:@"TutorialArrow"];
     NSSize imageSize = [image size];
     
     NSRect imageRect = NSMakeRect(0, 0, imageSize.width, imageSize.height);

@@ -59,7 +59,7 @@
         LibraryItem *item = [LibraryItem libraryItem];
         [item setTitle:NSLocalizedString(@"Tips", nil)];
 
-        NSString *tipsPath = [[NSBundle mainBundle] pathForResource:@"tips" ofType:@"png"];
+        NSString *tipsPath = [[NSBundle mainBundle] pathForResource:@"Tips" ofType:@"png"];
 
         NSError *error = nil;
         [manager copyItemAtPath:tipsPath toPath:[item screenshotPath] error:&error];
@@ -144,6 +144,25 @@
             [item setDateString:timeString];
         }
     }
+}
+
+
+- (LibraryItem *) importedItemAtPath:(NSString *)filePath
+{
+    if (!filePath) return nil;
+
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    if (!data) return nil;
+
+    NSImage *image = [[NSImage alloc] initWithData:data];
+    if (!image) return nil;
+
+    LibraryItem *item = [LibraryItem libraryItem];
+    [data writeToFile:[item screenshotPath] atomically:YES];
+
+    [self addItem:item];
+
+    return item;
 }
 
 

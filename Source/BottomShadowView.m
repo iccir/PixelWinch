@@ -33,7 +33,7 @@
 
 - (void) updateLayer
 {
-    [[self layer] setContents:[NSImage imageNamed:@"bottom_shadow"]];
+    [[self layer] setContents:[NSImage imageNamed:@"BottomShadow"]];
     [self setLayerContentsPlacement:NSViewLayerContentsPlacementScaleAxesIndependently];
 }
 

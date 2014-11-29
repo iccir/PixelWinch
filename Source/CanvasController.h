@@ -19,6 +19,8 @@
 
 @interface CanvasController : NSWindowController
 
+- (BOOL) importFilesAtPaths:(NSArray *)filePaths;
+
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;

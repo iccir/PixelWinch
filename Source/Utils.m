@@ -459,6 +459,28 @@ extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat 
 }
 
 
+extern void ClipToImage(NSImage *image, CGRect rect)
+{
+    NSGraphicsContext *nsContext = [NSGraphicsContext currentContext];
+    CGContextRef       cgContext = [nsContext graphicsPort];
+    
+    NSImageRep *imageRep = [image bestRepresentationForRect:rect context:nsContext hints:nil];
+    
+    if ([imageRep respondsToSelector:@selector(CGImage)]) {
+        CGImageRef cgImage = [(id)imageRep CGImage];
+
+        CGContextTranslateCTM(cgContext, 0, rect.size.height);
+        CGContextScaleCTM(cgContext, 1, -1);
+        CGContextClipToMask(cgContext, rect, cgImage);
+        CGContextScaleCTM(cgContext, 1, -1);
+        CGContextTranslateCTM(cgContext, 0, -rect.size.height);
+
+    } else {
+        CGContextClipToRect(cgContext, rect);
+    }
+}
+
+
 extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow)
 {
 	[NSGraphicsContext saveGraphicsState];

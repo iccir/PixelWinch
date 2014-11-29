@@ -120,8 +120,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-
-
 - (id) initWithWindow:(NSWindow *)window
 {
     if ((self = [super initWithWindow:window])) {
@@ -234,6 +232,10 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             if ([self _duplicateCurrentSelection]) return;
             return;
 
+        } else if (c == 's') {
+            [self exportItem:nil];
+            return;
+
         } else if (c >= '1' && c <= '8') {
             NSInteger level = (c - '0');
             [_magnificationManager setMagnification:level];
@@ -260,10 +262,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         } else if (c == '}') {
             [self loadNextLibraryItem:nil];
-            return;
-            
-        } else if (c == 'S') {
-            // Save as? / Export?
             return;
         }
 
@@ -346,21 +344,21 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) awakeFromNib
 {
-    NSImage *arrowSelected     = [NSImage imageNamed:@"toolbar_arrow_selected"];
-    NSImage *handSelected      = [NSImage imageNamed:@"toolbar_hand_selected"];
-    NSImage *marqueeSelected   = [NSImage imageNamed:@"toolbar_marquee_selected"];
-    NSImage *rectangleSelected = [NSImage imageNamed:@"toolbar_rectangle_selected"];
-    NSImage *lineSelected      = [NSImage imageNamed:@"toolbar_line_selected"];
-    NSImage *grappleSelected   = [NSImage imageNamed:@"toolbar_grapple_selected"];
-    NSImage *zoomSelected      = [NSImage imageNamed:@"toolbar_zoom_selected"];
+    NSImage *arrowImage     = [NSImage imageNamed:@"ToolbarArrow"];
+    NSImage *handImage      = [NSImage imageNamed:@"ToolbarHand"];
+    NSImage *marqueeImage   = [NSImage imageNamed:@"ToolbarMarquee"];
+    NSImage *rectangleImage = [NSImage imageNamed:@"ToolbarRectangle"];
+    NSImage *lineImage      = [NSImage imageNamed:@"ToolbarLine"];
+    NSImage *grappleImage   = [NSImage imageNamed:@"ToolbarGrapple"];
+    NSImage *zoomImage      = [NSImage imageNamed:@"ToolbarZoom"];
 
-    [_toolPicker setSelectedImage:arrowSelected     forSegment:0];
-    [_toolPicker setSelectedImage:handSelected      forSegment:1];
-    [_toolPicker setSelectedImage:marqueeSelected   forSegment:2];
-    [_toolPicker setSelectedImage:rectangleSelected forSegment:3];
-    [_toolPicker setSelectedImage:lineSelected      forSegment:4];
-    [_toolPicker setSelectedImage:grappleSelected   forSegment:5];
-    [_toolPicker setSelectedImage:zoomSelected      forSegment:6];
+    [_toolPicker setTemplateImage:arrowImage     forSegment:0];
+    [_toolPicker setTemplateImage:handImage      forSegment:1];
+    [_toolPicker setTemplateImage:marqueeImage   forSegment:2];
+    [_toolPicker setTemplateImage:rectangleImage forSegment:3];
+    [_toolPicker setTemplateImage:lineImage      forSegment:4];
+    [_toolPicker setTemplateImage:grappleImage   forSegment:5];
+    [_toolPicker setTemplateImage:zoomImage      forSegment:6];
 
     CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:CGRectMake(0, 0, 640, 400) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 
@@ -1398,6 +1396,31 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 #pragma mark - Public Methods / IBActions
 
+- (BOOL) importFilesAtPaths:(NSArray *)filePaths
+{
+    LibraryItem *itemToOpen = nil;
+
+    for (NSString *filePath in filePaths) {
+        LibraryItem *item = [[Library sharedInstance] importedItemAtPath:filePath];
+        if (item) itemToOpen = item;
+    }
+
+    if (itemToOpen) {
+        NSWindow *window = [self window];
+
+        [self _updateCanvasWithLibraryItem:itemToOpen];
+
+        if (![window isVisible]) {
+            [self toggleVisibility];
+        }
+
+        return YES;
+    }
+
+    return NO;
+}
+
+
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)globalRect
 {
     [self window];  // Force nib to load
@@ -1609,6 +1632,23 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     }
 }
 
+
+- (IBAction) exportItem:(id)sender
+{
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+
+    [savePanel setNameFieldStringValue:@"Pixel Winch Image"];
+    [savePanel setShowsTagField:NO];
+    [savePanel setAllowedFileTypes:@[ @"public.png" ]];
+    
+    if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
+        NSImage *snapshot = GetSnapshotImageForView(_canvasView);
+        
+        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[snapshot TIFFRepresentation]];
+        NSData *data = [rep representationUsingType:NSPNGFileType properties:nil];
+        [data writeToURL:[savePanel URL] atomically:YES];
+    }
+}
 
 
 @end
