@@ -39,6 +39,7 @@
 		554D8999135BF064003BFC89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554D8995135BF064003BFC89 /* InfoPlist.strings */; };
 		554D899A135BF064003BFC89 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 554D8997135BF064003BFC89 /* MainMenu.xib */; };
 		554F05981A29588100BF90F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Images.xcassets */; };
+		554F059A1A29D06000BF90F0 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
 		555152FB1819E6E5004485F6 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555152F91819E6E5004485F6 /* Controls.xib */; };
 		555152FE1819E768004485F6 /* DebugControlsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152FD1819E768004485F6 /* DebugControlsController.m */; };
@@ -134,6 +135,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				554F059A1A29D06000BF90F0 /* Sparkle.framework in Copy Frameworks */,
 				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
 				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
