@@ -577,15 +577,22 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
 
 NSString *GetStringForFloat(CGFloat f)
 {
-    MeasurementMode measurementMode = [[Preferences sharedInstance] measurementMode];
+    NSInteger scaleMode = [[Preferences sharedInstance] scaleMode];
+    
+    if (scaleMode == 0) {
+        double m = [[[Preferences sharedInstance] customScaleMultiplier] doubleValue];
 
-    if (measurementMode == MeasurementModeDivideBy2) {
+        if (m) {
+            f *= m;
+            f *= 10.0;
+            f = floor(f);
+            f /= 10.0;
+        }
+
+    } else if (scaleMode == 2) {
         f /= 2.0;
-    } else if (measurementMode == MeasurementModeDivideBy4) {
-        f /= 4.0;
-    } else if (measurementMode == MeasurementModeMultiplyBy2) {
-        f *= 2.0;
-    } else if (measurementMode == MeasurementModeDivideBy3) {
+
+    } else if (scaleMode == 3) {
         f /= 3.0;
         f *= 10.0;
         f = floor(f);

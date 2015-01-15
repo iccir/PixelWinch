@@ -10,6 +10,9 @@
 
 @interface BlackSegmentedControl : NSSegmentedControl
 
+- (void) setSelectedGradient:(NSGradient *)gradient forSegment:(NSInteger)segment;
+- (NSGradient *) selectedGradientForSegment:(NSInteger)segment;
+
 - (void) setTemplateImage:(NSImage *)image forSegment:(NSInteger)segment;
 - (NSImage *) templateImageForSegment:(NSInteger)segment;
 

@@ -29,6 +29,7 @@
 		5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B41D17F8F1D000D9B4E9 /* RulerView.m */; };
 		553AC79117F7DCC200C253C2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 553AC79017F7DCC200C253C2 /* Utils.m */; };
 		553ACC5D1820E027009AB09E /* ShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ACC5C1820E027009AB09E /* ShadowView.m */; };
+		553CB3FD1A67975B00BE802E /* WindowResizerKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = 553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */; };
 		553ED14A18061AB000F06B45 /* ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED14918061AB000F06B45 /* ScrollView.m */; };
 		553ED16B180651FA00F06B45 /* BlackSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED16A180651FA00F06B45 /* BlackSlider.m */; };
 		553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED1741806A7F000F06B45 /* MeasurementLabel.m */; };
@@ -41,8 +42,6 @@
 		554F05981A29588100BF90F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Images.xcassets */; };
 		554F059A1A29D06000BF90F0 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
-		555152FB1819E6E5004485F6 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 555152F91819E6E5004485F6 /* Controls.xib */; };
-		555152FE1819E768004485F6 /* DebugControlsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152FD1819E768004485F6 /* DebugControlsController.m */; };
 		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
@@ -54,12 +53,13 @@
 		55916E5C194137FF00F28F4C /* LaunchPixelWinch_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */; };
 		55916E611941388900F28F4C /* Launch Pixel Winch.app in Copy LoginItems */ = {isa = PBXBuildFile; fileRef = 55346D84194130C900896455 /* Launch Pixel Winch.app */; };
 		55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55916E6219413B2100F28F4C /* ServiceManagement.framework */; };
+		559471F31A67C7ED006E699C /* GrappleHelp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 559471F11A67C7ED006E699C /* GrappleHelp.txt */; };
 		559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 559B45961803DB5B00849B87 /* CanvasWindow.m */; };
 		559D38C11802ABC60048F29B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38BE1802ABC60048F29B /* Preferences.m */; };
 		559D38C21802ABC60048F29B /* Shortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38BF1802ABC60048F29B /* Shortcut.m */; };
 		559D38C5180376F30048F29B /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 559D38C3180376F30048F29B /* Preferences.xib */; };
 		559D38C9180392B10048F29B /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 559D38C8180392B10048F29B /* PixelWinch.icns */; };
-		559D38D2180399B90048F29B /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38CE180399B90048F29B /* PreferencesController.m */; };
+		559D38D2180399B90048F29B /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38CE180399B90048F29B /* PreferencesWindowController.m */; };
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
 		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
@@ -68,12 +68,12 @@
 		55ADF90D182B8CF6008F1CEB /* RectangleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E4182B7E20008F1CEB /* RectangleTool.m */; };
 		55ADF90E182B8CFF008F1CEB /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EB182B7E42008F1CEB /* Line.m */; };
 		55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E6182B7E20008F1CEB /* Rectangle.m */; };
-		55B07A6A17F654400013B05C /* CaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureController.m */; };
+		55B07A6A17F654400013B05C /* CaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureManager.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
-		55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasController.m */; };
+		55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasWindowController.m */; };
 		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
-		55BB972D180602A600DED9B5 /* ShroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ShroudView.m */; };
+		55BB972D180602A600DED9B5 /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ContentView.m */; };
 		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
 		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
 		55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */; };
@@ -203,6 +203,8 @@
 		553AC79017F7DCC200C253C2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils.m; sourceTree = "<group>"; };
 		553ACC5B1820E027009AB09E /* ShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowView.h; path = Source/ShadowView.h; sourceTree = "<group>"; };
 		553ACC5C1820E027009AB09E /* ShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShadowView.m; path = Source/ShadowView.m; sourceTree = "<group>"; };
+		553CB3FB1A67975B00BE802E /* WindowResizerKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowResizerKnob.h; path = Source/WindowResizerKnob.h; sourceTree = "<group>"; };
+		553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowResizerKnob.m; path = Source/WindowResizerKnob.m; sourceTree = "<group>"; };
 		553ED14818061AB000F06B45 /* ScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollView.h; path = Source/ScrollView.h; sourceTree = "<group>"; };
 		553ED14918061AB000F06B45 /* ScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollView.m; path = Source/ScrollView.m; sourceTree = "<group>"; };
 		553ED169180651FA00F06B45 /* BlackSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackSlider.h; path = Source/BlackSlider.h; sourceTree = "<group>"; };
@@ -223,9 +225,6 @@
 		554F05971A29588100BF90F0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		555152F61818AC6D004485F6 /* Toolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Toolbox.h; path = Source/Toolbox.h; sourceTree = "<group>"; };
 		555152F71818AC6D004485F6 /* Toolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toolbox.m; path = Source/Toolbox.m; sourceTree = "<group>"; };
-		555152FA1819E6E5004485F6 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/Controls.xib; sourceTree = "<group>"; };
-		555152FC1819E768004485F6 /* DebugControlsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugControlsController.h; path = Source/DebugControlsController.h; sourceTree = "<group>"; };
-		555152FD1819E768004485F6 /* DebugControlsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugControlsController.m; path = Source/DebugControlsController.m; sourceTree = "<group>"; };
 		555152FF1819F19E004485F6 /* BlackTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackTextView.h; path = Source/BlackTextView.h; sourceTree = "<group>"; };
 		555153001819F19E004485F6 /* BlackTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackTextView.m; path = Source/BlackTextView.m; sourceTree = "<group>"; };
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
@@ -248,6 +247,7 @@
 		55916E5A194137F700F28F4C /* LaunchPixelWinch_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LaunchPixelWinch_Info.plist; path = Resources/LaunchPixelWinch_Info.plist; sourceTree = SOURCE_ROOT; };
 		55916E6219413B2100F28F4C /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		55916E6419413CB400F28F4C /* Launch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Launch.entitlements; path = Resources/Launch.entitlements; sourceTree = "<group>"; };
+		559471F21A67C7ED006E699C /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
 		559B45951803DB5B00849B87 /* CanvasWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindow.h; path = Source/CanvasWindow.h; sourceTree = "<group>"; };
 		559B45961803DB5B00849B87 /* CanvasWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindow.m; path = Source/CanvasWindow.m; sourceTree = "<group>"; };
 		559D38BD1802ABC60048F29B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = Source/Preferences.h; sourceTree = "<group>"; };
@@ -256,8 +256,8 @@
 		559D38C01802ABC60048F29B /* Shortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shortcut.h; path = Source/Shortcut.h; sourceTree = "<group>"; };
 		559D38C4180376F30048F29B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		559D38C8180392B10048F29B /* PixelWinch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PixelWinch.icns; path = Resources/PixelWinch.icns; sourceTree = "<group>"; };
-		559D38CE180399B90048F29B /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = Source/PreferencesController.m; sourceTree = "<group>"; };
-		559D38CF180399B90048F29B /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = Source/PreferencesController.h; sourceTree = "<group>"; };
+		559D38CE180399B90048F29B /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesWindowController.m; path = Source/PreferencesWindowController.m; sourceTree = "<group>"; };
+		559D38CF180399B90048F29B /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesWindowController.h; path = Source/PreferencesWindowController.h; sourceTree = "<group>"; };
 		559D38D0180399B90048F29B /* ShortcutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShortcutManager.m; path = Source/ShortcutManager.m; sourceTree = "<group>"; };
 		559D38D1180399B90048F29B /* ShortcutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutManager.h; path = Source/ShortcutManager.h; sourceTree = "<group>"; };
 		559D38D418039D930048F29B /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShortcutView.m; path = Source/ShortcutView.m; sourceTree = "<group>"; };
@@ -278,19 +278,19 @@
 		55ADF8EF182B7E42008F1CEB /* GrappleTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrappleTool.h; path = Source/GrappleTool.h; sourceTree = "<group>"; };
 		55ADF908182B8A84008F1CEB /* LineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineTool.m; path = Source/LineTool.m; sourceTree = "<group>"; };
 		55ADF909182B8A84008F1CEB /* LineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineTool.h; path = Source/LineTool.h; sourceTree = "<group>"; };
-		55B07A6817F654400013B05C /* CaptureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureController.h; path = Source/CaptureController.h; sourceTree = "<group>"; };
-		55B07A6917F654400013B05C /* CaptureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureController.m; path = Source/CaptureController.m; sourceTree = "<group>"; };
+		55B07A6817F654400013B05C /* CaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureManager.h; path = Source/CaptureManager.h; sourceTree = "<group>"; };
+		55B07A6917F654400013B05C /* CaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureManager.m; path = Source/CaptureManager.m; sourceTree = "<group>"; };
 		55B07A7417F6CE7B0013B05C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasView.h; path = Source/CanvasView.h; sourceTree = "<group>"; };
 		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
-		55B07A8817F7A19D0013B05C /* CanvasController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasController.h; path = Source/CanvasController.h; sourceTree = "<group>"; };
-		55B07A8917F7A19D0013B05C /* CanvasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasController.m; path = Source/CanvasController.m; sourceTree = "<group>"; };
+		55B07A8817F7A19D0013B05C /* CanvasWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindowController.h; path = Source/CanvasWindowController.h; sourceTree = "<group>"; };
+		55B07A8917F7A19D0013B05C /* CanvasWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindowController.m; path = Source/CanvasWindowController.m; sourceTree = "<group>"; };
 		55B94D98182F2B9900FE39F3 /* ReceiptValidation_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_C.h; path = Source/ReceiptValidation_C.h; sourceTree = SOURCE_ROOT; };
 		55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_A.h; path = Source/ReceiptValidation_A.h; sourceTree = SOURCE_ROOT; };
 		55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_B.h; path = Source/ReceiptValidation_B.h; sourceTree = SOURCE_ROOT; };
 		55B94D9B182F5A9B00FE39F3 /* Expiration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expiration.h; path = Source/Expiration.h; sourceTree = SOURCE_ROOT; };
 		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
-		55BB972B180602A600DED9B5 /* ShroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShroudView.h; path = Source/ShroudView.h; sourceTree = "<group>"; };
-		55BB972C180602A600DED9B5 /* ShroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShroudView.m; path = Source/ShroudView.m; sourceTree = "<group>"; };
+		55BB972B180602A600DED9B5 /* ContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentView.h; path = Source/ContentView.h; sourceTree = "<group>"; };
+		55BB972C180602A600DED9B5 /* ContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentView.m; path = Source/ContentView.m; sourceTree = "<group>"; };
 		55BBCD08182793CB00AC9A26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PurchaseManager.h; path = Source/PurchaseManager.h; sourceTree = "<group>"; };
 		55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PurchaseManager.m; path = Source/PurchaseManager.m; sourceTree = "<group>"; };
@@ -430,6 +430,7 @@
 				55C20CE1180109A500ECE184 /* Tools */,
 				55B07A6C17F6C93E0013B05C /* View */,
 				55B07A8717F7A1710013B05C /* Controller */,
+				553CB3F91A6740A900BE802E /* View Controller */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -467,8 +468,8 @@
 				55E29A4018307A1200D9D933 /* About.xib */,
 				55E29A4618309B0F00D9D933 /* Legal.rtf */,
 				55C72BD318330820007A640A /* CanvasWindow.xib */,
-				555152F91819E6E5004485F6 /* Controls.xib */,
 				55C72BD8183308C0007A640A /* LibraryItemPrototype.xib */,
+				559471F11A67C7ED006E699C /* GrappleHelp.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -563,6 +564,21 @@
 			children = (
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		553CB3F91A6740A900BE802E /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				55E29A43183088C200D9D933 /* AboutWindowController.h */,
+				55E29A44183088C200D9D933 /* AboutWindowController.m */,
+				55B07A8817F7A19D0013B05C /* CanvasWindowController.h */,
+				55B07A8917F7A19D0013B05C /* CanvasWindowController.m */,
+				559D38CF180399B90048F29B /* PreferencesWindowController.h */,
+				559D38CE180399B90048F29B /* PreferencesWindowController.m */,
+				55C9E42B1835AE5A0059651B /* TutorialWindowController.h */,
+				55C9E42C1835AE5A0059651B /* TutorialWindowController.m */,
+			);
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 		553ED14B180636DB00F06B45 /* Black AppKit */ = {
@@ -666,10 +682,12 @@
 				559D38D518039D930048F29B /* ShortcutView.h */,
 				553ACC5B1820E027009AB09E /* ShadowView.h */,
 				553ACC5C1820E027009AB09E /* ShadowView.m */,
-				55BB972B180602A600DED9B5 /* ShroudView.h */,
-				55BB972C180602A600DED9B5 /* ShroudView.m */,
+				55BB972B180602A600DED9B5 /* ContentView.h */,
+				55BB972C180602A600DED9B5 /* ContentView.m */,
 				55E24137180E10410093CF04 /* ThumbnailView.h */,
 				55E24138180E10410093CF04 /* ThumbnailView.m */,
+				553CB3FB1A67975B00BE802E /* WindowResizerKnob.h */,
+				553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -677,22 +695,12 @@
 		55B07A8717F7A1710013B05C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				55CC21A51832D668004076CF /* MagnificationManager.h */,
-				55CC21A61832D668004076CF /* MagnificationManager.m */,
-				55E29A43183088C200D9D933 /* AboutWindowController.h */,
-				55E29A44183088C200D9D933 /* AboutWindowController.m */,
-				555152FC1819E768004485F6 /* DebugControlsController.h */,
-				555152FD1819E768004485F6 /* DebugControlsController.m */,
+				55B07A6817F654400013B05C /* CaptureManager.h */,
+				55B07A6917F654400013B05C /* CaptureManager.m */,
 				55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */,
 				55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */,
-				559D38CF180399B90048F29B /* PreferencesController.h */,
-				559D38CE180399B90048F29B /* PreferencesController.m */,
-				55B07A6817F654400013B05C /* CaptureController.h */,
-				55B07A6917F654400013B05C /* CaptureController.m */,
-				55B07A8817F7A19D0013B05C /* CanvasController.h */,
-				55B07A8917F7A19D0013B05C /* CanvasController.m */,
-				55C9E42B1835AE5A0059651B /* TutorialWindowController.h */,
-				55C9E42C1835AE5A0059651B /* TutorialWindowController.m */,
+				55CC21A51832D668004076CF /* MagnificationManager.h */,
+				55CC21A61832D668004076CF /* MagnificationManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -858,7 +866,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				555152FB1819E6E5004485F6 /* Controls.xib in Resources */,
 				559D38C5180376F30048F29B /* Preferences.xib in Resources */,
 				55E29A4218307A1200D9D933 /* About.xib in Resources */,
 				559D38C9180392B10048F29B /* PixelWinch.icns in Resources */,
@@ -867,6 +874,7 @@
 				554D8999135BF064003BFC89 /* InfoPlist.strings in Resources */,
 				55C72BD6183308C0007A640A /* LibraryItemPrototype.xib in Resources */,
 				55C72BD518330820007A640A /* CanvasWindow.xib in Resources */,
+				559471F31A67C7ED006E699C /* GrappleHelp.txt in Resources */,
 				552873CC1936C11100FA9143 /* Tips.png in Resources */,
 				554D899A135BF064003BFC89 /* MainMenu.xib in Resources */,
 			);
@@ -932,7 +940,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55B07A8A17F7A19D0013B05C /* CanvasController.m in Sources */,
+				55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */,
 				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
 				5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */,
@@ -972,11 +980,10 @@
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
-				55B07A6A17F654400013B05C /* CaptureController.m in Sources */,
+				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
 				556D37391935CFDD00C90B11 /* Updater.m in Sources */,
-				55BB972D180602A600DED9B5 /* ShroudView.m in Sources */,
+				55BB972D180602A600DED9B5 /* ContentView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
-				555152FE1819E768004485F6 /* DebugControlsController.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
 				5520DF69180F8420002D5451 /* BlackScroller.m in Sources */,
 				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
@@ -992,8 +999,9 @@
 				5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */,
 				553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */,
 				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
+				553CB3FD1A67975B00BE802E /* WindowResizerKnob.m in Sources */,
 				5512BF5E17FBA44400425AD6 /* CanvasObjectView.m in Sources */,
-				559D38D2180399B90048F29B /* PreferencesController.m in Sources */,
+				559D38D2180399B90048F29B /* PreferencesWindowController.m in Sources */,
 				5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */,
 				55C20CF91801172F00ECE184 /* HandTool.m in Sources */,
 				5512BF5B17FB9F6700425AD6 /* GuideObjectView.m in Sources */,
@@ -1034,12 +1042,12 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		555152F91819E6E5004485F6 /* Controls.xib */ = {
+		559471F11A67C7ED006E699C /* GrappleHelp.txt */ = {
 			isa = PBXVariantGroup;
 			children = (
-				555152FA1819E6E5004485F6 /* English */,
+				559471F21A67C7ED006E699C /* English */,
 			);
-			name = Controls.xib;
+			name = GrappleHelp.txt;
 			sourceTree = "<group>";
 		};
 		559D38C3180376F30048F29B /* Preferences.xib */ = {

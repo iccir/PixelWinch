@@ -11,6 +11,7 @@
 
 @implementation BlackSegmentedControl {
     NSMutableDictionary *_segmentNumberToImageMap;
+    NSMutableDictionary *_segmentNumberToGradientMap;
 }
 
 - (void) setTemplateImage:(NSImage *)image forSegment:(NSInteger)segment
@@ -26,6 +27,23 @@
 {
     return [_segmentNumberToImageMap objectForKey:@(segment)];
 }
+
+
+- (void) setSelectedGradient:(NSGradient *)gradient forSegment:(NSInteger)segment
+{
+    if (!_segmentNumberToGradientMap) {
+        _segmentNumberToGradientMap = [NSMutableDictionary dictionary];
+    }
+    
+    [_segmentNumberToGradientMap setObject:gradient forKey:@(segment)];
+}
+
+
+- (NSGradient *) selectedGradientForSegment:(NSInteger)segment
+{
+    return [_segmentNumberToGradientMap objectForKey:@(segment)];
+}
+
 
 @end
 
@@ -98,10 +116,15 @@
         NSGradient *g;
 
         if (isSelected) {
-            g = [[NSGradient alloc] initWithColors:@[
-                GetRGBColor(0xfffff0, 1.0),
-                GetRGBColor(0xffffff, 1.0)
-            ]];
+            g = [controlView selectedGradientForSegment:i];
+    
+            if (!g) {
+                g = [[NSGradient alloc] initWithColors:@[
+                    GetRGBColor(0xfffff0, 1.0),
+                    GetRGBColor(0xffffff, 1.0)
+                ]];
+            }
+
         } else {
             g = [[NSGradient alloc] initWithColors:@[
                 GetRGBColor(0xb0b0b0, 1.0),

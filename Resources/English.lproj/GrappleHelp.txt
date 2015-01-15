@@ -1,0 +1,10 @@
+
+To measure a gradient:
+
+1. Move the mouse pointer to the center of the gradient.
+
+2. Press the mouse button.
+
+3. Drag up to increase the power level until the entire gradient is selected.
+
+4. Release the mouse button to place the grapple.

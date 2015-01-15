@@ -28,12 +28,11 @@ typedef NS_ENUM(NSInteger, PreferredDisplay) {
     PreferredDisplayMain = -1
 };
 
-typedef NS_ENUM(NSInteger, MeasurementMode) {
-    MeasurementModeIdentity    = 0,
-    MeasurementModeDivideBy2   = 1,
-    MeasurementModeDivideBy4   = 2,
-    MeasurementModeMultiplyBy2 = 3,
-    MeasurementModeDivideBy3   = 4
+
+typedef NS_ENUM(NSInteger, IconMode) {
+    IconModeInMenuBar = 0,
+    IconModeInDock    = 1,
+    IconModeInBoth    = 2
 };
 
 
@@ -45,8 +44,11 @@ typedef NS_ENUM(NSInteger, MeasurementMode) {
 
 @property (nonatomic) BOOL launchAtLogin;
 
-@property (nonatomic) BOOL pausesDuringCapture;
-@property (nonatomic) NSInteger measurementMode;
+@property (nonatomic) NSInteger iconMode;
+@property (nonatomic) BOOL usesOverlayWindow;
+
+@property (nonatomic) NSInteger scaleMode;
+@property (nonatomic) NSString *customScaleMultiplier;
 
 @property (nonatomic) Shortcut *captureSelectionShortcut;
 @property (nonatomic) Shortcut *captureWindowShortcut;

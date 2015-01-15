@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CanvasController, CaptureController, PreferencesController;
+@class CaptureManager;
+@class CanvasWindowController, PreferencesWindowController;
 
 @interface AppDelegate : NSResponder <NSApplicationDelegate>
 
@@ -21,8 +22,9 @@
 - (IBAction) provideFeedback:(id)sender;
 - (IBAction) quit:(id)sender;
 
-@property (strong, readonly) CanvasController      *canvasController;
-@property (strong, readonly) CaptureController     *captureController;
-@property (strong, readonly) PreferencesController *preferencesController;
+@property (strong, readonly) CaptureManager *captureManager;
+
+@property (strong, readonly) CanvasWindowController      *canvasWindowController;
+@property (strong, readonly) PreferencesWindowController *preferencesWindowController;
 
 @end

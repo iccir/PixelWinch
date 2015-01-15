@@ -9,7 +9,7 @@
 #import "LibraryItemCollectionItem.h"
 #import "ThumbnailView.h"
 #import "Library.h"
-#import "CanvasController.h"
+#import "CanvasWindowController.h"
 
 
 @implementation LibraryItemCollectionItem 

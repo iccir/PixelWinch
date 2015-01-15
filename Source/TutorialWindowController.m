@@ -57,6 +57,7 @@
     _startFrame = screenRect;
 }
 
+
 - (void) orderInWithStatusItem:(NSStatusItem *)statusItem
 {
     _statusItem = statusItem;

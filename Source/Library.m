@@ -106,17 +106,17 @@
     [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
     [timeFormatter setDateStyle:NSDateFormatterNoStyle];
 
-    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     NSDate    *today          = [NSDate date];
-    NSUInteger todayDayOfYear = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSYearCalendarUnit forDate:today];
+    NSUInteger todayDayOfYear = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitYear forDate:today];
     NSDateComponents *todayComponents = [gregorianCalendar components:(NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:today];
 
     for (LibraryItem *item in items) {
         NSDate *date = [item date];
         if (!date) continue;
 
-        NSUInteger        dateDayOfYear  = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSYearCalendarUnit forDate:date];
+        NSUInteger        dateDayOfYear  = [gregorianCalendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitYear forDate:date];
         NSDateComponents *dateComponents = [gregorianCalendar components:(NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:date];
 
         id dateString = [shortDateFormatter stringFromDate:date];

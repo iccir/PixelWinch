@@ -20,10 +20,9 @@ static NSDictionary *sGetDefaultValues()
     dispatch_once(&onceToken, ^{
 
     sDefaultValues = @{
-        @"pausesDuringCapture":   @(YES),
-        @"measurementMode":       @( MeasurementModeIdentity ),
-
+        @"iconMode":              @(IconModeInMenuBar),
         @"launchAtLogin":         @(NO),
+        @"usesOverlayWindow":     @(YES),
 
         @"captureSelectionShortcut":  [Shortcut emptyShortcut],
         @"captureWindowShortcut":     [Shortcut emptyShortcut],
@@ -32,7 +31,9 @@ static NSDictionary *sGetDefaultValues()
         
         @"preferredDisplay":          @( 0 ),
         @"preferredDisplayName":      @"",
+        @"customScaleMultiplier":     @"",
 
+        @"scaleMode":                 @( 1 ),
         @"measurementCopyType":       @( 2 ),
 
         @"screenshotExpiration":      @( ScreenshotExpirationNever ),
@@ -64,7 +65,7 @@ static void sSetDefaultObject(id dictionary, NSString *key, id valueToSave, id d
         }
     };
 
-    if ([defaultValue isKindOfClass:[NSNumber class]]) {
+    if ([defaultValue isKindOfClass:[NSNumber class]] || [defaultValue isKindOfClass:[NSString class]]) {
         saveObject(valueToSave, key);
 
     } else if ([defaultValue isKindOfClass:[Shortcut class]]) {
@@ -148,6 +149,10 @@ static void sRegisterDefaults()
 
         if ([defaultValue isKindOfClass:[NSNumber class]]) {
             [self setValue:@([defaults integerForKey:key]) forKey:key];
+
+        } else if ([defaultValue isKindOfClass:[NSString class]]) {
+            NSString *value = [defaults stringForKey:key];
+            if (value) [self setValue:value forKey:key];
         
         } else if ([defaultValue isKindOfClass:[Shortcut class]]) {
             NSString *preferencesString = [defaults objectForKey:key];

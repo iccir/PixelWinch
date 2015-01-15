@@ -34,6 +34,7 @@
     _trackingArea = nil;
 }
 
+
 - (void) drawRect:(NSRect)dirtyRect
 {
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];

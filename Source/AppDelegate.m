@@ -15,13 +15,13 @@
 #import "ShortcutManager.h"
 
 #import "AboutWindowController.h"
-#import "CanvasController.h"
-#import "CaptureController.h"
-#import "PreferencesController.h"
+#import "CanvasWindowController.h"
+#import "PreferencesWindowController.h"
+
+#import "CaptureManager.h"
 
 #import "Library.h"
 #import "LibraryItem.h"
-#import "DebugControlsController.h"
 #import "TutorialWindowController.h"
 
 #import "Updater.h"
@@ -35,9 +35,6 @@
 #endif
 
 
-#define SHOW_DEBUG_CONTROLS 0
-
-
 #define sCheckAndProtect _
 static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
@@ -48,10 +45,15 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         NSString *quit    = NSLocalizedString(@"Quit",    nil);
         NSString *visit   = NSLocalizedString(@"Visit Website",    nil);
         
-        NSAlert *alert = [NSAlert alertWithMessageText:message defaultButton:quit alternateButton:visit otherButton:nil informativeTextWithFormat:@"%@", text];
+        NSAlert *alert = [[NSAlert alloc] init];
+        
+        [alert setMessageText:message];
+        [alert setInformativeText:text];
+        [alert addButtonWithTitle:quit];
+        [alert addButtonWithTitle:visit];
 
         if (CFAbsoluteTimeGetCurrent() > kExpirationDouble) {
-            if ([alert runModal] == 0) {
+            if ([alert runModal] == NSAlertSecondButtonReturn) {
                 NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
                 [[NSWorkspace sharedWorkspace] openURL:url];
             }
@@ -84,11 +86,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     NSStatusItem *_statusItem;
     NSTimer      *_periodicTimer;
 
-    AboutWindowController    *_aboutController;
-    PreferencesController    *_preferencesController;
-    CanvasController         *_canvasController;
-    CaptureController        *_captureController;
-    TutorialWindowController *_tutorialWindowController;
+    AboutWindowController       *_aboutWindowController;
+    PreferencesWindowController *_preferencesWindowController;
+    CanvasWindowController      *_canvasWindowController;
+    TutorialWindowController    *_tutorialWindowController;
+
+    CaptureManager *_captureManager;
 }
 
 
@@ -102,6 +105,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     [self _updateShortcuts];
     [self _updateLaunchHelper];
+    [self _updateDockAndMenuBar];
 }
 
 
@@ -144,12 +148,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         if (!SMLoginItemSetEnabled(bundleID, YES)) {
             NSString *errorMessage = NSLocalizedString(@"Couldn't add Pixel Winch to Login Items list.", nil);
 
-            NSAlert *alert = [NSAlert alertWithMessageText:nil
-                                            defaultButton:nil
-                                          alternateButton:nil 
-                                              otherButton:nil 
-                                informativeTextWithFormat:@"%@", errorMessage];
-
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setInformativeText:errorMessage];
             [alert runModal];
             
             [[Preferences sharedInstance] setLaunchAtLogin:NO];
@@ -157,6 +157,47 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
     } else {
         SMLoginItemSetEnabled (bundleID, NO);
+    }
+}
+
+
+- (void) _updateDockAndMenuBar
+{
+    IconMode iconMode = [[Preferences sharedInstance] iconMode];
+    
+    [NSApp setMainMenu:nil];
+    
+    if (iconMode == IconModeInDock || iconMode == IconModeInBoth) {
+        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    } else {
+        BOOL wasActive = [NSApp isActive];
+        [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+        if (wasActive) [NSApp activateIgnoringOtherApps:YES];
+    }
+
+    if (iconMode == IconModeInMenuBar || iconMode == IconModeInBoth) {
+        if (!_statusItem) {
+            _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
+
+            NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
+            [image setTemplate:YES];
+            
+            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
+                _tutorialWindowController = [[TutorialWindowController alloc] init];
+                [_tutorialWindowController orderInWithStatusItem:_statusItem];
+            }
+            
+            [[self statusBarMenu] setDelegate:self];
+
+            [_statusItem setImage:image];
+            [_statusItem setHighlightMode:YES];
+            [_statusItem setMenu:[self statusBarMenu]];
+        }
+    } else {
+        if (_statusItem) {
+            [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
+            _statusItem = nil;
+        }
     }
 }
 
@@ -183,7 +224,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
     }
 }
-
 
 
 - (void) _cleanupLibrary:(BOOL)isTerminating
@@ -239,8 +279,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library
@@ -270,45 +308,25 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
     if (!filename) return NO;
-    return [[self canvasController] importFilesAtPaths:@[ filename ]];
+    return [[self canvasWindowController] importFilesAtPaths:@[ filename ]];
 }
 
 
 - (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
-    [[self canvasController] importFilesAtPaths:filenames];
+    [[self canvasWindowController] importFilesAtPaths:filenames];
 }
 
 
 - (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
 {
-    NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
-    [image setTemplate:YES];
-    
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
-        _tutorialWindowController = [[TutorialWindowController alloc] init];
-        [_tutorialWindowController orderInWithStatusItem:_statusItem];
-    }
-    
-    [[self statusBarMenu] setDelegate:self];
-
-    [_statusItem setImage:image];
-    [_statusItem setHighlightMode:YES];
-    [_statusItem setMenu:[self statusBarMenu]];
-    
-
-#ifdef DEBUG
-#if SHOW_DEBUG_CONTROLS
-    DebugControlsController *controlsController = [[DebugControlsController alloc] init];
-    [controlsController showWindow:self];
-    CFBridgingRetain(controlsController);
-#endif
-#endif
-
     [self _updateShortcuts];
+    [self _updateDockAndMenuBar];
 
+#ifndef DEBUG
 #if !ENABLE_APP_STORE
     [[Updater sharedInstance] checkForUpdatesInBackground];
+#endif
 #endif
 }
 
@@ -324,22 +342,21 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-
 - (IBAction) captureSelection:(id)sender
 {
-    [[self captureController] captureSelection:self];
+    [[self captureManager] captureSelection:self];
 }
 
 
 - (IBAction) showScreenshots:(id)sender
 {
-    [[self canvasController] toggleVisibility];
+    [[self canvasWindowController] toggleVisibility];
 }
 
 
 - (IBAction) showPreferences:(id)sender
 {
-    [[self preferencesController] showWindow:self];
+    [[self preferencesWindowController] showWindow:self];
     [NSApp activateIgnoringOtherApps:YES];
 }
 
@@ -348,12 +365,12 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     [NSApp activateIgnoringOtherApps:YES];
 
-    if (!_aboutController) {
-        _aboutController = [[AboutWindowController alloc] initWithWindowNibName:@"About"];
+    if (!_aboutWindowController) {
+        _aboutWindowController = [[AboutWindowController alloc] initWithWindowNibName:@"About"];
     }
     
-    [[_aboutController window] center];
-    [[_aboutController window] makeKeyAndOrderFront:self];
+    [[_aboutWindowController window] center];
+    [[_aboutWindowController window] makeKeyAndOrderFront:self];
 }
 
 
@@ -366,43 +383,43 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) quit:(id)sender
 {
-    [[self canvasController] saveCurrentLibraryItem];
+    [[self canvasWindowController] saveCurrentLibraryItem];
     [NSApp terminate:self];
 }
 
 
-- (PreferencesController *) preferencesController
+- (PreferencesWindowController *) preferencesWindowController
 {
     @synchronized(self) {
-        if (!_preferencesController) {
-            _preferencesController = [[PreferencesController alloc] init];
+        if (!_preferencesWindowController) {
+            _preferencesWindowController = [[PreferencesWindowController alloc] init];
         }
         
-        return _preferencesController;
+        return _preferencesWindowController;
     }
 }
 
 
-- (CaptureController *) captureController
+- (CaptureManager *) captureManager
 {
     @synchronized(self) {
-        if (!_captureController) {
-            _captureController = [[CaptureController alloc] init];
+        if (!_captureManager) {
+            _captureManager = [[CaptureManager alloc] init];
         }
         
-        return _captureController;
+        return _captureManager;
     }
 }
 
 
-- (CanvasController *) canvasController
+- (CanvasWindowController *) canvasWindowController
 {
     @synchronized(self) {
-        if (!_canvasController) {
-            _canvasController = [[CanvasController alloc] initWithWindowNibName:@"CanvasWindow"];
+        if (!_canvasWindowController) {
+            _canvasWindowController = [[CanvasWindowController alloc] initWithWindowNibName:@"CanvasWindow"];
         }
         
-        return _canvasController;
+        return _canvasWindowController;
     }
 }
 
