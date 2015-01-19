@@ -530,15 +530,30 @@
         CGFloat scale = [[self window] backingScaleFactor];
         if (!scale) scale = 1;
 
+        NSScrollView *scrollView = [self enclosingScrollView];
+        CGRect clipViewFrame = [[scrollView contentView] frame];
+        CGRect visibleRect   = [self visibleRect];
+
         CGFloat m = (_magnification / scale);
-        delta.x *= m;
-        delta.y *= m;
-        
-        CGPoint origin = [self visibleRect].origin;
-        origin.x += delta.x;
-        origin.y += delta.y;
+        CGPoint origin = visibleRect.origin;
+
+        if (visibleRect.size.width < clipViewFrame.size.width) {
+            origin.x = -round((clipViewFrame.size.width - visibleRect.size.width) / 2);
+        } else {
+            delta.x  *= m;
+            origin.x += delta.x;
+        }
+
+        if (visibleRect.size.height < clipViewFrame.size.height) {
+            origin.y = -round((clipViewFrame.size.height - visibleRect.size.height) / 2);
+        } else {
+            delta.y  *= m;
+            origin.y += delta.y;
+        }
 
         [self scrollPoint:origin];
+    } else {
+        [self _centerOnCanvasPoint:[self canvasPointAtCenter]];
     }
 }
 

@@ -10,13 +10,19 @@
 
 @class LibraryItem;
 
+@protocol ThumbnailViewDelegate;
 
 @interface ThumbnailView : NSView
 
-+ (CGSize) thumbnailSizeForLibraryItem:(LibraryItem *)libraryItem;
+- (void) loadThumbnail;
 
 @property (strong) LibraryItem *libraryItem;
-@property (readonly) CGPoint topLeftOffset;
 @property (assign, getter=isSelected) BOOL selected;
 
+@property (atomic, weak) id<ThumbnailViewDelegate> delegate;
+
+@end
+
+@protocol ThumbnailViewDelegate <NSObject>
+- (void) thumbnailViewDidClickDelete:(ThumbnailView *)thumbnailView;
 @end

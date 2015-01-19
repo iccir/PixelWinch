@@ -89,8 +89,8 @@
     void (^dispatchWithEvent)(NSEvent *) = ^(NSEvent *e) {
         NSPoint nowPoint = getScreenLocation(e);
         
-        CGFloat xDelta = nowPoint.x - startPoint.x;
-        CGFloat yDelta = nowPoint.y - startPoint.y;
+        CGFloat xDelta = round(nowPoint.x - startPoint.x);
+        CGFloat yDelta = round(nowPoint.y - startPoint.y);
         [delegate windowResizerKnob:self didDragWithDeltaX:xDelta deltaY:yDelta];
     };
 

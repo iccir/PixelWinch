@@ -47,6 +47,8 @@ typedef NS_ENUM(NSInteger, IconMode) {
 @property (nonatomic) NSInteger iconMode;
 @property (nonatomic) BOOL usesOverlayWindow;
 
+@property (nonatomic) BOOL allowsQuit;
+
 @property (nonatomic) NSInteger scaleMode;
 @property (nonatomic) NSString *customScaleMultiplier;
 

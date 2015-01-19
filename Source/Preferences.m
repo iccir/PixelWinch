@@ -23,6 +23,7 @@ static NSDictionary *sGetDefaultValues()
         @"iconMode":              @(IconModeInMenuBar),
         @"launchAtLogin":         @(NO),
         @"usesOverlayWindow":     @(YES),
+        @"allowsQuit":            @(YES),
 
         @"captureSelectionShortcut":  [Shortcut emptyShortcut],
         @"captureWindowShortcut":     [Shortcut emptyShortcut],

@@ -46,6 +46,9 @@
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		556D37391935CFDD00C90B11 /* Updater.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D37381935CFDD00C90B11 /* Updater.m */; };
+		556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */; };
+		556FC3D31A6BA3AB00F72ABA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 556FC3D11A6BA3AB00F72ABA /* Localizable.strings */; };
+		556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3D51A6BA53700F72ABA /* Beacon.m */; };
 		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
@@ -234,6 +237,11 @@
 		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
 		556D37371935CFDD00C90B11 /* Updater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Updater.h; path = Source/Updater.h; sourceTree = "<group>"; };
 		556D37381935CFDD00C90B11 /* Updater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Updater.m; path = Source/Updater.m; sourceTree = "<group>"; };
+		556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GratuitousDelayButton.h; path = Source/GratuitousDelayButton.h; sourceTree = "<group>"; };
+		556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GratuitousDelayButton.m; path = Source/GratuitousDelayButton.m; sourceTree = "<group>"; };
+		556FC3D21A6BA3AB00F72ABA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		556FC3D41A6BA53700F72ABA /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Source/Beacon.h; sourceTree = "<group>"; };
+		556FC3D51A6BA53700F72ABA /* Beacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Beacon.m; path = Source/Beacon.m; sourceTree = "<group>"; };
 		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
 		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
 		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
@@ -377,15 +385,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				554D8959135BEECB003BFC89 /* AppDelegate.h */,
-				554D895A135BEECB003BFC89 /* AppDelegate.m */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,7 +430,6 @@
 				55B07A6C17F6C93E0013B05C /* View */,
 				55B07A8717F7A1710013B05C /* Controller */,
 				553CB3F91A6740A900BE802E /* View Controller */,
-				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				55346D85194130C900896455 /* LaunchAtLogin */,
@@ -457,6 +455,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				556FC3D11A6BA3AB00F72ABA /* Localizable.strings */,
 				554F05971A29588100BF90F0 /* Images.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
 				559D38C8180392B10048F29B /* PixelWinch.icns */,
@@ -569,6 +568,8 @@
 		553CB3F91A6740A900BE802E /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				554D8959135BEECB003BFC89 /* AppDelegate.h */,
+				554D895A135BEECB003BFC89 /* AppDelegate.m */,
 				55E29A43183088C200D9D933 /* AboutWindowController.h */,
 				55E29A44183088C200D9D933 /* AboutWindowController.m */,
 				55B07A8817F7A19D0013B05C /* CanvasWindowController.h */,
@@ -577,6 +578,8 @@
 				559D38CE180399B90048F29B /* PreferencesWindowController.m */,
 				55C9E42B1835AE5A0059651B /* TutorialWindowController.h */,
 				55C9E42C1835AE5A0059651B /* TutorialWindowController.m */,
+				556FC3D41A6BA53700F72ABA /* Beacon.h */,
+				556FC3D51A6BA53700F72ABA /* Beacon.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -672,6 +675,8 @@
 				5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */,
 				55336A1F180BC4A400F053C7 /* CursorInfo.h */,
 				55336A20180BC4A400F053C7 /* CursorInfo.m */,
+				556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */,
+				556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */,
 				5536B41C17F8F1D000D9B4E9 /* RulerView.h */,
 				5536B41D17F8F1D000D9B4E9 /* RulerView.m */,
 				55E987CC1828E37A00C2208A /* ScreenAdditions.h */,
@@ -867,6 +872,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				559D38C5180376F30048F29B /* Preferences.xib in Resources */,
+				556FC3D31A6BA3AB00F72ABA /* Localizable.strings in Resources */,
 				55E29A4218307A1200D9D933 /* About.xib in Resources */,
 				559D38C9180392B10048F29B /* PixelWinch.icns in Resources */,
 				554F05981A29588100BF90F0 /* Images.xcassets in Resources */,
@@ -940,6 +946,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */,
 				55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */,
 				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
@@ -981,6 +988,7 @@
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
+				556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */,
 				556D37391935CFDD00C90B11 /* Updater.m in Sources */,
 				55BB972D180602A600DED9B5 /* ContentView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
@@ -1040,6 +1048,14 @@
 				554D8998135BF064003BFC89 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		556FC3D11A6BA3AB00F72ABA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				556FC3D21A6BA3AB00F72ABA /* English */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		559471F11A67C7ED006E699C /* GrappleHelp.txt */ = {

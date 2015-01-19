@@ -21,6 +21,7 @@
 #import "RulerView.h"
 #import "CenteringClipView.h"
 #import "WindowResizerKnob.h"
+#import "GratuitousDelayButton.h"
 
 #import "MagnificationManager.h"
 
@@ -48,12 +49,19 @@
 #import "ContentView.h"
 #import "CanvasWindow.h"
 
+#import "CursorAdditions.h"
+
 #if ENABLE_APP_STORE
 #import "ReceiptValidation_C.h"
 #else
 #import "Expiration.h"
 #endif
 
+#if 0 && DEBUG
+#define LOG(...) NSLog(__VA_ARGS__)
+#else
+#define LOG(...)
+#endif
 
 #define sCheckAndProtect _
 static inline __attribute__((always_inline)) void sCheckAndProtect()
@@ -75,7 +83,81 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
-#import "CursorAdditions.h"
+typedef NS_ENUM(NSInteger, AnimationAction) {
+    AnimationAction_DoOrderIn,
+    
+    AnimationAction_DoOrderOut,
+    AnimationAction_RunOrderOutAnimation,
+    AnimationAction_FinishOrderOutAnimation,
+
+    AnimationAction_UpdateOverlayForScreen,
+    
+    AnimationAction_CleanupShield,
+
+    AnimationAction_SetupTransitionImageView,
+    AnimationAction_SetupShield,
+    AnimationAction_SetupGratuitousButton,
+        
+    AnimationAction_RunFadeInOverlayAnimation,
+    AnimationAction_FinishFadeInOverlayAnimation,
+    AnimationAction_RunPopInOverlayAnimation,
+    
+    AnimationAction_RunFadeInShieldAnimation,
+    AnimationAction_FinishFadeInShieldAnimation
+};
+
+
+// Use Dock's approach to anti-hacking: keep things in globals (ew!)
+static CGRect       sTransitionImageGlobalRect = {0};
+static CGImageRef   sTransitionImage           = NULL;
+static BOOL         sShowDelayNextTime         = NO;
+
+
+#if ENABLE_APP_STORE
+
+static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
+{
+    // The __arc_weak_lock global struct is actually "number of screenshots captured this session"
+    // represented in postive and negative integers and doubles
+    //
+    NSInteger positive_i = __arc_weak_lock.count;
+    NSInteger negative_i = __arc_weak_lock.s1;
+    double    positive_f = __arc_weak_lock.s2;
+    double    negative_f = __arc_weak_lock.s3;
+
+    // Adding the positive and negative portions should always be 0.  If not, the struct has been manipulated
+    NSInteger shouldBeZero_i = labs(positive_i + negative_i);
+    double    shouldBeZero_f = fabs(round(positive_f + negative_f));
+
+    // Bitshifting 0 should always be 0.  Messaging nil should never crash
+    [(__bridge id)(void *)(       shouldBeZero_i  << 16) copy];
+    [(__bridge id)(void *)(lround(shouldBeZero_f) << 24) copy];
+
+    // duration = screenshots * 3
+    NSTimeInterval a = (__arc_weak_lock.s1 + 1) * -4;
+    NSTimeInterval b = (__arc_weak_lock.s2 - 1) *  4;
+
+    // duration = MIN(duration, 8)
+    a = MIN(a, ((       shouldBeZero_i  + 1) << 3));
+    b = MIN(b, ((lround(shouldBeZero_f) + 1) << 3));
+
+    // duration = MAX(duration, 0)
+    a = MAX(a, shouldBeZero_i);
+    b = MAX(b, shouldBeZero_i);
+    
+    *outA = 5;
+    *outB = 5;
+}
+
+#else
+
+static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
+{
+    *outA = *outB = 0;
+}
+
+#endif
+
 
 @interface CanvasWindowController () <
     NSToolbarDelegate,
@@ -96,14 +178,13 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     ContentView *_contentView;
     
     NSRect _contentViewFrameAtResizeStart;
+    NSRect _contentViewMinFrameAtResizeStart;
+    NSRect _contentViewMaxFrameAtResizeStart;
 
     Toolbox     *_toolbox;
     
     ShadowView  *_shadowView;
     ContentView *_shroudView;
-    NSView      *_transitionImageView;
-    CGRect       _transitionImageGlobalRect;
-    CGImageRef   _transitionImage;
 
     CGFloat      _liveMagnificationLevel;
     CGPoint      _liveMagnificationPoint;
@@ -171,6 +252,27 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
+- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    SEL action = [menuItem action];
+
+    if (action == @selector(toggleGuides:)) {
+        NSString *title;
+        BOOL isHidden = [_canvas isGroupNameHidden:[Guide groupName]];
+
+        if (isHidden) {
+            title = NSLocalizedString(@"Show Guides", nil);
+        } else {
+            title = NSLocalizedString(@"Hide Guides", nil);
+        }
+        
+        [menuItem setTitle:title];
+    }
+
+    return YES;
+}
+
+
 - (void) keyDown:(NSEvent *)theEvent
 {
     NSString *characters = [theEvent charactersIgnoringModifiers];
@@ -228,11 +330,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             return;
 
         } else  if (c == ';') {
-            NSString *guideGroupName = [Guide groupName];
-
-            BOOL isHidden = [_canvas isGroupNameHidden:guideGroupName];
-            [_canvas setGroupName:guideGroupName hidden:!isHidden];
-
+            [self toggleGuides:self];
             return;
 
         } else if (c == '-') {
@@ -309,6 +407,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     [super keyDown:theEvent];
 }
 
+
 - (void) keyUp:(NSEvent *)theEvent
 {
     NSString *characters = [theEvent charactersIgnoringModifiers];
@@ -359,6 +458,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) awakeFromNib
 {
+    ProtectEntry();
+
     NSImage *arrowImage     = [NSImage imageNamed:@"ToolbarArrow"];
     NSImage *handImage      = [NSImage imageNamed:@"ToolbarHand"];
     NSImage *marqueeImage   = [NSImage imageNamed:@"ToolbarMarquee"];
@@ -444,7 +545,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
     
-
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowOffset:NSMakeSize(0, 4)];
@@ -457,6 +557,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     [self _updateWindowsForOverlayMode];
 
     [self _updateInspector];
+    
+    ProtectExit();
 }
 
 
@@ -611,7 +713,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
         scaleFrame.origin = origin;
 
-        NSRect frame = { NSZeroPoint, neededSize };
+        NSRect frame    = { NSZeroPoint, neededSize };
         NSView *topView = [[NSView alloc] initWithFrame:frame];
         
         [toolPicker  setFrame:toolFrame];
@@ -622,7 +724,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [topView addSubview:inspector];
         [topView addSubview:scalePicker];
         
-        [topView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [topView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
         
         [self setTopView:topView];
     };
@@ -641,18 +743,18 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [shadow setShadowOffset:NSMakeSize(0, 4)];
         [shadow setShadowBlurRadius:16];
 
-        _shroudView = [[ContentView alloc] initWithFrame:oldContentRect];
+        _shroudView = [[ContentView alloc] initWithFrame:[windowContentView bounds]];
         [_shroudView setBackgroundColor:[NSColor colorWithCalibratedWhite:0 alpha:0.5]];
         [_shroudView setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
         [_shroudView setDelegate:self];
 
-        _shadowView = [[ShadowView alloc] initWithFrame:[_shroudView bounds]];
+        _shadowView = [[ShadowView alloc] initWithFrame:[windowContentView bounds]];
         [_shadowView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
         [_shadowView setBackgroundColor:darkColor];
         [_shadowView setCornerRadius:8];
         [_shadowView setShadow:shadow];
 
-        _contentView = [[ContentView alloc] initWithFrame:[_shroudView bounds]];
+        _contentView = [[ContentView alloc] initWithFrame:[windowContentView bounds]];
         [_contentView setWantsLayer:YES];
         [_contentView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
         [_contentView setBackgroundColor:darkColor];
@@ -660,6 +762,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [_contentView setDelegate:self];
         [_contentView setClipsToBounds:YES];
         
+        [[self resizerKnob] setHidden:NO];
         
         NSView *topView    = [self topView];
         NSView *bottomView = [self bottomView];
@@ -674,7 +777,7 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         topFrame.origin.y = NSMaxY(bottomFrame);
         topFrame.size.height = topViewHeight;
 
-        [topView setFrame:topFrame];
+        [topView    setFrame:topFrame];
         [bottomView setFrame:bottomFrame];
         
         [_contentView addSubview:topView];
@@ -708,162 +811,452 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
 
         [window setToolbar:toolbar];
+        
+        NSRect screenVisibleFrame = [[NSScreen mainScreen] visibleFrame];
+        NSRect windowFrame = NSMakeRect(screenVisibleFrame.origin.x, screenVisibleFrame.origin.y, 800, 600);
+
+        [window setFrame:windowFrame display:NO];
+        [window center];
+
+        [[self resizerKnob] setHidden:YES];
+
+        [window setFrameAutosaveName:@"CanvasWindow"];
 
         [windowContentView addSubview:_bottomView];
+        [_bottomView setFrame:[window contentLayoutRect]];
     }
     
     [self setWindow:window];
 
-    _canvasWindow = window;
+    _canvasWindow    = window;
     _windowIsOverlay = usesOverlayWindow;
 }
 
 
-- (void) _updateWindowForScreen:(NSScreen *)screen
+static void sAnimate(CanvasWindowController *self, AnimationAction action, id argument, CGFloat *outDuration)
 {
-    CGRect entireFrame  = [screen frame];
-    CGRect visibleFrame = [screen visibleFrame];
+    Preferences *preferences = [Preferences sharedInstance];
+    BOOL usesOverlayWindow = [preferences usesOverlayWindow];
+
+    CGFloat outDurationValue = 0;
+
+    static CGRect                 sScrollRectInWindow    = {0};
+    static NSView                *sTransitionImageView   = nil;
+    static NSView                *sShieldImageView       = nil;
+    static GratuitousDelayButton *sGratuitousDelayButton = nil;
     
-    CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
-    CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
+    const CGFloat sFadeInDuration  = 0.25;
+    const CGFloat sFadeOutDuration = 0.25;
 
-    CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
-    CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
+    NSScrollView *canvasScrollView    = self->_canvasScrollView;
+    Toolbox      *toolbox             = self->_toolbox;
+    ContentView  *shroudView          = self->_shroudView;
+    ContentView  *contentView         = self->_contentView;
+    ShadowView   *shadowView          = self->_shadowView;
+    CanvasView   *canvasView          = self->_canvasView;
 
-    CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
-    CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
-    
-    [_canvasWindow setFrame:entireFrame display:NO];
+    if (action == AnimationAction_DoOrderIn) {
+        LOG(@"Order in");
 
-    CGRect contentRect = [[_canvasWindow contentView] bounds];
-    contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
+        [canvasScrollView  setHidden:NO];
+        [[self bottomView] setHidden:NO];
 
-    // Hack for now to prevent huge window on 27" iMac
-    if (contentRect.size.width > 1920) {
-        contentRect.size.width = 1920;
-        contentRect.origin.x = round((entireFrame.size.width - contentRect.size.width) / 2);
-    }
+        [sTransitionImageView removeFromSuperview];
+        sTransitionImageView = nil;
 
-    [_contentView setFrame:contentRect];
-    [_shadowView  setFrame:contentRect];
-}
+        [sShieldImageView removeFromSuperview];
+        sShieldImageView = nil;
 
+        [sGratuitousDelayButton removeFromSuperview];
+        sGratuitousDelayButton = nil;
 
-- (void) _removeTransitionImage
-{
-    CGImageRelease(_transitionImage);
-    _transitionImage = NULL;
-    
-    [_transitionImageView removeFromSuperview];
-    _transitionImageView = nil;
+        NSDisableScreenUpdates();
 
-    _transitionImageGlobalRect = CGRectZero;
-}
+        if (usesOverlayWindow) {
+            sAnimate( self, AnimationAction_SetupTransitionImageView, nil, NULL);
 
-
-- (void) _doOrderInAnimation
-{
-    NSDisableScreenUpdates();
-
-    CGRect scrollRectInWindow = CGRectZero;
-    if (_transitionImageView) {
-        NSView *contentView = [[self window] contentView];
-
-        [contentView addSubview:_transitionImageView];
-        
-        NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:_transitionImageGlobalRect];
-        
-        CGRect frame = [[self window] convertRectFromScreen:appKitRect];
-        frame = [contentView convertRect:frame fromView:nil];
-        [_transitionImageView setFrame:frame];
-
-        [_canvasScrollView tile];
-
-        scrollRectInWindow = [_canvasView convertRect:[_canvasView bounds] toView:nil];
-        
-        [_canvasScrollView setHidden:YES];
-    }
-
-    [_shroudView  setAlphaValue:0];
-    [_contentView setAlphaValue:0];
-    [_shadowView  setAlphaValue:0];
-
-    [[self window] display];
-    NSEnableScreenUpdates();
-
-    CGSize size = [_contentView bounds].size;
-
-    __weak id weakSelf = self;
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:0.25];
-        [[_shroudView animator] setAlphaValue:1.0];
-
-        [[_contentView animator] setAlphaValue:1.0];
-        [[_shadowView  animator] setAlphaValue:1.0];
-
-        if (_transitionImageView) {
-            [[_transitionImageView animator] setFrame:scrollRectInWindow];
+            [shroudView  setAlphaValue:0];
+            [contentView setAlphaValue:0];
+            [shadowView  setAlphaValue:0];
         }
 
-    } completionHandler:^{
-        NSDisableScreenUpdates();
-        [_canvasScrollView setHidden:NO];
+        [[self window] display];
 
-        for (Tool *tool in [_toolbox allTools]) {
+        NSTimeInterval duration, unused;
+        sGetPleaDuration(&unused, &duration);
+        
+        if (duration && (sTransitionImage || sShowDelayNextTime)) {
+            sAnimate( self, AnimationAction_SetupShield, nil, &outDurationValue);
+            sAnimate( self, AnimationAction_SetupGratuitousButton, nil, NULL);
+        }
+
+        NSEnableScreenUpdates();
+
+        if (usesOverlayWindow) {
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+                [context setDuration:sFadeInDuration];
+                sAnimate( self, AnimationAction_RunFadeInOverlayAnimation, nil, NULL);
+
+            } completionHandler:^{
+                sAnimate( self, AnimationAction_FinishFadeInOverlayAnimation, nil, NULL);
+            }];
+
+            if (!sTransitionImageView) {
+                sAnimate( self, AnimationAction_RunPopInOverlayAnimation, nil, NULL);
+            }
+
+        } else if (sShieldImageView) {
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+                [context setDuration:sFadeInDuration];
+                sAnimate( self, AnimationAction_RunFadeInShieldAnimation, nil, NULL);
+
+            } completionHandler:^{
+                sAnimate( self, AnimationAction_FinishFadeInShieldAnimation, nil, NULL);
+            }];
+        }
+
+    } else if (action == AnimationAction_SetupTransitionImageView) {
+        LOG(@"Setup Transition Image View");
+
+        if (sTransitionImage) {
+            NSView *windowContentView = [[self window] contentView];
+
+            [canvasScrollView tile];
+            [canvasScrollView setHidden:YES];
+
+            
+            NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:sTransitionImageGlobalRect];
+            CGRect frame = [[self window] convertRectFromScreen:appKitRect];
+            frame = [windowContentView convertRect:frame fromView:nil];
+
+            [sTransitionImageView removeFromSuperview];
+            sTransitionImageView = [[NSView alloc] initWithFrame:frame];
+            [sTransitionImageView setWantsLayer:YES];
+            [[sTransitionImageView layer] setMagnificationFilter:kCAFilterNearest];
+            [[sTransitionImageView layer] setContents:(__bridge id)sTransitionImage];
+
+            [sTransitionImageView setFrame:frame];
+
+            [windowContentView addSubview:sTransitionImageView];
+
+            sScrollRectInWindow = [canvasView convertRect:[canvasView bounds] toView:nil];
+        }
+
+    } else if (action == AnimationAction_SetupShield) {
+        LOG(@"Setup Shield");
+
+        NSView *bottomView = [self bottomView];
+        NSRect  bounds     = [bottomView bounds];
+        CGFloat scale      = [[self window] backingScaleFactor];
+        
+        [bottomView setNeedsDisplay];
+        [bottomView displayIfNeeded];
+        
+        CGImageRef shieldImage = CreateImage(bounds.size, NO, scale, ^(CGContextRef context) {
+            CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, bounds.size.height);
+            CGContextConcatCTM(context, flipVertical);
+            [[bottomView layer] renderInContext:context];
+        });
+        
+        [sShieldImageView removeFromSuperview];
+
+        sShieldImageView = [[NSView alloc] initWithFrame:[bottomView frame]];
+        [sShieldImageView setWantsLayer:YES];
+        [[sShieldImageView layer] setContents:(__bridge id)shieldImage];
+        [[sShieldImageView layer] setContentsScale:scale];
+
+        CGImageRelease(shieldImage);
+        
+        [[bottomView superview] addSubview:sShieldImageView];
+        [bottomView setHidden:YES];
+        
+        NSTimeInterval duration, unused;
+        sGetPleaDuration(&duration, &unused);
+
+        [sShieldImageView setAlphaValue:0.15];
+
+        [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setDuration:duration];
+        [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
+
+        [sShieldImageView setAlphaValue:0.16];
+
+        [NSAnimationContext endGrouping];
+        
+        outDurationValue = duration + sFadeInDuration;
+
+    } else if (action == AnimationAction_CleanupShield) {
+        LOG(@"Cleanup Shield");
+
+        [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setCompletionHandler:^{
+            [[self bottomView] setHidden:NO];
+
+            [sShieldImageView removeFromSuperview];
+            sShieldImageView = nil;
+            
+            [sGratuitousDelayButton removeFromSuperview];
+            sGratuitousDelayButton = nil;
+
+            [sTransitionImageView removeFromSuperview];
+            sTransitionImageView = nil;
+            
+            CGImageRelease(sTransitionImage);
+            sTransitionImage = NULL;
+
+            sTransitionImageGlobalRect = CGRectZero;
+        }];
+
+        [[NSAnimationContext currentContext] setDuration:sFadeOutDuration];
+        [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
+
+        [[sTransitionImageView   animator] setAlphaValue:1.0];
+        [[sShieldImageView       animator] setAlphaValue:1.0];
+        [[sGratuitousDelayButton animator] setAlphaValue:0.0];
+
+        [NSAnimationContext endGrouping];
+
+    } else if (action == AnimationAction_SetupGratuitousButton) {
+        LOG(@"Setup Gratuitous Button");
+
+        NSView *superview = [[self window] contentView];
+
+        CGRect superBounds = [superview bounds];
+        CGRect frame = NSMakeRect(0, 0, 410, 346);
+        
+        frame.origin.x = round((superBounds.size.width  - frame.size.width)  / 2);
+        frame.origin.y = round((superBounds.size.height - frame.size.height) / 2);
+        
+        [sGratuitousDelayButton removeFromSuperview];
+        sGratuitousDelayButton = [[GratuitousDelayButton alloc] initWithFrame:frame];
+        [sGratuitousDelayButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin|NSViewMinXMargin|NSViewMinYMargin];
+        
+        [sGratuitousDelayButton setAlphaValue:0];
+        
+        [[[self window] contentView] addSubview:sGratuitousDelayButton];
+
+    } else if (action == AnimationAction_RunFadeInOverlayAnimation) {
+        LOG(@"Run Fade In Overlay");
+
+        [[shroudView             animator] setAlphaValue:1.0];
+        [[contentView            animator] setAlphaValue:1.0];
+        [[shadowView             animator] setAlphaValue:1.0];
+        [[sGratuitousDelayButton animator] setAlphaValue:1.0];
+
+        if (sTransitionImageView) {
+            [[sTransitionImageView animator] setFrame:sScrollRectInWindow];
+            
+            if (sShieldImageView) {
+                [[sTransitionImageView animator] setAlphaValue:0.15];
+            }
+        }
+    
+    } else if (action == AnimationAction_FinishFadeInOverlayAnimation) {
+        LOG(@"Finish Fade In Overlay");
+
+        NSDisableScreenUpdates();
+        
+        [canvasScrollView setHidden:NO];
+
+        for (Tool *tool in [toolbox allTools]) {
             [tool canvasWindowDidAppear];
         }
 
-        [weakSelf _removeTransitionImage];
-        [[self window] display];
-        NSEnableScreenUpdates();
-    }];
+        if (!sShieldImageView) {
+            [sTransitionImageView removeFromSuperview];
+            sTransitionImageView = nil;
+            
+            CGImageRelease(sTransitionImage);
+            sTransitionImage = NULL;
 
-    if (!_transitionImageView) {
+            sTransitionImageGlobalRect = CGRectZero;
+        }
+
+        [[self window] display];
+    
+        NSEnableScreenUpdates();
+
+        if (sGratuitousDelayButton) {
+            NSTimeInterval duration, unused;
+            sGetPleaDuration(&duration, &unused);
+
+            CAMediaTimingFunction *linear = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+
+            [CATransaction flush];
+
+            [CATransaction begin];
+            [CATransaction setAnimationDuration:duration];
+            [CATransaction setAnimationTimingFunction:linear];
+
+            [[sGratuitousDelayButton maskLayer] setTransform:CATransform3DIdentity];
+
+            [CATransaction commit];
+        }
+
+    } else if (action == AnimationAction_RunFadeInShieldAnimation) {
+        LOG(@"Run Fade In Shield");
+        
+        [[sGratuitousDelayButton animator] setAlphaValue:1.0];
+        
+        if (sShieldImageView) {
+            [[sTransitionImageView animator] setAlphaValue:0.15];
+        }
+    
+    } else if (action == AnimationAction_FinishFadeInShieldAnimation) {
+        LOG(@"Finish Fade In Shield");
+
+        [canvasScrollView setHidden:NO];
+
+        for (Tool *tool in [toolbox allTools]) {
+            [tool canvasWindowDidAppear];
+        }
+    
+        if (sGratuitousDelayButton) {
+            NSTimeInterval duration, unused;
+            sGetPleaDuration(&duration, &unused);
+
+            CAMediaTimingFunction *linear = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+
+            [CATransaction flush];
+
+            [CATransaction begin];
+            [CATransaction setAnimationDuration:duration];
+            [CATransaction setAnimationTimingFunction:linear];
+
+            [[sGratuitousDelayButton maskLayer] setTransform:CATransform3DIdentity];
+
+            [CATransaction commit];
+        }
+    
+    } else if (action == AnimationAction_RunPopInOverlayAnimation) {
+        LOG(@"Run Pop In Overlay");
+
+        CGSize contentViewBoundsSize = [contentView bounds].size;
+
         CGAffineTransform fromTransform = CGAffineTransformIdentity;
-        fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
+        fromTransform = CGAffineTransformTranslate(fromTransform, contentViewBoundsSize.width / 4, contentViewBoundsSize.height / 4);
         fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
         
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-        [animation setDuration:0.25];
+        [animation setDuration:sFadeInDuration];
         [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
         [animation setToValue:  [NSValue valueWithCATransform3D:CATransform3DIdentity]];
         [animation setFillMode:kCAFillModeBoth];
 
-        [[_contentView layer] addAnimation:animation forKey:@"transform"];
-        [[_shadowView  layer] addAnimation:animation forKey:@"transform"];
+        [[contentView layer] addAnimation:animation forKey:@"transform"];
+        [[shadowView  layer] addAnimation:animation forKey:@"transform"];
     }
-}
 
+    // Order out animation
+    if (action == AnimationAction_DoOrderOut) {
+        sShowDelayNextTime = (sShieldImageView != nil);
 
-- (void) _doOrderOutAnimation
-{
-    CGSize size = [_contentView bounds].size;
+        if (usesOverlayWindow) {
+            CGSize size = [contentView bounds].size;
 
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:0.25];
-        [[_shroudView animator] setAlphaValue:0.0];
-        [[_contentView animator] setAlphaValue:0.0];
-        [[_shadowView  animator] setAlphaValue:0.0];
-    } completionHandler:^{
+            [NSAnimationContext beginGrouping];
+            [[NSAnimationContext currentContext] setCompletionHandler:^{ sAnimate(self, AnimationAction_FinishOrderOutAnimation, nil, NULL); }];
+            [[NSAnimationContext currentContext] setDuration:0.25];
+
+            sAnimate(self, AnimationAction_RunOrderOutAnimation, nil, NULL);
+
+            [NSAnimationContext endGrouping];
+
+            if (!sShieldImageView) {
+                CGAffineTransform fromTransform = CGAffineTransformIdentity;
+                fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
+                fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
+                
+                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+                [animation setDuration:0.25];
+                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+                [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
+                [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
+                [animation setFillMode:kCAFillModeBoth];
+                
+                [[contentView      layer] addAnimation:animation forKey:@"transform"];
+                [[shadowView       layer] addAnimation:animation forKey:@"transform"];
+            }
+
+        } else {
+            [[self window] orderOut:self];
+        }
+
+    } else if (action == AnimationAction_RunOrderOutAnimation) {
+        [[shroudView  animator] setAlphaValue:0.0];
+        [[contentView animator] setAlphaValue:0.0];
+        [[shadowView  animator] setAlphaValue:0.0];
+    
+        [[sTransitionImageView   animator] setAlphaValue:0.0];
+        [[sShieldImageView       animator] setAlphaValue:0.0];
+        [[sGratuitousDelayButton animator] setAlphaValue:0.0];
+    
+    } else if (action == AnimationAction_FinishOrderOutAnimation) {
         [[self window] orderOut:self];
-    }];
 
-    CGAffineTransform fromTransform = CGAffineTransformIdentity;
-    fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
-    fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
+        [sTransitionImageView removeFromSuperview];
+        sTransitionImageView = nil;
+
+        [sShieldImageView removeFromSuperview];
+        sShieldImageView = nil;
+
+        [sGratuitousDelayButton removeFromSuperview];
+        sGratuitousDelayButton = nil;
+    }
     
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-    [animation setDuration:0.25];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
-    [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
-    [animation setFillMode:kCAFillModeBoth];
     
-    [[_contentView layer] addAnimation:animation forKey:@"transform"];
-    [[_shadowView  layer] addAnimation:animation forKey:@"transform"];
+    if (action == AnimationAction_UpdateOverlayForScreen) {
+        if (!usesOverlayWindow) return;
+        
+        NSScreen *screen = (NSScreen *)argument;
+
+        CGRect entireFrame  = [screen frame];
+        CGRect visibleFrame = [screen visibleFrame];
+        
+        CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
+        CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
+
+        CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
+        CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
+
+        CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
+        CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
+        
+        [[self window] setFrame:entireFrame display:NO];
+
+        CGRect contentRect = [[[self window] contentView] bounds];
+        contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
+
+        // Limit to prevent huge window on large displays
+        if (contentRect.size.width > 1920) {
+            contentRect.size.width = 1920;
+            contentRect.origin.x = round((entireFrame.size.width - contentRect.size.width) / 2);
+        }
+
+        // Check to see if we had a saved size for this display
+        NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"];
+        NSString     *sizeString = [dictionary objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)[screen winch_CGDirectDisplayID]]];
+        
+        if (sizeString) {
+            CGSize size = NSSizeFromString(sizeString);
+            
+            size.width  = round(size.width);
+            size.height = round(size.height);
+            
+            if ((size.width < contentRect.size.width) && (size.height < contentRect.size.height)) {
+                contentRect.size = size;
+                contentRect.origin.x = round((entireFrame.size.width  - contentRect.size.width)  / 2);
+                contentRect.origin.y = round((entireFrame.size.height - contentRect.size.height) / 2);
+            }
+        }
+
+        [contentView setFrame:contentRect];
+        [shadowView  setFrame:contentRect];
+    }
+    
+    if (outDuration) *outDuration = outDurationValue;
 }
-
 
 
 - (void) _handlePreferencesDidChange:(NSNotification *)note
@@ -997,6 +1390,27 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 
 #pragma mark - Selection
+
+- (NSScreen *) _preferredScreenForOverlayWithScreenshotRect:(NSRect *)screenshotRect
+{
+    PreferredDisplay preferredDisplay = [[Preferences sharedInstance] preferredDisplay];
+
+    NSScreen *preferredScreen = nil;
+    if (preferredDisplay == PreferredDisplayMain) {
+        preferredScreen = [[NSScreen screens] firstObject];
+    } else if ((preferredDisplay == PreferredDisplaySame) && screenshotRect) {
+        preferredScreen = [NSScreen winch_screenWithGlobalRect:*screenshotRect];
+    } else {
+        preferredScreen = [NSScreen winch_screenWithCGDirectDisplayID:preferredDisplay];
+    }
+
+    if (!preferredScreen) {
+        preferredScreen = [[NSScreen screens] firstObject];
+    }
+    
+    return preferredScreen;
+}
+
 
 - (BOOL) _deleteSelectedObjects
 {
@@ -1591,19 +2005,64 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 - (void) windowResizerKnobWillStartDrag:(WindowResizerKnob *)knob
 {
     _contentViewFrameAtResizeStart = [_contentView frame];
+
+    NSRect windowRect = [[[self window] contentView] bounds];
+
+    _contentViewMaxFrameAtResizeStart = NSInsetRect(windowRect, 32, 32);
+
+    _contentViewMinFrameAtResizeStart = NSMakeRect(0, 0, 640, 480);
+    _contentViewMinFrameAtResizeStart.origin.x = round((windowRect.size.width  - _contentViewMinFrameAtResizeStart.size.width)  / 2);
+    _contentViewMinFrameAtResizeStart.origin.y = round((windowRect.size.height - _contentViewMinFrameAtResizeStart.size.height) / 2);
 }
 
 
 - (void) windowResizerKnob:(WindowResizerKnob *)knob didDragWithDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY
 {
     NSRect frame = NSInsetRect(_contentViewFrameAtResizeStart, -deltaX, deltaY);
+
+    if (frame.size.width > _contentViewMaxFrameAtResizeStart.size.width) {
+        frame.origin.x   = _contentViewMaxFrameAtResizeStart.origin.x;
+        frame.size.width = _contentViewMaxFrameAtResizeStart.size.width;
+    }
+
+    if (frame.size.height > _contentViewMaxFrameAtResizeStart.size.height) {
+        frame.origin.y    = _contentViewMaxFrameAtResizeStart.origin.y;
+        frame.size.height = _contentViewMaxFrameAtResizeStart.size.height;
+    }
+
+    if (frame.size.width < _contentViewMinFrameAtResizeStart.size.width) {
+        frame.origin.x   = _contentViewMinFrameAtResizeStart.origin.x;
+        frame.size.width = _contentViewMinFrameAtResizeStart.size.width;
+    }
+
+    if (frame.size.height < _contentViewMinFrameAtResizeStart.size.height) {
+        frame.origin.y    = _contentViewMinFrameAtResizeStart.origin.y;
+        frame.size.height = _contentViewMinFrameAtResizeStart.size.height;
+    }
+
     [_contentView setFrame:frame];
+    [_shadowView  setFrame:frame];
 }
 
 
 - (void) windowResizerKnobWillEndDrag:(WindowResizerKnob *)knob
 {
+    NSSize size = [_contentView frame].size;
     
+    NSMutableDictionary *dictionary = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"] mutableCopy];
+    
+    if (!dictionary) {
+        dictionary = [NSMutableDictionary dictionary];
+    }
+    
+    NSString *key        = [NSString stringWithFormat:@"%lu", (unsigned long)[[[self window] screen] winch_CGDirectDisplayID]];
+    NSString *sizeString = NSStringFromSize(size);
+    
+    if (sizeString && key) {
+        [dictionary setObject:sizeString forKey:key];
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"OverlaySizes"];
 }
 
 
@@ -1660,18 +2119,11 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     [self window];  // Force nib to load
 
-    PreferredDisplay preferredDisplay = [[Preferences sharedInstance] preferredDisplay];
+    ProtectEntry();
 
     BOOL useZoomAnimation = NO;
 
-    NSScreen *preferredScreen = nil;
-    if (preferredDisplay == PreferredDisplayMain) {
-        preferredScreen = [[NSScreen screens] firstObject];
-    } else if (preferredDisplay == PreferredDisplaySame) {
-        preferredScreen = [NSScreen winch_screenWithGlobalRect:globalRect];
-    } else {
-        preferredScreen = [NSScreen winch_screenWithCGDirectDisplayID:preferredDisplay];
-    }
+    NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:&globalRect];
 
     if (!preferredScreen) {
         preferredScreen = [[NSScreen screens] firstObject];
@@ -1685,30 +2137,40 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         }
     }
 
-    [self _removeTransitionImage];
-
     sCheckAndProtect();
 
     // Set up transition image if we can use the zoom animation
     if (useZoomAnimation) {
         CGImageRef image = [[libraryItem screenshot] CGImage];
 
-        CGImageRelease(_transitionImage);
-        _transitionImage = CGImageRetain(image);
-
-        _transitionImageView = [[NSView alloc] initWithFrame:globalRect];
-        [_transitionImageView setWantsLayer:YES];
-        [[_transitionImageView layer] setMagnificationFilter:kCAFilterNearest];
-        [[_transitionImageView layer] setContents:(__bridge id)_transitionImage];
-        
-        _transitionImageGlobalRect = globalRect;
+        CGImageRelease(sTransitionImage);
+        sTransitionImage = CGImageRetain(image);
+        sTransitionImageGlobalRect = globalRect;
     }
 
     NSDisableScreenUpdates();
 
-    [self _updateWindowForScreen:preferredScreen];
+    sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen, NULL);
     [self _updateCanvasWithLibraryItem:libraryItem];
-    [self _doOrderInAnimation];
+
+    NSView *viewToBlock = [[Preferences sharedInstance] usesOverlayWindow] ? _contentView : _bottomView;
+
+    XUIView *blockerView = [[XUIView alloc] initWithFrame:[viewToBlock bounds]];
+    [blockerView setBackgroundColor:[NSColor clearColor]];
+    
+    CGFloat outDuration = 0;
+    sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
+
+    if (outDuration) {
+        LOG(@"Adding blocker, will remove after %g seconds", outDuration);
+
+        [viewToBlock addSubview:blockerView];
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
+            [blockerView removeFromSuperview];
+        });
+    }
 
     [NSApp activateIgnoringOtherApps:YES];
     [[CursorInfo sharedInstance] setEnabled:YES];
@@ -1718,21 +2180,25 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     NSEnableScreenUpdates();
 
     [[self window] makeFirstResponder:[self window]];
+
+    ProtectExit();
 }
 
 
 - (void) toggleVisibility
 {
-    NSWindow *window = [self window];
-    
-    if ([window isVisible]) {
+    if ([self isWindowVisible]) {
         [self hide];
 
     } else {
-        [self _updateWindowForScreen:[NSScreen mainScreen]];
+        NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:NULL];
+        if (!preferredScreen) preferredScreen = [NSScreen mainScreen];
 
-        [self _removeTransitionImage];
+        sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen, NULL);
 
+        CGImageRelease(sTransitionImage);
+        sTransitionImage = NULL;
+        
         if (!_currentLibraryItem) {
             LibraryItem *item = [[[Library sharedInstance] items] lastObject];
             if (!item) {
@@ -1743,8 +2209,14 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             [self _updateCanvasWithLibraryItem:item];
         }
 
+        CGFloat outDuration = 0;
+        sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
 
-        [self _doOrderInAnimation];
+        if (outDuration) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
+            });
+        }
 
         [NSApp activateIgnoringOtherApps:YES];
         [[CursorInfo sharedInstance] setEnabled:YES];
@@ -1769,8 +2241,26 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
     [self saveCurrentLibraryItem];
 
     [[CursorInfo sharedInstance] setEnabled:NO];
+    
+    sAnimate(self, AnimationAction_DoOrderOut, nil, NULL);
+}
 
-    [self _doOrderOutAnimation];
+
+- (void) hideIfOverlay
+{
+    if (_windowIsOverlay && [[self window] isVisible]) {
+        [self hide];
+    }
+}
+
+
+- (BOOL) isWindowVisible
+{
+    if (!_windowIsOverlay && (([[self window] occlusionState] & NSWindowOcclusionStateVisible) == 0)) {
+        return NO;
+    }
+
+    return [[self window] isVisible];
 }
 
 
@@ -1866,6 +2356,34 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[Library sharedInstance] removeItem:itemToRemove];
         [self hide];
     }
+}
+
+
+- (IBAction) zoomIn:(id)sender
+{
+    [_magnificationManager zoomIn];
+}
+
+
+- (IBAction) zoomOut:(id)sender
+{
+    [_magnificationManager zoomOut];
+}
+
+
+- (IBAction) toggleGuides:(id)sender
+{
+    NSString *guideGroupName = [Guide groupName];
+
+    BOOL isHidden = [_canvas isGroupNameHidden:guideGroupName];
+    [_canvas setGroupName:guideGroupName hidden:!isHidden];
+}
+
+
+- (IBAction) zoomTo:(id)sender
+{
+    NSInteger level = [sender tag];
+    [_magnificationManager setMagnification:level];
 }
 
 

@@ -24,6 +24,9 @@
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;
+- (void) hideIfOverlay;
+
+- (BOOL) isWindowVisible;
 
 @property (nonatomic) Toolbox *toolbox;
 
@@ -70,6 +73,12 @@
 @property (nonatomic, strong) IBOutlet NSView *rectangleObjectView;
 
 - (IBAction) showGrappleHelp:(id)sender;
+
+- (IBAction) zoomIn:(id)sender;
+- (IBAction) zoomOut:(id)sender;
+- (IBAction) zoomTo:(id)sender;
+
+- (IBAction) toggleGuides:(id)sender;
 
 - (IBAction) loadPreviousLibraryItem:(id)sender;
 - (IBAction) loadNextLibraryItem:(id)sender;

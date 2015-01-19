@@ -25,7 +25,14 @@
 #import "TutorialWindowController.h"
 
 #import "Updater.h"
+#import "Beacon.h"
 
+objc_arc_weakLock __arc_weak_lock = {
+    0,
+    0,
+    0,
+    0
+};
 
 
 #if ENABLE_APP_STORE
@@ -112,6 +119,16 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 - (BOOL) validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item
 {
     if ([item action] == @selector(showScreenshots:)) {
+        if ([(id)item isKindOfClass:[NSMenuItem class]]) {
+            NSMenuItem *menuItem = (NSMenuItem *)item;
+
+            if ([[self canvasWindowController] isWindowVisible]) {
+                [menuItem setTitle:NSLocalizedString(@"Hide Screenshots", nil)];
+            } else {
+                [menuItem setTitle:NSLocalizedString(@"Show Screenshots\\U2026", nil)];
+            }
+        }
+    
         return [[[Library sharedInstance] items] count] > 0;
     }
 
@@ -163,16 +180,56 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) _updateDockAndMenuBar
 {
+    ProtectEntry();
+
     IconMode iconMode = [[Preferences sharedInstance] iconMode];
-    
-    [NSApp setMainMenu:nil];
-    
+
+    NSApplicationActivationPolicy currentActivationPolicy = [NSApp activationPolicy];
+    NSMenuItem *quitMenuItem = [self quitMenuItem];
+
+    [quitMenuItem setKeyEquivalent:@""];
+    [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+
     if (iconMode == IconModeInDock || iconMode == IconModeInBoth) {
         [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    } else {
+
+        if ([[Preferences sharedInstance] allowsQuit]) {
+            [quitMenuItem setKeyEquivalent:@"q"];
+            [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+
+    // We are moving from NSApplicationActivationPolicyRegular -> NSApplicationActivationPolicyAccessory
+    // This will hide windows, so do an elaborate workaround
+    } else if (currentActivationPolicy != NSApplicationActivationPolicyAccessory) {
         BOOL wasActive = [NSApp isActive];
+        
+        NSMutableArray *visibleWindows = [NSMutableArray array];
+        NSWindow *keyWindow = nil;
+
+        for (NSWindow *window in [NSApp windows]) {
+            if ([window isVisible]) {
+                [visibleWindows addObject:window];
+            }
+            if ([window isKeyWindow]) {
+                keyWindow = window;
+            }
+        }
+        
+        NSDisableScreenUpdates();
+        
         [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
-        if (wasActive) [NSApp activateIgnoringOtherApps:YES];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (wasActive) [NSApp activateIgnoringOtherApps:YES];
+
+            for (NSWindow *window in visibleWindows) {
+                [window orderFront:self];
+            }
+
+            [keyWindow makeKeyAndOrderFront:self];
+
+            NSEnableScreenUpdates();
+        });
     }
 
     if (iconMode == IconModeInMenuBar || iconMode == IconModeInBoth) {
@@ -199,11 +256,15 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
             _statusItem = nil;
         }
     }
+
+    ProtectExit();
 }
 
 
 - (void) _updateShortcuts
 {
+    ProtectEntry();
+
     Preferences    *preferences = [Preferences sharedInstance];
     NSMutableArray *shortcuts   = [NSMutableArray array];
 
@@ -223,6 +284,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[ShortcutManager sharedInstance] addListener:self];
         [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
     }
+
+    ProtectExit();
 }
 
 
@@ -261,7 +324,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) _handlePeriodicUpdate:(NSTimer *)timer
 {
+    ProtectEntry();
     [self _cleanupLibrary:NO];
+    ProtectExit();
 }
 
 
@@ -277,8 +342,20 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 }
 
 
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)hasVisibleWindows
+{
+    if (!hasVisibleWindows) {
+        [[self canvasWindowController] toggleVisibility];
+    }
+
+    return YES;
+}
+
+
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
+    ProtectEntry();
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library
@@ -302,6 +379,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
         [[BITHockeyManager sharedHockeyManager] setDisableFeedbackManager:YES];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
+
+    ProtectExit();
 }
 
 
@@ -314,7 +393,9 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
+    ProtectEntry();
     [[self canvasWindowController] importFilesAtPaths:filenames];
+    ProtectExit();
 }
 
 
@@ -322,6 +403,8 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];
+
+    BeaconActivate([NSURL URLWithString:@"<redacted>"], YES);
 
 #ifndef DEBUG
 #if !ENABLE_APP_STORE
@@ -344,7 +427,25 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) captureSelection:(id)sender
 {
+    BeaconActivate([NSURL URLWithString:@"<redacted>"], NO);
+   
     [[self captureManager] captureSelection:self];
+}
+
+
+- (IBAction) importImage:(id)sender
+{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+
+    [openPanel setTitle:NSLocalizedString(@"Import Image", nil)];
+    [openPanel setAllowedFileTypes:[NSImage imageFileTypes]];
+
+    [openPanel beginWithCompletionHandler:^(NSInteger result) {
+        if (result == NSOKButton) {
+            NSURL *url = [openPanel URL];
+            [[self canvasWindowController] importFilesAtPaths:@[ [url path] ]];
+        }
+    }];
 }
 
 
@@ -356,13 +457,28 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) showPreferences:(id)sender
 {
+    [[self canvasWindowController] hideIfOverlay];
+
     [[self preferencesWindowController] showWindow:self];
+    [NSApp activateIgnoringOtherApps:YES];
+}
+
+
+- (IBAction) showPurchasePane:(id)sender
+{
+    [[self canvasWindowController] hideIfOverlay];
+
+    [[self preferencesWindowController] showWindow:self];
+    [[self preferencesWindowController] selectPane:3 animated:NO];
+
     [NSApp activateIgnoringOtherApps:YES];
 }
 
 
 - (IBAction) showAbout:(id)sender
 {
+    [[self canvasWindowController] hideIfOverlay];
+
     [NSApp activateIgnoringOtherApps:YES];
 
     if (!_aboutWindowController) {
@@ -376,7 +492,27 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) provideFeedback:(id)sender
 {
+    [[self canvasWindowController] hideIfOverlay];
+
     NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+
+- (IBAction) visitWebsite:(id)sender
+{
+    [[self canvasWindowController] hideIfOverlay];
+
+    NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+
+- (IBAction) viewOnAppStore:(id)sender
+{
+    [[self canvasWindowController] hideIfOverlay];
+
+    NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

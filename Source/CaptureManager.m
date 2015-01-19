@@ -68,7 +68,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 @implementation CaptureManager {
     NSTask   *_task;
     LibraryItem *_currentItem;
-
+    
     CFMachPortRef      _eventTap;
     CFRunLoopSourceRef _eventTapRunLoopSource;
     EventTapUserInfo  *_eventTapUserInfo;
@@ -77,6 +77,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
 - (void) dealloc
 {
+    ProtectEntry();
+
     if (_eventTapRunLoopSource) {
         CFRunLoopRemoveSource(CFRunLoopGetCurrent(), _eventTapRunLoopSource, kCFRunLoopCommonModes);
         CFRelease(_eventTapRunLoopSource);
@@ -90,6 +92,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     }
     
     free(_eventTapUserInfo);
+
+    ProtectExit();
 }
 
 
@@ -118,6 +122,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
         return;
     }
+
+    ProtectEntry();
 
     CGPoint downPoint = _eventTapUserInfo->downPoint;
     CGPoint upPoint   = _eventTapUserInfo->upPoint;
@@ -150,12 +156,19 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     
     [_task setTerminationHandler:nil];
     _task = nil;
+    
+//  We don't ProtectExit() here, thus leaving the global counter up by +1 and slowly
+//  incrementing ScreenshotsTakenSinceLaunch and decrementing NegativeScreenshotsTakenSinceLaunch
+//
+//  ProtectExit();
 }
 
 
 - (void) _makeTap
 {
     if (_eventTap) return;
+
+    ProtectEntry();
 
     CGEventMask mask = CGEventMaskBit(kCGEventLeftMouseDown)  |
                        CGEventMaskBit(kCGEventLeftMouseUp)    |
@@ -169,6 +182,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     CFRunLoopAddSource(CFRunLoopGetCurrent(), _eventTapRunLoopSource, kCFRunLoopCommonModes);
 
     CGEventTapEnable(_eventTap, true);
+    
+    ProtectExit();
 }
 
 
@@ -178,6 +193,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 
     _currentItem = [LibraryItem libraryItem];
     if (!_currentItem) return;
+
+    ProtectEntry();
 
     NSTask *task = [[NSTask alloc] init];
     
@@ -197,12 +214,16 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     if (_eventTap) CGEventTapEnable(_eventTap, true);
 
     [_task launch];
+    
+    ProtectExit();
 }
 
 
 - (IBAction) captureSelection:(id)sender
 {
+    ProtectEntry();
     [self _startCapture];
+    ProtectExit();
 }
 
 

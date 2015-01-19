@@ -50,6 +50,8 @@
 
 - (void) _populateItems
 {
+    ProtectEntry();
+
     NSMutableArray *items = [NSMutableArray array];
 
     NSString *screenshotsPath = GetScreenshotsDirectory();
@@ -89,11 +91,15 @@
     [self setItems:items];
     
     [self _calculateFriendlyNamesForItems:items];
+    
+    ProtectExit();
 }
 
 
 - (void) _calculateFriendlyNamesForItems:(NSArray *)items
 {
+    ProtectEntry();
+
     NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
     [shortDateFormatter setTimeStyle:NSDateFormatterNoStyle];
     [shortDateFormatter setDateStyle:NSDateFormatterShortStyle];
@@ -144,6 +150,8 @@
             [item setDateString:timeString];
         }
     }
+    
+    ProtectExit();
 }
 
 
@@ -151,6 +159,8 @@
 {
     if (!filePath) return nil;
 
+    ProtectEntry();
+    
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     if (!data) return nil;
 
@@ -162,28 +172,43 @@
 
     [self addItem:item];
 
+//  We don't ProtectExit() here, thus leaving the global counter up by +1 and slowly
+//  incrementing ScreenshotsTakenSinceLaunch and decrementing NegativeScreenshotsTakenSinceLaunch
+//
+//  ProtectExit();
+
     return item;
 }
 
 
 - (void) addItem:(LibraryItem *)item
 {
+    ProtectEntry();
+
     if (item) {
         [self _calculateFriendlyNamesForItems:@[ item ]];
         [[self mutableArrayValueForKey:@"items"] addObject:item];
     }
+
+    ProtectExit();
 }
 
 
 - (void) removeItem:(LibraryItem *)item
 {
+    ProtectEntry();
+
     [[self mutableArrayValueForKey:@"items"] removeObject:item];
     [self discardItem:item];
+
+    ProtectExit();
 }
 
 
 - (void) discardItem:(LibraryItem *)item
 {
+    ProtectEntry();
+
     NSString *basePath = [item _basePath];
     
     if (basePath) {
@@ -194,6 +219,8 @@
     if ([_items containsObject:item]) {
         [_items removeObject:item];
     }
+
+    ProtectExit();
 }
 
 

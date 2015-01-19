@@ -99,7 +99,7 @@
 }
 
 
-- (void)scrollToPoint:(NSPoint)newOrigin
+- (void) scrollToPoint:(NSPoint)newOrigin
 {
     [super scrollToPoint:newOrigin];
 

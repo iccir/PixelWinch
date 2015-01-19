@@ -12,6 +12,8 @@
 
 @interface PreferencesWindowController : NSWindowController
 
+- (void) selectPane:(NSInteger)tag animated:(BOOL)animated;
+
 - (IBAction) selectPane:(id)sender;
 - (IBAction) updatePreferences:(id)sender;
 
@@ -44,5 +46,8 @@
 @property (nonatomic, weak)   IBOutlet NSTextField *timedTitleField;
 @property (nonatomic, weak)   IBOutlet NSTextField *timedTextField;
 @property (nonatomic, weak)   IBOutlet NSTextField *timedRemainingField;
+
+@property (nonatomic, weak)   IBOutlet NSButton    *overlayScreenshotsButton;
+@property (nonatomic, strong) IBOutlet NSTextField *overlayScreenshotsTextField;
 
 @end

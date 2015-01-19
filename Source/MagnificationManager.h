@@ -36,7 +36,6 @@
 @property (nonatomic, readonly) NSInteger numberOfTickMarks;
 @property (nonatomic) NSInteger tickMarkPosition;
 
-
 @property (nonatomic, strong, readonly) NSString *stringValue;
 
 @end

@@ -11,60 +11,64 @@
 #import "Library.h"
 #import "CanvasWindowController.h"
 
+@interface LibraryItemCollectionItem () <ThumbnailViewDelegate>
+@end
 
-@implementation LibraryItemCollectionItem 
+
+@implementation LibraryItemCollectionItem  {
+    ThumbnailView *_thumbnailView;
+}
 
 - (void) awakeFromNib
 {
-    [_thumbnailView setLibraryItem:[self representedObject]];
-    
-    CGPoint topLeftOffset = [_thumbnailView topLeftOffset];
-    CGRect bounds = [[self view] bounds];
-    
-    CGRect deleteFrame = [[self deleteButton] frame];
-    
-    CGFloat maxY = bounds.size.height - deleteFrame.size.height;
-    
-    CGPoint origin = CGPointMake(topLeftOffset.x, bounds.size.height - (topLeftOffset.y + deleteFrame.size.height));
-    deleteFrame.origin = origin;
-    deleteFrame.origin.x -= 14;
-    deleteFrame.origin.y += 13;
-    
-    if (deleteFrame.origin.x < 0)    deleteFrame.origin.x = 0;
-    if (deleteFrame.origin.y > maxY) deleteFrame.origin.y = maxY;
+    ProtectEntry();
 
-    [[self deleteButton] setFrame:deleteFrame];
+    NSView *selfView = [self view];
+    NSRect  selfViewBounds = [selfView bounds];
+
+    _thumbnailView = [[ThumbnailView alloc] initWithFrame:NSMakeRect(0, 20, selfViewBounds.size.width, 80)];
+    [_thumbnailView setLibraryItem:[self representedObject]];
+    [_thumbnailView setDelegate:self];
+    [_thumbnailView loadThumbnail];
+    
+    [[self view] addSubview:_thumbnailView];
     
     [self _updateSelected];
-}
 
-
-- (void) dealloc
-{
-    [_deleteButton setTarget:nil];
-    [_deleteButton setAction:NULL];
+    ProtectExit();
 }
 
 
 - (void) _updateSelected
 {
+    ProtectEntry();
+
     BOOL isSelected = [self isSelected];
     [[self textField] setTextColor:GetRGBColor(0xFFFFFF, isSelected ? 1.0 : 0.5)];
-    [[self thumbnailView] setSelected:isSelected];
-    [[self deleteButton] setHidden:!isSelected];
+    [_thumbnailView setSelected:isSelected];
+
+    ProtectExit();
 }
 
 
-- (IBAction) deleteItem:(id)sender
+- (void) thumbnailViewDidClickDelete:(ThumbnailView *)thumbnailView
 {
+    ProtectEntry();
+
     [NSApp sendAction:@selector(deleteSelectedLibraryItem:) to:nil from:self];
+
+    ProtectExit();
 }
 
 
 - (void) setSelected:(BOOL)selected
 {
+    ProtectEntry();
+
     [super setSelected:selected];
     [self _updateSelected];
+
+    ProtectExit();
 }
 
 

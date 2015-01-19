@@ -47,6 +47,15 @@
 
 - (void ) windowDidLoad
 {
+    if (IsLegacyOS()) {
+        [[self overlayScreenshotsButton] removeFromSuperview];
+        [[self overlayScreenshotsTextField] setHidden:NO];
+
+    } else {
+        [[self overlayScreenshotsTextField] removeFromSuperview];
+    }
+
+
     [self _handlePreferencesDidChange:nil];
     [self selectPane:0 animated:NO];
 
@@ -162,38 +171,10 @@
         pane = _keyboardPane;
         title = NSLocalizedString(@"Keyboard", nil);
 
-    } else if (tag == 10) {
-        title = NSLocalizedString(@"Beta", nil);
+    } else if (tag == 3) {
         item = _purchaseItem;
-
-#if ENABLE_APP_STORE
         pane = _purchasePane;
-#else
-        __block long long expiration = kExpirationLong;
-
-        [_timedRemainingField setStringValue:@""];
-        
-        ^{
-            if (CFAbsoluteTimeGetCurrent() > expiration) {
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                    dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                    int *zero = (int *)(long)(rand() >> 31);
-                    *zero = 0;
-                });
-
-            } else {
-                NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:expiration];
-
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateStyle:NSDateFormatterFullStyle];
-                [formatter setTimeStyle:NSDateFormatterNoStyle];
-                
-                [_timedRemainingField setStringValue:[formatter stringFromDate:date]];
-            }
-        }();
-
-        pane = _timedPane;
-#endif
+        title = NSLocalizedString(@"Purchase", nil);
 
     } else {
         item = _generalItem;
@@ -213,8 +194,19 @@
     NSRect windowFrame = [window frame];
     NSRect newFrame = [window frameRectForContentRect:paneFrame];
     
-    newFrame.origin = windowFrame.origin;
+    newFrame.origin    = windowFrame.origin;
     newFrame.origin.y += (windowFrame.size.height - newFrame.size.height);
+
+    [pane setFrameOrigin:NSZeroPoint];
+    
+    if (pane == _keyboardPane && ([[Preferences sharedInstance] iconMode] == IconModeInMenuBar)) {
+        CGFloat delta = 35;
+
+        [pane setFrameOrigin:NSMakePoint(0, -delta)];
+        newFrame.size.height -= delta;
+        newFrame.origin.y += delta;
+    }
+
 
     [window setFrame:newFrame display:YES animate:animated];
     [window setTitle:title];
@@ -235,7 +227,7 @@
 
     if (sender == _captureSelectionShortcutView) {
         [preferences setCaptureSelectionShortcut:[sender shortcut]];
-        
+
     } else if (sender == _showScreenshotsShortcutView) {
         [preferences setShowScreenshotsShortcut:[sender shortcut]];
     }

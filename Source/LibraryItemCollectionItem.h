@@ -10,10 +10,4 @@
 @class ThumbnailView;
 
 @interface LibraryItemCollectionItem : NSCollectionViewItem
-
-- (IBAction) deleteItem:(id)sender;
-
-@property (nonatomic, weak) IBOutlet ThumbnailView *thumbnailView;
-@property (nonatomic, weak) IBOutlet NSButton *deleteButton;
-
 @end
