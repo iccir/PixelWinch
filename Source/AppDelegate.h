@@ -32,7 +32,6 @@ extern objc_arc_weakLock __arc_weak_lock;
 @interface AppDelegate : NSResponder <NSApplicationDelegate>
 
 @property (nonatomic, strong) IBOutlet NSMenu *statusBarMenu;
-@property (nonatomic, strong) IBOutlet NSMenu *dockMenu;
 
 @property (nonatomic, weak) IBOutlet NSMenuItem *quitMenuItem;
 
