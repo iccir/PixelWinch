@@ -50,6 +50,7 @@
 #import "CanvasWindow.h"
 
 #import "CursorAdditions.h"
+#import "ReceiptValidation_B.h"
 
 
 #if 0 && DEBUG
