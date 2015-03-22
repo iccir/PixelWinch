@@ -123,6 +123,8 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 
             outImage = CGBitmapContextCreateImage(context);
             CGContextRelease(context);
+            
+            CGImageRelease(screenshotImage);
 
             if (outImage) {
                 CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)outURL, kUTTypePNG, 1, NULL);

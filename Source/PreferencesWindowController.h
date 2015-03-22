@@ -19,8 +19,7 @@
 
 - (IBAction) restoreDefaultColors:(id)sender;
 
-- (IBAction) purchaseFullVersion:(id)sender;
-- (IBAction) restorePreviousPurchases:(id)sender;
+- (IBAction) viewOnAppStore:(id)sender;
 
 - (IBAction) updatePreferredDisplay:(id)sender;
 
@@ -39,6 +38,8 @@
 @property (nonatomic, strong) IBOutlet NSView *appearancePane;
 @property (nonatomic, strong) IBOutlet NSView *keyboardPane;
 @property (nonatomic, strong) IBOutlet NSView *purchasePane;
+
+@property (nonatomic, weak)   IBOutlet NSButton *launchAtLoginButton;
 
 @property (nonatomic, weak)   IBOutlet NSPopUpButton *screenPopUp;
 

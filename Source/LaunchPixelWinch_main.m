@@ -15,7 +15,6 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
     NSArray *runningApplications = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.pixelwinch.PixelWinch"];
     BOOL     needsLaunch         = [runningApplications count] == 0;
     

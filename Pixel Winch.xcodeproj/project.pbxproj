@@ -40,16 +40,15 @@
 		554D8999135BF064003BFC89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554D8995135BF064003BFC89 /* InfoPlist.strings */; };
 		554D899A135BF064003BFC89 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 554D8997135BF064003BFC89 /* MainMenu.xib */; };
 		554F05981A29588100BF90F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Images.xcassets */; };
-		554F059A1A29D06000BF90F0 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 556D37321935C7B500C90B11 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
 		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
-		556D37391935CFDD00C90B11 /* Updater.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D37381935CFDD00C90B11 /* Updater.m */; };
 		556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */; };
 		556FC3D31A6BA3AB00F72ABA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 556FC3D11A6BA3AB00F72ABA /* Localizable.strings */; };
 		556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3D51A6BA53700F72ABA /* Beacon.m */; };
 		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		557F65281ABE56D8003C2FEA /* PixelWinch-Trial.icns in Resources */ = {isa = PBXBuildFile; fileRef = 557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
 		558E47751943E7080028255C /* WinchFastMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 558E47741943E7080028255C /* WinchFastMath.c */; };
@@ -77,8 +76,6 @@
 		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
 		55BB972D180602A600DED9B5 /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ContentView.m */; };
-		55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BBCD08182793CB00AC9A26 /* StoreKit.framework */; };
-		55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */; };
 		55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */; };
 		55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CCB1800E9A400ECE184 /* BlackSegmentedControl.m */; };
 		55C20CE4180109AF00ECE184 /* Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CE3180109AF00ECE184 /* Tool.m */; };
@@ -138,7 +135,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				554F059A1A29D06000BF90F0 /* Sparkle.framework in Copy Frameworks */,
 				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
 				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
@@ -222,7 +218,7 @@
 		554D895A135BEECB003BFC89 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Source/AppDelegate.m; sourceTree = "<group>"; };
 		554D8986135BEFC9003BFC89 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = Source/Prefix.pch; sourceTree = "<group>"; };
 		554D8987135BEFCF003BFC89 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
-		554D898F135BF027003BFC89 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		554D898F135BF027003BFC89 /* Info-Trial.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.bplist; name = "Info-Trial.plist"; path = "Resources/Info-Trial.plist"; sourceTree = "<group>"; };
 		554D8996135BF064003BFC89 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		554D8998135BF064003BFC89 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		554F05971A29588100BF90F0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
@@ -235,8 +231,6 @@
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-AppStore.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-AppStore.plist"; path = "Resources/Info-AppStore.plist"; sourceTree = "<group>"; };
 		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
-		556D37371935CFDD00C90B11 /* Updater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Updater.h; path = Source/Updater.h; sourceTree = "<group>"; };
-		556D37381935CFDD00C90B11 /* Updater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Updater.m; path = Source/Updater.m; sourceTree = "<group>"; };
 		556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GratuitousDelayButton.h; path = Source/GratuitousDelayButton.h; sourceTree = "<group>"; };
 		556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GratuitousDelayButton.m; path = Source/GratuitousDelayButton.m; sourceTree = "<group>"; };
 		556FC3D21A6BA3AB00F72ABA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -246,6 +240,7 @@
 		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
 		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
 		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
+		557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "PixelWinch-Trial.icns"; path = "Resources/PixelWinch-Trial.icns"; sourceTree = "<group>"; };
 		5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculatorImpl.h; path = Source/GrappleCalculatorImpl.h; sourceTree = "<group>"; };
 		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
 		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
@@ -292,16 +287,12 @@
 		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
 		55B07A8817F7A19D0013B05C /* CanvasWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindowController.h; path = Source/CanvasWindowController.h; sourceTree = "<group>"; };
 		55B07A8917F7A19D0013B05C /* CanvasWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindowController.m; path = Source/CanvasWindowController.m; sourceTree = "<group>"; };
-		55B94D98182F2B9900FE39F3 /* ReceiptValidation_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_C.h; path = Source/ReceiptValidation_C.h; sourceTree = SOURCE_ROOT; };
 		55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_A.h; path = Source/ReceiptValidation_A.h; sourceTree = SOURCE_ROOT; };
 		55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_B.h; path = Source/ReceiptValidation_B.h; sourceTree = SOURCE_ROOT; };
-		55B94D9B182F5A9B00FE39F3 /* Expiration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expiration.h; path = Source/Expiration.h; sourceTree = SOURCE_ROOT; };
 		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
 		55BB972B180602A600DED9B5 /* ContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentView.h; path = Source/ContentView.h; sourceTree = "<group>"; };
 		55BB972C180602A600DED9B5 /* ContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentView.m; path = Source/ContentView.m; sourceTree = "<group>"; };
 		55BBCD08182793CB00AC9A26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PurchaseManager.h; path = Source/PurchaseManager.h; sourceTree = "<group>"; };
-		55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PurchaseManager.m; path = Source/PurchaseManager.m; sourceTree = "<group>"; };
 		55C20C9517FFAE3B00ECE184 /* CenteringClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CenteringClipView.h; path = Source/CenteringClipView.h; sourceTree = "<group>"; };
 		55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CenteringClipView.m; path = Source/CenteringClipView.m; sourceTree = "<group>"; };
 		55C20CCA1800E9A400ECE184 /* BlackSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackSegmentedControl.h; path = Source/BlackSegmentedControl.h; sourceTree = "<group>"; };
@@ -328,13 +319,13 @@
 		55CC21A51832D668004076CF /* MagnificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagnificationManager.h; path = Source/MagnificationManager.h; sourceTree = "<group>"; };
 		55CC21A61832D668004076CF /* MagnificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagnificationManager.m; path = Source/MagnificationManager.m; sourceTree = "<group>"; };
 		55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Release.xcconfig; sourceTree = "<group>"; };
-		55CC21AA1832F3F6004076CF /* PixelWinch_Evaluation_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Evaluation_Release.xcconfig; sourceTree = "<group>"; };
+		55CC21AA1832F3F6004076CF /* PixelWinch_Trial_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial_Release.xcconfig; sourceTree = "<group>"; };
 		55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Profile.xcconfig; sourceTree = "<group>"; };
-		55CC21AC1832F3F6004076CF /* PixelWinch_Evaluation_Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Evaluation_Profile.xcconfig; sourceTree = "<group>"; };
+		55CC21AC1832F3F6004076CF /* PixelWinch_Trial_Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial_Profile.xcconfig; sourceTree = "<group>"; };
 		55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Debug.xcconfig; sourceTree = "<group>"; };
-		55CC21AE1832F3F6004076CF /* PixelWinch_Evaluation_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Evaluation_Debug.xcconfig; sourceTree = "<group>"; };
+		55CC21AE1832F3F6004076CF /* PixelWinch_Trial_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial_Debug.xcconfig; sourceTree = "<group>"; };
 		55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore.xcconfig; sourceTree = "<group>"; };
-		55CC21B01832F444004076CF /* PixelWinch_Evaluation.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Evaluation.xcconfig; sourceTree = "<group>"; };
+		55CC21B01832F444004076CF /* PixelWinch_Trial.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial.xcconfig; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
 		55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItemCollectionItem.h; path = Source/LibraryItemCollectionItem.h; sourceTree = "<group>"; };
@@ -352,7 +343,7 @@
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
 		55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XUIKit.xcodeproj; path = ../XUIKit/XUIKit.xcodeproj; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		8D1107320486CEB800E47090 /* Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Pixel Winch Trial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Trial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,7 +361,6 @@
 				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
 				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
 				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
-				55BBCD09182793CB00AC9A26 /* StoreKit.framework in Frameworks */,
 				55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */,
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
@@ -410,7 +400,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* Pixel Winch.app */,
+				8D1107320486CEB800E47090 /* Pixel Winch Trial.app */,
 				55346D84194130C900896455 /* Launch Pixel Winch.app */,
 			);
 			name = Products;
@@ -459,7 +449,8 @@
 				554F05971A29588100BF90F0 /* Images.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
 				559D38C8180392B10048F29B /* PixelWinch.icns */,
-				554D898F135BF027003BFC89 /* Info.plist */,
+				557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */,
+				554D898F135BF027003BFC89 /* Info-Trial.plist */,
 				5564B8FA19DCD2D500D0139C /* Info-AppStore.plist */,
 				554D8995135BF064003BFC89 /* InfoPlist.strings */,
 				559D38C3180376F30048F29B /* Preferences.xib */,
@@ -611,7 +602,7 @@
 				557BA9A21821D967004A57FC /* Combined */,
 				557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */,
 				55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */,
-				55CC21B01832F444004076CF /* PixelWinch_Evaluation.xcconfig */,
+				55CC21B01832F444004076CF /* PixelWinch_Trial.xcconfig */,
 				557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */,
 				557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */,
 				557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */,
@@ -625,9 +616,9 @@
 				55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */,
 				55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */,
 				55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */,
-				55CC21AE1832F3F6004076CF /* PixelWinch_Evaluation_Debug.xcconfig */,
-				55CC21AC1832F3F6004076CF /* PixelWinch_Evaluation_Profile.xcconfig */,
-				55CC21AA1832F3F6004076CF /* PixelWinch_Evaluation_Release.xcconfig */,
+				55CC21AE1832F3F6004076CF /* PixelWinch_Trial_Debug.xcconfig */,
+				55CC21AC1832F3F6004076CF /* PixelWinch_Trial_Profile.xcconfig */,
+				55CC21AA1832F3F6004076CF /* PixelWinch_Trial_Release.xcconfig */,
 			);
 			path = Combined;
 			sourceTree = "<group>";
@@ -653,10 +644,6 @@
 				559D38D0180399B90048F29B /* ShortcutManager.m */,
 				559D38C01802ABC60048F29B /* Shortcut.h */,
 				559D38BF1802ABC60048F29B /* Shortcut.m */,
-				55BBCD0A1827982E00AC9A26 /* PurchaseManager.h */,
-				55BBCD0B1827982E00AC9A26 /* PurchaseManager.m */,
-				556D37371935CFDD00C90B11 /* Updater.h */,
-				556D37381935CFDD00C90B11 /* Updater.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -713,10 +700,8 @@
 		55B94D97182F2B6B00FE39F3 /* Protection */ = {
 			isa = PBXGroup;
 			children = (
-				55B94D9B182F5A9B00FE39F3 /* Expiration.h */,
 				55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */,
 				55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */,
-				55B94D98182F2B9900FE39F3 /* ReceiptValidation_C.h */,
 			);
 			name = Protection;
 			path = Config;
@@ -780,11 +765,11 @@
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
 				55CC21A81832F24F004076CF /* Generate Receipt Validation */,
-				55F4A49D1845F236000AFDB6 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rchook */,
 				8D1107290486CEB800E47090 /* Resources */,
 				55916E601941387800F28F4C /* Copy LoginItems */,
 				557BA9BE1821E969004A57FC /* Copy Frameworks */,
+				557F652A1ABE596A003C2FEA /* Delete Unused Files */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -797,7 +782,7 @@
 			name = "Pixel Winch";
 			productInstallPath = "$(HOME)/Applications";
 			productName = Pixels;
-			productReference = 8D1107320486CEB800E47090 /* Pixel Winch.app */;
+			productReference = 8D1107320486CEB800E47090 /* Pixel Winch Trial.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -873,6 +858,7 @@
 			files = (
 				559D38C5180376F30048F29B /* Preferences.xib in Resources */,
 				556FC3D31A6BA3AB00F72ABA /* Localizable.strings in Resources */,
+				557F65281ABE56D8003C2FEA /* PixelWinch-Trial.icns in Resources */,
 				55E29A4218307A1200D9D933 /* About.xib in Resources */,
 				559D38C9180392B10048F29B /* PixelWinch.icns in Resources */,
 				554F05981A29588100BF90F0 /* Images.xcassets in Resources */,
@@ -889,6 +875,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		557F652A1ABE596A003C2FEA /* Delete Unused Files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Delete Unused Files";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "if [[ \"$CONFIGURATION\" == *\"Trial\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\nelse\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\nfi\n\n";
+		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -901,21 +901,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=`eval \"echo $BUNDLE_ID\"`\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\nHEADER_C=\"$PROJECT_DIR/Source/ReceiptValidation_C.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_C\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_C\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_C\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n\nif [ \"x$SKIPC\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix C --success checkinapp --failure docrash > \"$HEADER_C\"\nfi\n";
-		};
-		55F4A49D1845F236000AFDB6 /* Generate Expiration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Expiration";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /usr/bin/ruby;
-			shellScript = "#!/usr/bin/ruby\n\nexpiration = ((Time.now.to_f - 978307200) / (24 * 60 * 60)).floor\nexpiration += 90\nexpiration *= 24 * 60 * 60;\n\n\noutput = <<-EOF\n#define kExpirationDouble ((double)    #{expiration}.0 )\n#define kExpirationFloat  ((float)     #{expiration}.0f)\n#define kExpirationLong   ((long long) #{expiration}   )\nEOF\n\nFile.open(ENV[\"PROJECT_DIR\"] + \"/Source/Expiration.h\", \"w\") do |f|\n\tf.write(output)\nend";
+			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=\"com.pixelwinch.PixelWinch\"\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n";
 		};
 		55FA815A1815DE8600ED67E0 /* rchook */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -968,7 +954,6 @@
 				55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */,
 				55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */,
 				555153441819FC3A004485F6 /* Application.m in Sources */,
-				55BBCD0C1827982E00AC9A26 /* PurchaseManager.m in Sources */,
 				5516B68D1804ECAD002AED2E /* Library.m in Sources */,
 				55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */,
 				55CC21A71832D668004076CF /* MagnificationManager.m in Sources */,
@@ -989,7 +974,6 @@
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
 				556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */,
-				556D37391935CFDD00C90B11 /* Updater.m in Sources */,
 				55BB972D180602A600DED9B5 /* ContentView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
@@ -1110,7 +1094,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		55346D9E194130C900896455 /* Debug */ = {
+		55346D9E194130C900896455 /* Debug-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1156,9 +1140,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = "Debug-Trial";
 		};
-		55346D9F194130C900896455 /* Profile */ = {
+		55346D9F194130C900896455 /* Profile-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1198,9 +1182,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = Profile;
+			name = "Profile-Trial";
 		};
-		55346DA0194130C900896455 /* Release */ = {
+		55346DA0194130C900896455 /* Release-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1240,9 +1224,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = "Release-Trial";
 		};
-		55346DA1194130C900896455 /* Debug Store */ = {
+		55346DA1194130C900896455 /* Debug-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1289,9 +1273,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = "Debug Store";
+			name = "Debug-AppStore";
 		};
-		55346DA2194130C900896455 /* Profile Store */ = {
+		55346DA2194130C900896455 /* Profile-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1332,9 +1316,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = "Profile Store";
+			name = "Profile-AppStore";
 		};
-		55346DA3194130C900896455 /* Release Store */ = {
+		55346DA3194130C900896455 /* Release-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1375,9 +1359,9 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = "Release Store";
+			name = "Release-AppStore";
 		};
-		557BA9BB1821DA06004A57FC /* Profile Store */ = {
+		557BA9BB1821DA06004A57FC /* Profile-AppStore */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
@@ -1392,9 +1376,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = "Profile Store";
+			name = "Profile-AppStore";
 		};
-		557BA9BC1821DA06004A57FC /* Profile Store */ = {
+		557BA9BC1821DA06004A57FC /* Profile-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1402,11 +1386,11 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
-			name = "Profile Store";
+			name = "Profile-AppStore";
 		};
-		55CC21B31832F4C2004076CF /* Profile */ = {
+		55CC21B31832F4C2004076CF /* Profile-Trial */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AC1832F3F6004076CF /* PixelWinch_Evaluation_Profile.xcconfig */;
+			baseConfigurationReference = 55CC21AC1832F3F6004076CF /* PixelWinch_Trial_Profile.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1419,9 +1403,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = Profile;
+			name = "Profile-Trial";
 		};
-		55CC21B41832F4C2004076CF /* Profile */ = {
+		55CC21B41832F4C2004076CF /* Profile-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1430,9 +1414,9 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
-			name = Profile;
+			name = "Profile-Trial";
 		};
-		55CC21B51832F4CF004076CF /* Debug Store */ = {
+		55CC21B51832F4CF004076CF /* Debug-AppStore */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
@@ -1447,9 +1431,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = "Debug Store";
+			name = "Debug-AppStore";
 		};
-		55CC21B61832F4CF004076CF /* Debug Store */ = {
+		55CC21B61832F4CF004076CF /* Debug-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1461,9 +1445,9 @@
 					ENABLE_APP_STORE,
 				);
 			};
-			name = "Debug Store";
+			name = "Debug-AppStore";
 		};
-		55CC21B71832F4DB004076CF /* Release Store */ = {
+		55CC21B71832F4DB004076CF /* Release-AppStore */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
@@ -1478,9 +1462,9 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = "Release Store";
+			name = "Release-AppStore";
 		};
-		55CC21B81832F4DB004076CF /* Release Store */ = {
+		55CC21B81832F4DB004076CF /* Release-AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1488,9 +1472,9 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
-			name = "Release Store";
+			name = "Release-AppStore";
 		};
-		C01FCF4B08A954540054247B /* Debug */ = {
+		C01FCF4B08A954540054247B /* Debug-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1499,9 +1483,9 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
-			name = Debug;
+			name = "Debug-Trial";
 		};
-		C01FCF4C08A954540054247B /* Release */ = {
+		C01FCF4C08A954540054247B /* Release-Trial */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1509,11 +1493,11 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 			};
-			name = Release;
+			name = "Release-Trial";
 		};
-		C01FCF4F08A954540054247B /* Debug */ = {
+		C01FCF4F08A954540054247B /* Debug-Trial */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AE1832F3F6004076CF /* PixelWinch_Evaluation_Debug.xcconfig */;
+			baseConfigurationReference = 55CC21AE1832F3F6004076CF /* PixelWinch_Trial_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1527,11 +1511,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
-			name = Debug;
+			name = "Debug-Trial";
 		};
-		C01FCF5008A954540054247B /* Release */ = {
+		C01FCF5008A954540054247B /* Release-Trial */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AA1832F3F6004076CF /* PixelWinch_Evaluation_Release.xcconfig */;
+			baseConfigurationReference = 55CC21AA1832F3F6004076CF /* PixelWinch_Trial_Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1544,7 +1528,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = Release;
+			name = "Release-Trial";
 		};
 /* End XCBuildConfiguration section */
 
@@ -1552,41 +1536,41 @@
 		55346DAA194130C900896455 /* Build configuration list for PBXNativeTarget "Launch Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				55346D9E194130C900896455 /* Debug */,
-				55346D9F194130C900896455 /* Profile */,
-				55346DA0194130C900896455 /* Release */,
-				55346DA1194130C900896455 /* Debug Store */,
-				55346DA2194130C900896455 /* Profile Store */,
-				55346DA3194130C900896455 /* Release Store */,
+				55346D9E194130C900896455 /* Debug-Trial */,
+				55346D9F194130C900896455 /* Profile-Trial */,
+				55346DA0194130C900896455 /* Release-Trial */,
+				55346DA1194130C900896455 /* Debug-AppStore */,
+				55346DA2194130C900896455 /* Profile-AppStore */,
+				55346DA3194130C900896455 /* Release-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Store";
+			defaultConfigurationName = "Release-AppStore";
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4B08A954540054247B /* Debug */,
-				55CC21B41832F4C2004076CF /* Profile */,
-				C01FCF4C08A954540054247B /* Release */,
-				55CC21B61832F4CF004076CF /* Debug Store */,
-				557BA9BC1821DA06004A57FC /* Profile Store */,
-				55CC21B81832F4DB004076CF /* Release Store */,
+				C01FCF4B08A954540054247B /* Debug-Trial */,
+				55CC21B41832F4C2004076CF /* Profile-Trial */,
+				C01FCF4C08A954540054247B /* Release-Trial */,
+				55CC21B61832F4CF004076CF /* Debug-AppStore */,
+				557BA9BC1821DA06004A57FC /* Profile-AppStore */,
+				55CC21B81832F4DB004076CF /* Release-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Store";
+			defaultConfigurationName = "Release-AppStore";
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4F08A954540054247B /* Debug */,
-				55CC21B31832F4C2004076CF /* Profile */,
-				C01FCF5008A954540054247B /* Release */,
-				55CC21B51832F4CF004076CF /* Debug Store */,
-				557BA9BB1821DA06004A57FC /* Profile Store */,
-				55CC21B71832F4DB004076CF /* Release Store */,
+				C01FCF4F08A954540054247B /* Debug-Trial */,
+				55CC21B31832F4C2004076CF /* Profile-Trial */,
+				C01FCF5008A954540054247B /* Release-Trial */,
+				55CC21B51832F4CF004076CF /* Debug-AppStore */,
+				557BA9BB1821DA06004A57FC /* Profile-AppStore */,
+				55CC21B71832F4DB004076CF /* Release-AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Store";
+			defaultConfigurationName = "Release-AppStore";
 		};
 /* End XCConfigurationList section */
 	};

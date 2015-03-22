@@ -51,36 +51,12 @@
 
 #import "CursorAdditions.h"
 
-#if ENABLE_APP_STORE
-#import "ReceiptValidation_C.h"
-#else
-#import "Expiration.h"
-#endif
 
 #if 0 && DEBUG
 #define LOG(...) NSLog(__VA_ARGS__)
 #else
 #define LOG(...)
 #endif
-
-#define sCheckAndProtect _
-static inline __attribute__((always_inline)) void sCheckAndProtect()
-{
-#if ENABLE_APP_STORE
-#else
-    __block long long expiration = kExpirationLong;
-
-    ^{
-        if (CFAbsoluteTimeGetCurrent() > expiration) {
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                int *zero = (int *)(long)(rand() >> 31);
-                *zero = 0;
-            });
-        }
-    }();
-#endif
-}
 
 
 typedef NS_ENUM(NSInteger, AnimationAction) {
@@ -112,8 +88,6 @@ static CGRect       sTransitionImageGlobalRect = {0};
 static CGImageRef   sTransitionImage           = NULL;
 static BOOL         sShowDelayNextTime         = NO;
 
-
-#if ENABLE_APP_STORE
 
 static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 {
@@ -148,15 +122,6 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     *outA = 5;
     *outB = 5;
 }
-
-#else
-
-static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
-{
-    *outA = *outB = 0;
-}
-
-#endif
 
 
 @interface CanvasWindowController () <
@@ -882,6 +847,11 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         [[self window] display];
 
+#if ENABLE_APP_STORE && !defined(DEBUG)
+        B_CheckReceipt();
+#endif
+
+#if ENABLE_TRIAL
         NSTimeInterval duration, unused;
         sGetPleaDuration(&unused, &duration);
         
@@ -889,6 +859,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             sAnimate( self, AnimationAction_SetupShield, nil, &outDurationValue);
             sAnimate( self, AnimationAction_SetupGratuitousButton, nil, NULL);
         }
+#endif
 
         NSEnableScreenUpdates();
 
@@ -2136,8 +2107,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             useZoomAnimation = YES;
         }
     }
-
-    sCheckAndProtect();
 
     // Set up transition image if we can use the zoom animation
     if (useZoomAnimation) {

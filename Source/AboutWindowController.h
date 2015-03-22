@@ -14,6 +14,7 @@
 @property (nonatomic, strong) IBOutlet NSWindow *legalWindow;
 @property (nonatomic, strong) IBOutlet NSTextView *legalText;
 
+@property (nonatomic, weak) IBOutlet NSImageView *imageView;
 @property (nonatomic, weak) IBOutlet NSTextField *versionField;
 
 @property (nonatomic, weak) IBOutlet NSButton *viewOnAppStoreButton;

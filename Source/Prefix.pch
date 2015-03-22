@@ -10,7 +10,6 @@
     #import "CursorInfo.h"
     #import "CursorAdditions.h"
     #import "ScreenAdditions.h"
-    #import "PurchaseManager.h"
     #import "CanvasTypes.h"
 
     #import "AppDelegate.h"

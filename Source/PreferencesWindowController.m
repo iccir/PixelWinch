@@ -11,8 +11,6 @@
 #import "Preferences.h"
 #import "ShortcutView.h"
 
-#import "Expiration.h"
-
 @interface PreferencesWindowController ()
 - (void) _handlePreferencesDidChange:(NSNotification *)note;
 @end
@@ -47,6 +45,15 @@
 
 - (void ) windowDidLoad
 {
+#if ENABLE_TRIAL
+    [[self launchAtLoginButton] setHidden:YES];
+
+    NSToolbar *toolbar = [self toolbar];
+    
+    NSInteger count = [[toolbar visibleItems] count];
+    [toolbar insertItemWithItemIdentifier:[[self purchaseItem] itemIdentifier] atIndex:count];
+#endif
+
     if (IsLegacyOS()) {
         [[self overlayScreenshotsButton] removeFromSuperview];
         [[self overlayScreenshotsTextField] setHidden:NO];
@@ -240,19 +247,10 @@
 }
 
 
-- (IBAction) purchaseFullVersion:(id)sender
+- (IBAction) viewOnAppStore:(id)sender
 {
-#if ENABLE_APP_STORE
-
-#endif
-}
-
-
-- (IBAction) restorePreviousPurchases:(id)sender
-{
-#if ENABLE_APP_STORE
-
-#endif
+    NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 
@@ -262,13 +260,6 @@
 
     [[Preferences sharedInstance] setPreferredDisplay:[selectedItem tag]];
     [[Preferences sharedInstance] setPreferredDisplayName:[selectedItem title]];
-}
-
-
-- (IBAction) visitWebsite:(id)sender
-{
-    NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
-    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 

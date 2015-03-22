@@ -24,7 +24,6 @@
 #import "LibraryItem.h"
 #import "TutorialWindowController.h"
 
-#import "Updater.h"
 #import "Beacon.h"
 
 objc_arc_weakLock __arc_weak_lock = {
@@ -33,56 +32,6 @@ objc_arc_weakLock __arc_weak_lock = {
     0,
     0
 };
-
-
-#if ENABLE_APP_STORE
-#import "ReceiptValidation_A.h"
-#else
-#import "Expiration.h"
-#endif
-
-
-#define sCheckAndProtect _
-static inline __attribute__((always_inline)) void sCheckAndProtect()
-{
-#ifndef ENABLE_APP_STORE
-    ^{
-        NSString *message = NSLocalizedString(@"Version Expired", nil);
-        NSString *text    = NSLocalizedString(@"This version of Pixel Winch has expired.  A newer version may be available on the Pixel Winch website.", nil);
-        NSString *quit    = NSLocalizedString(@"Quit",    nil);
-        NSString *visit   = NSLocalizedString(@"Visit Website",    nil);
-        
-        NSAlert *alert = [[NSAlert alloc] init];
-        
-        [alert setMessageText:message];
-        [alert setInformativeText:text];
-        [alert addButtonWithTitle:quit];
-        [alert addButtonWithTitle:visit];
-
-        if (CFAbsoluteTimeGetCurrent() > kExpirationDouble) {
-            if ([alert runModal] == NSAlertSecondButtonReturn) {
-                NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
-                [[NSWorkspace sharedWorkspace] openURL:url];
-            }
-            
-            [NSApp terminate:nil];
-            exit(0);
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunreachable-code"
-
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                int *zero = (int *)(long)(rand() >> 31);
-                *zero = 0;
-            });
-
-#pragma clang diagnostic pop
-
-        }
-    }();
-#endif
-}
 
 
 @interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITHockeyManagerDelegate>
@@ -332,7 +281,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (void) applicationWillFinishLaunching:(NSNotification *)notification
 {
-    sCheckAndProtect();
 }
 
 
@@ -403,14 +351,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 {
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];
-
-    BeaconActivate([NSURL URLWithString:@"<redacted>"], YES);
-
-#ifndef DEBUG
-#if !ENABLE_APP_STORE
-    [[Updater sharedInstance] checkForUpdatesInBackground];
-#endif
-#endif
 }
 
 - (void) menuWillOpen:(NSMenu *)menu
@@ -427,8 +367,6 @@ static inline __attribute__((always_inline)) void sCheckAndProtect()
 
 - (IBAction) captureSelection:(id)sender
 {
-    BeaconActivate([NSURL URLWithString:@"<redacted>"], NO);
-   
     [[self captureManager] captureSelection:self];
 }
 

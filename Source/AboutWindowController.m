@@ -7,8 +7,6 @@
 //
 
 #import "AboutWindowController.h"
-#import "Expiration.h"
-#import "Updater.h"
 
 @interface AboutWindowController ()
 
@@ -78,41 +76,27 @@
     NSButton *closeButton = [window standardWindowButton:NSWindowCloseButton];
     [[closeButton superview] bringSubviewToFront:closeButton];
 
-    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\n%@", nil);
+#if ENABLE_APP_STORE
+    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
+
+    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nby Ricci Adams", nil);
+
     id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
-#if ENABLE_APP_STORE
-    NSString *betaString = @"";
+    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
 #else
-    [[self viewOnAppStoreButton] setTitle:NSLocalizedString(@"Check for Updates", nil)];
+    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch-Trial"]];
 
-    __block NSString *timeRemaining = @"";
-    __block long long expiration = kExpirationLong;
-    
-    ^{
-        if (CFAbsoluteTimeGetCurrent() > expiration) {
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                int *zero = (int *)(long)(rand() >> 31);
-                *zero = 0;
-            });
+    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nTrial Version", nil);
 
-        } else {
-            NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:expiration];
+    id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateStyle:NSDateFormatterMediumStyle];
-            [formatter setTimeStyle:NSDateFormatterNoStyle];
-            
-            timeRemaining = [formatter stringFromDate:date];
-        }
-    }();
+    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
 
-    NSString *betaString = [NSString stringWithFormat:@"Beta expires on %@", timeRemaining];
+    [[self viewOnAppStoreButton] setTitle:NSLocalizedString(@"Purchase Pixel Winch", nil)];
 #endif
-
-    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber, betaString]];
 
     NSScrollView *legalScrollView = [[self legalText] enclosingScrollView];
 
@@ -138,12 +122,8 @@
 
 - (IBAction) viewOnAppStore:(id)sender
 {
-#if ENABLE_APP_STORE
     NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
-#else
-   [[Updater sharedInstance] checkForUpdatesInForeground];
-#endif
 }
 
 

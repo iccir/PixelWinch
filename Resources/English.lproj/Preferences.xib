@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController">
@@ -14,6 +14,7 @@
                 <outlet property="generalPane" destination="251" id="ELS-uE-CEE"/>
                 <outlet property="keyboardItem" destination="2cG-c1-4p4" id="o4e-Kl-tjv"/>
                 <outlet property="keyboardPane" destination="cwh-za-zMQ" id="xSX-f7-fRq"/>
+                <outlet property="launchAtLoginButton" destination="gc1-RU-G08" id="7fn-zp-Af0"/>
                 <outlet property="overlayScreenshotsButton" destination="Tgk-U5-E01" id="DIu-nz-Ri3"/>
                 <outlet property="overlayScreenshotsTextField" destination="kdG-cH-OPN" id="8eZ-Ai-Eu9"/>
                 <outlet property="purchaseItem" destination="cbx-I5-8j1" id="hJH-Y5-y7R"/>
@@ -122,12 +123,12 @@
                 <popUpButton verticalHuggingPriority="750" id="Q11-9R-akh">
                     <rect key="frame" x="186" y="51" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ids-5C-rsN">
+                    <popUpButtonCell key="cell" type="push" title="Never" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oOR-ui-IbL" id="ids-5C-rsN">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="Lyn-2c-Eyq">
                             <items>
-                                <menuItem title="Never" id="oOR-ui-IbL">
+                                <menuItem title="Never" state="on" id="oOR-ui-IbL">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem isSeparatorItem="YES" id="dzQ-4h-c8m"/>
@@ -265,7 +266,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" id="L56-lf-lh1">
-                    <rect key="frame" x="22" y="76" width="72" height="17"/>
+                    <rect key="frame" x="8" y="76" width="86" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rectangles" id="hML-iI-2WN">
                         <font key="font" metaFont="system"/>
@@ -477,76 +478,32 @@
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="E23-JI-4sA"/>
         <customView id="g52-iv-nqa" userLabel="Purchase Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="317"/>
+            <rect key="frame" x="0.0" y="5" width="368" height="149"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button verticalHuggingPriority="750" id="EIL-hc-ykp">
+                <button verticalHuggingPriority="750" id="Udo-Nb-orr">
                     <rect key="frame" x="68" y="13" width="232" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Restore Previous Purchases" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bqC-Te-BVL">
+                    <buttonCell key="cell" type="push" title="Purchase Pixel Winch" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WZv-aL-FOp">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="restorePreviousPurchases:" target="-2" id="Mlj-k3-7bv"/>
+                        <action selector="viewOnAppStore:" target="-2" id="oVF-jS-nU7"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" id="Udo-Nb-orr">
-                    <rect key="frame" x="68" y="154" width="232" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Purchase Instant Edition" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WZv-aL-FOp">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="purchaseFullVersion:" target="-2" id="ofH-Qt-y84"/>
-                    </connections>
-                </button>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="WUu-db-iWI">
-                    <rect key="frame" x="0.0" y="138" width="368" height="5"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
-                </box>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="imD-Fa-RQA">
-                    <rect key="frame" x="18" y="95" width="193" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Already purchased?" id="yrv-Ee-pET">
-                        <font key="font" metaFont="system" size="16"/>
-                        <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="70Z-02-L1l">
-                    <rect key="frame" x="18" y="278" width="193" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Free Edition" id="AI3-4g-R5b">
-                        <font key="font" metaFont="system" size="16"/>
-                        <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="7kk-lE-dha">
-                    <rect key="frame" x="18" y="61" width="277" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You can restore your purchase and use the Instant Edition of Pixel Winch on this Mac." id="KU6-UW-sYm">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="v3Y-sZ-p7C">
-                    <rect key="frame" x="18" y="202" width="332" height="68"/>
+                    <rect key="frame" x="18" y="61" width="332" height="68"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="egc-ZQ-IPh">
                         <font key="font" metaFont="system"/>
-                        <string key="title">You are using the free edition of Pixel Winch.  All features are available, but screenshots take a few seconds to load.  Purchase the Instant Edition to load screenshots immediately.</string>
+                        <string key="title">You are using the trial version of Pixel Winch.  All features are available, but screenshots take a few seconds to load.  Purchase Pixel Winch on the App Store to load screenshots immediately.</string>
                         <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
+            <point key="canvasLocation" x="580" y="622.5"/>
         </customView>
     </objects>
     <resources>
