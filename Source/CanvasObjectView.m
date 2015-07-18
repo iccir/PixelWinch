@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
     if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
         if (_moveConstraintState == CanvasObjectMoveConstraintNone) {
-            if (abs(deltaPoint.x) >= abs(deltaPoint.y)) {
+            if (fabs(deltaPoint.x) >= fabs(deltaPoint.y)) {
                 _moveConstraintState = CanvasObjectMoveConstraintYAxis;
             } else {
                 _moveConstraintState = CanvasObjectMoveConstraintXAxis;

@@ -62,12 +62,11 @@ static NSString * const sToleranceKey = @"tolerance";
 {
     if ((self = [super initWithDictionaryRepresentation:dictionary])) {
         NSNumber *verticalNumber  = [dictionary objectForKey:sVerticalKey];
-//        NSNumber *toleranceNumber = [dictionary objectForKey:sToleranceKey];
 
         _vertical  = !verticalNumber  || [verticalNumber  boolValue];
-//        _tolerance = [toleranceNumber integerValue];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleDistanceMapReady:) name:ImageDistanceMapReadyNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification      object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleDistanceMapReady:)     name:ImageDistanceMapReadyNotificationName object:nil];
     }
     
     return self;
@@ -83,7 +82,6 @@ static NSString * const sToleranceKey = @"tolerance";
 - (void) writeToDictionary:(NSMutableDictionary *)dictionary
 {
     [dictionary setObject:@(_vertical)  forKey:sVerticalKey];
-//    [dictionary setObject:@(_tolerance) forKey:sToleranceKey];
 }
 
 
@@ -173,6 +171,12 @@ static NSString * const sToleranceKey = @"tolerance";
     if ([canvasView convertMouseLocationToCanvasPoint:&point]) {
         _lastPreviewGrapplePoint = point;
     }
+}
+
+
+- (void) _handlePreferencesDidChange:(NSNotification *)note
+{
+    [self updatePreviewGrapple];
 }
 
 
