@@ -24,8 +24,6 @@ static NSString * const sCanvasKey = @"canvas";
     NSDate       *_date;
     NSString     *_title;
     NSDictionary *_canvasDictionary;
-
-    Screenshot *_screenshot;
 }
 
 
@@ -145,41 +143,63 @@ static NSString * const sCanvasKey = @"canvas";
 
 - (Screenshot *) screenshot
 {
-    if (!_screenshot) {
+    @synchronized (self) {
         if ([self isValid]) {
-            _screenshot = [Screenshot screenshotWithContentsOfFile:[self screenshotPath]];
+            return [Screenshot screenshotWithContentsOfFile:[self screenshotPath]];
         }
     }
     
-    return _screenshot;
+    return nil;
 }
 
 
 - (void) setCanvasDictionary:(NSDictionary *)canvasDictionary
 {
-    _canvasDictionary = canvasDictionary;
-    [self _writeInfo];
+    @synchronized (self) {
+        _canvasDictionary = canvasDictionary;
+        [self _writeInfo];
+    }
+}
+
+
+- (NSDictionary *) canvasDictionary
+{
+    @synchronized (self) {
+        return _canvasDictionary;
+    }
 }
 
 
 - (void) setTitle:(NSString *)title
 {
-    if (_title != title) {
-        _title = title;
+    @synchronized (self) {
+        _title = [title copy];
         [self _writeInfo];
+    }
+}
+
+
+- (NSString *) title
+{
+    @synchronized (self) {
+        return _title;
     }
 }
 
 
 - (NSString *) titleOrDateString
 {
-    return _title ?: _dateString;
+    @synchronized (self) {
+        return _title ? _title : _dateString;
+    }
 }
 
 
 - (BOOL) isValid
 {
-    return [[NSFileManager defaultManager] fileExistsAtPath:[self screenshotPath]];
+    @synchronized (self) {
+        return [[NSFileManager defaultManager] fileExistsAtPath:[self screenshotPath]];
+    }
 }
 
 

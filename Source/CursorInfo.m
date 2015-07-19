@@ -153,6 +153,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     _view = [[CursorInfoView alloc] initWithFrame:[[_window contentView] bounds]];
     [_view setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
     [[_window contentView] addSubview:_view];
+    [_view setText:_text];
 }
 
 

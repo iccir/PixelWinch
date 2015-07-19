@@ -767,6 +767,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
         [window setBackgroundColor:[_canvasScrollView backgroundColor]];
         [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+        [window setContentMinSize:NSMakeSize(780, 320)];
         
         NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"Toolbar"];
 
@@ -2112,9 +2113,12 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     // Set up transition image if we can use the zoom animation
     if (useZoomAnimation) {
         CGImageRef image = [[libraryItem screenshot] CGImage];
+        
+        if (sTransitionImage != image) {
+            CGImageRelease(sTransitionImage);
+            sTransitionImage = CGImageRetain(image);
+        }
 
-        CGImageRelease(sTransitionImage);
-        sTransitionImage = CGImageRetain(image);
         sTransitionImageGlobalRect = globalRect;
     }
 

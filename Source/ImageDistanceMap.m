@@ -126,7 +126,7 @@ static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_
     size_t height = CGImageGetHeight(_image);
 
     NSInteger bytesPerRow = 4 * width;
-    UInt8    *input = malloc(sizeof(UInt8) * bytesPerRow * (height + 1));
+    UInt8    *input          = malloc(sizeof(UInt8) * bytesPerRow * (height + 1));
     float    *lab_accelerate = malloc(sizeof(float) * 4 * width * (height + 1));
 
     UInt8    *hmap_accelerate = malloc(sizeof(UInt8) * 4 * width * (height + 1));
@@ -145,6 +145,7 @@ static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_
     memset(&lab_accelerate[4 * width * height], 0, sizeof(float) * width * 4);
 
     sMakeLAB(input, lab_accelerate, width, height);
+    free(input);
 
     if (SupportsSSE4_1()) {
         CalculateImageDistanceMap_SSE4(lab_accelerate, hmap_accelerate, vmap_accelerate, width, height);

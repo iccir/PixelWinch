@@ -57,6 +57,7 @@
 		557F65281ABE56D8003C2FEA /* PixelWinch-Trial.icns in Resources */ = {isa = PBXBuildFile; fileRef = 557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
+		558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A6B1B1B5A495000A501CA /* ImageIO.framework */; };
 		558E47751943E7080028255C /* WinchFastMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 558E47741943E7080028255C /* WinchFastMath.c */; };
 		55916E5C194137FF00F28F4C /* LaunchPixelWinch_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */; };
 		55916E611941388900F28F4C /* Launch Pixel Winch.app in Copy LoginItems */ = {isa = PBXBuildFile; fileRef = 55346D84194130C900896455 /* Launch Pixel Winch.app */; };
@@ -250,6 +251,7 @@
 		5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculatorImpl.h; path = Source/GrappleCalculatorImpl.h; sourceTree = "<group>"; };
 		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
 		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
+		558A6B1B1B5A495000A501CA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		558E47741943E7080028255C /* WinchFastMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath.c; path = Source/WinchFastMath.c; sourceTree = "<group>"; };
 		558E47781943E87A0028255C /* WinchFastMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WinchFastMath.h; path = Source/WinchFastMath.h; sourceTree = "<group>"; };
 		55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchPixelWinch_main.m; path = Source/LaunchPixelWinch_main.m; sourceTree = SOURCE_ROOT; };
@@ -358,6 +360,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */,
 				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
 				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
 				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
@@ -467,6 +470,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				558A6B1B1B5A495000A501CA /* ImageIO.framework */,
 				55916E6219413B2100F28F4C /* ServiceManagement.framework */,
 				55CB053418285F80001DD1A0 /* libcrypto.a */,
 				556D37321935C7B500C90B11 /* Sparkle.framework */,
@@ -791,7 +795,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0640;
 				TargetAttributes = {
 					55346D83194130C900896455 = {
 						CreatedOnToolsVersion = 6.0;
@@ -1371,6 +1375,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
@@ -1398,6 +1403,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
@@ -1426,6 +1432,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
@@ -1457,6 +1464,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
@@ -1505,6 +1513,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1523,6 +1532,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};

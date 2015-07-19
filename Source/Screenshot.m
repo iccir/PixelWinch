@@ -6,58 +6,42 @@
 //
 //
 
+#import <ImageIO/ImageIO.h>
+
 #import "Screenshot.h"
 
-@implementation Screenshot {
-    NSString *_path;
-    NSData *_fileData;
-    NSBitmapImageRep *_rep;
-}
+static NSCache *sScreenshotCache = nil;
+
+@implementation Screenshot
 
 
 + (instancetype) screenshotWithContentsOfFile:(NSString *)path
 {
-    return [[self alloc] _initWithContentsOfFile:path];
+    if (!sScreenshotCache) {
+        sScreenshotCache = [[NSCache alloc] init];
+        [sScreenshotCache setCountLimit:3];
+    }
+
+    Screenshot *screenshot = [sScreenshotCache objectForKey:path];
+
+    if (!screenshot) {
+        screenshot = [[self alloc] _initWithContentsOfFile:path];
+
+        if (screenshot) {
+            [sScreenshotCache setObject:screenshot forKey:path];
+        }
+    }
+    
+    return screenshot;
 }
 
 
 - (id) _initWithContentsOfFile:(NSString *)path
 {
     if ((self = [super init])) {
-        _path = path;
-        
-        NSError *error;
-        _fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:_path] options:NSDataReadingMappedAlways error:&error];
+        [self _readFileAtPath:path];
 
-        if (!_fileData) {
-            self = nil;
-            return nil;
-        }
-    
-        NSImage *image = [[NSImage alloc] initWithData:_fileData];
-        NSImageRep *largestRep = nil;
-
-        if (!image) {
-            self = nil;
-            return nil;
-        }
-
-        for (NSImageRep *rep in [image representations]) {
-            if (![rep isKindOfClass:[NSBitmapImageRep class]]) {
-                continue;
-            }
-
-            if ([rep pixelsHigh] > _height || [rep pixelsWide] > _width) {
-                _height = [rep pixelsHigh];
-                _width  = [rep pixelsWide];
-                largestRep = rep;
-            }
-        }
-    
-        _rep  = (NSBitmapImageRep *)largestRep;
-        _size = CGSizeMake(_width, _height);
-
-        if (!_rep) {
+        if (!_CGImage) {
             self = nil;
             return nil;
         }
@@ -67,44 +51,42 @@
 }
 
 
-- (UInt8 *) RGBData
+- (void) dealloc
 {
-    if ([_rep isPlanar] || [_rep hasAlpha]) return NULL;
+    CGImageRelease(_CGImage);
+    _CGImage = NULL;
+}
 
-    NSBitmapFormat format = [_rep bitmapFormat];
-    if (format & NSFloatingPointSamplesBitmapFormat) {
-        return NULL;
+
+- (void) _readFileAtPath:(NSString *)path
+{
+    NSURL *fileURL = [NSURL fileURLWithPath:path];
+
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)fileURL, NULL);
+    if (!imageSource) return;
+    
+    NSInteger indexOfLargestImage = NSNotFound;
+    
+    size_t count = CGImageSourceGetCount(imageSource);
+    for (NSInteger i = 0; i < count; i++) {
+        NSDictionary *properties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imageSource, i, NULL));
+
+        size_t width  = [[properties objectForKey:(__bridge id)kCGImagePropertyPixelWidth]  unsignedLongValue];
+        size_t height = [[properties objectForKey:(__bridge id)kCGImagePropertyPixelHeight] unsignedLongValue];
+        
+        if ((height > _height) || (width > _width)) {
+            _height = height;
+            _width  = width;
+            indexOfLargestImage = i;
+        }
     }
-
-    return [_rep bitmapData];
-}
-
-
-- (UInt8 *) RGBAData
-{
-    if ([_rep isPlanar] || ![_rep hasAlpha]) return NULL;
-
-    // Ensure we aren't float, or ARGB
-    //
-    NSBitmapFormat format = [_rep bitmapFormat];
-    if ((format & NSFloatingPointSamplesBitmapFormat) ||
-        (format & NSAlphaFirstBitmapFormat))
-    {
-        return NULL;
+    
+    if (indexOfLargestImage != NSNotFound) {
+        _CGImage = CGImageSourceCreateImageAtIndex(imageSource, indexOfLargestImage, NULL);
+        _size    = CGSizeMake(_width, _height);
     }
-
-    return [_rep bitmapData];
-}
-
-- (NSInteger) bytesPerRow
-{
-    return [_rep bytesPerRow];
-}
-
-
-- (CGImageRef) CGImage
-{
-    return [_rep CGImage];
+    
+    CFRelease(imageSource);
 }
 
 

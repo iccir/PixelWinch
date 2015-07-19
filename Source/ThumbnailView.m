@@ -85,10 +85,10 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
     __weak id weakSelf = self;
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        ThumbnailView *view = weakSelf;
-        if (!view) return;
+        ThumbnailView *strongSelf = weakSelf;
+        if (!strongSelf) return;
         
-        LibraryItem *item = [view libraryItem];
+        LibraryItem *item = [strongSelf libraryItem];
     
         NSString *thumbnailPath = [item thumbnailPath];
         NSImage  *thumbnail = nil;
@@ -106,6 +106,8 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         
         if (!thumbnail && [item isValid]) {
             CGImageRef screenshotImage = CGImageRetain([[item screenshot] CGImage]);
+            if (!screenshotImage) return;
+            
             CGSize thumbnailSize = sGetThumbnailSizeForScreenshotImage(screenshotImage);
 
             NSURL *outURL = [NSURL fileURLWithPath:[item thumbnailPath]];
@@ -120,11 +122,10 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
             CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, 0|kCGImageAlphaNoneSkipLast);
 
             CGContextDrawImage(context, CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height), screenshotImage);
+            CGImageRelease(screenshotImage);
 
             outImage = CGBitmapContextCreateImage(context);
             CGContextRelease(context);
-            
-            CGImageRelease(screenshotImage);
 
             if (outImage) {
                 CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)outURL, kUTTypePNG, 1, NULL);

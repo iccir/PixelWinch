@@ -14,19 +14,17 @@
 
 + (instancetype) libraryItem;
 
-@property (nonatomic, readonly) NSString *screenshotPath;
-@property (nonatomic, readonly) Screenshot *screenshot;
+@property (atomic, readonly) NSString *screenshotPath;
+@property (atomic, readonly) NSString *thumbnailPath;
 
-@property (nonatomic, readonly) NSString *thumbnailPath;
+@property (atomic, readonly) NSDate *date;
 
-@property (nonatomic, readonly) NSDate *date;
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSDictionary *canvasDictionary;
+@property (atomic, readonly, getter=isValid) BOOL valid;
 
-@property (nonatomic, readonly) NSString *titleOrDateString;
-
-@property (nonatomic, copy) NSString *dateString;
-
-@property (nonatomic, readonly, getter=isValid) BOOL valid;
+@property (atomic, readonly) Screenshot   *screenshot;
+@property (atomic, strong)   NSDictionary *canvasDictionary;
+@property (atomic, copy)     NSString *title;
+@property (atomic, copy)     NSString *dateString;
+@property (atomic, readonly) NSString *titleOrDateString;
 
 @end

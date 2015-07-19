@@ -62,7 +62,6 @@ static NSString * const sToleranceKey = @"tolerance";
 {
     if ((self = [super initWithDictionaryRepresentation:dictionary])) {
         NSNumber *verticalNumber  = [dictionary objectForKey:sVerticalKey];
-
         _vertical  = !verticalNumber  || [verticalNumber  boolValue];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification      object:nil];
