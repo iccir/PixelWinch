@@ -320,12 +320,12 @@ CGImageRef CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)
 extern CGImageRef CopyImageNamed(NSString *name)
 {
     NSImage *image = [NSImage imageNamed:name];
-    NSBitmapImageRep *last = [[image representations] lastObject];
+    NSImageRep *last = [[image representations] lastObject];
 
     CGImageRef result = NULL;
 
     if ([last respondsToSelector:@selector(CGImage)]) {
-        result = CGImageRetain([last CGImage]);
+        result = CGImageRetain([(id)last CGImage]);
     }
     
     return result;

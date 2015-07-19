@@ -120,8 +120,8 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     a = MAX(a, shouldBeZero_i);
     b = MAX(b, shouldBeZero_i);
     
-    *outA = 5;
-    *outB = 5;
+    *outA = a;
+    *outB = b;
 }
 
 
@@ -2371,9 +2371,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
         NSImage *snapshot = GetSnapshotImageForView(_canvasView);
+        NSDictionary *properties = [NSDictionary dictionary];
         
         NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[snapshot TIFFRepresentation]];
-        NSData *data = [rep representationUsingType:NSPNGFileType properties:nil];
+        NSData *data = [rep representationUsingType:NSPNGFileType properties:properties];
         [data writeToURL:[savePanel URL] atomically:YES];
     }
 }

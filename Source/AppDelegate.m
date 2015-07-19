@@ -108,21 +108,25 @@ objc_arc_weakLock __arc_weak_lock = {
 {
     BOOL launchAtLogin = [[Preferences sharedInstance] launchAtLogin];
 
-    CFStringRef bundleID = CFSTR("com.pixelwinch.LaunchPixelWinch");
+    CFStringRef bundleID = CFBridgingRetain([[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".Launcher"]);
 
-    if (launchAtLogin) {
-        if (!SMLoginItemSetEnabled(bundleID, YES)) {
-            NSString *errorMessage = NSLocalizedString(@"Couldn't add Pixel Winch to Login Items list.", nil);
+    if (bundleID) {
+        if (launchAtLogin) {
+            if (!SMLoginItemSetEnabled(bundleID, YES)) {
+                NSString *errorMessage = NSLocalizedString(@"Couldn't add Pixel Winch to Login Items list.", nil);
 
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setInformativeText:errorMessage];
-            [alert runModal];
-            
-            [[Preferences sharedInstance] setLaunchAtLogin:NO];
+                NSAlert *alert = [[NSAlert alloc] init];
+                [alert setInformativeText:errorMessage];
+                [alert runModal];
+                
+                [[Preferences sharedInstance] setLaunchAtLogin:NO];
+            }
+
+        } else {
+            SMLoginItemSetEnabled(bundleID, NO);
         }
 
-    } else {
-        SMLoginItemSetEnabled (bundleID, NO);
+        CFRelease(bundleID);
     }
 }
 
