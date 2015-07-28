@@ -10,7 +10,9 @@
 
 #import "Screenshot.h"
 
-static NSCache *sScreenshotCache = nil;
+static NSCache    *sScreenshotCache    = nil;
+static Screenshot *sLastScreenshot     = nil;
+static NSString   *sLastScreenshotPath = nil;
 
 @implementation Screenshot
 
@@ -24,15 +26,31 @@ static NSCache *sScreenshotCache = nil;
 
     Screenshot *screenshot = [sScreenshotCache objectForKey:path];
 
+    if (!screenshot && [sLastScreenshotPath isEqualToString:path]) {
+        return sLastScreenshot;
+    }
+
     if (!screenshot) {
         screenshot = [[self alloc] _initWithContentsOfFile:path];
 
         if (screenshot) {
             [sScreenshotCache setObject:screenshot forKey:path];
         }
+
+        sLastScreenshotPath = path;
+        sLastScreenshot = screenshot;
     }
     
     return screenshot;
+}
+
+
++ (void) clearCache
+{
+    [sScreenshotCache removeAllObjects];
+
+    sLastScreenshot     = nil;
+    sLastScreenshotPath = nil;
 }
 
 

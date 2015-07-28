@@ -2212,6 +2212,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [self saveCurrentLibraryItem];
 
     [[CursorInfo sharedInstance] setEnabled:NO];
+    [Screenshot clearCache];
     
     sAnimate(self, AnimationAction_DoOrderOut, nil, NULL);
 }

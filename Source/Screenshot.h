@@ -10,6 +10,8 @@
 
 @interface Screenshot : NSObject
 
++ (void) clearCache;
+
 + (instancetype) screenshotWithContentsOfFile:(NSString *)path;
 
 @property (nonatomic, readonly) CGImageRef CGImage;
