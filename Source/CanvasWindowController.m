@@ -2112,13 +2112,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     // Set up transition image if we can use the zoom animation
     if (useZoomAnimation) {
-        CGImageRef image = [[libraryItem screenshot] CGImage];
-        
-        if (sTransitionImage != image) {
-            CGImageRelease(sTransitionImage);
-            sTransitionImage = CGImageRetain(image);
-        }
+        CGImageRef image = CGImageRetain([[libraryItem screenshot] CGImage]);
 
+        CGImageRelease(sTransitionImage);
+        sTransitionImage = image;
         sTransitionImageGlobalRect = globalRect;
     }
 
@@ -2307,10 +2304,16 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (IBAction) deleteSelectedLibraryItem:(id)sender
 {
-    NSIndexSet *selected = _librarySelectionIndexes;
-    NSArray    *items    = [[Library sharedInstance] items];
+    NSIndexSet *selected   = _librarySelectionIndexes;
+    NSArray    *items      = [[Library sharedInstance] items];
+    NSUInteger  itemsCount = [items count];
 
     NSUInteger selectedIndex = [selected lastIndex];
+
+    if (itemsCount == 0 || selectedIndex == NSNotFound) {
+        return;
+    }
+
     NSUInteger maxIndex = [items count] - 1;
 
     LibraryItem *itemToRemove = [items objectAtIndex:selectedIndex];

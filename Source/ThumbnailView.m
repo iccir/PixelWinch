@@ -56,7 +56,7 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         [_deleteButton setImage:[NSImage imageNamed:@"DeleteNormal"]];
         [_deleteButton setAlternateImage:[NSImage imageNamed:@"DeletePressed"]];
         [_deleteButton setBordered:NO];
-        [_deleteButton setButtonType:NSMomentaryLightButton];
+        [_deleteButton setButtonType:NSMomentaryChangeButton];
         [_deleteButton setTarget:self];
         [_deleteButton setAction:@selector(_handleDeleteButton:)];
 
