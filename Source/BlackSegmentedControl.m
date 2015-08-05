@@ -21,7 +21,10 @@
     }
     
     [_segmentNumberToImageMap setObject:image forKey:@(segment)];
+    
+    [self setNeedsDisplay];
 }
+
 
 - (NSImage *) templateImageForSegment:(NSInteger)segment
 {

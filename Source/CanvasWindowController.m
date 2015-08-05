@@ -349,6 +349,17 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
             if ([self _moveSelectionWithArrowKey:c delta:10]) {
                 return;
             }
+
+        } else if (c == 'G') {
+            GrappleTool *grappleTool = [_toolbox grappleTool];
+            
+            if ([[_toolbox selectedTool] isEqual:grappleTool]) {
+                [grappleTool toggleVertical];
+            } else {
+                [_toolbox setSelectedToolName:[grappleTool name]];
+            }
+
+            return;
         }
 
     } else if (modifierFlags == (NSCommandKeyMask | NSAlternateKeyMask | NSControlKeyMask)) {
@@ -519,10 +530,12 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
     [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
+    [[_toolbox grappleTool] addObserver:self forKeyPath:@"vertical"                options:0 context:NULL];
 
     [self _updateWindowsForOverlayMode];
 
     [self _updateInspector];
+    [self _updateGrappleIcon];
     
     ProtectExit();
 }
@@ -567,6 +580,11 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
                 [_libraryCollectionView resignFirstResponder];
                 [[self window] makeFirstResponder:[self window]];
             }
+        }
+
+    } else if (object == [_toolbox grappleTool]) {
+        if ([keyPath isEqualToString:@"vertical"]) {
+            [self _updateGrappleIcon];
         }
     }
 }
@@ -1292,6 +1310,14 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         [_inspectorContainer addSubview:view];
         [view setFrame:[_inspectorContainer bounds]];
     }
+}
+
+
+- (void) _updateGrappleIcon
+{
+    NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrapple" : @"ToolbarGrappleHorizontal";
+    NSImage *grappleImage = [NSImage imageNamed:name];
+    [_toolPicker setTemplateImage:grappleImage forSegment:5];
 }
 
 

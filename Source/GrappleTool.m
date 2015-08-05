@@ -35,7 +35,6 @@ static NSString * const sToleranceKey = @"tolerance";
     
     CGPoint  _downPoint;
     CGPoint  _originalPoint;
-    UInt8    _originalThreshold;
 }
 
 
@@ -113,14 +112,6 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
-- (UInt8) calculatedThreshold
-{
-    return 0;
-//    UInt8 threshold = ([self tolerance] / 100.0) * 255.0;
-//    return threshold;
-}
-
-
 - (void) updatePreviewGrapple
 {
     Canvas *canvas = [[self owner] canvas];
@@ -148,7 +139,7 @@ static NSString * const sToleranceKey = @"tolerance";
     }
     
     CGPoint point = _lastPreviewGrapplePoint;
-    [self _updateLine:_previewGrapple point:point threshold:[self calculatedThreshold]];
+    [self _updateLine:_previewGrapple point:point threshold:0];
 
     if (![_previewGrapple length]) {
         [self _removePreviewGrapple];
@@ -157,6 +148,13 @@ static NSString * const sToleranceKey = @"tolerance";
 
     NSString *previewText = GetStringForFloat([_previewGrapple length]);
     [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
+}
+
+
+- (void) toggleVertical
+{
+    [self setVertical:![self isVertical]];
+    [self updatePreviewGrapple];
 }
 
 
@@ -351,9 +349,8 @@ static NSString * const sToleranceKey = @"tolerance";
     CGFloat xDelta = currentPoint.x - _downPoint.x;
     CGFloat yDelta = currentPoint.y - _downPoint.y;
     
-    CGFloat larger = (xDelta > yDelta) ? xDelta : yDelta;
+    NSInteger threshold = (xDelta > yDelta) ? xDelta : yDelta;
     
-    NSInteger threshold  = _originalThreshold + larger;
     if (threshold < 0) threshold = 0;
     else if (threshold > 255) threshold = 255;
 
@@ -361,7 +358,7 @@ static NSString * const sToleranceKey = @"tolerance";
 
     [self _updateLine:_newGrapple point:_originalPoint threshold:threshold];
 
-    if (threshold != _originalThreshold) {
+    if (threshold) {
         CGFloat percent = round((threshold / 255.0f) * 100);
         cursorText = [NSString stringWithFormat:@"%@ %C %g%%", GetStringForFloat([_newGrapple length]), (unichar)0x2014, percent];
     } else {
@@ -409,9 +406,8 @@ static NSString * const sToleranceKey = @"tolerance";
     
     BOOL vertical = [self calculatedIsVertical];
 
-    _downPoint         = [event locationInWindow];
-    _originalPoint     = [self _canvasPointForEvent:event];
-    _originalThreshold = [self calculatedThreshold];
+    _downPoint     = [event locationInWindow];
+    _originalPoint = [self _canvasPointForEvent:event];
     
     _newGrapple = [Line lineVertical:vertical];
 

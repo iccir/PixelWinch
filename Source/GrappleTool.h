@@ -15,9 +15,9 @@
 // Applies key modifier masks
 - (BOOL) calculatedIsVertical;
 
-- (UInt8) calculatedThreshold;
-
 - (void) updatePreviewGrapple;
+
+- (void) toggleVertical;
 
 @property (nonatomic) NSInteger tolerance;
 @property (nonatomic) BOOL attachesToGuides;
