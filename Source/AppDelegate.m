@@ -322,14 +322,14 @@ objc_arc_weakLock __arc_weak_lock = {
     [[NSRunLoop currentRunLoop] addTimer:_periodicTimer forMode:NSRunLoopCommonModes];
 
 
-    if (IsInDebugger()) {
-        [self showMainApplicationWindowForCrashManager:nil];
-
-    } else {
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>" delegate:self];
+    if (!IsInDebugger()) {
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>"];
         [[BITHockeyManager sharedHockeyManager] setDisableFeedbackManager:YES];
         [[BITHockeyManager sharedHockeyManager] startManager];
     }
+
+    [self _updateShortcuts];
+    [self _updateDockAndMenuBar];
 
     ProtectExit();
 }
@@ -349,12 +349,6 @@ objc_arc_weakLock __arc_weak_lock = {
     ProtectExit();
 }
 
-
-- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
-{
-    [self _updateShortcuts];
-    [self _updateDockAndMenuBar];
-}
 
 - (void) menuWillOpen:(NSMenu *)menu
 {
