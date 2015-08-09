@@ -43,44 +43,76 @@ static const CGFloat sBorderWidth = 2;
 - (void) drawLayer:(CALayer *)layer inContext:(CGContextRef)context
 {
     if (layer == _sublayer) {
+        ResizeKnobStyle style = [[self owningObjectView] resizeKnobStyle];
+        
         XUIGraphicsPushContext(context);
 
         NSColor *borderColor = [NSColor whiteColor];
         NSColor *fillColor   = [NSColor blackColor];
 
         CGRect rect = CGRectInset([_sublayer bounds], sPaddingForShadow, sPaddingForShadow);
+        NSBezierPath *outerPath;
+        NSBezierPath *innerPath;
+
+        if (style == ResizeKnobStyleCircular) {
+            outerPath = [NSBezierPath bezierPathWithOvalInRect:rect];
+            innerPath = [NSBezierPath bezierPathWithOvalInRect:CGRectInset(rect, sBorderWidth, sBorderWidth)];
+
+        } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeLeft || _edge == ObjectEdgeRight)) {
+            CGFloat centerX = CGRectGetMidX(rect);
+
+            CGRect knobRect = CGRectMake(0, 0, 3, 11);
+            knobRect.origin.y = rect.origin.y + ((rect.size.height - knobRect.size.height) / 2);
+
+            if (_edge == ObjectEdgeLeft) {
+                knobRect.origin.x = centerX;
+            } else {
+                knobRect.origin.x = centerX - knobRect.size.width;
+            }
+            
+            outerPath = [NSBezierPath bezierPathWithRoundedRect:knobRect cornerRadius:0];
+            innerPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(knobRect, 1, 1) cornerRadius:0];
+            
+        } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeTop || _edge == ObjectEdgeBottom)) {
+            CGFloat centerY = CGRectGetMidY(rect);
+
+            CGRect knobRect = CGRectMake(0, 0, 11, 3);
+            knobRect.origin.x = rect.origin.x + ((rect.size.width - knobRect.size.width) / 2);
+
+            if (_edge == ObjectEdgeTop) {
+                knobRect.origin.y = centerY;
+            } else {
+                knobRect.origin.y = centerY - knobRect.size.height;
+            }
+            
+            outerPath = [NSBezierPath bezierPathWithRoundedRect:knobRect cornerRadius:0];
+            innerPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(knobRect, 1, 1) cornerRadius:0];
+            
+        }
 
         CGContextSaveGState(context);
 
-        // Shadow
-        if (_highlighted) {
-            NSColor *shadowColor = [NSColor blueColor];
-            fillColor = shadowColor;
+        if (outerPath) {
+            if (_highlighted) {
+                NSColor *shadowColor = [NSColor blueColor];
+                fillColor = shadowColor;
 
-            [borderColor set];
+                [borderColor set];
+                CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);
+                [outerPath fill];
 
-            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 8, [shadowColor CGColor]);
-            CGContextFillEllipseInRect(context, rect);
-
-            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);
-            CGContextFillEllipseInRect(context, rect);
-
-        } else {
-            NSColor *shadowColor = [NSColor blackColor];
-            shadowColor = [shadowColor colorWithAlphaComponent:0.5];
-            CGContextSetShadowWithColor(context, CGSizeMake(0, 1), 2, [shadowColor CGColor]);
-
-            [borderColor set];
-            CGContextFillEllipseInRect(context, rect);
+            } else {
+                [borderColor set];
+                [outerPath fill];
+            }
         }
-        
-        CGContextRestoreGState(context);
-        
-        rect = CGRectInset(rect, sBorderWidth, sBorderWidth);
 
-        [fillColor set];
-        CGContextFillEllipseInRect(context, rect);
-        
+        CGContextRestoreGState(context);
+
+        if (innerPath) {
+            [fillColor set];
+            [innerPath fill];
+        }
         
         XUIGraphicsPopContext();
     }
@@ -166,6 +198,11 @@ static const CGFloat sBorderWidth = 2;
     _downMousePoint = [event locationInWindow];
     CanvasObject *object = [[self owningObjectView] canvasObject];
     _rectForResize = [object rect];
+    
+    if ([[self owningObjectView] resizeKnobStyle] == ResizeKnobStyleRectangular) {
+        [self _hideKnobAnimated:YES];
+        [NSCursor hide];
+    }
 }
 
 
@@ -201,6 +238,46 @@ static const CGFloat sBorderWidth = 2;
     [object setRect:rect];
 }
 
+
+- (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
+{
+    if ([[self owningObjectView] resizeKnobStyle] == ResizeKnobStyleRectangular) {
+        [self _unhideKnob];
+        [NSCursor unhide];
+    }
+}
+
+#pragma mark - Show/Hide Logic
+
+- (void) _hideKnobAnimated:(BOOL)animated
+{
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setAllowsImplicitAnimation:YES];
+        if (!animated) [context setDuration:0.0];
+        [self setAlpha:0.0];
+    } completionHandler:nil];
+}
+
+
+- (void) _unhideKnob
+{
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setAllowsImplicitAnimation:YES];
+        [self setAlpha:1.0];
+    } completionHandler:nil];
+}
+
+
+- (void) hideMomentarily
+{
+    [self _hideKnobAnimated:NO];
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_unhideKnob) object:nil];
+    [self performSelector:@selector(_unhideKnob) withObject:nil afterDelay:1.0];
+}
+
+
+#pragma mark - Accessors
 
 - (void) setHighlighted:(BOOL)highlighted
 {

@@ -1480,6 +1480,18 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
                 }
             }
     
+            // Fade out resize knob during a move for lines
+            //
+            if ([selectedObject isKindOfClass:[Line class]] && _selectedEdge) {
+                NSArray *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[selectedObject GUID]];
+             
+                for (ResizeKnobView *knob in resizeKnobs) {
+                    if ([knob edge] == _selectedEdge) {
+                        [knob hideMomentarily];
+                    }
+                }
+            }
+    
             [selectedObject setRect:rect];
         }
 

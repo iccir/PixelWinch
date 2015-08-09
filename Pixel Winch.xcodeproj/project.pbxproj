@@ -43,7 +43,6 @@
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */; };
-		556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3D51A6BA53700F72ABA /* Beacon.m */; };
 		5570960A1B5A394B00326141 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095F81B5A394B00326141 /* About.xib */; };
 		5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095FA1B5A394B00326141 /* CanvasWindow.xib */; };
 		5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 557095FC1B5A394B00326141 /* GrappleHelp.txt */; };
@@ -78,6 +77,7 @@
 		55B07A6A17F654400013B05C /* CaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureManager.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasWindowController.m */; };
+		55B908441B761252005E1C65 /* ExportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B908431B761252005E1C65 /* ExportManager.m */; };
 		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
 		55BB972D180602A600DED9B5 /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* ContentView.m */; };
@@ -231,8 +231,6 @@
 		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
 		556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GratuitousDelayButton.h; path = Source/GratuitousDelayButton.h; sourceTree = "<group>"; };
 		556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GratuitousDelayButton.m; path = Source/GratuitousDelayButton.m; sourceTree = "<group>"; };
-		556FC3D41A6BA53700F72ABA /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Source/Beacon.h; sourceTree = "<group>"; };
-		556FC3D51A6BA53700F72ABA /* Beacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Beacon.m; path = Source/Beacon.m; sourceTree = "<group>"; };
 		557095F91B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/About.xib; sourceTree = "<group>"; };
 		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
 		557095FD1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
@@ -292,6 +290,8 @@
 		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
 		55B07A8817F7A19D0013B05C /* CanvasWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindowController.h; path = Source/CanvasWindowController.h; sourceTree = "<group>"; };
 		55B07A8917F7A19D0013B05C /* CanvasWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindowController.m; path = Source/CanvasWindowController.m; sourceTree = "<group>"; };
+		55B908421B761252005E1C65 /* ExportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExportManager.h; path = Source/ExportManager.h; sourceTree = "<group>"; };
+		55B908431B761252005E1C65 /* ExportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExportManager.m; path = Source/ExportManager.m; sourceTree = "<group>"; };
 		55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_A.h; path = Source/ReceiptValidation_A.h; sourceTree = SOURCE_ROOT; };
 		55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_B.h; path = Source/ReceiptValidation_B.h; sourceTree = SOURCE_ROOT; };
 		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
@@ -571,8 +571,6 @@
 				559D38CE180399B90048F29B /* PreferencesWindowController.m */,
 				55C9E42B1835AE5A0059651B /* TutorialWindowController.h */,
 				55C9E42C1835AE5A0059651B /* TutorialWindowController.m */,
-				556FC3D41A6BA53700F72ABA /* Beacon.h */,
-				556FC3D51A6BA53700F72ABA /* Beacon.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -695,6 +693,8 @@
 				55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */,
 				55CC21A51832D668004076CF /* MagnificationManager.h */,
 				55CC21A61832D668004076CF /* MagnificationManager.m */,
+				55B908421B761252005E1C65 /* ExportManager.h */,
+				55B908431B761252005E1C65 /* ExportManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -964,6 +964,7 @@
 				5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */,
 				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
 				555152F81818AC6D004485F6 /* Toolbox.m in Sources */,
+				55B908441B761252005E1C65 /* ExportManager.m in Sources */,
 				559D38C21802ABC60048F29B /* Shortcut.m in Sources */,
 				554D8988135BEFCF003BFC89 /* main.m in Sources */,
 				55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */,
@@ -974,7 +975,6 @@
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
-				556FC3D61A6BA53700F72ABA /* Beacon.m in Sources */,
 				55BB972D180602A600DED9B5 /* ContentView.m in Sources */,
 				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,

@@ -16,4 +16,6 @@
 
 @property (nonatomic) BOOL highlighted;
 
+- (void) hideMomentarily;
+
 @end

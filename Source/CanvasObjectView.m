@@ -85,7 +85,9 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
     __block CGPoint snappedPoint = [canvasView roundedCanvasPointForEvent:startEvent];
     [self startTrackingWithEvent:startEvent point:snappedPoint];
-    
+
+    [[self canvasView] invalidateCursors];
+
     __block NSEvent *lastDragEvent = nil;
 
     void (^handleEvent)(NSEvent *event, BOOL *stop) = ^(NSEvent *event, BOOL *stop) {
@@ -272,6 +274,12 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 - (NSCursor *) cursor
 {
     return nil;
+}
+
+
+- (ResizeKnobStyle) resizeKnobStyle
+{
+    return ResizeKnobStyleNone;
 }
 
 

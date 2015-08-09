@@ -24,7 +24,6 @@
 #import "LibraryItem.h"
 #import "TutorialWindowController.h"
 
-#import "Beacon.h"
 
 objc_arc_weakLock __arc_weak_lock = {
     0,

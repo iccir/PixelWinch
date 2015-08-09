@@ -18,6 +18,11 @@ typedef NS_ENUM(NSInteger, MeasurementLabelStyle) {
     MeasurementLabelStyleBoth
 };
 
+typedef NS_ENUM(NSInteger, ResizeKnobStyle) {
+    ResizeKnobStyleNone        = 0,
+    ResizeKnobStyleCircular    = 1,
+    ResizeKnobStyleRectangular = 2
+};
 
 typedef NS_ENUM(NSInteger, CanvasOrder) {
     CanvasOrderNormal      =     0,
@@ -49,6 +54,8 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 
 - (CGRect) rectForCanvasLayout;
 - (XUIEdgeInsets) paddingForCanvasLayout;
+
+- (ResizeKnobStyle) resizeKnobStyle; // Subclasses to override
 - (NSArray *) resizeKnobEdges; // Subclasses to override
 
 - (NSInteger) canvasOrder;

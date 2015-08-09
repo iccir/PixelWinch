@@ -48,6 +48,12 @@
 }
 
 
+- (ResizeKnobStyle) resizeKnobStyle
+{
+    return ResizeKnobStyleCircular;
+}
+
+
 - (NSArray *) resizeKnobEdges
 {
     return @[

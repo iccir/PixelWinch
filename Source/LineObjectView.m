@@ -57,6 +57,12 @@
 }
 
 
+- (ResizeKnobStyle) resizeKnobStyle
+{
+    return ResizeKnobStyleRectangular;
+}
+
+
 - (NSArray *) resizeKnobEdges
 {
     if ([[self line] isVertical]) {
