@@ -32,6 +32,8 @@
                                        outX1: (size_t *) outX1
                                        outX2: (size_t *) outX2
 {
+    if (!plane || (width == 0)) return;
+
     size_t x1 = startX > 0 ? startX - 1 : 0;
     size_t x2 = startX;
     
@@ -48,7 +50,7 @@
         }
     }
     
-    while (x2 < width) {
+    while (x2 < (width - 1.0)) {
         UInt16 delta = plane[(startY * width) + x2];
         if (delta > threshold) break;
         x2++;
@@ -69,7 +71,7 @@
                                        outY1: (size_t *) outY1
                                        outY2: (size_t *) outY2
 {
-    if (!plane) return;
+    if (!plane || (height == 0)) return;
   
     size_t y1 = startY > 0 ? startY - 1 : 0;
     size_t y2 = startY;
@@ -87,7 +89,7 @@
         }
     }
     
-    while (y2 < height) {
+    while (y2 < (height - 1.0)) {
         UInt16 delta = plane[(y2 * width) + startX];
         if (delta > threshold) break;
         y2++;
