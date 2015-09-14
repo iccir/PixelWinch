@@ -18,7 +18,47 @@
 #import "Line.h"
 
 
+static CGFloat sCheckerSize = 8;
+
+static void sDrawPatternImage(void *info, CGContextRef context)
+{
+    CGFloat s = sCheckerSize;
+
+    CGContextSetGrayFillColor(context, 0.15, 1.0);
+    CGContextFillRect(context, CGRectMake(0, 0, s, s));
+    CGContextFillRect(context, CGRectMake(s, s, s, s));
+
+    CGContextSetGrayFillColor(context, 0.2, 1.0);
+    CGContextFillRect(context, CGRectMake(0, s, s, s));
+    CGContextFillRect(context, CGRectMake(s, 0,  s, s));
+}
+
+
+static CGColorRef GetCheckerColor()
+{
+    static CGColorRef sCheckerColor = NULL;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        const CGPatternCallbacks callbacks = { 0, &sDrawPatternImage, NULL };
+
+        CGFloat s = sCheckerSize * 2;
+        CGPatternRef pattern = CGPatternCreate(NULL, CGRectMake(0, 0, s, s), CGAffineTransformIdentity, s, s, kCGPatternTilingConstantSpacing, true, &callbacks);
+
+        CGColorSpaceRef space = CGColorSpaceCreatePattern(NULL);
+        CGFloat components[1] = {1.0};
+        sCheckerColor = CGColorCreateWithPattern(space, pattern, components);
+
+        CGColorSpaceRelease(space);
+        CGPatternRelease(pattern);
+    });
+    
+    return sCheckerColor;
+}
+
+
 @implementation CanvasView {
+    CALayer *_checkerLayer;
     CALayer *_imageLayer;
     XUIView *_root;
 
@@ -45,6 +85,15 @@
         [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
         [selfLayer setDelegate:self];
         [selfLayer setOpaque:YES];
+        
+        _checkerLayer = [CALayer layer];
+        [_checkerLayer setAnchorPoint:CGPointMake(0, 0)];
+        [_checkerLayer setMagnificationFilter:kCAFilterNearest];
+        [_checkerLayer setContentsGravity:kCAGravityBottomLeft];
+        [_checkerLayer setFrame:[self bounds]];
+        [_checkerLayer setDelegate:self];
+        [_checkerLayer setOpaque:NO];
+        [_checkerLayer setBackgroundColor:GetCheckerColor()];
 
         _imageLayer = [CALayer layer];
         [_imageLayer setAnchorPoint:CGPointMake(0, 0)];
@@ -58,6 +107,7 @@
         [_root setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
         [self addSubview:_root];
 
+        [[_root layer] addSublayer:_checkerLayer];
         [[_root layer] addSublayer:_imageLayer];
         
         _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingMouseMoved|NSTrackingInVisibleRect|NSTrackingActiveInKeyWindow owner:self userInfo:nil];
@@ -261,6 +311,7 @@
 {
     [[self layer] setContentsScale:newScale];
     [_imageLayer setContentsScale:newScale];
+    [_checkerLayer setContentsScale:newScale];
 
     return YES;
 }
@@ -422,12 +473,19 @@
 
     [_root setFrame:[self bounds]];
 
+    [_checkerLayer setFrame:[_root bounds]];
+
     [_imageLayer setTransform:CATransform3DIdentity];
     [_imageLayer setFrame:[_root bounds]];
 
     CGAffineTransform transform = CGAffineTransformMakeScale(_magnification, _magnification);
     [_imageLayer setTransform:CATransform3DMakeAffineTransform(transform)];
     [_imageLayer setContents:(id)[[_canvas screenshot] CGImage]];
+    
+    BOOL opaque = [[_canvas screenshot] isOpaque];
+    [_imageLayer   setOpaque:opaque];
+    [[self layer]  setOpaque:opaque];
+    [_checkerLayer setHidden:opaque];
     
     for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
         CGRect rect = [objectView rectForCanvasLayout];

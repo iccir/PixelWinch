@@ -149,8 +149,9 @@
 {
     Preferences *preferences = [Preferences sharedInstance];
 
-    [_captureSelectionShortcutView setShortcut:[preferences captureSelectionShortcut]];
-    [_showScreenshotsShortcutView  setShortcut:[preferences showScreenshotsShortcut]];
+    [_captureSelectionShortcutView    setShortcut:[preferences captureSelectionShortcut]];
+    [_importFromClipboardShortcutView setShortcut:[preferences importFromClipboardShortcut]];
+    [_showScreenshotsShortcutView     setShortcut:[preferences showScreenshotsShortcut]];
 }
 
 
@@ -234,6 +235,9 @@
 
     if (sender == _captureSelectionShortcutView) {
         [preferences setCaptureSelectionShortcut:[sender shortcut]];
+
+    } else if (sender == _importFromClipboardShortcutView) {
+        [preferences setImportFromClipboardShortcut:[sender shortcut]];
 
     } else if (sender == _showScreenshotsShortcutView) {
         [preferences setShowScreenshotsShortcut:[sender shortcut]];

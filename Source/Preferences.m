@@ -25,10 +25,10 @@ static NSDictionary *sGetDefaultValues()
         @"usesOverlayWindow":     @(YES),
         @"allowsQuit":            @(YES),
 
-        @"captureSelectionShortcut":  [Shortcut emptyShortcut],
-        @"captureWindowShortcut":     [Shortcut emptyShortcut],
-        @"showScreenshotsShortcut":   [Shortcut emptyShortcut],
-        @"closeScreenshotsKey":       @( CloseScreenshotsKeyBoth ),
+        @"captureSelectionShortcut":    [Shortcut emptyShortcut],
+        @"importFromClipboardShortcut": [Shortcut emptyShortcut],
+        @"showScreenshotsShortcut":     [Shortcut emptyShortcut],
+        @"closeScreenshotsKey":         @( CloseScreenshotsKeyBoth ),
         
         @"preferredDisplay":          @( 0 ),
         @"preferredDisplayName":      @"",

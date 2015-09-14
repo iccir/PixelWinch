@@ -78,6 +78,11 @@ objc_arc_weakLock __arc_weak_lock = {
         }
     
         return [[[Library sharedInstance] items] count] > 0;
+
+    } else if ([item action] == @selector(importImageFromPasteboard:)) {
+        NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+        
+        return [pboard canReadObjectForClasses:@[ [NSImage class] ] options:nil];
     }
 
     return YES;
@@ -92,10 +97,13 @@ objc_arc_weakLock __arc_weak_lock = {
     if ([[preferences captureSelectionShortcut] isEqual:shortcut]) {
         [self captureSelection:self];
         yn = YES;
+
+    } else if ([[preferences importFromClipboardShortcut] isEqual:shortcut]) {
+        yn = [[self canvasWindowController] importImagesWithPasteboard:[NSPasteboard generalPasteboard]];
     }
     
     if ([[preferences showScreenshotsShortcut] isEqual:shortcut]) {
-        [self showScreenshots:self];
+        [[self canvasWindowController] activateAndShowWindow];
         yn = YES;
     }
 
@@ -224,8 +232,8 @@ objc_arc_weakLock __arc_weak_lock = {
         [shortcuts addObject:[preferences captureSelectionShortcut]];
     }
 
-    if ([preferences captureWindowShortcut]) {
-        [shortcuts addObject:[preferences captureWindowShortcut]];
+    if ([preferences importFromClipboardShortcut]) {
+        [shortcuts addObject:[preferences importFromClipboardShortcut]];
     }
 
     if ([preferences showScreenshotsShortcut]) {
@@ -381,6 +389,12 @@ objc_arc_weakLock __arc_weak_lock = {
             [[self canvasWindowController] importFilesAtPaths:@[ [url path] ]];
         }
     }];
+}
+
+
+- (IBAction) importImageFromPasteboard:(id)sender
+{
+    [[self canvasWindowController] importImagesWithPasteboard:[NSPasteboard generalPasteboard]];
 }
 
 

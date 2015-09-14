@@ -108,4 +108,17 @@ static NSString   *sLastScreenshotPath = nil;
 }
 
 
+- (BOOL) isOpaque
+{
+    if (_CGImage) {
+        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(_CGImage);
+        
+        return alphaInfo == kCGImageAlphaNone ||
+               alphaInfo == kCGImageAlphaNoneSkipFirst ||
+               alphaInfo == kCGImageAlphaNoneSkipLast;
+    }
+
+    return YES;
+}
+
 @end

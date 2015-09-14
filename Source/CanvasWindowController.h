@@ -20,8 +20,10 @@
 @interface CanvasWindowController : NSWindowController
 
 - (BOOL) importFilesAtPaths:(NSArray *)filePaths;
+- (BOOL) importImagesWithPasteboard:(NSPasteboard *)pasteboard;
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
+- (void) activateAndShowWindow;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;
 - (void) hideIfOverlay;

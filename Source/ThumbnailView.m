@@ -61,6 +61,7 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         [_deleteButton setAction:@selector(_handleDeleteButton:)];
 
         [_borderView setBackgroundColor:[NSColor whiteColor]];
+        [_imageView setBackgroundColor:[NSColor colorWithWhite:0.1 alpha:1.0]];
         
         [self addSubview:_borderView];
         [self addSubview:_imageView];
@@ -119,7 +120,18 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
             CGColorSpaceRef colorSpace = CGImageGetColorSpace(screenshotImage);
             size_t numberOfComponents = (CGColorSpaceGetNumberOfComponents(colorSpace) + 1);
 
-            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, 0|kCGImageAlphaNoneSkipLast);
+            CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(screenshotImage);
+
+            if (alphaInfo == kCGImageAlphaLast) {
+                alphaInfo = kCGImageAlphaPremultipliedLast;
+            } else if (alphaInfo == kCGImageAlphaFirst) {
+                alphaInfo = kCGImageAlphaPremultipliedFirst;
+            } else if (alphaInfo == kCGImageAlphaNone || alphaInfo == kCGImageAlphaNoneSkipFirst) {
+                alphaInfo = kCGImageAlphaNoneSkipLast;
+            }
+
+            CGBitmapInfo bitmapInfo = 0 | alphaInfo;
+            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, bitmapInfo);
 
             CGContextDrawImage(context, CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height), screenshotImage);
             CGImageRelease(screenshotImage);

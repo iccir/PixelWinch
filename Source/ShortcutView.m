@@ -217,7 +217,7 @@ static NSImage *sGetClearIcon()
         return NO;
     }
 
-    NSUInteger mask          = (NSControlKeyMask | NSShiftKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
+    NSUInteger mask          = (NSControlKeyMask | NSShiftKeyMask | NSAlternateKeyMask | NSCommandKeyMask | NSFunctionKeyMask);
     NSUInteger modifierFlags = [theEvent modifierFlags] & mask;
     NSString  *characters    = [theEvent characters];
     unichar    c             = [characters length] ? [characters characterAtIndex:0] : 0;
@@ -287,11 +287,11 @@ static NSImage *sGetClearIcon()
 
     NSBezierPath *boundsPath = sMakeRoundedPath(cellFrame);
     
-    // Draw subtle background gradient
+    // Draw background
     //
     {
-        NSGradient *gradient = sMakeGradient(0.95, 1.0, 0.0, 0.5);
-        [gradient drawInBezierPath:boundsPath angle:-90.0];
+        [[NSColor whiteColor] set];
+        [boundsPath fill];
     }
 
 

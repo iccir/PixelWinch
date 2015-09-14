@@ -15,6 +15,7 @@
 + (instancetype) screenshotWithContentsOfFile:(NSString *)path;
 
 @property (nonatomic, readonly) CGImageRef CGImage;
+@property (nonatomic, readonly, getter=isOpaque) BOOL opaque;
 
 @property (nonatomic, readonly) CGSize size;
 @property (nonatomic, readonly) size_t width;

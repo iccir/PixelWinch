@@ -175,7 +175,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     NSTask *task = [[NSTask alloc] init];
     
     [task setLaunchPath:@"/usr/sbin/screencapture"];
-    [task setArguments:@[ @"-s", @"-x", @"-i", @"-ttiff", [_currentItem screenshotPath] ]];
+    [task setArguments:@[ @"-x", @"-i", @"-ttiff", [_currentItem screenshotPath] ]];
     
     _task = task;
     

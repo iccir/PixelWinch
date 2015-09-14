@@ -37,6 +37,7 @@ extern objc_arc_weakLock __arc_weak_lock;
 
 - (IBAction) captureSelection:(id)sender;
 - (IBAction) importImage:(id)sender;
+- (IBAction) importImageFromPasteboard:(id)sender;
 
 - (IBAction) showPurchasePane:(id)sender;
 - (IBAction) showScreenshots:(id)sender;

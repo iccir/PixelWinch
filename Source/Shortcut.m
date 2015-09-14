@@ -16,59 +16,6 @@
 static CFStringRef  sNumericPadMarker   = CFSTR("<<<PAD>>>");
 static CFStringRef *sKeyCodeToStringMap = nil;
 
-static NSString *sGetPreferencesString(NSUInteger modifierFlags, unsigned short keyCode)
-{
-    NSMutableString *result = [NSMutableString string];
-
-    [result appendString:@"key,"];
-
-    if (modifierFlags & NSControlKeyMask)   [result appendString:@"^"];
-    if (modifierFlags & NSAlternateKeyMask) [result appendString:@"~"];
-    if (modifierFlags & NSShiftKeyMask)     [result appendString:@"$"];
-    if (modifierFlags & NSCommandKeyMask)   [result appendString:@"@"];
-    if (modifierFlags == 0)                 [result appendString:@"_"];
-
-    [result appendFormat:@",%04lx", (long)keyCode];
-    
-    return result;
-}
-
-
-static void sReadPreferencesString(NSString *string, NSUInteger *outFlags, NSUInteger *outDatum)
-{
-    NSUInteger   modifierFlags = 0;
-    NSUInteger   datum         = 0;
-
-    NSArray *components = [string componentsSeparatedByString:@","];
-    
-    if ([components count] >= 3) {
-        NSString *modifierString = [components objectAtIndex:1];
-        NSString *datumString    = [components objectAtIndex:2];
-
-        if ([modifierString rangeOfString:@"^"].location != NSNotFound) {
-            modifierFlags |= NSControlKeyMask;
-        }
-        
-        if ([modifierString rangeOfString:@"~"].location != NSNotFound) {
-            modifierFlags |= NSAlternateKeyMask;
-        }
-
-        if ([modifierString rangeOfString:@"$"].location != NSNotFound) {
-            modifierFlags |= NSShiftKeyMask;
-        }
-
-        if ([modifierString rangeOfString:@"@"].location != NSNotFound) {
-            modifierFlags |= NSCommandKeyMask;
-        }
-
-        const char *cString = [datumString cStringUsingEncoding:NSUTF8StringEncoding];
-        sscanf(cString, "%04lx", &datum);
-    }
-
-    if (outFlags) *outFlags = modifierFlags;
-    if (outDatum) *outDatum = datum;
-}
-
 
 @implementation Shortcut
 
@@ -232,8 +179,36 @@ static void sReadPreferencesString(NSString *string, NSUInteger *outFlags, NSUIn
     NSUInteger   modifierFlags = 0;
     NSUInteger   datum         = 0;
 
-    sReadPreferencesString(string, &modifierFlags, &datum);
+    NSArray *components = [string componentsSeparatedByString:@","];
     
+    if ([components count] >= 3) {
+        NSString *modifierString = [components objectAtIndex:1];
+        NSString *datumString    = [components objectAtIndex:2];
+
+        if ([modifierString rangeOfString:@"^"].location != NSNotFound) {
+            modifierFlags |= NSControlKeyMask;
+        }
+        
+        if ([modifierString rangeOfString:@"~"].location != NSNotFound) {
+            modifierFlags |= NSAlternateKeyMask;
+        }
+
+        if ([modifierString rangeOfString:@"$"].location != NSNotFound) {
+            modifierFlags |= NSShiftKeyMask;
+        }
+
+        if ([modifierString rangeOfString:@"@"].location != NSNotFound) {
+            modifierFlags |= NSCommandKeyMask;
+        }
+
+        if ([modifierString rangeOfString:@"F"].location != NSNotFound) {
+            modifierFlags |= NSFunctionKeyMask;
+        }
+
+        const char *cString = [datumString cStringUsingEncoding:NSUTF8StringEncoding];
+        sscanf(cString, "%04lx", &datum);
+    }
+
     return [self initWithKeyCode:datum modifierFlags:modifierFlags];
 }
 
@@ -291,7 +266,20 @@ static void sReadPreferencesString(NSString *string, NSUInteger *outFlags, NSUIn
 
 - (NSString *) preferencesString
 {
-    return sGetPreferencesString(_modifierFlags, _keyCode);
+    NSMutableString *result = [NSMutableString string];
+
+    [result appendString:@"key,"];
+
+    if (_modifierFlags & NSControlKeyMask)   [result appendString:@"^"];
+    if (_modifierFlags & NSAlternateKeyMask) [result appendString:@"~"];
+    if (_modifierFlags & NSShiftKeyMask)     [result appendString:@"$"];
+    if (_modifierFlags & NSCommandKeyMask)   [result appendString:@"@"];
+    if (_modifierFlags & NSFunctionKeyMask)  [result appendString:@"F"];
+    if (_modifierFlags == 0)                 [result appendString:@"_"];
+
+    [result appendFormat:@",%04lx", (long)_keyCode];
+    
+    return result;
 }
 
 

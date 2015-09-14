@@ -2111,19 +2111,43 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     }
 
     if (itemToOpen) {
-        NSWindow *window = [self window];
-
         [self _updateCanvasWithLibraryItem:itemToOpen];
-
-        if (![window isVisible]) {
-            [self toggleVisibility];
-        }
+        [self activateAndShowWindow];
 
         return YES;
     }
 
     return NO;
 }
+
+
+- (BOOL) importImagesWithPasteboard:(NSPasteboard *)pasteboard
+{
+    NSData *data = nil;
+    
+    if (!data) data = [pasteboard dataForType:NSPasteboardTypePNG];
+    if (!data) data = [pasteboard dataForType:NSPasteboardTypeTIFF];
+
+    if (!data) {
+        data = [[[pasteboard readObjectsForClasses:@[ [NSImage class] ] options:nil] firstObject] TIFFRepresentation];
+    }
+    
+    LibraryItem *item = nil;
+    
+    if (data) {
+        item = [[Library sharedInstance] importedItemWithData:data];
+    }
+
+    if (item) {
+        [self _updateCanvasWithLibraryItem:item];
+        [self activateAndShowWindow];
+
+        return YES;
+    }
+
+    return NO;
+}
+
 
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)globalRect
@@ -2191,6 +2215,18 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [[self window] makeFirstResponder:[self window]];
 
     ProtectExit();
+}
+
+
+- (void) activateAndShowWindow
+{
+    if ([self isWindowVisible]) {
+        [NSApp activateIgnoringOtherApps:YES];
+        [[self window] makeKeyAndOrderFront:nil];
+
+    } else {
+        [self toggleVisibility];
+    }
 }
 
 

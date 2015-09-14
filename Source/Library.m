@@ -181,6 +181,26 @@
 }
 
 
+- (LibraryItem *) importedItemWithData:(NSData *)data
+{
+    if (!data) return nil;
+
+    ProtectEntry();
+    
+    LibraryItem *item = [LibraryItem libraryItem];
+    [data writeToFile:[item screenshotPath] atomically:YES];
+
+    [self addItem:item];
+
+//  We don't ProtectExit() here, thus leaving the global counter up by +1 and slowly
+//  incrementing ScreenshotsTakenSinceLaunch and decrementing NegativeScreenshotsTakenSinceLaunch
+//
+//  ProtectExit();
+
+    return item;
+}
+
+
 - (void) addItem:(LibraryItem *)item
 {
     ProtectEntry();

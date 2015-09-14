@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, IconMode) {
 @property (nonatomic) NSString *customScaleMultiplier;
 
 @property (nonatomic) Shortcut *captureSelectionShortcut;
-@property (nonatomic) Shortcut *captureWindowShortcut;
+@property (nonatomic) Shortcut *importFromClipboardShortcut;
 @property (nonatomic) Shortcut *showScreenshotsShortcut;
 
 @property (nonatomic) long long preferredDisplay;

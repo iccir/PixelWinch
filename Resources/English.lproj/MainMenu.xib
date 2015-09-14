@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -39,6 +39,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="importImage:" target="494" id="2xQ-Ps-dgE"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Import from Clipboard" id="5of-xP-QaI">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="importImageFromPasteboard:" target="494" id="PYP-CK-pGW"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="HPP-Dd-o7c"/>
@@ -139,6 +145,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="File" id="53F-0c-Xge">
                         <items>
+                            <menuItem title="New from Clipboard" keyEquivalent="n" id="6DN-od-5rq">
+                                <connections>
+                                    <action selector="importImageFromPasteboard:" target="494" id="iKY-bm-zMk"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="DRb-e3-dhT"/>
                             <menuItem title="Open…" keyEquivalent="o" id="uEP-ag-GIB">
                                 <connections>
                                     <action selector="importImage:" target="494" id="mk0-IC-riJ"/>
