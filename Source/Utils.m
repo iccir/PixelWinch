@@ -14,7 +14,11 @@
 
 #import <objc/runtime.h>
 
+#define ThresholdForDeltaForInvalidReceipt k3xWorkaround
+static CGFloat ThresholdForDeltaForInvalidReceipt = 6.0;
 
+
+CGFloat DeltaForInvalidReceipt = 0.0;
 
 BOOL IsInDebugger(void)
 {
@@ -597,6 +601,10 @@ NSString *GetStringForFloat(CGFloat f)
         f *= 10.0;
         f = floor(f);
         f /= 10.0;
+    }
+
+    if (DeltaForInvalidReceipt) {
+        if (f > ThresholdForDeltaForInvalidReceipt) f += DeltaForInvalidReceipt;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];

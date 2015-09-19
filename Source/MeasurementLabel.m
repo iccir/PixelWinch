@@ -105,8 +105,12 @@
         NSRect rect = [text boundingRectWithSize:NSMakeSize(INFINITY, INFINITY) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes];
         NSSize size = rect.size;
 
-        [[NSColor colorWithCalibratedWhite:0 alpha:0.75] set];
-        
+        if (_selected) {
+            [[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.66 alpha:1.0] set];
+        } else {
+            [[NSColor colorWithCalibratedWhite:0 alpha:0.75] set];
+        }
+
         CGSize padding = NSMakeSize(6, 2);
         
         size.width  = ceil(size.width)  + (2 * padding.width);
@@ -122,9 +126,9 @@
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowBlurRadius:2];
         [shadow setShadowOffset:NSMakeSize(0, 0)];
-        [shadow set];
         
         WithWhiteOnBlackTextMode(^{
+            [shadow set];
             [[self _text] drawAtPoint:NSMakePoint(padding.width, padding.height) withAttributes:attributes];
         });
 
@@ -173,6 +177,14 @@
     return text;
 }
 
+
+- (void) setSelected:(BOOL)selected
+{
+    if (_selected != selected) {
+        _selected = selected;
+        [_sublayer setNeedsDisplay];
+    }
+}
 
 
 @end

@@ -17,4 +17,6 @@
 - (void) updateText;
 - (void) doPopInAnimationWithDuration:(CGFloat)duration;
 
+@property (nonatomic, getter=isSelected) BOOL selected;
+
 @end

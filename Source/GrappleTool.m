@@ -25,8 +25,10 @@ static NSString * const sToleranceKey = @"tolerance";
 
 
 @implementation GrappleTool {
-    CGPoint  _lastPreviewGrapplePoint;
+    CGPoint  _previewPoint;
     Line    *_previewGrapple;
+    Guide   *_previewGuide;
+
     Line    *_newGrapple;
 
     Line    *_waitingLine;
@@ -85,7 +87,14 @@ static NSString * const sToleranceKey = @"tolerance";
 
 - (NSCursor *) cursor
 {
-    return [self calculatedIsVertical] ? [NSCursor winch_grappleVerticalCursor] : [NSCursor winch_grappleHorizontalCursor];
+    BOOL isGuide    = [self calculatedIsGuide];
+    BOOL isVertical = [self calculatedIsVertical];
+    
+    if (isGuide) {
+        return isVertical ? [NSCursor resizeLeftRightCursor] : [NSCursor resizeUpDownCursor];
+    } else {
+        return isVertical ? [NSCursor winch_grappleVerticalCursor] : [NSCursor winch_grappleHorizontalCursor];
+    }
 }
 
 
@@ -112,42 +121,75 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
+- (BOOL) calculatedIsGuide
+{
+    return ([NSEvent modifierFlags] & NSShiftKeyMask) > 0;
+}
+
+
 - (void) updatePreviewGrapple
 {
     Canvas *canvas = [[self owner] canvas];
 
-    if (![[self owner] isToolSelected:self] || isnan(_lastPreviewGrapplePoint.x)) {
+    if (![[self owner] isToolSelected:self] || isnan(_previewPoint.x)) {
         [self _removePreviewGrapple];
+        [self _removePreviewGuide];
         return;
     }
-    
+
     BOOL isVertical = [self calculatedIsVertical];
+    BOOL isGuide    = [self calculatedIsGuide];
 
-    if ([_previewGrapple isVertical] != isVertical) {
-        // Call this directly, don't use -_removePreviewGrapple as it nils our text
-        [canvas removeCanvasObject:_previewGrapple];
-        _previewGrapple = nil;
-    }
-
-    if (!_previewGrapple) {
-        _previewGrapple = [Line lineVertical:isVertical];
-        [_previewGrapple setParticipatesInUndo:NO];
-        [_previewGrapple setPersistent:NO];
-        [_previewGrapple setPreview:YES];
-
-        [canvas addCanvasObject:_previewGrapple];
-    }
+    if (isGuide) {
+        if ([_previewGuide isVertical] != isVertical) {
+            [canvas removeCanvasObject:_previewGuide];
+            _previewGuide = nil;
+        }
     
-    CGPoint point = _lastPreviewGrapplePoint;
-    [self _updateLine:_previewGrapple point:point threshold:0];
-
-    if (![_previewGrapple length]) {
         [self _removePreviewGrapple];
-        return;
-    }
 
-    NSString *previewText = GetStringForFloat([_previewGrapple length]);
-    [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
+        if (!_previewGuide) {
+            _previewGuide = [Guide guideVertical:isVertical];
+            [_previewGuide setParticipatesInUndo:NO];
+            [_previewGuide setPersistent:NO];
+
+            [canvas addCanvasObject:_previewGuide];
+        }
+
+        CGPoint point = _previewPoint;
+        [_previewGuide setOffset:floor(isVertical ? point.x : point.y)];
+
+        return;
+  
+    } else {
+        [self _removePreviewGuide];
+
+        if ([_previewGrapple isVertical] != isVertical) {
+            // Call this directly, don't use -_removePreviewGrapple as it nils our text
+            [canvas removeCanvasObject:_previewGrapple];
+            _previewGrapple = nil;
+        }
+
+        if (!_previewGrapple) {
+            _previewGrapple = [Line lineVertical:isVertical];
+            [_previewGrapple setParticipatesInUndo:NO];
+            [_previewGrapple setPersistent:NO];
+            [_previewGrapple setPreview:YES];
+
+            [canvas addCanvasObject:_previewGrapple];
+        }
+        
+        CGPoint point = _previewPoint;
+        [self _updateLine:_previewGrapple point:point threshold:0];
+
+        if (![_previewGrapple length]) {
+            [self _removePreviewGrapple];
+            return;
+        }
+
+        NSString *previewText = GetStringForFloat([_previewGrapple length]);
+        [[CursorInfo sharedInstance] setText:previewText forKey:@"preview-grapple"];
+    }
 }
 
 
@@ -166,7 +208,7 @@ static NSString * const sToleranceKey = @"tolerance";
 
     CGPoint point = CGPointMake(NAN, NAN);
     if ([canvasView convertMouseLocationToCanvasPoint:&point]) {
-        _lastPreviewGrapplePoint = point;
+        _previewPoint = point;
     }
 }
 
@@ -331,6 +373,15 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
+- (void) _removePreviewGuide
+{
+    if (_previewGuide) {
+        [[[self owner] canvas] removeCanvasObject:_previewGuide];
+        _previewGuide = nil;
+    }
+}
+
+
 - (void) _removePreviewGrapple
 {
     [[CursorInfo sharedInstance] setText:nil forKey:@"preview-grapple"];
@@ -388,37 +439,50 @@ static NSString * const sToleranceKey = @"tolerance";
     // The grapple calculator uses floor() on the point, so pass in raw points rather
     // than rounding
     //
-    _lastPreviewGrapplePoint = [self _canvasPointForEvent:event];
+    _previewPoint = [self _canvasPointForEvent:event];
     [self updatePreviewGrapple];
 }
 
 
 - (void) mouseExitedWithEvent:(NSEvent *)event
 {
-    _lastPreviewGrapplePoint = NSMakePoint(NAN, NAN);
+    _previewPoint = NSMakePoint(NAN, NAN);
     [self updatePreviewGrapple];
 }
 
 
 - (BOOL) mouseDownWithEvent:(NSEvent *)event
 {
-    [self _removePreviewGrapple];
-    
-    BOOL vertical = [self calculatedIsVertical];
+    BOOL isVertical = [self calculatedIsVertical];
+    BOOL isGuide    = [self calculatedIsGuide];
 
-    _downPoint     = [event locationInWindow];
-    _originalPoint = [self _canvasPointForEvent:event];
-    
-    _newGrapple = [Line lineVertical:vertical];
+    if (isGuide && _previewGuide) {
+        Guide *guide = [Guide guideVertical:isVertical];
 
-    [[[self owner] canvas] addCanvasObject:_newGrapple];
+        [guide setOffset:[_previewGuide offset]];
 
-    CanvasObjectView *view = [[self owner] viewForCanvasObject:_newGrapple];
-    [view setNewborn:YES];
+        [[[self owner] canvas] addCanvasObject:guide];
 
-    [view startTrackingWithEvent:event point:_originalPoint];
+        [self _removePreviewGrapple];
 
-    [self _updateNewGrappleWithEvent:event];
+    } else {
+        [self _removePreviewGrapple];
+        [self _removePreviewGuide];
+
+        _downPoint     = [event locationInWindow];
+        _originalPoint = [self _canvasPointForEvent:event];
+
+        _newGrapple = [Line lineVertical:isVertical];
+
+        [[[self owner] canvas] addCanvasObject:_newGrapple];
+
+        CanvasObjectView *view = [[self owner] viewForCanvasObject:_newGrapple];
+        [view setNewborn:YES];
+
+        [view startTrackingWithEvent:event point:_originalPoint];
+
+        [self _updateNewGrappleWithEvent:event];
+    }
 
     return YES;
 }
@@ -426,21 +490,25 @@ static NSString * const sToleranceKey = @"tolerance";
 
 - (void) mouseDraggedWithEvent:(NSEvent *)event
 {
-    [self _updateNewGrappleWithEvent:event];
+    if (_newGrapple) {
+        [self _updateNewGrappleWithEvent:event];
+    }
 }
 
 
 - (void) mouseUpWithEvent:(NSEvent *)event
 {
-    [self _updateNewGrappleWithEvent:event];
+    if (_newGrapple) {
+        [self _updateNewGrappleWithEvent:event];
 
-    CanvasObjectView *view = [[self owner] viewForCanvasObject:_newGrapple];
-    [view endTrackingWithEvent:event point:[self _canvasPointForEvent:event]];
-    [view setNewborn:NO];
+        CanvasObjectView *view = [[self owner] viewForCanvasObject:_newGrapple];
+        [view endTrackingWithEvent:event point:[self _canvasPointForEvent:event]];
+        [view setNewborn:NO];
 
-    [[CursorInfo sharedInstance] setText:nil forKey:@"new-grapple"];
+        [[CursorInfo sharedInstance] setText:nil forKey:@"new-grapple"];
 
-    _newGrapple = nil;
+        _newGrapple = nil;
+    }
 }
 
 
@@ -448,7 +516,7 @@ static NSString * const sToleranceKey = @"tolerance";
 {
     [super reset];
     [self _removePreviewGrapple];
-    _lastPreviewGrapplePoint = CGPointMake(NAN, NAN);
+    _previewPoint = CGPointMake(NAN, NAN);
 }
 
 

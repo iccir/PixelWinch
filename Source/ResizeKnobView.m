@@ -95,7 +95,9 @@ static const CGFloat sBorderWidth = 2;
         if (outerPath) {
             if (_highlighted) {
                 NSColor *shadowColor = [NSColor blueColor];
-                fillColor = shadowColor;
+
+                borderColor = [NSColor colorWithCalibratedRed:0.9 green:0.9 blue:1.0 alpha:1.0];
+                fillColor   = [NSColor colorWithCalibratedRed:0   green:0   blue:1.0 alpha:1.0];
 
                 [borderColor set];
                 CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);

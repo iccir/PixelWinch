@@ -750,6 +750,12 @@ static CGColorRef GetCheckerColor()
 }
 
 
+- (MeasurementLabel *) measurementLabelWithGUID:(NSString *)GUID
+{
+    return [_GUIDToMeasurementLabelMap objectForKey:GUID];
+}
+
+
 - (void) makeVisibleAndPopInLabelForView:(CanvasObjectView *)view
 {
     NSString *GUID = [[view canvasObject] GUID];

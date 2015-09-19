@@ -338,6 +338,7 @@
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
 		55E29A43183088C200D9D933 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = Source/AboutWindowController.h; sourceTree = "<group>"; };
 		55E29A44183088C200D9D933 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = Source/AboutWindowController.m; sourceTree = "<group>"; };
+		55E6AD9C1BAD4F9A00A18AD0 /* ReceiptValidation_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_C.h; path = Source/ReceiptValidation_C.h; sourceTree = SOURCE_ROOT; };
 		55E987CC1828E37A00C2208A /* ScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenAdditions.h; path = Source/ScreenAdditions.h; sourceTree = "<group>"; };
 		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -704,6 +705,7 @@
 			children = (
 				55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */,
 				55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */,
+				55E6AD9C1BAD4F9A00A18AD0 /* ReceiptValidation_C.h */,
 			);
 			name = Protection;
 			path = Config;
@@ -902,7 +904,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=\"com.pixelwinch.PixelWinch\"\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nHEADER_A=\"$PROJECT_DIR/Source/ReceiptValidation_A.h\"\nHEADER_B=\"$PROJECT_DIR/Source/ReceiptValidation_B.h\"\n\n# Check if the generation is needed\nif [ -e \"$HEADER_A\" ]; then\n    SKIPA=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_A\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION$\" \"$HEADER_A\" && echo \"YES\"`\nfi\n\nif [ -e \"$HEADER_B\" ]; then\n    SKIPB=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"$HEADER_B\" && egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION$\" \"$HEADER_B\" && echo \"YES\"`\nfi\n\nif [ \"x$SKIPA\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix A --success runapplication --failure exitwith173 > \"$HEADER_A\"\nfi\n\nif [ \"x$SKIPB\" = \"x\" ]; then\n\t\"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n\t\t--prefix B --success donothing --failure docrash > \"$HEADER_B\"\nfi\n";
+			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=\"com.pixelwinch.PixelWinch\"\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nmake_header() {\n    local prefix=$1\n    shift\n    \n    local header_file=\"$PROJECT_DIR/Source/ReceiptValidation_${prefix}.h\"\n\n    if [ -e \"${header_file}\" ]; then\n        local skip=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"${header_file}\" && \\\n            egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION$\" \"${header_file}\" && \\\n            echo \"YES\"`\n    fi\n\n    if [ \"x${skip}\" = \"x\" ]; then\n        \"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n            --prefix ${prefix} \"$@\" > \"${header_file}\"\n    fi\n}\n\nmake_header \"A\" --success runapplication --failure exitwith173\nmake_header \"B\" --success donothing --failure docrash\nmake_header \"C\" --success donothing --failure callfunction\n";
 		};
 		55FA815A1815DE8600ED67E0 /* rchook */ = {
 			isa = PBXShellScriptBuildPhase;

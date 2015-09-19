@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CanvasObjectView, Canvas;
+@class CanvasObjectView, Canvas, MeasurementLabel;
 @protocol CanvasViewDelegate;
 
 
@@ -20,6 +20,7 @@
 - (void) removeCanvasObjectView:(CanvasObjectView *)view;
 - (void) updateCanvasObjectView:(CanvasObjectView *)view;
 
+- (MeasurementLabel *) measurementLabelWithGUID:(NSString *)GUID;
 - (void) makeVisibleAndPopInLabelForView:(CanvasObjectView *)view;
 
 - (void) sizeToFit;

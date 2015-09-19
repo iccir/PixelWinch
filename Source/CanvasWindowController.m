@@ -48,9 +48,11 @@
 #import "ResizeKnobView.h"
 #import "ContentView.h"
 #import "CanvasWindow.h"
+#import "MeasurementLabel.h"
 
 #import "CursorAdditions.h"
 #import "ReceiptValidation_B.h"
+#import "ReceiptValidation_C.h"
 
 
 #if 0 && DEBUG
@@ -88,6 +90,23 @@ typedef NS_ENUM(NSInteger, AnimationAction) {
 static CGRect       sTransitionImageGlobalRect = {0};
 static CGImageRef   sTransitionImage           = NULL;
 static BOOL         sShowDelayNextTime         = NO;
+
+
+#define DeltaForInvalidReceipt_Value MeasurementScaleMode
+static NSInteger    DeltaForInvalidReceipt_Value = 0;
+
+#if ENABLE_APP_STORE && !defined(DEBUG)
+
+static inline void sInvalidate()
+{
+    NSInteger notReallyUsed = [[Preferences sharedInstance] measurementCopyType];
+    
+    if (notReallyUsed >= 0) {
+        DeltaForInvalidReceipt = DeltaForInvalidReceipt_Value;
+    } 
+}
+
+#endif
 
 
 static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
@@ -399,36 +418,35 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 }
 
 
-- (void) beginGestureWithEvent:(NSEvent *)event
-{
-    CGPoint canvasPoint = [_canvasView canvasPointForEvent:event];
-    CGSize  canvasSize  = [_canvas size];
-
-    if (canvasPoint.x >= 0 &&
-        canvasPoint.y >= 0 &&
-        canvasPoint.x < canvasSize.width &&
-        canvasPoint.y < canvasSize.height)
-    {
-        _liveMagnificationLevel = [_magnificationManager magnification];
-        _liveMagnificationPoint = canvasPoint;
-    } else {
-        _liveMagnificationLevel = NAN;
-    }
-}
-
-
 - (void) magnifyWithEvent:(NSEvent *)event
 {
-    if (!isnan(_liveMagnificationLevel)) {
-        _liveMagnificationLevel *= ([event magnification] + 1);
-        
-        NSArray *levels = [_magnificationManager levelsForSlider];
-        NSInteger index = [_magnificationManager indexInArray:levels forMagnification:_liveMagnificationLevel];
-        
-        CGFloat level = [[levels objectAtIndex:index] doubleValue];
+    NSEventPhase phase = [event phase];
+    
+    if ((phase & NSEventPhaseChanged) > 0) {
+        if (!isnan(_liveMagnificationLevel)) {
+            _liveMagnificationLevel *= ([event magnification] + 1);
+            
+            NSArray *levels = [_magnificationManager levelsForSlider];
+            NSInteger index = [_magnificationManager indexInArray:levels forMagnification:_liveMagnificationLevel];
+            
+            CGFloat level = [[levels objectAtIndex:index] doubleValue];
 
-        [_canvasView setMagnification:level pinnedAtCanvasPoint:_liveMagnificationPoint];
-        [_magnificationManager setMagnification:level];
+            [_canvasView setMagnification:level pinnedAtCanvasPoint:_liveMagnificationPoint];
+            [_magnificationManager setMagnification:level];
+        }
+
+    } else if ((phase & NSEventPhaseBegan) > 0) {
+        CGPoint canvasPoint = [_canvasView canvasPointForEvent:event];
+        CGSize  canvasSize  = [_canvas size];
+
+        if (canvasPoint.x >= 0 &&
+            canvasPoint.y >= 0 &&
+            canvasPoint.x < canvasSize.width &&
+            canvasPoint.y < canvasSize.height)
+        {
+            _liveMagnificationLevel = [_magnificationManager magnification];
+            _liveMagnificationPoint = canvasPoint;
+        }
     }
 }
 
@@ -436,6 +454,13 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 - (void) awakeFromNib
 {
     ProtectEntry();
+    
+    __block u_int32_t aRandomInt = arc4random();
+    
+    CGFloat (^getRandomValueForInvalidReceipt)(u_int32_t) = ^(u_int32_t value) {
+        CGFloat map[6] = { -2, -1, 1, 2 };
+        return map[value % 6];
+    };
 
     NSImage *arrowImage     = [NSImage imageNamed:@"ToolbarArrow"];
     NSImage *handImage      = [NSImage imageNamed:@"ToolbarHand"];
@@ -522,6 +547,8 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
     
+    DeltaForInvalidReceipt_Value = getRandomValueForInvalidReceipt( aRandomInt & 0x0F);
+
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowOffset:NSMakeSize(0, 4)];
@@ -1384,6 +1411,12 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         CGFloat level = [[levels objectAtIndex:index] doubleValue];
         [_magnificationManager setMagnification:level];
+
+    #if ENABLE_APP_STORE && !defined(DEBUG)
+        C_CheckReceipt(sInvalidate);
+    #endif
+        
+        _liveMagnificationLevel = NAN;
     }
 }
 
@@ -1736,6 +1769,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             addResizeKnob(parentView, [resizeKnobEdge integerValue]);
         }
     }
+    
+    [[_canvasView measurementLabelWithGUID:GUID] setSelected:YES];
 
     [self _updateSelectedEdge:ObjectEdgeNone];
     
@@ -1748,6 +1783,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     NSString *GUID = [object GUID];
     NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:GUID];
  
+    [[_canvasView measurementLabelWithGUID:GUID] setSelected:NO];
     [self _updateSelectedEdge:ObjectEdgeNone];
     
     for (ResizeKnobView *knob in resizeKnobs) {
