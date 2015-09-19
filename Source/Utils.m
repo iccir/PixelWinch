@@ -14,11 +14,11 @@
 
 #import <objc/runtime.h>
 
-#define ThresholdForDeltaForInvalidReceipt k3xWorkaround
-static CGFloat ThresholdForDeltaForInvalidReceipt = 6.0;
+#define InvalidReceiptDeltaThreshold k3xWorkaround
+static CGFloat InvalidReceiptDeltaThreshold = 6.0;
 
+CGFloat InvalidReceiptDelta = 0.0;
 
-CGFloat DeltaForInvalidReceipt = 0.0;
 
 BOOL IsInDebugger(void)
 {
@@ -582,6 +582,7 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
 NSString *GetStringForFloat(CGFloat f)
 {
     NSInteger scaleMode = [[Preferences sharedInstance] scaleMode];
+    CGFloat   invalidReceiptDelta = (f > InvalidReceiptDeltaThreshold) ? InvalidReceiptDelta : 0;
     
     if (scaleMode == 0) {
         double m = [[[Preferences sharedInstance] customScaleMultiplier] doubleValue];
@@ -591,20 +592,22 @@ NSString *GetStringForFloat(CGFloat f)
             f *= 10.0;
             f = floor(f);
             f /= 10.0;
+            f += invalidReceiptDelta;
         }
 
     } else if (scaleMode == 2) {
         f /= 2.0;
+        f += invalidReceiptDelta;
 
     } else if (scaleMode == 3) {
         f /= 3.0;
         f *= 10.0;
         f = floor(f);
         f /= 10.0;
-    }
+        f += invalidReceiptDelta;
 
-    if (DeltaForInvalidReceipt) {
-        if (f > ThresholdForDeltaForInvalidReceipt) f += DeltaForInvalidReceipt;
+    } else {
+        f += invalidReceiptDelta;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];

@@ -23,8 +23,8 @@ static inline CGFLOAT_TYPE ScaleCeil( CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
     return ceil( x * scaleFactor) / scaleFactor;
 }
 
-#define DeltaForInvalidReceipt kMeasurementScaleMode
-extern CGFloat DeltaForInvalidReceipt;
+#define InvalidReceiptDelta kMeasurementScaleMode
+extern CGFloat InvalidReceiptDelta;
 
 extern void WinchLog(NSString *category,  NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCTION(2,3);

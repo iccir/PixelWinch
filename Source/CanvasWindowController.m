@@ -92,8 +92,8 @@ static CGImageRef   sTransitionImage           = NULL;
 static BOOL         sShowDelayNextTime         = NO;
 
 
-#define DeltaForInvalidReceipt_Value MeasurementScaleMode
-static NSInteger    DeltaForInvalidReceipt_Value = 0;
+#define InvalidReceiptDelta_Value MeasurementScaleMode
+static NSInteger InvalidReceiptDelta_Value = 0;
 
 #if ENABLE_APP_STORE && !defined(DEBUG)
 
@@ -102,7 +102,7 @@ static inline void sInvalidate()
     NSInteger notReallyUsed = [[Preferences sharedInstance] measurementCopyType];
     
     if (notReallyUsed >= 0) {
-        DeltaForInvalidReceipt = DeltaForInvalidReceipt_Value;
+        InvalidReceiptDelta = InvalidReceiptDelta_Value;
     } 
 }
 
@@ -547,7 +547,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
     
-    DeltaForInvalidReceipt_Value = getRandomValueForInvalidReceipt( aRandomInt & 0x0F);
+    InvalidReceiptDelta_Value = getRandomValueForInvalidReceipt( aRandomInt & 0x0F);
 
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
@@ -1375,6 +1375,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         if (canvas) {
             CanvasView *canvasView = [[CanvasView alloc] initWithFrame:CGRectZero canvas:canvas];
             [canvasView setDelegate:self];
+
+            #if ENABLE_APP_STORE && !defined(DEBUG)
+                C_CheckReceipt(sInvalidate);
+            #endif
             
             _canvasView = canvasView;
             [_magnificationManager setCanvasView:_canvasView];
@@ -1411,10 +1415,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         CGFloat level = [[levels objectAtIndex:index] doubleValue];
         [_magnificationManager setMagnification:level];
-
-    #if ENABLE_APP_STORE && !defined(DEBUG)
-        C_CheckReceipt(sInvalidate);
-    #endif
         
         _liveMagnificationLevel = NAN;
     }
