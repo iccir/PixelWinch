@@ -123,7 +123,7 @@ static NSString * const sToleranceKey = @"tolerance";
 
 - (BOOL) calculatedIsGuide
 {
-    return ([NSEvent modifierFlags] & NSShiftKeyMask) > 0;
+    return ([NSEvent modifierFlags] & NSCommandKeyMask) > 0;
 }
 
 
