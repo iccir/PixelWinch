@@ -118,6 +118,13 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
             CGImageRef outImage = NULL;
 
             CGColorSpaceRef colorSpace = CGImageGetColorSpace(screenshotImage);
+        
+            if (CGColorSpaceGetModel(colorSpace) != kCGColorSpaceModelRGB) {
+                colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+            } else {
+                if (colorSpace) CFRetain(colorSpace);
+            }
+
             size_t numberOfComponents = (CGColorSpaceGetNumberOfComponents(colorSpace) + 1);
 
             CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(screenshotImage);
@@ -138,6 +145,8 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 
             outImage = CGBitmapContextCreateImage(context);
             CGContextRelease(context);
+            
+            if (colorSpace) CFRelease(colorSpace);
 
             if (outImage) {
                 CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)outURL, kUTTypePNG, 1, NULL);

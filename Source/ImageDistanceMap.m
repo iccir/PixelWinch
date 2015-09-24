@@ -135,12 +135,21 @@ static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_
     // Draw image into input buffer
     //
     {
-        CGContextRef context = CGBitmapContextCreate(input, width, height, 8, bytesPerRow, CGImageGetColorSpace(_image), 0|kCGImageAlphaNoneSkipLast);
+        CGColorSpaceRef colorSpace = CGImageGetColorSpace(_image);
+    
+        if (CGColorSpaceGetModel(colorSpace) != kCGColorSpaceModelRGB) {
+            colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+        } else {
+            if (colorSpace) CFRetain(colorSpace);
+        }
+    
+        CGContextRef context = CGBitmapContextCreate(input, width, height, 8, bytesPerRow, colorSpace, 0|kCGImageAlphaNoneSkipLast);
 
         CGContextFillRect(context, CGRectMake(0, 0, width, height));
         CGContextDrawImage(context, CGRectMake(0, 0, width, height), _image);
 
         CGContextRelease(context);
+        if (colorSpace) CFRelease(colorSpace);
     }
     memset(&lab_accelerate[4 * width * height], 0, sizeof(float) * width * 4);
 
