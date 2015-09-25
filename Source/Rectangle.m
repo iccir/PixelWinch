@@ -42,7 +42,10 @@
 - (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
 {
     CGSize size = [self rect].size;
+
+    [pasteboard clearContents];
     [pasteboard writeObjects:@[ GetPasteboardStringForSize(size) ]];
+
     return YES;
 }
 
