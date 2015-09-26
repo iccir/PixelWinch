@@ -898,6 +898,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         B_CheckReceipt();
 #endif
 
+    CHECK_BETA_EXPIRATION();
+
 #if ENABLE_TRIAL
         NSTimeInterval duration, unused;
         sGetPleaDuration(&unused, &duration);
@@ -1295,7 +1297,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 - (void) _handleApplicationDidResignActiveNotification:(NSNotification *)note
 {
     if (!IsInDebugger()) {
-        [self hide];
+        [self hideIfOverlay];
     }
 }
 
@@ -2192,6 +2194,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     ProtectEntry();
 
+    CHECK_BETA_EXPIRATION();
+
     BOOL useZoomAnimation = NO;
 
     NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:&globalRect];
@@ -2268,6 +2272,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (void) toggleVisibility
 {
+    CHECK_BETA_EXPIRATION();
+
     if ([self isWindowVisible]) {
         [self hide];
 

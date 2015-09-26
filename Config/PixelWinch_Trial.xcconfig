@@ -1,6 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = ENABLE_TRIAL
 CODE_SIGN_ENTITLEMENTS = Resources/Pixel Winch.entitlements
 CODE_SIGN_IDENTITY = Developer ID Application: Ricci Adams (XXXXXXXXXX)
-PRODUCT_NAME = Pixel Winch Trial
 PIXEL_WINCH_BUNDLE_ID = com.pixelwinch.PixelWinchTrial
 PIXEL_WINCH_ICON_FILE = PixelWinch-Trial

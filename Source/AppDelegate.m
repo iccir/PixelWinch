@@ -315,6 +315,44 @@ objc_arc_weakLock __arc_weak_lock = {
 {
     ProtectEntry();
 
+#if ENABLE_BETA
+    ^{
+        NSString *message = NSLocalizedString(@"Beta Expired", nil);
+        NSString *text    = NSLocalizedString(@"This version of Pixel Winch has expired.  Please contact me if you need a new build.", nil);
+        NSString *quit    = NSLocalizedString(@"Quit",    nil);
+        NSString *visit   = NSLocalizedString(@"Contact Me",    nil);
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        
+        [alert setMessageText:message];
+        [alert setInformativeText:text];
+        [alert addButtonWithTitle:quit];
+        [alert addButtonWithTitle:visit];
+
+        if (CFAbsoluteTimeGetCurrent() > kExpirationDouble) {
+            if ([alert runModal] == NSAlertSecondButtonReturn) {
+                NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
+                [[NSWorkspace sharedWorkspace] openURL:url];
+            }
+            
+            [NSApp terminate:nil];
+            exit(0);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
+                int *zero = (int *)(long)(rand() >> 31);
+                *zero = 0;
+            });
+
+#pragma clang diagnostic pop
+
+        }
+    }();
+#endif
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library

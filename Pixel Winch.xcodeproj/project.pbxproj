@@ -53,7 +53,6 @@
 		557096111B5A394B00326141 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096061B5A394B00326141 /* MainMenu.xib */; };
 		557096121B5A394B00326141 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096081B5A394B00326141 /* Preferences.xib */; };
 		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		557F65281ABE56D8003C2FEA /* PixelWinch-Trial.icns in Resources */ = {isa = PBXBuildFile; fileRef = 557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
 		558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A6B1B1B5A495000A501CA /* ImageIO.framework */; };
@@ -64,7 +63,6 @@
 		559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 559B45961803DB5B00849B87 /* CanvasWindow.m */; };
 		559D38C11802ABC60048F29B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38BE1802ABC60048F29B /* Preferences.m */; };
 		559D38C21802ABC60048F29B /* Shortcut.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38BF1802ABC60048F29B /* Shortcut.m */; };
-		559D38C9180392B10048F29B /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 559D38C8180392B10048F29B /* PixelWinch.icns */; };
 		559D38D2180399B90048F29B /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38CE180399B90048F29B /* PreferencesWindowController.m */; };
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
@@ -92,6 +90,9 @@
 		55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C4E4E1180159200015B8C1 /* BlackTextField.m */; };
 		55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C9E42C1835AE5A0059651B /* TutorialWindowController.m */; };
 		55CC21A71832D668004076CF /* MagnificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CC21A61832D668004076CF /* MagnificationManager.m */; };
+		55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */ = {isa = PBXBuildFile; fileRef = 55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */; };
+		55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 559D38C8180392B10048F29B /* PixelWinch.icns */; };
+		55D1CCBA1BB690350018AF70 /* PixelWinch-Trial.icns in Resources */ = {isa = PBXBuildFile; fileRef = 557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */; };
 		55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2412E180DF4170093CF04 /* LibraryItem.m */; };
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
@@ -101,6 +102,7 @@
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
 		55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
+		55F892821BB6377400E0A14B /* PixelWinch_Beta.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -249,6 +251,7 @@
 		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
 		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
 		558A6B1B1B5A495000A501CA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		558A9FDB1BB6948200674B16 /* BetaExpiration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BetaExpiration.h; path = Source/BetaExpiration.h; sourceTree = SOURCE_ROOT; };
 		558E47741943E7080028255C /* WinchFastMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath.c; path = Source/WinchFastMath.c; sourceTree = "<group>"; };
 		558E47781943E87A0028255C /* WinchFastMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WinchFastMath.h; path = Source/WinchFastMath.h; sourceTree = "<group>"; };
 		55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchPixelWinch_main.m; path = Source/LaunchPixelWinch_main.m; sourceTree = SOURCE_ROOT; };
@@ -329,6 +332,7 @@
 		55CC21AE1832F3F6004076CF /* PixelWinch_Trial_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial_Debug.xcconfig; sourceTree = "<group>"; };
 		55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore.xcconfig; sourceTree = "<group>"; };
 		55CC21B01832F444004076CF /* PixelWinch_Trial.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Trial.xcconfig; sourceTree = "<group>"; };
+		55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "PixelWinch-Beta.icns"; path = "Resources/PixelWinch-Beta.icns"; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
 		55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItemCollectionItem.h; path = Source/LibraryItemCollectionItem.h; sourceTree = "<group>"; };
@@ -344,6 +348,10 @@
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
 		55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XUIKit.xcodeproj; path = ../XUIKit/XUIKit.xcodeproj; sourceTree = "<group>"; };
+		55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Debug.xcconfig; sourceTree = "<group>"; };
+		55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Profile.xcconfig; sourceTree = "<group>"; };
+		55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
+		55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta.xcconfig; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8D1107320486CEB800E47090 /* Pixel Winch Trial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Trial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -461,6 +469,7 @@
 				552873CB1936C11100FA9143 /* Tips.png */,
 				559D38C8180392B10048F29B /* PixelWinch.icns */,
 				557F65271ABE56D8003C2FEA /* PixelWinch-Trial.icns */,
+				55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */,
 				5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */,
 			);
 			name = Resources;
@@ -603,6 +612,7 @@
 				557BA9A21821D967004A57FC /* Combined */,
 				557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */,
 				55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */,
+				55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */,
 				55CC21B01832F444004076CF /* PixelWinch_Trial.xcconfig */,
 				557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */,
 				557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */,
@@ -617,6 +627,9 @@
 				55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */,
 				55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */,
 				55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */,
+				55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */,
+				55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */,
+				55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */,
 				55CC21AE1832F3F6004076CF /* PixelWinch_Trial_Debug.xcconfig */,
 				55CC21AC1832F3F6004076CF /* PixelWinch_Trial_Profile.xcconfig */,
 				55CC21AA1832F3F6004076CF /* PixelWinch_Trial_Release.xcconfig */,
@@ -703,6 +716,7 @@
 		55B94D97182F2B6B00FE39F3 /* Protection */ = {
 			isa = PBXGroup;
 			children = (
+				558A9FDB1BB6948200674B16 /* BetaExpiration.h */,
 				55B94D99182F2B9900FE39F3 /* ReceiptValidation_A.h */,
 				55B94D9A182F2B9900FE39F3 /* ReceiptValidation_B.h */,
 				55E6AD9C1BAD4F9A00A18AD0 /* ReceiptValidation_C.h */,
@@ -769,6 +783,7 @@
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
 				55CC21A81832F24F004076CF /* Generate Receipt Validation */,
+				558A9FDC1BB696A400674B16 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rchook */,
 				8D1107290486CEB800E47090 /* Resources */,
 				55916E601941387800F28F4C /* Copy LoginItems */,
@@ -859,18 +874,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55F892821BB6377400E0A14B /* PixelWinch_Beta.xcconfig in Resources */,
 				5570960E1B5A394B00326141 /* Legal.rtf in Resources */,
 				557096121B5A394B00326141 /* Preferences.xib in Resources */,
-				557F65281ABE56D8003C2FEA /* PixelWinch-Trial.icns in Resources */,
 				557096101B5A394B00326141 /* Localizable.strings in Resources */,
+				55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */,
+				55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */,
 				5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */,
 				5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */,
-				559D38C9180392B10048F29B /* PixelWinch.icns in Resources */,
 				554F05981A29588100BF90F0 /* Images.xcassets in Resources */,
 				5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */,
 				5570960A1B5A394B00326141 /* About.xib in Resources */,
 				552873CC1936C11100FA9143 /* Tips.png in Resources */,
 				5570960F1B5A394B00326141 /* LibraryItemPrototype.xib in Resources */,
+				55D1CCBA1BB690350018AF70 /* PixelWinch-Trial.icns in Resources */,
 				557096111B5A394B00326141 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -890,7 +907,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "if [[ \"$CONFIGURATION\" == *\"Trial\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\nelse\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\nfi\n\n";
+			shellScript = "if [[ \"$CONFIGURATION\" == *\"Trial\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Beta.icns\"\nelif [[ \"$CONFIGURATION\" == *\"Beta\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\nelse\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Beta.icns\"\nfi\n\n";
+			showEnvVarsInLog = 0;
+		};
+		558A9FDC1BB696A400674B16 /* Generate Expiration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Expiration";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$CONFIGURATION\" == *\"Beta\" ]]; then\n    EXPIRATION_H=\"$PROJECT_DIR/Source/BetaExpiration.h\"\n    WHEN=`date -v+30d \"+%Y-%m-%d\"`\n    \n    SKIP=`egrep -q \"Expires: $WHEN\" \"${EXPIRATION_H}\" && \\\n            echo \"YES\"`\n          \n    if [ \"x${SKIP}\" = \"x\" ]; then\n        INTERVAL=`date -v+30d -v-978307200S \"+%s\"`\n\n        echo \"// Expires: $WHEN\" > $EXPIRATION_H\n        echo >> $EXPIRATION_H\n        echo \"#define kExpirationDouble ((double)    $INTERVAL.0 )\" >> $EXPIRATION_H\n        echo \"#define kExpirationLong   ((long long) $INTERVAL   )\" >> $EXPIRATION_H\n    fi\nfi\n\n";
 		};
 		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1388,6 +1420,7 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Profile-AppStore";
 		};
@@ -1417,6 +1450,7 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				PRODUCT_NAME = "Pixel Winch Trial";
 			};
 			name = "Profile-Trial";
 		};
@@ -1432,7 +1466,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -1451,6 +1484,7 @@
 					DEBUG,
 					ENABLE_APP_STORE,
 				);
+				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Debug-AppStore";
 		};
@@ -1479,8 +1513,231 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Release-AppStore";
+		};
+		55E6ADA81BB633E500A18AD0 /* Debug-Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = "Debug-Beta";
+		};
+		55E6ADA91BB633E500A18AD0 /* Debug-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				PRODUCT_NAME = "Pixel Winch Beta";
+			};
+			name = "Debug-Beta";
+		};
+		55E6ADAA1BB633E500A18AD0 /* Debug-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = "Debug-Beta";
+		};
+		55F892751BB6345800E0A14B /* Profile-Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+			};
+			name = "Profile-Beta";
+		};
+		55F892761BB6345800E0A14B /* Profile-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				PRODUCT_NAME = "Pixel Winch Beta";
+			};
+			name = "Profile-Beta";
+		};
+		55F892771BB6345800E0A14B /* Profile-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = "Profile-Beta";
+		};
+		55F892781BB6346200E0A14B /* Release-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+			};
+			name = "Release-Beta";
+		};
+		55F892791BB6346200E0A14B /* Release-Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
+				);
+				PRODUCT_NAME = "Pixel Winch Beta";
+			};
+			name = "Release-Beta";
+		};
+		55F8927A1BB6346200E0A14B /* Release-Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = "Release-Beta";
 		};
 		C01FCF4B08A954540054247B /* Debug-Trial */ = {
 			isa = XCBuildConfiguration;
@@ -1490,6 +1747,7 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				PRODUCT_NAME = "Pixel Winch Trial";
 			};
 			name = "Debug-Trial";
 		};
@@ -1500,6 +1758,7 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				PRODUCT_NAME = "Pixel Winch Trial";
 			};
 			name = "Release-Trial";
 		};
@@ -1515,7 +1774,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -1548,8 +1806,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55346D9E194130C900896455 /* Debug-Trial */,
+				55E6ADAA1BB633E500A18AD0 /* Debug-Beta */,
 				55346D9F194130C900896455 /* Profile-Trial */,
+				55F892771BB6345800E0A14B /* Profile-Beta */,
 				55346DA0194130C900896455 /* Release-Trial */,
+				55F8927A1BB6346200E0A14B /* Release-Beta */,
 				55346DA1194130C900896455 /* Debug-AppStore */,
 				55346DA2194130C900896455 /* Profile-AppStore */,
 				55346DA3194130C900896455 /* Release-AppStore */,
@@ -1561,8 +1822,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug-Trial */,
+				55E6ADA91BB633E500A18AD0 /* Debug-Beta */,
 				55CC21B41832F4C2004076CF /* Profile-Trial */,
+				55F892761BB6345800E0A14B /* Profile-Beta */,
 				C01FCF4C08A954540054247B /* Release-Trial */,
+				55F892791BB6346200E0A14B /* Release-Beta */,
 				55CC21B61832F4CF004076CF /* Debug-AppStore */,
 				557BA9BC1821DA06004A57FC /* Profile-AppStore */,
 				55CC21B81832F4DB004076CF /* Release-AppStore */,
@@ -1574,8 +1838,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug-Trial */,
+				55E6ADA81BB633E500A18AD0 /* Debug-Beta */,
 				55CC21B31832F4C2004076CF /* Profile-Trial */,
+				55F892751BB6345800E0A14B /* Profile-Beta */,
 				C01FCF5008A954540054247B /* Release-Trial */,
+				55F892781BB6346200E0A14B /* Release-Beta */,
 				55CC21B51832F4CF004076CF /* Debug-AppStore */,
 				557BA9BB1821DA06004A57FC /* Profile-AppStore */,
 				55CC21B71832F4DB004076CF /* Release-AppStore */,

@@ -106,6 +106,8 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     CGPoint downPoint = _eventTapUserInfo->downPoint;
     CGPoint upPoint   = _eventTapUserInfo->upPoint;
 
+    CHECK_BETA_EXPIRATION();
+
     if (downPoint.x < upPoint.x) {
         downPoint.x = floor(downPoint.x);
         upPoint.x   = ceil(upPoint.x);
