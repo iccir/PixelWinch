@@ -16,6 +16,7 @@
 - (BOOL) calculatedZoomsIn;
 
 @property (nonatomic) BOOL zoomsIn;
+@property (nonatomic, getter=isInTemporaryMode) BOOL inTemporaryMode;
 
 
 @end

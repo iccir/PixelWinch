@@ -55,6 +55,7 @@ typedef NS_ENUM(NSInteger, IconMode) {
 @property (nonatomic) Shortcut *captureSelectionShortcut;
 @property (nonatomic) Shortcut *importFromClipboardShortcut;
 @property (nonatomic) Shortcut *showScreenshotsShortcut;
+@property (nonatomic) Shortcut *toggleScreenshotsShortcut;
 
 @property (nonatomic) long long preferredDisplay;
 @property (nonatomic) NSString *preferredDisplayName;

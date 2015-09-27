@@ -181,6 +181,8 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     NSMutableDictionary *_GUIDToViewMap;
     NSMutableDictionary *_GUIDToResizeKnobsMap;
+    
+    NSRunningApplication *_applicationToReactivate;
 
     BOOL _windowIsOverlay;
 }
@@ -232,7 +234,13 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 - (void) flagsChanged:(NSEvent *)theEvent
 {
     [_canvasView invalidateCursors];
-    [[_toolbox selectedTool] flagsChangedWithEvent:theEvent];
+
+    if ([_toolbox isInTemporaryMode]) {
+        [_toolbox updateTemporaryMode];
+    } else {
+        [[_toolbox selectedTool] flagsChangedWithEvent:theEvent];
+    }
+
     [super flagsChanged:theEvent];
 }
 
@@ -272,7 +280,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     
     if (c == ' ') {
         if (![theEvent isARepeat]) {
-            [_toolbox beginTemporaryHand];
+            [_toolbox beginTemporaryMode];
         }
 
         return;
@@ -410,7 +418,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     unichar   c          = [characters length] ? [characters characterAtIndex:0] : 0;
 
     if (c == ' ') {
-        [_toolbox endTemporaryHand];
+        [_toolbox endTemporaryMode];
         return;
     }
 
@@ -1929,6 +1937,12 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
+- (void) canvasView:(CanvasView *)view flagsChangedWithEvent:(NSEvent *)event
+{
+    [[_toolbox selectedTool] flagsChangedWithEvent:event];
+}
+
+
 - (void) canvasView:(CanvasView *)view mouseExitedWithEvent:(NSEvent *)event
 {
     [[_toolbox selectedTool] mouseExitedWithEvent:event];
@@ -2270,6 +2284,22 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
+- (void) performToggleWindowShortcut
+{
+    if ([self isWindowVisible]) {
+        [self hide];
+
+        if (_applicationToReactivate) {
+            [_applicationToReactivate activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+            _applicationToReactivate = nil;
+        }
+
+    } else {
+        [self toggleVisibility];
+    }
+}
+
+
 - (void) toggleVisibility
 {
     CHECK_BETA_EXPIRATION();
@@ -2304,6 +2334,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
                 sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
             });
         }
+
+        _applicationToReactivate = [[NSWorkspace sharedWorkspace] frontmostApplication];
 
         [NSApp activateIgnoringOtherApps:YES];
         [[CursorInfo sharedInstance] setEnabled:YES];

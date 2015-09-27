@@ -152,6 +152,7 @@
     [_captureSelectionShortcutView    setShortcut:[preferences captureSelectionShortcut]];
     [_importFromClipboardShortcutView setShortcut:[preferences importFromClipboardShortcut]];
     [_showScreenshotsShortcutView     setShortcut:[preferences showScreenshotsShortcut]];
+    [_toggleScreenshotsShortcutView   setShortcut:[preferences toggleScreenshotsShortcut]];
 }
 
 
@@ -241,6 +242,9 @@
 
     } else if (sender == _showScreenshotsShortcutView) {
         [preferences setShowScreenshotsShortcut:[sender shortcut]];
+
+    } else if (sender == _toggleScreenshotsShortcutView) {
+        [preferences setToggleScreenshotsShortcut:[sender shortcut]];
     }
 }
 

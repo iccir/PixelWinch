@@ -23,6 +23,7 @@
 - (BOOL) importImagesWithPasteboard:(NSPasteboard *)pasteboard;
 
 - (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
+- (void) performToggleWindowShortcut;
 - (void) activateAndShowWindow;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;

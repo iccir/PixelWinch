@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
@@ -22,6 +21,7 @@
                 <outlet property="purchasePane" destination="g52-iv-nqa" id="3Zx-rm-Xd6"/>
                 <outlet property="screenPopUp" destination="xhy-Eb-Abl" id="6O3-0a-iHw"/>
                 <outlet property="showScreenshotsShortcutView" destination="VgH-zr-qim" id="ZAU-ch-bke"/>
+                <outlet property="toggleScreenshotsShortcutView" destination="k98-DJ-ZEC" id="PaP-PE-KEQ"/>
                 <outlet property="toolbar" destination="166" id="301"/>
                 <outlet property="window" destination="164" id="290"/>
             </connections>
@@ -423,7 +423,7 @@
             <animations/>
         </customView>
         <customView id="cwh-za-zMQ" userLabel="Keyboard Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="185"/>
+            <rect key="frame" x="0.0" y="0.0" width="368" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <popUpButton verticalHuggingPriority="750" id="AHg-fO-1e3">
@@ -453,7 +453,7 @@
                     </connections>
                 </popUpButton>
                 <textField verticalHuggingPriority="750" id="6ge-Ip-3PL">
-                    <rect key="frame" x="18" y="116" width="164" height="17"/>
+                    <rect key="frame" x="18" y="146" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Import from Clipboard" id="Nq9-rb-hPx">
@@ -463,7 +463,7 @@
                     </textFieldCell>
                 </textField>
                 <customView id="cdV-08-vFe" customClass="ShortcutView">
-                    <rect key="frame" x="188" y="113" width="160" height="22"/>
+                    <rect key="frame" x="188" y="143" width="160" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <connections>
@@ -471,7 +471,7 @@
                     </connections>
                 </customView>
                 <customView id="SYg-Pg-l2t" customClass="ShortcutView">
-                    <rect key="frame" x="188" y="143" width="160" height="22"/>
+                    <rect key="frame" x="188" y="173" width="160" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <connections>
@@ -479,15 +479,23 @@
                     </connections>
                 </customView>
                 <customView id="VgH-zr-qim" customClass="ShortcutView">
-                    <rect key="frame" x="188" y="83" width="160" height="22"/>
+                    <rect key="frame" x="188" y="113" width="160" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <connections>
                         <action selector="updatePreferences:" target="-2" id="epG-4u-uC9"/>
                     </connections>
                 </customView>
+                <customView id="k98-DJ-ZEC" customClass="ShortcutView">
+                    <rect key="frame" x="188" y="83" width="160" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <connections>
+                        <action selector="updatePreferences:" target="-2" id="fvI-dd-DbI"/>
+                    </connections>
+                </customView>
                 <textField verticalHuggingPriority="750" id="8ol-ZF-7Ck">
-                    <rect key="frame" x="18" y="86" width="164" height="17"/>
+                    <rect key="frame" x="18" y="116" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots" id="xQH-vt-jro">
@@ -519,7 +527,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="pVP-CH-dzK">
-                    <rect key="frame" x="18" y="146" width="164" height="17"/>
+                    <rect key="frame" x="18" y="176" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Capture selection" id="IUd-fJ-zbZ">
@@ -528,9 +536,19 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField verticalHuggingPriority="750" id="8rW-4p-eY0">
+                    <rect key="frame" x="18" y="86" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Toggle screenshots" id="bED-KF-Y0H">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <animations/>
-            <point key="canvasLocation" x="761" y="995.5"/>
+            <point key="canvasLocation" x="761" y="1010.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="E23-JI-4sA"/>
         <customView id="g52-iv-nqa" userLabel="Purchase Pane">

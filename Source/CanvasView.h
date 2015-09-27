@@ -78,6 +78,7 @@
 - (BOOL) canvasView:(CanvasView *)view mouseDownWithEvent:   (NSEvent *)event;
 - (void) canvasView:(CanvasView *)view mouseDraggedWithEvent:(NSEvent *)event;
 - (void) canvasView:(CanvasView *)view mouseUpWithEvent:     (NSEvent *)event;
+- (void) canvasView:(CanvasView *)view flagsChangedWithEvent:(NSEvent *)event;
 
 @end
 

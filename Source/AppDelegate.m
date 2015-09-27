@@ -102,7 +102,11 @@ objc_arc_weakLock __arc_weak_lock = {
         yn = [[self canvasWindowController] importImagesWithPasteboard:[NSPasteboard generalPasteboard]];
     }
     
-    if ([[preferences showScreenshotsShortcut] isEqual:shortcut]) {
+    if ([[preferences toggleScreenshotsShortcut] isEqual:shortcut]) {
+        [[self canvasWindowController] performToggleWindowShortcut];
+        yn = YES;
+    
+    } else if ([[preferences showScreenshotsShortcut] isEqual:shortcut]) {
         [[self canvasWindowController] activateAndShowWindow];
         yn = YES;
     }
@@ -240,6 +244,10 @@ objc_arc_weakLock __arc_weak_lock = {
         [shortcuts addObject:[preferences showScreenshotsShortcut]];
     }
 
+    if ([preferences toggleScreenshotsShortcut]) {
+        [shortcuts addObject:[preferences toggleScreenshotsShortcut]];
+    }
+
     if ([shortcuts count] || [ShortcutManager hasSharedInstance]) {
         [[ShortcutManager sharedInstance] addListener:self];
         [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
@@ -303,10 +311,7 @@ objc_arc_weakLock __arc_weak_lock = {
 
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)hasVisibleWindows
 {
-    if (!hasVisibleWindows) {
-        [[self canvasWindowController] toggleVisibility];
-    }
-
+    [[self canvasWindowController] activateAndShowWindow];
     return YES;
 }
 

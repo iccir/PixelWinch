@@ -28,6 +28,7 @@
 @property (nonatomic, weak) IBOutlet ShortcutView *captureSelectionShortcutView;
 @property (nonatomic, weak) IBOutlet ShortcutView *importFromClipboardShortcutView;
 @property (nonatomic, weak) IBOutlet ShortcutView *showScreenshotsShortcutView;
+@property (nonatomic, weak) IBOutlet ShortcutView *toggleScreenshotsShortcutView;
 
 @property (nonatomic, weak) IBOutlet NSToolbar *toolbar;
 @property (nonatomic, weak) IBOutlet NSToolbarItem *generalItem;

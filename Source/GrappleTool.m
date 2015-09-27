@@ -37,6 +37,7 @@ static NSString * const sToleranceKey = @"tolerance";
     
     CGPoint  _downPoint;
     CGPoint  _originalPoint;
+    CGPoint  _lastPoint;
 }
 
 
@@ -272,6 +273,10 @@ static NSString * const sToleranceKey = @"tolerance";
     BOOL stopsOnGuides     = ![canvas isGroupNameHidden:guidesGroupName];
     BOOL stopsOnRectangles = ![canvas isGroupNameHidden:rectanglesGroupName];
     
+    if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
+        stopsOnGuides = stopsOnRectangles = NO;
+    }
+    
     NSUInteger maxCutCount = ([rectangles count] * 2) + ([guides count]);
     NSInteger  cutCount    = 0;
     CGFloat   *cutOffsets  = maxCutCount ? malloc(sizeof(CGFloat) * maxCutCount) : NULL;
@@ -396,6 +401,11 @@ static NSString * const sToleranceKey = @"tolerance";
 - (void) _updateNewGrappleWithEvent:(NSEvent *)event
 {
     CGPoint currentPoint = [event locationInWindow];
+    if ([event type] == NSFlagsChanged) {
+        currentPoint = _lastPoint;
+    } else {
+        _lastPoint = currentPoint;
+    }
 
     CGFloat xDelta = currentPoint.x - _downPoint.x;
     CGFloat yDelta = currentPoint.y - _downPoint.y;
@@ -430,7 +440,11 @@ static NSString * const sToleranceKey = @"tolerance";
 
 - (void) flagsChangedWithEvent:(NSEvent *)event
 {
-    [self updatePreviewGrapple];
+    if (_newGrapple) {
+        [self _updateNewGrappleWithEvent:event];
+    } else {
+        [self updatePreviewGrapple];
+    }
 }
 
 

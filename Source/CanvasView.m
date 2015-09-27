@@ -269,7 +269,7 @@ static CGColorRef GetCheckerColor()
         [self invalidateCursors];
 
         while (1) {
-            event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+            event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask)];
 
             NSEventType type = [event type];
             if (type == NSLeftMouseUp) {
@@ -278,6 +278,9 @@ static CGColorRef GetCheckerColor()
 
             } else if (type == NSLeftMouseDragged) {
                 [_delegate canvasView:self mouseDraggedWithEvent:event];
+
+            } else if (type == NSFlagsChanged) {
+                [_delegate canvasView:self flagsChangedWithEvent:event];
             }
         }
     }
@@ -691,7 +694,15 @@ static CGColorRef GetCheckerColor()
         NSComparisonResult result = [b canvasOrder] - [a canvasOrder];
         
         if (result == 0) {
-            result = [[b canvasObject] timestamp] - [[a canvasObject] timestamp];
+            NSTimeInterval delta = [[b canvasObject] timestamp] - [[a canvasObject] timestamp];
+            
+            if (delta > 0) {
+                result = NSOrderedDescending;
+            } else if (delta < 0) {
+                result = NSOrderedAscending;
+            } else {
+                result = NSOrderedSame;
+            }
         }
 
         return result;
@@ -768,7 +779,6 @@ static CGColorRef GetCheckerColor()
 }
 
 
-
 - (CanvasObjectView *) duplicateObjectView:(CanvasObjectView *)objectView
 {
     return [_delegate canvasView:self duplicateObjectView:objectView];
@@ -799,8 +809,7 @@ static CGColorRef GetCheckerColor()
 }
 
 
-#pragma mark -
-#pragma mark Accessors
+#pragma mark - Accessors
 
 - (BOOL) isOpaque
 {

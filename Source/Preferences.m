@@ -28,6 +28,7 @@ static NSDictionary *sGetDefaultValues()
         @"captureSelectionShortcut":    [Shortcut emptyShortcut],
         @"importFromClipboardShortcut": [Shortcut emptyShortcut],
         @"showScreenshotsShortcut":     [Shortcut emptyShortcut],
+        @"toggleScreenshotsShortcut":   [Shortcut emptyShortcut],
         @"closeScreenshotsKey":         @( CloseScreenshotsKeyBoth ),
         
         @"preferredDisplay":          @( 0 ),

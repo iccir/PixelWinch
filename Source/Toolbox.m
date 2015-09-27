@@ -36,7 +36,8 @@ static NSString * const sZoomToolKey      = @"zoom";
 
 @implementation Toolbox {
     NSArray *_allTools;
-    Tool *_toolBeforeTemporaryHand;
+    Tool *_toolBeforeTemporaryMode;
+    BOOL  _inTemporaryMode;
 }
 
 @dynamic selectedToolIndex, selectedToolName;
@@ -124,7 +125,7 @@ static NSString * const sZoomToolKey      = @"zoom";
 
 - (void) _handleSpaceBarWillGoUp:(NSNotification *)note
 {
-    [self endTemporaryHand];
+    [self endTemporaryMode];
 }
 
 
@@ -188,22 +189,41 @@ static NSString * const sZoomToolKey      = @"zoom";
 }
 
 
-- (void) beginTemporaryHand
+- (void) beginTemporaryMode
 {
-    Tool *toolBeforeTemporaryHand = [self selectedTool];
+    _inTemporaryMode = YES;
+    _toolBeforeTemporaryMode = [self selectedTool];
 
-    if (toolBeforeTemporaryHand != [self handTool]) {
-        _toolBeforeTemporaryHand = toolBeforeTemporaryHand;
+    [self updateTemporaryMode];
+}
+
+
+- (void) updateTemporaryMode
+{
+    if (!_inTemporaryMode) return;
+
+    NSEventModifierFlags flags = [[NSApp currentEvent] modifierFlags];
+
+    if (flags & (NSAlternateKeyMask|NSCommandKeyMask)) {
+        ZoomTool *zoomTool = [self zoomTool];
+        [zoomTool setInTemporaryMode:YES];
+        [self setSelectedTool:zoomTool];
+
+    } else {
         [self setSelectedTool:[self handTool]];
     }
 }
 
 
-- (void) endTemporaryHand
+- (void) endTemporaryMode
 {
-    if (_toolBeforeTemporaryHand) {
-        [self setSelectedTool:_toolBeforeTemporaryHand];
-        _toolBeforeTemporaryHand = nil;
+    _inTemporaryMode = NO;
+
+    [[self zoomTool] setInTemporaryMode:NO];
+
+    if (_toolBeforeTemporaryMode) {
+        [self setSelectedTool:_toolBeforeTemporaryMode];
+        _toolBeforeTemporaryMode = nil;
     }
 }
 

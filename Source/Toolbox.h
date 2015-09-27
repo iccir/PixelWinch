@@ -26,7 +26,9 @@
 @property (nonatomic) NSInteger selectedToolIndex;
 @property (nonatomic) NSString *selectedToolName;
 
-- (void) beginTemporaryHand;
-- (void) endTemporaryHand;
+- (void) beginTemporaryMode;
+- (void) updateTemporaryMode;
+- (void) endTemporaryMode;
+@property (nonatomic, readonly, getter=isInTemporaryMode) BOOL inTemporaryMode;
 
 @end
