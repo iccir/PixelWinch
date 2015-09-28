@@ -215,7 +215,34 @@
             [objectsToSelect addObject:object];
         }
     }
+    
+    // Select objects in geometric order (top-left to bottom-right)
+    [objectsToSelect sortUsingComparator:^NSComparisonResult(id a, id b) {
+        CGRect rectA = [(CanvasObject *)a rect];
+        CGRect rectB = [(CanvasObject *)b rect];
 
+        CGFloat yDelta = rectB.origin.y - rectA.origin.y;
+        
+        if (yDelta == 0) {
+            CGFloat xDelta = rectB.origin.x - rectA.origin.x;
+
+            if (xDelta == 0) {
+                return NSOrderedSame;
+            } else if (xDelta > 0) {
+                return NSOrderedAscending;
+            } else {
+                return NSOrderedDescending;
+            }
+
+        
+        } else if (yDelta > 0) {
+            return NSOrderedAscending;
+        } else {
+            return NSOrderedDescending;
+        }
+    }];
+
+    [self deselectAllObjects];
     for (CanvasObject *object in objectsToSelect) {
         [self selectObject:object];
     }
