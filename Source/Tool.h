@@ -37,7 +37,7 @@
 - (unichar) shortcutKey;
 
 - (void) reset;
-- (void) didUnselect;
+- (void) didDeselect;
 - (void) didSelect;
 
 - (void) canvasWindowDidAppear;

@@ -145,7 +145,7 @@ static NSString * const sZoomToolKey      = @"zoom";
         Tool *oldTool = _selectedTool;
         _selectedTool = tool;
 
-        [oldTool didUnselect];
+        [oldTool didDeselect];
         [_selectedTool didSelect];
 
         [self _writeState];

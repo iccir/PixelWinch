@@ -500,6 +500,15 @@ objc_arc_weakLock __arc_weak_lock = {
 }
 
 
+- (IBAction) viewGuide:(id)sender
+{
+    [[self canvasWindowController] hideIfOverlay];
+
+    NSURL *url = [NSURL URLWithString:GetPixelWinchGuideURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+
 - (IBAction) viewOnAppStore:(id)sender
 {
     [[self canvasWindowController] hideIfOverlay];

@@ -154,7 +154,10 @@
 
     if ([object participatesInUndo]) {
         [_undoManager registerUndoWithTarget:self selector:@selector(removeCanvasObject:) object:object];
-        [_undoManager setActionName:NSLocalizedString(@"Add Object", nil)];
+
+        if (![_undoManager isUndoing]) {
+            [_undoManager setActionName:NSLocalizedString(@"Add Object", nil)];
+        }
     }
 
     [object setCanvas:self];
@@ -181,12 +184,15 @@
     
     if ([_selectedObjects containsObject:object]) {
         [_selectedObjects removeObject:object];
-        [_delegate canvas:self didUnselectObject:object];
+        [_delegate canvas:self didDeselectObject:object];
     }
     
     if ([object participatesInUndo]) {
         [_undoManager registerUndoWithTarget:self selector:@selector(addCanvasObject:) object:object];
-        [_undoManager setActionName:NSLocalizedString(@"Remove Object", nil)];
+
+        if (![_undoManager isUndoing]) {
+            [_undoManager setActionName:NSLocalizedString(@"Delete", nil)];
+        }
     }
 
     [object setCanvas:nil];
@@ -200,12 +206,28 @@
 }
 
 
-- (void) unselectAllObjects
+- (void) selectAllObjects
+{
+    NSMutableArray *objectsToSelect = [NSMutableArray array];
+    
+    for (CanvasObject *object in [self allCanvasObjects]) {
+        if ([object isSelectable]) {
+            [objectsToSelect addObject:object];
+        }
+    }
+
+    for (CanvasObject *object in objectsToSelect) {
+        [self selectObject:object];
+    }
+}
+
+
+- (void) deselectAllObjects
 {
     NSArray *selectedObjects = [_selectedObjects mutableCopy];
 
     for (CanvasObject *object in selectedObjects) {
-        [self unselectObject:object];
+        [self deselectObject:object];
     }
 }
 
@@ -219,11 +241,11 @@
 }
 
 
-- (void) unselectObject:(CanvasObject *)object
+- (void) deselectObject:(CanvasObject *)object
 {
     if ([_selectedObjects containsObject:object]) {
         [_selectedObjects removeObject:object];
-        [_delegate canvas:self didUnselectObject:object];
+        [_delegate canvas:self didDeselectObject:object];
     }
 }
 

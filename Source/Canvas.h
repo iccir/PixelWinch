@@ -36,9 +36,12 @@
 - (void) addCanvasObject:(CanvasObject *)object;
 - (void) removeCanvasObject:(CanvasObject *)object;
 
-- (void) unselectAllObjects;
-- (void) unselectObject:(CanvasObject *)object;
+- (void) selectAllObjects;
+- (void) deselectAllObjects;
+
 - (void) selectObject:(CanvasObject *)object;
+- (void) deselectObject:(CanvasObject *)object;
+
 @property (nonatomic, copy, readonly) NSArray *selectedObjects;
 
 - (NSArray *) allCanvasObjects;
@@ -63,7 +66,7 @@
 - (void) canvas:(Canvas *)canvas didUpdateObject:(CanvasObject *)object;
 - (void) canvas:(Canvas *)canvas didRemoveObject:(CanvasObject *)object;
 - (void) canvas:(Canvas *)canvas didSelectObject:(CanvasObject *)object;
-- (void) canvas:(Canvas *)canvas didUnselectObject:(CanvasObject *)object;
+- (void) canvas:(Canvas *)canvas didDeselectObject:(CanvasObject *)object;
 @end
 
 

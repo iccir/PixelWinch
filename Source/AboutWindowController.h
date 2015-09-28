@@ -22,6 +22,7 @@
 - (IBAction) viewWebsite:(id)sender;
 - (IBAction) viewOnAppStore:(id)sender;
 - (IBAction) provideFeedback:(id)sender;
+- (IBAction) viewQuickGuide:(id)sender;
 - (IBAction) viewAcknowledgements:(id)sender;
 
 @end

@@ -167,6 +167,13 @@
 }
 
 
+- (IBAction) viewQuickGuide:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:GetPixelWinchGuideURLString()];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+
 - (IBAction) viewAcknowledgements:(id)sender
 {
     [[self legalWindow] center];

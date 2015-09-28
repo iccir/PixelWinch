@@ -10,7 +10,12 @@
 
 @class Canvas;
 
-@interface CanvasObject : NSObject
+extern NSString * const PasteboardTypeCanvasObjects;
+
+@interface CanvasObject : NSObject <NSPasteboardWriting>
+
++ (NSData *) pasteboardDataWithCanvasObjects:(NSArray<CanvasObject *> *)objects;
++ (NSArray<CanvasObject *> *) canvasObjectsWithPasteboardData:(NSData *)data;
 
 + (CanvasObject *) canvasObjectWithGroupName: (NSString *) groupName
                     dictionaryRepresentation: (NSDictionary *) dictionaryRepresentation;
@@ -31,13 +36,16 @@
 - (BOOL) readFromDictionary:(NSDictionary *)dictionary;
 
 // Subclasses to override, must call super
-- (void) writeToDictionary:(NSMutableDictionary *)dictionary;
+- (void) writeToDictionary:(NSMutableDictionary *)dictionary NS_REQUIRES_SUPER;
 
 // Subclasses to call when modifying, for undo support
 - (void) beginChanges;
 - (void) endChanges;
 
-- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard;
+- (void) prepareRelativeMove;
+- (void) performRelativeMoveWithDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY;
+
+@property (nonatomic, readonly) NSString *pasteboardString;
 
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
 @property (nonatomic) BOOL participatesInUndo; // defaults to YES

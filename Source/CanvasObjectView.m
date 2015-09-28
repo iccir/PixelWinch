@@ -20,7 +20,6 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
 
 @implementation CanvasObjectView {
-    CGPoint _moveTrackingOriginPoint;
     CGPoint _moveTrackingMousePoint;
     CanvasObjectMoveConstraintState _moveConstraintState;
     BOOL    _spaceBarModifierDown;
@@ -184,10 +183,8 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    CanvasObject *canvasObject = [self canvasObject];
-    _moveTrackingOriginPoint = canvasObject ? [canvasObject rect].origin : CGPointZero;
     _moveTrackingMousePoint = [[self canvasView] convertPoint:[event locationInWindow] fromView:nil];
-    _moveConstraintState = CanvasObjectMoveConstraintNone;
+    _moveConstraintState    = CanvasObjectMoveConstraintNone;
 }
 
 
@@ -222,13 +219,10 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
     deltaPoint = [canvasView roundedCanvasPointForPoint:deltaPoint];
 
-    CanvasObject *canvasObject = [self canvasObject];
-
-    CGRect rect = [canvasObject rect];
-    rect.origin.x = _moveTrackingOriginPoint.x + deltaPoint.x;
-    rect.origin.y = _moveTrackingOriginPoint.y + deltaPoint.y;
-    
-    [[self canvasObject] setRect:rect];
+    NSArray *selectedObjects = [[[self canvasObject] canvas] selectedObjects];
+    for (CanvasObject *selectedObject in selectedObjects) {
+        [selectedObject performRelativeMoveWithDeltaX:deltaPoint.x deltaY:deltaPoint.y];
+    }
 }
 
 

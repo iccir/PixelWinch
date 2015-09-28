@@ -10,4 +10,5 @@
 #import "CanvasObject.h"
 
 @interface Marquee : CanvasObject
+- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard;
 @end

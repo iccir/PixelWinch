@@ -41,7 +41,7 @@
 // Adapters for bindings
 @property (nonatomic, weak) Preferences *preferences;
 @property (nonatomic, weak) Library *library;
-@property (nonatomic, strong) CanvasObject *selectedObject;
+@property (nonatomic, strong) CanvasObject *selectedObject DEPRECATED_ATTRIBUTE;
 
 @property (nonatomic, strong) NSIndexSet *librarySelectionIndexes;
 
@@ -73,13 +73,14 @@
 // These need to be strong as they are going to be added/removed from subviews
 @property (nonatomic, strong) IBOutlet NSView *grappleToolView;
 @property (nonatomic, strong) IBOutlet NSView *zoomToolView;
-@property (nonatomic, strong) IBOutlet NSView *rectangleObjectView;
 
 - (IBAction) showGrappleHelp:(id)sender;
 
 - (IBAction) zoomIn:(id)sender;
 - (IBAction) zoomOut:(id)sender;
 - (IBAction) zoomTo:(id)sender;
+
+- (IBAction) duplicate:(id)sender;
 
 - (IBAction) toggleGuides:(id)sender;
 

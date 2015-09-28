@@ -56,7 +56,7 @@
 
 - (void) reset { }
 - (void) didSelect { }
-- (void) didUnselect { }
+- (void) didDeselect { }
 
 - (void) canvasWindowDidAppear { }
 

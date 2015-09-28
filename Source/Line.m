@@ -64,19 +64,9 @@ static NSString * const sVerticalKey = @"vertical";
 }
 
 
-- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+- (NSString *) pasteboardString
 {
-    if ([self isValid]) {
-        NSString *stringToWrite = GetStringForFloat([self length]);
-
-        [pasteboard clearContents];
-        [pasteboard writeObjects:@[ stringToWrite ] ];
-
-        return YES;
-
-    } else {
-        return NO;
-    }
+    return GetStringForFloat([self length]);
 }
 
 

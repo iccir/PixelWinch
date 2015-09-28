@@ -44,6 +44,7 @@ extern objc_arc_weakLock __arc_weak_lock;
 - (IBAction) showPreferences:(id)sender;
 - (IBAction) showAbout:(id)sender;
 - (IBAction) visitWebsite:(id)sender;
+- (IBAction) viewGuide:(id)sender;
 - (IBAction) viewOnAppStore:(id)sender;
 - (IBAction) provideFeedback:(id)sender;
 - (IBAction) quit:(id)sender;

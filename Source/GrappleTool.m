@@ -543,7 +543,6 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
-
 - (void) didSelect
 {
     [self _updateLastPreviewGrapplePointWithCurrentMouseLocation];
@@ -551,7 +550,7 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
-- (void) didUnselect
+- (void) didDeselect
 {
     [self reset];
     [self updatePreviewGrapple];

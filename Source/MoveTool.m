@@ -38,7 +38,7 @@
 
 - (BOOL) mouseDownWithEvent:(NSEvent *)event
 {
-    [[[self owner] canvas] unselectAllObjects];
+    [[[self owner] canvas] deselectAllObjects];
     return NO;
 }
 

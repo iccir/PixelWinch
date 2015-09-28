@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
@@ -206,6 +205,23 @@
                                     <action selector="delete:" target="-1" id="HLt-Y8-xTb"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="hRs-t7-bCo"/>
+                            <menuItem title="Select All" keyEquivalent="a" id="x0z-2f-bHm">
+                                <connections>
+                                    <action selector="selectAll:" target="-1" id="aB9-9A-hxJ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Deselect All" keyEquivalent="d" id="vaV-D6-im4">
+                                <connections>
+                                    <action selector="deselectAll:" target="-1" id="EvC-5f-2lc"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Q4t-Z2-H4K"/>
+                            <menuItem title="Duplicate" keyEquivalent="D" id="SFc-JS-iPl">
+                                <connections>
+                                    <action selector="duplicate:" target="-1" id="53w-JA-Rb9"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -361,6 +377,13 @@ CA
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="r6M-Ie-0sh"/>
+                            <menuItem title="Quick Guide" id="hln-l6-eLu">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="viewGuide:" target="494" id="n5d-1z-aYx"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="qgw-KV-PHU"/>
                             <menuItem title="Visit Website" id="U3p-dD-cPJ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>

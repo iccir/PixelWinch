@@ -260,6 +260,12 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
         }
         
         [menuItem setTitle:title];
+
+    } else if (action == @selector(delete:) || action == @selector(cut:) || action == @selector(duplicate:)) {
+        return [[_canvas selectedObjects] count] > 0;
+
+    } else if (action == @selector(paste:)) {
+        return [[NSPasteboard generalPasteboard] dataForType:PasteboardTypeCanvasObjects] != nil;
     }
 
     return YES;
@@ -334,8 +340,12 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
             [_magnificationManager zoomIn];
             return;
 
+        } else if (c == 'a') {
+            [_canvas selectAllObjects];
+            return;
+
         } else if (c == 'd') {
-            if ([self _duplicateCurrentSelection]) return;
+            [_canvas deselectAllObjects];
             return;
 
         } else if (c == 's') {
@@ -368,6 +378,10 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
         } else if (c == '}') {
             [self loadNextLibraryItem:nil];
+            return;
+
+        } else if (c == 'D') {
+            [self duplicate:self];
             return;
         }
 
@@ -590,7 +604,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
             
             for (CanvasObject *selectedObject in [_canvas selectedObjects]) {
                 if (![selectedTool canSelectCanvasObject:selectedObject]) {
-                    [_canvas unselectObject:selectedObject];
+                    [_canvas deselectObject:selectedObject];
                 }
             }
 
@@ -1310,21 +1324,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
-- (void) _updateSelectedObject
-{
-    NSArray *objects = [_canvas selectedObjects];
-    NSInteger count = [objects count];
-
-    if (count > 1) {
-        [self setSelectedObject:NSMultipleValuesMarker];
-    } else if (count == 1) {
-        [self setSelectedObject:[objects lastObject]];
-    } else {
-        [self setSelectedObject:NSNoSelectionMarker];
-    }
-}
-
-
 - (void) _updateInspector
 {
     Tool *selectedTool = [_toolbox selectedTool];
@@ -1456,11 +1455,21 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (BOOL) _deleteSelectedObjects
 {
-    NSArray *selectedObjects = [_canvas selectedObjects];
-    
-    if ([selectedObjects count]) {
-        for (CanvasObject *selectedObject in selectedObjects) {
-            [_canvas removeCanvasObject:selectedObject];
+    NSArray   *selectedObjects = [_canvas selectedObjects];
+    NSUInteger count           = [selectedObjects count];
+
+    if (count > 0) {
+        if (count > 1) {
+            [[_canvas undoManager] beginUndoGrouping];
+
+            for (CanvasObject *selectedObject in selectedObjects) {
+                [_canvas removeCanvasObject:selectedObject];
+            }
+
+            [[_canvas undoManager] endUndoGrouping];
+
+        } else {
+            [_canvas removeCanvasObject:[selectedObjects lastObject]];
         }
 
         return YES;
@@ -1470,78 +1479,104 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
-- (BOOL) _moveSelectionWithArrowKey:(unichar)key delta:(CGFloat)delta
+- (BOOL) _canEdgeSelect
 {
-    CanvasObject *selectedObject = [self selectedObject];
-    ObjectEdge edge = _selectedEdge;
+    NSArray *selectedObjects = [_canvas selectedObjects];
 
-    if ([selectedObject isKindOfClass:[CanvasObject class]]) {
-        if (edge == ObjectEdgeNone) {
-            CGRect rect = [selectedObject rect];
+    if (![selectedObjects count]) {
+        return NO;
+    }
 
-            if (key == NSUpArrowFunctionKey) {
-                rect.origin.y -= delta;
-            } else if (key == NSDownArrowFunctionKey) {
-                rect.origin.y += delta;
-            } else if (key == NSLeftArrowFunctionKey) {
-                rect.origin.x -= delta;
-            } else if (key == NSRightArrowFunctionKey) {
-                rect.origin.x += delta;
-            }
-            
-            [selectedObject setRect:rect];
-
-        } else {
-            CGRect rect = [selectedObject rect];
-            
-            if (key == NSUpArrowFunctionKey || key == NSLeftArrowFunctionKey) {
-                delta = -delta;
-            }
+    Class objectClass = nil;
+    for (CanvasObject *object in selectedObjects) {
+        if (objectClass && ![object isKindOfClass:objectClass]) {
+            return NO;
+        }
         
-            if (key == NSUpArrowFunctionKey || key == NSDownArrowFunctionKey) {
-                if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeTop || edge == ObjectEdgeTopRight) {
-                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMinYEdge);
-                    value += delta;
-                    rect = GetRectByAdjustingEdge(rect, CGRectMinYEdge, value);
+        objectClass = [object class];
+    }
 
-                } else if (edge == ObjectEdgeBottomLeft || edge == ObjectEdgeBottom || edge == ObjectEdgeBottomRight) {
-                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxYEdge);
-                    value += delta;
-                    rect = GetRectByAdjustingEdge(rect, CGRectMaxYEdge, value);
+    return YES;
+}
+
+
+- (BOOL) _moveSelectionWithArrowKey:(unichar)key delta:(CGFloat)inDelta
+{
+    NSArray *selectedObjects = [_canvas selectedObjects];
+    BOOL didMove = NO;
+
+    for (CanvasObject *selectedObject in selectedObjects) {
+        CGFloat delta = inDelta;
+        ObjectEdge edge = _selectedEdge;
+
+        if ([selectedObject isKindOfClass:[CanvasObject class]]) {
+            if (edge == ObjectEdgeNone) {
+                CGRect rect = [selectedObject rect];
+
+                if (key == NSUpArrowFunctionKey) {
+                    rect.origin.y -= delta;
+                } else if (key == NSDownArrowFunctionKey) {
+                    rect.origin.y += delta;
+                } else if (key == NSLeftArrowFunctionKey) {
+                    rect.origin.x -= delta;
+                } else if (key == NSRightArrowFunctionKey) {
+                    rect.origin.x += delta;
                 }
+                
+                [selectedObject setRect:rect];
 
             } else {
-                if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeLeft || edge == ObjectEdgeBottomLeft) {
-                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMinXEdge);
-                    value += delta;
-                    rect = GetRectByAdjustingEdge(rect, CGRectMinXEdge, value);
-
-                } else if (edge == ObjectEdgeTopRight || edge == ObjectEdgeRight || edge == ObjectEdgeBottomRight) {
-                    CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxXEdge);
-                    value += delta;
-                    rect = GetRectByAdjustingEdge(rect, CGRectMaxXEdge, value);
+                CGRect rect = [selectedObject rect];
+                
+                if (key == NSUpArrowFunctionKey || key == NSLeftArrowFunctionKey) {
+                    delta = -delta;
                 }
-            }
-    
-            // Fade out resize knob during a move for lines
-            //
-            if ([selectedObject isKindOfClass:[Line class]] && _selectedEdge) {
-                NSArray *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[selectedObject GUID]];
-             
-                for (ResizeKnobView *knob in resizeKnobs) {
-                    if ([knob edge] == _selectedEdge) {
-                        [knob hideMomentarily];
+            
+                if (key == NSUpArrowFunctionKey || key == NSDownArrowFunctionKey) {
+                    if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeTop || edge == ObjectEdgeTopRight) {
+                        CGFloat value = GetEdgeValueOfRect(rect, CGRectMinYEdge);
+                        value += delta;
+                        rect = GetRectByAdjustingEdge(rect, CGRectMinYEdge, value);
+
+                    } else if (edge == ObjectEdgeBottomLeft || edge == ObjectEdgeBottom || edge == ObjectEdgeBottomRight) {
+                        CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxYEdge);
+                        value += delta;
+                        rect = GetRectByAdjustingEdge(rect, CGRectMaxYEdge, value);
+                    }
+
+                } else {
+                    if (edge == ObjectEdgeTopLeft || edge == ObjectEdgeLeft || edge == ObjectEdgeBottomLeft) {
+                        CGFloat value = GetEdgeValueOfRect(rect, CGRectMinXEdge);
+                        value += delta;
+                        rect = GetRectByAdjustingEdge(rect, CGRectMinXEdge, value);
+
+                    } else if (edge == ObjectEdgeTopRight || edge == ObjectEdgeRight || edge == ObjectEdgeBottomRight) {
+                        CGFloat value = GetEdgeValueOfRect(rect, CGRectMaxXEdge);
+                        value += delta;
+                        rect = GetRectByAdjustingEdge(rect, CGRectMaxXEdge, value);
                     }
                 }
+        
+                // Fade out resize knob during a move for lines
+                //
+                if ([selectedObject isKindOfClass:[Line class]] && _selectedEdge) {
+                    NSArray *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[selectedObject GUID]];
+                 
+                    for (ResizeKnobView *knob in resizeKnobs) {
+                        if ([knob edge] == _selectedEdge) {
+                            [knob hideMomentarily];
+                        }
+                    }
+                }
+        
+                [selectedObject setRect:rect];
             }
-    
-            [selectedObject setRect:rect];
-        }
 
-        return YES;
+            didMove = YES;
+        }
     }
-    
-    return NO;
+
+    return didMove;
 }
 
 
@@ -1593,41 +1628,44 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (BOOL) _selectEdgeWithArrowKey:(unichar)key
 {
-    NSArray *selectedObjects = [_canvas selectedObjects];
-    CanvasObject *object = [selectedObjects count] == 1 ? [selectedObjects lastObject] : nil;
-    
-    if (!object) {
-        return NO;
-    }
-    
     ObjectEdge newSelectedEdge = ObjectEdgeNone;
     
-    if ([object isKindOfClass:[Rectangle class]]) {
-        newSelectedEdge = [self _edgeOfRectangleByApplyingArrowKey:key toEdge:_selectedEdge];
+    for (CanvasObject *selectedObject in [_canvas selectedObjects]) {
+        ObjectEdge edgeForThisObject = ObjectEdgeNone;
+    
+        if ([selectedObject isKindOfClass:[Rectangle class]]) {
+            edgeForThisObject = [self _edgeOfRectangleByApplyingArrowKey:key toEdge:_selectedEdge];
 
-    } else if ([object isKindOfClass:[Line class]]) {
-        Line *line = (Line *)object;
+        } else if ([selectedObject isKindOfClass:[Line class]]) {
+            Line *line = (Line *)selectedObject;
 
-        if ([line isVertical]) {
-            if (key == NSUpArrowFunctionKey) {
-                newSelectedEdge = ObjectEdgeTop;
-            } else if (key == NSDownArrowFunctionKey) {
-                newSelectedEdge = ObjectEdgeBottom;
+            if ([line isVertical]) {
+                if (key == NSUpArrowFunctionKey) {
+                    edgeForThisObject = ObjectEdgeTop;
+                } else if (key == NSDownArrowFunctionKey) {
+                    edgeForThisObject = ObjectEdgeBottom;
+                }
+                
             } else {
-                return NO;
-            }
-            
-        } else {
-            if (key == NSLeftArrowFunctionKey) {
-                newSelectedEdge = ObjectEdgeLeft;
-            } else if (key == NSRightArrowFunctionKey) {
-                newSelectedEdge = ObjectEdgeRight;
-            } else {
-                return NO;
+                if (key == NSLeftArrowFunctionKey) {
+                    edgeForThisObject = ObjectEdgeLeft;
+                } else if (key == NSRightArrowFunctionKey) {
+                    edgeForThisObject = ObjectEdgeRight;
+                }
             }
         }
+        
+        if (edgeForThisObject == ObjectEdgeNone) {
+            return NO;
+        }
+        
+        newSelectedEdge = edgeForThisObject;
     }
-    
+
+    if (newSelectedEdge == ObjectEdgeNone) {
+        return NO;
+    }
+
     [self _updateSelectedEdge:newSelectedEdge];
     
     return YES;
@@ -1636,19 +1674,17 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (void) _updateSelectedEdge:(ObjectEdge)edge
 {
-    NSArray *selectedObjects = [_canvas selectedObjects];
-    CanvasObject *object = [selectedObjects count] == 1 ? [selectedObjects lastObject] : nil;
-    if (!object) return;
-
     _selectedEdge = edge;
     
-    NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[object GUID]];
- 
-    for (ResizeKnobView *knob in resizeKnobs) {
-        if ([knob edge] == _selectedEdge) {
-            [knob setHighlighted:[[[knob owningObjectView] canvasObject] isEqual:object]];
-        } else {
-            [knob setHighlighted:NO];
+    for (CanvasObject *selectedObject in [_canvas selectedObjects]) {
+        NSArray *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:[selectedObject GUID]];
+     
+        for (ResizeKnobView *knob in resizeKnobs) {
+            if ([knob edge] == _selectedEdge) {
+                [knob setHighlighted:[[[knob owningObjectView] canvasObject] isEqual:selectedObject]];
+            } else {
+                [knob setHighlighted:NO];
+            }
         }
     }
 }
@@ -1663,34 +1699,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 - (BOOL) _expandCurrentSelection
 {
     return NO;
-}
-
-
-- (BOOL) _duplicateCurrentSelection
-{
-    NSMutableArray *duplicates = [NSMutableArray array];
-
-    for (CanvasObject *object in [_canvas selectedObjects]) {
-        CanvasObject *duplicate = [object duplicate];
-
-        if (duplicate) {
-            CGRect rect = [duplicate rect];
-            rect.origin.x += 10;
-            rect.origin.y += 10;
-            [duplicate setRect:rect];
-            
-            [_canvas addCanvasObject:duplicate];
-            [duplicates addObject:duplicate];
-        }
-    }
-
-    CanvasObject *lastDuplicate = [duplicates lastObject];
-    if (lastDuplicate) {
-        [_canvas unselectAllObjects];
-        [_canvas selectObject:lastDuplicate];
-    }
-
-    return (lastDuplicate != nil);
 }
 
 
@@ -1783,12 +1791,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [[_canvasView measurementLabelWithGUID:GUID] setSelected:YES];
 
     [self _updateSelectedEdge:ObjectEdgeNone];
-    
-    [self _updateSelectedObject];
 }
 
 
-- (void) canvas:(Canvas *)canvas didUnselectObject:(CanvasObject *)object
+- (void) canvas:(Canvas *)canvas didDeselectObject:(CanvasObject *)object
 {
     NSString *GUID = [object GUID];
     NSArray  *resizeKnobs = [_GUIDToResizeKnobsMap objectForKey:GUID];
@@ -1802,8 +1808,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     }
 
     [_GUIDToResizeKnobsMap removeObjectForKey:GUID];
-
-    [self _updateSelectedObject];
 }
 
 
@@ -1839,7 +1843,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         ObjectEdge edge = [knobView edge];
 
-        [self setSelectedObject:object];
+        [_canvas deselectAllObjects];
+        [_canvas selectObject:object];
         [self _updateSelectedEdge:edge];
     }
 }
@@ -1857,7 +1862,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     if ([object isKindOfClass:[Rectangle class]] ||
         [object isKindOfClass:[Line class]])
     {
-        [_canvas unselectAllObjects];
+        [_canvas deselectAllObjects];
         [_canvas selectObject:object];
     }
 }
@@ -1913,15 +1918,31 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     CanvasObject *canvasObject = [objectView canvasObject];
 
     if ([selectedTool canSelectCanvasObject:canvasObject] && [canvasObject isSelectable]) {
-        [_canvas unselectAllObjects];
-        [_canvas selectObject:canvasObject];
+        NSArray *selectedObjects = [_canvas selectedObjects];
+        NSEventModifierFlags flags = [[NSApp currentEvent] modifierFlags];
+
+        if ((flags & (NSShiftKeyMask|NSCommandKeyMask)) > 0) {
+            if ([selectedObjects containsObject:canvasObject]) {
+                [_canvas deselectObject:canvasObject];
+            } else {
+                [_canvas selectObject:canvasObject];
+            }
+        
+        } else if (![selectedObjects containsObject:canvasObject]) {
+            [_canvas deselectAllObjects];
+            [_canvas selectObject:canvasObject];
+        }
+    }
+
+    for (CanvasObject *selectedObject in [_canvas selectedObjects]) {
+        [selectedObject prepareRelativeMove];
     }
 }
 
 
 - (void) canvasView:(CanvasView *)view didTrackObjectView:(CanvasObjectView *)objectView
 {
-    // No op
+
 }
 
 
@@ -2055,7 +2076,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         [self _updateSelectedEdge:ObjectEdgeNone];
 
     } else if ([[_canvas selectedObjects] count]) {
-        [_canvas unselectAllObjects];
+        [_canvas deselectAllObjects];
 
     } else if (useEscapeToClose) {
         [self hide];
@@ -2388,17 +2409,30 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 {
     NSPasteboard *pboard = [NSPasteboard generalPasteboard];
 
-    CanvasObject *objectToWrite = [self selectedObject];
-    if (![objectToWrite isKindOfClass:[CanvasObject class]]) {
-        objectToWrite = nil;
+    if ([_toolbox selectedTool] == [_toolbox marqueeTool]) {
+        Marquee *lastMarquee = [[_canvas canvasObjectsWithGroupName:[Marquee groupName]] lastObject];
+
+        if ([lastMarquee writeToPasteboard:[NSPasteboard generalPasteboard]]) {
+            return;
+        }
     }
 
-    if ([_toolbox selectedTool] == [_toolbox marqueeTool]) {
-        NSArray *marquees = [_canvas canvasObjectsWithGroupName:[Marquee groupName]];
-        objectToWrite = [marquees lastObject];
-    }
-    
-    if (![objectToWrite writeToPasteboard:pboard]) {
+    NSArray *selectedObjects = [_canvas selectedObjects];
+    if ([selectedObjects count]) {
+        NSMutableArray *lines = [NSMutableArray array];
+        
+        for (CanvasObject *selectedObject in selectedObjects) {
+            NSString *line = [selectedObject pasteboardString];
+            if ([line length]) [lines addObject:line];
+        }
+
+        [pboard clearContents];
+        [pboard setString:[lines componentsJoinedByString:@"\n"] forType:NSStringPboardType];
+        
+        NSData *data = [CanvasObject pasteboardDataWithCanvasObjects:selectedObjects];
+        if (data) [pboard setData:data forType:PasteboardTypeCanvasObjects];
+
+    } else {
         CGImageRef cgImage = [[_currentLibraryItem screenshot] CGImage];
         
         if (cgImage) {
@@ -2410,6 +2444,76 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         } else {
             NSBeep();
         }
+    }
+}
+
+
+- (void) delete:(id)sender
+{
+    [self _deleteSelectedObjects];
+}
+
+
+- (IBAction) cut:(id)sender
+{
+    [self copy:sender];
+    [self delete:sender];
+
+    [[self undoManager] setActionName:NSLocalizedString(@"Cut", nil)];
+}
+
+
+- (IBAction) paste:(id)sender
+{
+    NSData *data = [[NSPasteboard generalPasteboard] dataForType:PasteboardTypeCanvasObjects];
+    if (!data) return;
+
+    NSArray *objects = [CanvasObject canvasObjectsWithPasteboardData:data];
+    
+    for (CanvasObject *object in objects) {
+        [_canvas addCanvasObject:object];
+    }
+
+    [_canvas deselectAllObjects];
+    for (CanvasObject *object in objects) {
+        [_canvas selectObject:object];
+    }
+}
+
+- (IBAction) selectAll:(id)sender
+{
+    [_canvas selectAllObjects];
+}
+
+
+- (IBAction) deselectAll:(id)sender
+{
+    [_canvas deselectAllObjects];
+}
+
+
+- (IBAction) duplicate:(id)Sender
+{
+    NSMutableArray *duplicates = [NSMutableArray array];
+
+    for (CanvasObject *object in [_canvas selectedObjects]) {
+        CanvasObject *duplicate = [object duplicate];
+
+        if (duplicate) {
+            CGRect rect = [duplicate rect];
+            rect.origin.x += 10;
+            rect.origin.y += 10;
+            [duplicate setRect:rect];
+            
+            [_canvas addCanvasObject:duplicate];
+            [duplicates addObject:duplicate];
+        }
+    }
+
+    CanvasObject *lastDuplicate = [duplicates lastObject];
+    if (lastDuplicate) {
+        [_canvas deselectAllObjects];
+        [_canvas selectObject:lastDuplicate];
     }
 }
 

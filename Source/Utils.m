@@ -46,6 +46,12 @@ NSString *GetPixelWinchWebsiteURLString(void)
 }
 
 
+NSString *GetPixelWinchGuideURLString(void)
+{
+    return @"http://www.ricciadams.com/projects/pixel-winch/guide";
+}
+
+
 NSString *GetPixelWinchOnAppStoreURLString(void)
 {
     return @"http://www.ricciadams.com/buy/pixel-winch";

@@ -16,10 +16,15 @@ static NSString * const sYKey         = @"y";
 static NSString * const sWidthKey     = @"width";
 static NSString * const sHeightKey    = @"height";
 
+static NSString * const sGroupNameKey = @"groupName";
+
+NSString * const PasteboardTypeCanvasObjects = @"com.pixelwinch.PixelWinch.PasteboardTypeCanvasObjects";
+
 static NSMutableDictionary *sGroupNameToClassMap = nil;
 
 @implementation CanvasObject {
-    CGRect _rect;
+    CGRect    _rect;
+    CGPoint   _relativeMoveOrigin;
     NSInteger _changeCount;
 }
 
@@ -55,6 +60,59 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
     }
 
     [sGroupNameToClassMap setObject:self forKey:[self groupName]];
+}
+
+
++ (NSData *) pasteboardDataWithCanvasObjects:(NSArray<CanvasObject *> *)objects
+{
+    if (!objects) return nil;
+
+    NSMutableArray *dictionaries = [NSMutableArray array];
+    
+    for (CanvasObject *object in objects) {
+        NSMutableDictionary *dictionary = [[object dictionaryRepresentation] mutableCopy];
+        [dictionary setObject:[[object class] groupName] forKey:sGroupNameKey];
+        if (dictionary) [dictionaries addObject:dictionary];
+    }
+
+    NSError *error = nil;
+    NSData  *data  = [NSPropertyListSerialization dataWithPropertyList:dictionaries format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
+    
+    return (data && !error) ? data : nil;
+}
+
+
++ (NSArray<CanvasObject *> *) canvasObjectsWithPasteboardData:(NSData *)data
+{
+    if (!data) return nil;
+
+    NSMutableArray *result = [NSMutableArray array];
+    NSArray *plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:nil];
+
+    if ([plist isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *dictionary in plist) {
+            NSString *groupName = [dictionary objectForKey:sGroupNameKey];
+            if (!groupName) continue;
+
+            Class cls = [sGroupNameToClassMap objectForKey:groupName];
+            if (!cls) continue;
+
+            CanvasObject *object = [[cls alloc] init];
+            if (!object) continue;
+
+            NSString      *GUID      = [object GUID];
+            NSTimeInterval timestamp = [object timestamp];
+            
+            [object readFromDictionary:dictionary];
+            
+            object->_GUID      = GUID;
+            object->_timestamp = timestamp;
+                        
+            [result addObject:object];
+        }
+    }
+    
+    return result;
 }
 
 
@@ -106,9 +164,15 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 }
 
 
-- (BOOL) writeToPasteboard:(NSPasteboard *)pasteboard
+- (NSArray<NSString *> *) writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
-    return NO;
+    return @[ ];
+}
+
+
+- (nullable id) pasteboardPropertyListForType:(NSString *)type
+{
+    return nil;
 }
 
 
@@ -129,6 +193,23 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
     if (_changeCount == 0) {
         [[self canvas] canvasObjectDidUpdate:self];
     }
+}
+
+
+- (void) prepareRelativeMove
+{
+    _relativeMoveOrigin = [self rect].origin;
+}
+
+
+- (void) performRelativeMoveWithDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY
+{
+    CGRect rect = [self rect];
+
+    rect.origin.x = _relativeMoveOrigin.x + deltaX;
+    rect.origin.y = _relativeMoveOrigin.y + deltaY;
+
+    [self setRect:rect];
 }
 
 
@@ -224,6 +305,12 @@ static NSMutableDictionary *sGroupNameToClassMap = nil;
 - (CGFloat) originY    { return _rect.origin.y;    }
 - (CGFloat) sizeWidth  { return _rect.size.width;  }
 - (CGFloat) sizeHeight { return _rect.size.height; }
+
+
+- (NSString *) pasteboardString
+{
+    return nil;
+}
 
 
 - (BOOL) isValid
