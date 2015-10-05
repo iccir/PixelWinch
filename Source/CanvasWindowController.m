@@ -53,6 +53,8 @@
 #import "CursorAdditions.h"
 #import "ReceiptValidation_B.h"
 #import "ReceiptValidation_C.h"
+#import "ReceiptValidation_D.h"
+#import "ReceiptValidation_E.h"
 
 
 #if 0 && DEBUG
@@ -127,20 +129,11 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     [(__bridge id)(void *)(       shouldBeZero_i  << 16) copy];
     [(__bridge id)(void *)(lround(shouldBeZero_f) << 24) copy];
 
-    // duration = screenshots * 3
-    NSTimeInterval a = (__arc_weak_lock.s1 + 1) * -4;
-    NSTimeInterval b = (__arc_weak_lock.s2 - 1) *  4;
+    NSTimeInterval a = ((       shouldBeZero_i  + 1) << 3) - 3;
+    NSInteger      b = ((lround(shouldBeZero_f) + 1) << 3) - 3;
 
-    // duration = MIN(duration, 8)
-    a = MIN(a, ((       shouldBeZero_i  + 1) << 3));
-    b = MIN(b, ((lround(shouldBeZero_f) + 1) << 3));
-
-    // duration = MAX(duration, 0)
-    a = MAX(a, shouldBeZero_i);
-    b = MAX(b, shouldBeZero_i);
-    
     *outA = a;
-    *outB = b;
+    *outB = round(b);
 }
 
 
@@ -2269,12 +2262,18 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     CGFloat outDuration = 0;
     sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
 
+    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC));
+
+#if ENABLE_TRIAL
+    E_CheckReceipt();
+#endif
+
     if (outDuration) {
         LOG(@"Adding blocker, will remove after %g seconds", outDuration);
 
         [viewToBlock addSubview:blockerView];
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(time, dispatch_get_main_queue(), ^{
             sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
             [blockerView removeFromSuperview];
         });
@@ -2349,6 +2348,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         CGFloat outDuration = 0;
         sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
+
+#if ENABLE_TRIAL
+        D_CheckReceipt();
+#endif
 
         if (outDuration) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
