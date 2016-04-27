@@ -59,6 +59,7 @@
 - (void) didDeselect { }
 
 - (void) canvasWindowDidAppear { }
+- (void) canvasWindowDidResign { }
 
 - (void) flagsChangedWithEvent:(NSEvent *)event { }
 

@@ -41,6 +41,7 @@
 - (void) didSelect;
 
 - (void) canvasWindowDidAppear;
+- (void) canvasWindowDidResign;
 
 - (void) flagsChangedWithEvent:(NSEvent *)event;
 

@@ -543,6 +543,13 @@ static NSString * const sToleranceKey = @"tolerance";
 }
 
 
+- (void) canvasWindowDidResign
+{
+    _previewPoint = NSMakePoint(NAN, NAN);
+    [self updatePreviewGrapple];
+}
+
+
 - (void) didSelect
 {
     [self _updateLastPreviewGrapplePointWithCurrentMouseLocation];

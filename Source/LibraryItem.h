@@ -27,4 +27,8 @@
 @property (atomic, copy)     NSString *dateString;
 @property (atomic, readonly) NSString *titleOrDateString;
 
+// Not persisted
+@property (atomic) CGFloat magnification;
+@property (atomic) CGPoint scrollOrigin;
+
 @end

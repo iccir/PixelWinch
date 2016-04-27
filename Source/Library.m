@@ -16,7 +16,7 @@
 
 
 @interface Library ()
-@property (strong) NSMutableArray *items;
+@property (nonatomic, strong) NSMutableArray *items;
 @end
 
 

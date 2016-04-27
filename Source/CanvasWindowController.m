@@ -259,6 +259,15 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     } else if (action == @selector(paste:)) {
         return [[NSPasteboard generalPasteboard] dataForType:PasteboardTypeCanvasObjects] != nil;
+
+    } else if (action == @selector(exportItem:) ||
+               action == @selector(zoomIn:)     ||
+               action == @selector(zoomOut:)    ||
+               action == @selector(zoomTo:)     ||
+               action == @selector(zoomToFit:)  ||
+               action == @selector(deleteSelectedLibraryItem:))
+    {
+        return _currentLibraryItem != nil;
     }
 
     return YES;
@@ -350,6 +359,9 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
             [_magnificationManager setMagnification:level];
             return;
 
+        } else if (c == '0') {
+            [self zoomToFit:self];
+        
         } else if (isArrowKey) {
             if ([self _selectEdgeWithArrowKey:c]) {
                 return;
@@ -383,6 +395,9 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
             if ([self _moveSelectionWithArrowKey:c delta:10]) {
                 return;
             }
+            
+        } else if (c == 'S') {
+            [self exportItem:self];
 
         } else if (c == 'G') {
             GrappleTool *grappleTool = [_toolbox grappleTool];
@@ -1354,6 +1369,14 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 {
     Screenshot *screenshot = [item screenshot];
 
+    if (_currentLibraryItem) {
+        NSPoint scrollOrigin  = [_canvasScrollView documentVisibleRect].origin;
+        CGFloat magnification = [_magnificationManager magnification];
+
+        [_currentLibraryItem setMagnification:magnification];
+        [_currentLibraryItem setScrollOrigin:scrollOrigin];
+    }
+
     // Step two, update canvas if needed
     if ([_canvas screenshot] != screenshot) {
         _GUIDToViewMap        = [NSMutableDictionary dictionary];
@@ -1400,27 +1423,20 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     }
 
     // Step three, figure out magnification level
-    {
-        NSSize  availableSize = [_canvasScrollView documentVisibleRect].size;
-        CGFloat backingScale  = [[_canvasScrollView window] backingScaleFactor];
+    if ([_currentLibraryItem magnification]) {
+        [_magnificationManager setMagnification:[_currentLibraryItem magnification]];
         
-        availableSize.width  *= backingScale;
-        availableSize.height *= backingScale;
+        [[_canvasScrollView contentView] scrollToPoint:[_currentLibraryItem scrollOrigin]];
+        [_canvasScrollView reflectScrolledClipView:[_canvasScrollView contentView]];
         
-        NSSize canvasSize    = [_canvas size];
+    } else { 
+        [self zoomToFit:self];
 
-        CGFloat xScale = availableSize.width / canvasSize.width;
-        CGFloat yScale = availableSize.height / canvasSize.height;
-
-        NSArray *levels = [_magnificationManager levelsForSlider];
-        NSInteger index = [_magnificationManager indexInArray:levels forMagnification:(xScale < yScale ? xScale : yScale)];
-
-        CGFloat level = [[levels objectAtIndex:index] doubleValue];
-        [_magnificationManager setMagnification:level];
-        
-        _liveMagnificationLevel = NAN;
     }
+
+    _liveMagnificationLevel = NAN;
 }
+
 
 
 #pragma mark - Selection
@@ -2159,6 +2175,12 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
+- (void) windowDidResignKey:(NSNotification *)notification
+{
+    [[_toolbox selectedTool] canvasWindowDidResign];
+}
+
+
 - (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)window
 {
     return [_canvas undoManager];
@@ -2604,6 +2626,27 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 }
 
 
+- (IBAction) zoomToFit:(id)sender
+{
+    NSSize  availableSize = [_canvasScrollView documentVisibleRect].size;
+    CGFloat backingScale  = [[_canvasScrollView window] backingScaleFactor];
+    
+    availableSize.width  *= backingScale;
+    availableSize.height *= backingScale;
+    
+    NSSize canvasSize    = [_canvas size];
+
+    CGFloat xScale = availableSize.width / canvasSize.width;
+    CGFloat yScale = availableSize.height / canvasSize.height;
+
+    NSArray *levels = [_magnificationManager levelsForSlider];
+    NSInteger index = [_magnificationManager indexInArray:levels forMagnification:(xScale < yScale ? xScale : yScale)];
+
+    CGFloat level = [[levels objectAtIndex:index] doubleValue];
+    [_magnificationManager setMagnification:level];
+}
+
+
 - (IBAction) toggleGuides:(id)sender
 {
     NSString *guideGroupName = [Guide groupName];
@@ -2622,6 +2665,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 - (IBAction) exportItem:(id)sender
 {
+    if (!_currentLibraryItem) return;
+
     NSSavePanel *savePanel = [NSSavePanel savePanel];
 
     [savePanel setNameFieldStringValue:@"Pixel Winch Image"];
