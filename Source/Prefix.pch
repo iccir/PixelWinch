@@ -3,6 +3,8 @@
     @import AppKit;
     @import QuartzCore;
 
+    #import "rcbump.h"
+
     #import "ViewAdditions.h"
 
     #import "Utils.h"

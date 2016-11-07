@@ -261,6 +261,7 @@
 		55A1A7771DCDC2FB0037DF9C /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseView.m; path = Source/BaseView.m; sourceTree = "<group>"; };
 		55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAdditions.h; path = Source/ViewAdditions.h; sourceTree = "<group>"; };
 		55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAdditions.m; path = Source/ViewAdditions.m; sourceTree = "<group>"; };
+		55A1A7891DD0846A0037DF9C /* rcbump.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = rcbump.h; path = Source/rcbump.h; sourceTree = "<group>"; };
 		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		55ADF8E4182B7E20008F1CEB /* RectangleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
@@ -431,6 +432,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				55A1A7891DD0846A0037DF9C /* rcbump.h */,
 				555153421819FC3A004485F6 /* Application.h */,
 				555153431819FC3A004485F6 /* Application.m */,
 				553AC78F17F7DCC200C253C2 /* Utils.h */,
@@ -925,7 +927,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "which rcbump\nif [ $? -eq 0 ]; then\n    rcbump build\n    exit $?\nfi";
+			shellScript = "which rcbump\nif [ $? -eq 0 ]; then\n    rcbump build Source/rcbump.h\n    exit $?\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
