@@ -6,7 +6,20 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+
+extern NSString * const WinchFeedbackURLString;
+extern NSString * const WinchWebsiteURLString;
+extern NSString * const WinchGuideURLString;
+extern NSString * const WinchAppStoreURLString;
+
+
+// InvalidReceiptDelta will show up in a dissassembler as "kMeasurementScaleMode"
+#define InvalidReceiptDelta kMeasurementScaleMode
+extern CGFloat InvalidReceiptDelta;
+
+#define NSStringFromCGPoint(P) NSStringFromPoint(NSPointFromCGPoint(P))
+#define NSStringFromCGSize(S)  NSStringFromSize(NSSizeFromCGSize(S))
+#define NSStringFromCGRect(R)  NSStringFromRect(NSRectFromCGRect(R))
 
 static inline CGFLOAT_TYPE ScaleRound(CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
 {
@@ -23,8 +36,12 @@ static inline CGFLOAT_TYPE ScaleCeil( CGFLOAT_TYPE x, CGFLOAT_TYPE scaleFactor)
     return ceil( x * scaleFactor) / scaleFactor;
 }
 
-#define InvalidReceiptDelta kMeasurementScaleMode
-extern CGFloat InvalidReceiptDelta;
+extern BOOL WinchSwizzleMethod(Class cls, char plusOrMinus, SEL selA, SEL selB);
+extern BOOL WinchAliasMethod(Class cls, char plusOrMinus, SEL originalSel, SEL aliasSel);
+
+extern CGContextRef GetCurrentGraphicsContext(void);
+extern void PushGraphicsContext(CGContextRef context);
+extern void PopGraphicsContext(void);
 
 extern void WinchLog(NSString *category,  NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
 extern void WinchWarn(NSString *category, NSString *format, ...) NS_FORMAT_FUNCTION(2,3);
@@ -51,6 +68,12 @@ extern NSTimer *MakeWeakTimer(NSTimeInterval timeInterval, id target, SEL select
 extern NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, SEL selector, id userInfo, BOOL repeats);
 
 extern NSImage *GetSnapshotImageForView(NSView *view);
+
+
+extern CGPathRef CopyPathWithBezierPath(NSBezierPath *path) CF_RETURNS_RETAINED;
+
+extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets);
+extern NSImage *MakeImageWithCGImage(CGImageRef cgImage, CGFloat scale);
 
 extern CGContextRef CreateBitmapContext(CGSize size, BOOL opaque, CGFloat scale);
 extern CGImageRef   CreateImageMask(CGSize size, CGFloat scale, void (^callback)(CGContextRef));

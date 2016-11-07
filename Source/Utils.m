@@ -14,10 +14,98 @@
 
 #import <objc/runtime.h>
 
+static NSMutableArray *sGraphicsContextStack = nil;
+
+NSString * const WinchFeedbackURLString = @"http://www.ricciadams.com/contact/pixel-winch";
+NSString * const WinchWebsiteURLString  = @"http://www.ricciadams.com/projects/pixel-winch";
+NSString * const WinchGuideURLString    = @"http://www.ricciadams.com/projects/pixel-winch/guide";
+NSString * const WinchAppStoreURLString = @"http://www.ricciadams.com/buy/pixel-winch";
+
+
 #define InvalidReceiptDeltaThreshold k3xWorkaround
 static CGFloat InvalidReceiptDeltaThreshold = 6.0;
 
 CGFloat InvalidReceiptDelta = 0.0;
+
+#pragma mark - Compatibility
+
+
+BOOL WinchSwizzleMethod(Class cls, char plusOrMinus, SEL selA, SEL selB)
+{
+    if (plusOrMinus == '+') {
+        const char *clsName = class_getName(cls);
+        cls = objc_getMetaClass(clsName);
+    }
+
+	Method methodA = class_getInstanceMethod(cls, selA);
+    if (!methodA) return NO;
+	
+	Method methodB = class_getInstanceMethod(cls, selB);
+	if (!methodB) return NO;
+	
+	class_addMethod(cls, selA, class_getMethodImplementation(cls, selA), method_getTypeEncoding(methodA));
+	class_addMethod(cls, selB, class_getMethodImplementation(cls, selB), method_getTypeEncoding(methodB));
+	
+	method_exchangeImplementations(class_getInstanceMethod(cls, selA), class_getInstanceMethod(cls, selB));
+
+	return YES;
+}
+
+
+BOOL WinchAliasMethod(Class cls, char plusOrMinus, SEL originalSel, SEL aliasSel)
+{
+    BOOL result = NO;
+
+    if (plusOrMinus == '+') {
+        const char *clsName = class_getName(cls);
+        cls = objc_getMetaClass(clsName);
+    }
+
+    Method method = class_getInstanceMethod(cls, originalSel);
+
+    if (method) {
+        IMP         imp    = method_getImplementation(method);
+        const char *types  = method_getTypeEncoding(method);
+
+        result = class_addMethod(cls, aliasSel, imp, types);
+    }
+
+#if DEBUG
+    if (!result) {
+        @autoreleasepool {
+            NSLog(@"XUIAliasMethod(): could not alias '%@' to '%@'", NSStringFromSelector(originalSel), NSStringFromSelector(aliasSel));
+        }
+    }
+#endif
+
+    return result;
+}
+
+
+CGContextRef GetCurrentGraphicsContext()
+{
+    return [[NSGraphicsContext currentContext] graphicsPort];
+}
+
+
+void PushGraphicsContext(CGContextRef ctx)
+{
+    if (!sGraphicsContextStack) {
+        sGraphicsContextStack = [NSMutableArray array];
+    }
+
+    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+
+    if (currentContext) [sGraphicsContextStack addObject:currentContext];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:(void *)ctx flipped:YES]];
+}
+
+
+void PopGraphicsContext()
+{
+    [NSGraphicsContext setCurrentContext:[sGraphicsContextStack lastObject]];
+    [sGraphicsContextStack removeLastObject];
+}
 
 
 BOOL IsInDebugger(void)
@@ -227,6 +315,80 @@ NSImage *GetSnapshotImageForView(NSView *view)
     [image unlockFocus];
 
     return image;
+}
+
+
+extern CGPathRef CopyPathWithBezierPath(NSBezierPath *inPath)
+{
+    CGMutablePathRef path = CGPathCreateMutable();
+    NSPoint p[3];
+    BOOL closed = NO;
+
+    NSInteger elementCount = [inPath elementCount];
+    for (NSInteger i = 0; i < elementCount; i++) {
+        switch ([inPath elementAtIndex:i associatedPoints:p]) {
+        case NSMoveToBezierPathElement:
+            CGPathMoveToPoint(path, NULL, p[0].x, p[0].y);
+            break;
+
+        case NSLineToBezierPathElement:
+            CGPathAddLineToPoint(path, NULL, p[0].x, p[0].y);
+            closed = NO;
+            break;
+
+        case NSCurveToBezierPathElement:
+            CGPathAddCurveToPoint(path, NULL, p[0].x, p[0].y, p[1].x, p[1].y, p[2].x, p[2].y);
+            closed = NO;
+            break;
+
+        case NSClosePathBezierPathElement:
+            CGPathCloseSubpath(path);
+            closed = YES;
+            break;
+        }
+    }
+
+    if (!closed) CGPathCloseSubpath(path);
+
+    CGPathRef immutablePath = CGPathCreateCopy(path);
+    CFRelease(path);
+    
+    return immutablePath;
+}
+
+
+
+NSImage *MakeImageWithCGImage(CGImageRef cgImage, CGFloat scale)
+{
+    if (!cgImage) {
+        return nil;
+    }
+    
+    if (!scale) scale = 1;
+
+    NSSize size = NSMakeSize(
+        CGImageGetWidth(cgImage)  / scale,
+        CGImageGetHeight(cgImage) / scale
+    );
+    
+    NSImage *result = [[NSImage alloc] initWithSize:size];
+
+    if (result) {
+        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+        [result addRepresentation:rep];
+    }
+
+    return result;
+}
+
+
+extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets)
+{
+    rect.origin.x    += insets.left;
+    rect.origin.y    += insets.top;
+    rect.size.width  -= (insets.left + insets.right);
+    rect.size.height -= (insets.top  + insets.bottom);
+    return rect;
 }
 
 

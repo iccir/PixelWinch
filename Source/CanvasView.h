@@ -6,13 +6,14 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseView.h"
+
 
 @class CanvasObjectView, Canvas, MeasurementLabel;
 @protocol CanvasViewDelegate;
 
 
-@interface CanvasView : XUIView
+@interface CanvasView : BaseView
 
 - (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas;
 
@@ -26,6 +27,8 @@
 - (void) sizeToFit;
 
 - (void) invalidateCursors;
+
+- (NSImage *) snapshotImageWithCanvasRect:(CGRect)rect;
 
 @property (nonatomic, readonly) Canvas *canvas;
 

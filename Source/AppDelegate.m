@@ -424,10 +424,10 @@ objc_arc_weakLock __arc_weak_lock = {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 
     [openPanel setTitle:NSLocalizedString(@"Import Image", nil)];
-    [openPanel setAllowedFileTypes:[NSImage imageFileTypes]];
+    [openPanel setAllowedFileTypes:[NSImage imageTypes]];
 
     [openPanel beginWithCompletionHandler:^(NSInteger result) {
-        if (result == NSOKButton) {
+        if (result == NSModalResponseOK) {
             NSURL *url = [openPanel URL];
             [[self canvasWindowController] importFilesAtPaths:@[ [url path] ]];
         }

@@ -133,6 +133,8 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
                     _duplicateMouseDownEvent = nil;
                 }
             }
+            
+            [self autoscroll:event];
         
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self continueTrackingWithEvent:event point:snappedPoint];
@@ -230,6 +232,8 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point { }
 
+- (void) willSnapshot { }
+- (void) didSnapshot { }
 
 - (CanvasView *) canvasView
 {
@@ -289,9 +293,9 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 }
 
 
-- (XUIEdgeInsets) paddingForCanvasLayout
+- (NSEdgeInsets) paddingForCanvasLayout
 {
-    return XUIEdgeInsetsZero;
+    return NSEdgeInsetsMake(0, 0, 0, 0);
 }
 
 

@@ -10,7 +10,7 @@
 
 #import "CanvasObjectView.h"
 
-@interface MeasurementLabel : XUIView
+@interface MeasurementLabel : BaseView
 
 @property (nonatomic, weak) CanvasObjectView *owningObjectView;
 

@@ -354,7 +354,7 @@ static NSImage *sGetClearIcon()
     if ([self showsFirstResponder]) {
         [NSGraphicsContext saveGraphicsState];
 
-         NSSetFocusRingStyle(NSFocusRingOnly);
+        NSSetFocusRingStyle(NSFocusRingOnly);
         [[NSColor whiteColor] set];
         [boundsPath fill];
 

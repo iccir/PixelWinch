@@ -6,9 +6,10 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseView.h"
 
-@interface ShadowView : XUIView
+
+@interface ShadowView : BaseView
 
 @property (nonatomic, assign) CGFloat cornerRadius;
 

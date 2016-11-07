@@ -11,6 +11,11 @@
 #import "Canvas.h"
 #import "Line.h"
 
+
+@interface GuideObjectView () <CALayerDelegate>
+@end
+
+
 @implementation GuideObjectView {
     CALayer *_sublayer;
     NSArray *_grapplesToUpdateStart;
@@ -138,12 +143,12 @@
 }
 
 
-- (XUIEdgeInsets) paddingForCanvasLayout
+- (NSEdgeInsets) paddingForCanvasLayout
 {
     if ([[self guide] isVertical]) {
-        return XUIEdgeInsetsMake(0, 2, 0, 2);
+        return NSEdgeInsetsMake(0, 2, 0, 2);
     } else {
-        return XUIEdgeInsetsMake(2, 0, 2, 0);
+        return NSEdgeInsetsMake(2, 0, 2, 0);
     }
 }
 

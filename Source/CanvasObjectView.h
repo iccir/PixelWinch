@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 };
 
 
-@interface CanvasObjectView : XUIView
+@interface CanvasObjectView : BaseView
 
 - (CanvasView *) canvasView;
 
@@ -50,10 +50,13 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point;
 
+- (void) willSnapshot;
+- (void) didSnapshot;
+
 - (NSCursor *) cursor;
 
 - (CGRect) rectForCanvasLayout;
-- (XUIEdgeInsets) paddingForCanvasLayout;
+- (NSEdgeInsets) paddingForCanvasLayout;
 
 - (ResizeKnobStyle) resizeKnobStyle; // Subclasses to override
 - (NSArray *) resizeKnobEdges; // Subclasses to override

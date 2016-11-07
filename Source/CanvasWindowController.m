@@ -593,7 +593,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     [self _updateInspector];
     [self _updateGrappleIcon];
-    
+
     ProtectExit();
 }
 
@@ -722,7 +722,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:oldContentRect styleMask:canvasStyleMask backing:NSBackingStoreBuffered defer:NO];
 
-    XUIView *windowContentView = [[XUIView alloc] initWithFrame:[[window contentView] frame]];
+    BaseView *windowContentView = [[BaseView alloc] initWithFrame:[[window contentView] frame]];
     [windowContentView setFlipped:NO];
 
     [window setContentView:windowContentView];
@@ -1361,6 +1361,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 {
     NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrapple" : @"ToolbarGrappleHorizontal";
     NSImage *grappleImage = [NSImage imageNamed:name];
+
+    [_touchBarToolPicker setImage:grappleImage forSegment:5];
     [_toolPicker setTemplateImage:grappleImage forSegment:5];
 }
 
@@ -1435,6 +1437,20 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     }
 
     _liveMagnificationLevel = NAN;
+}
+
+
+- (void) _writeCanvasRect:(CGRect)rect toPasteboard:(NSPasteboard *)pasteboard
+{
+    NSImage *image = [_canvasView snapshotImageWithCanvasRect:rect];
+
+    if (image) {
+        [pasteboard clearContents];
+        [pasteboard writeObjects:@[ image ] ];
+
+    } else {
+        NSBeep();
+    }
 }
 
 
@@ -2278,7 +2294,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     NSView *viewToBlock = [[Preferences sharedInstance] usesOverlayWindow] ? _contentView : _bottomView;
 
-    XUIView *blockerView = [[XUIView alloc] initWithFrame:[viewToBlock bounds]];
+    BaseView *blockerView = [[BaseView alloc] initWithFrame:[viewToBlock bounds]];
     [blockerView setBackgroundColor:[NSColor clearColor]];
     
     CGFloat outDuration = 0;
@@ -2436,10 +2452,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     if ([_toolbox selectedTool] == [_toolbox marqueeTool]) {
         Marquee *lastMarquee = [[_canvas canvasObjectsWithGroupName:[Marquee groupName]] lastObject];
-
-        if ([lastMarquee writeToPasteboard:[NSPasteboard generalPasteboard]]) {
-            return;
-        }
+        [self _writeCanvasRect:[lastMarquee rect] toPasteboard:[NSPasteboard generalPasteboard]];
+        return;
     }
 
     NSArray *selectedObjects = [_canvas selectedObjects];
@@ -2458,17 +2472,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         if (data) [pboard setData:data forType:PasteboardTypeCanvasObjects];
 
     } else {
-        CGImageRef cgImage = [[_currentLibraryItem screenshot] CGImage];
-        
-        if (cgImage) {
-            NSImage *image = [NSImage imageWithCGImage:cgImage scale:1.0 orientation:XUIImageOrientationUp];
+        CGSize size = [[_currentLibraryItem screenshot] size];
+        CGRect rect = { CGPointZero, size };
 
-            [pboard clearContents];
-            [pboard writeObjects:@[ image ] ];
-
-        } else {
-            NSBeep();
-        }
+        [self _writeCanvasRect:rect toPasteboard:[NSPasteboard generalPasteboard]];
     }
 }
 
@@ -2674,7 +2681,11 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [savePanel setAllowedFileTypes:@[ @"public.png" ]];
     
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
-        NSImage *snapshot = GetSnapshotImageForView(_canvasView);
+        CGSize size = [[_currentLibraryItem screenshot] size];
+        CGRect rect = { CGPointZero, size };
+
+        NSImage *snapshot = [_canvasView snapshotImageWithCanvasRect:rect];
+       
         NSDictionary *properties = [NSDictionary dictionary];
         
         NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[snapshot TIFFRepresentation]];
@@ -2697,7 +2708,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     NSPopover *popover = [[NSPopover alloc] init];
     
-    [popover setAppearance:NSPopoverAppearanceHUD];
+    NSAppearance *popoverAppearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+    [popover setAppearance:popoverAppearance];
     [popover setBehavior:NSPopoverBehaviorTransient];
 
     NSView *container = [[NSView alloc] init];

@@ -10,6 +10,10 @@
 #import "CanvasObject.h"
 
 
+@interface MeasurementLabel () <CALayerDelegate>
+@end
+
+
 @implementation MeasurementLabel {
     NSFont        *_font;
     NSDictionary  *_attributes;

@@ -14,6 +14,11 @@
 #import "Canvas.h"
 #import "CursorAdditions.h"
 
+
+@interface LineObjectView () <CALayerDelegate>
+@end
+
+
 @implementation LineObjectView {
     CALayer   *_lineLayer;
     CALayer   *_startAnchorLayer;
@@ -96,8 +101,8 @@
     Line   *line  = [self line];
     CGRect  frame = [self bounds];
 
-    XUIEdgeInsets insets = [self paddingForCanvasLayout];
-    CGRect insetRect = XUIEdgeInsetsInsetRect(frame, insets);
+    NSEdgeInsets insets = [self paddingForCanvasLayout];
+    CGRect insetRect = EdgeInsetsInsetRect(frame, insets);
 
     CGRect startAnchorFrame = insetRect;
     CGRect endAnchorFrame = insetRect;
@@ -210,12 +215,12 @@
 }
 
 
-- (XUIEdgeInsets) paddingForCanvasLayout
+- (NSEdgeInsets) paddingForCanvasLayout
 {
     if ([[self line] isVertical]) {
-        return XUIEdgeInsetsMake(0, 1, 0, 1);
+        return NSEdgeInsetsMake(0, 1, 0, 1);
     } else {
-        return XUIEdgeInsetsMake(1, 0, 1, 0);
+        return NSEdgeInsetsMake(1, 0, 1, 0);
     }
 }
 

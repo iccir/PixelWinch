@@ -54,6 +54,9 @@
 @property (nonatomic, strong) IBOutlet NSView *topView;
 @property (nonatomic, strong) IBOutlet NSView *bottomView;
 
+@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *touchBarToolPicker;
+
 
 // Outlets
 @property (nonatomic, weak) IBOutlet BlackSegmentedControl *toolPicker;

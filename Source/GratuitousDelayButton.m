@@ -8,7 +8,7 @@
 
 #import "GratuitousDelayButton.h"
 
-@interface GratuitousDelayPieceView : XUIView
+@interface GratuitousDelayPieceView : BaseView
 @property (atomic, strong) NSColor  *color;
 @property (atomic) BOOL drawsShadow;
 @end
@@ -115,7 +115,7 @@ static void sRectCenter(CGRect *target, const CGRect other)
 
 - (void) drawRect:(NSRect)dirtyRect
 {
-    CGContextRef context = XUIGraphicsGetCurrentContext();
+    CGContextRef context = GetCurrentGraphicsContext();
 
     CGRect bounds = [self bounds];
 

@@ -71,7 +71,7 @@
     NSRect shadowFrame = cellFrame;
     shadowFrame.size.height -= 1.0;
 
-    CGContextRef context = XUIGraphicsGetCurrentContext();
+    CGContextRef context = GetCurrentGraphicsContext();
 
     NSInteger segmentCount = [controlView segmentCount];
     for (NSInteger i = 0; i < segmentCount; i++) {
@@ -83,7 +83,7 @@
             roundedRect.origin.y    = cellFrame.origin.y;
             roundedRect.size.height = cellFrame.size.height - 1;
 
-            NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:6];
+            NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:roundedRect xRadius:6 yRadius:6];
 
             NSGradient *g = [[NSGradient alloc] initWithColors:@[
                 GetRGBColor(0xffffff, 0.1),

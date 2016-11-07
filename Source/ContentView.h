@@ -6,15 +6,13 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseView.h"
 
 @protocol ContentViewDelegate;
 
-@interface ContentView : XUIView
+@interface ContentView : BaseView
 @property (nonatomic, weak) id<ContentViewDelegate> delegate;
-
 @property (nonatomic, assign) CGFloat cornerRadius;
-
 @end
 
 @protocol ContentViewDelegate <NSObject>

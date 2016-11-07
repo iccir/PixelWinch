@@ -57,10 +57,14 @@ static CGColorRef GetCheckerColor()
 }
 
 
+@interface CanvasView () <CALayerDelegate>
+@end
+
+
 @implementation CanvasView {
     CALayer *_checkerLayer;
     CALayer *_imageLayer;
-    XUIView *_root;
+    BaseView *_root;
 
     NSMutableArray      *_canvasObjectViews;
     NSMutableArray      *_measurementLabels;
@@ -103,7 +107,7 @@ static CGColorRef GetCheckerColor()
         [_imageLayer setDelegate:self];
         [_imageLayer setOpaque:YES];
         
-        _root = [[XUIView alloc] initWithFrame:[self bounds]];
+        _root = [[BaseView alloc] initWithFrame:[self bounds]];
         [_root setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
         [self addSubview:_root];
 
@@ -277,6 +281,7 @@ static CGColorRef GetCheckerColor()
                 break;
 
             } else if (type == NSLeftMouseDragged) {
+                [self autoscroll:event];
                 [_delegate canvasView:self mouseDraggedWithEvent:event];
 
             } else if (type == NSFlagsChanged) {
@@ -493,7 +498,7 @@ static CGColorRef GetCheckerColor()
     for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
         CGRect rect = [objectView rectForCanvasLayout];
 
-        const XUIEdgeInsets padding = [objectView paddingForCanvasLayout];
+        const NSEdgeInsets padding = [objectView paddingForCanvasLayout];
 
         rect.origin.x    *= scale;
         rect.origin.y    *= scale;
@@ -680,6 +685,35 @@ static CGColorRef GetCheckerColor()
 - (void) invalidateCursors
 {
     [self _recomputeCursorRects];
+}
+
+
+- (NSImage *) snapshotImageWithCanvasRect:(CGRect)rect
+{
+    CGFloat scale = _magnification / [[self window] backingScaleFactor];
+
+    CGPoint scaledPoint = CGPointMake(rect.origin.x  * scale, rect.origin.y    * scale);
+    CGSize  scaledSize  = CGSizeMake(rect.size.width * scale, rect.size.height * scale);
+    
+    NSImage *image  = [[NSImage alloc] initWithSize:scaledSize];
+    CGRect   bounds = [self bounds];
+
+    [_canvasObjectViews makeObjectsPerformSelector:@selector(willSnapshot)];
+
+    [image lockFocus];
+
+    NSGraphicsContext *nsContext = [NSGraphicsContext currentContext];
+    CGContextRef       context   = [nsContext CGContext];
+    
+    CGContextTranslateCTM(context, -scaledPoint.x, -(bounds.size.height - (scaledPoint.y + scaledSize.height)));
+    CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+    
+    [self displayRectIgnoringOpacity:bounds inContext:nsContext];
+    [image unlockFocus];
+
+    [_canvasObjectViews makeObjectsPerformSelector:@selector(didSnapshot)];
+    
+    return image;
 }
 
 

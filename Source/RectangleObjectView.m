@@ -13,6 +13,11 @@
 
 #import <objc/objc-runtime.h>
 
+
+@interface RectangleObjectView () <CALayerDelegate>
+@end
+
+
 @implementation RectangleObjectView {
     CALayer   *_sublayer;
     CGPoint    _downPoint;

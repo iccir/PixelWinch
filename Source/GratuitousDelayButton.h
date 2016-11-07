@@ -6,9 +6,9 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BaseView.h"
 
-@interface GratuitousDelayButton : XUIView
+@interface GratuitousDelayButton : BaseView
 
 - (CALayer *) maskLayer;
 

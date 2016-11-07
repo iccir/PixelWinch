@@ -148,28 +148,28 @@
 
 - (IBAction) viewWebsite:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
+    NSURL *url = [NSURL URLWithString:WinchWebsiteURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 
 - (IBAction) viewOnAppStore:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
+    NSURL *url = [NSURL URLWithString:WinchAppStoreURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 
 - (IBAction) provideFeedback:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
+    NSURL *url = [NSURL URLWithString:WinchFeedbackURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 
 - (IBAction) viewQuickGuide:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchGuideURLString()];
+    NSURL *url = [NSURL URLWithString:WinchGuideURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

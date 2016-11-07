@@ -14,8 +14,11 @@
 {
     [super layoutSubviews];
 
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bounds] cornerRadius:_cornerRadius];
-    [[self layer] setShadowPath:[path CGPath]];
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:_cornerRadius yRadius:_cornerRadius];
+
+    CGPathRef shadowPath = CopyPathWithBezierPath(path);
+    [[self layer] setShadowPath:shadowPath];
+    CGPathRelease(shadowPath);
 }
 
 

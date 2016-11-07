@@ -17,6 +17,11 @@
 static const CGFloat sPaddingForShadow = 8;
 static const CGFloat sBorderWidth = 2;
 
+
+@interface ResizeKnobView () <CALayerDelegate>
+@end
+
+
 @implementation ResizeKnobView {
     CALayer *_sublayer;
     CGRect   _rectForResize;
@@ -45,7 +50,7 @@ static const CGFloat sBorderWidth = 2;
     if (layer == _sublayer) {
         ResizeKnobStyle style = [[self owningObjectView] resizeKnobStyle];
         
-        XUIGraphicsPushContext(context);
+        PushGraphicsContext(context);
 
         NSColor *borderColor = [NSColor whiteColor];
         NSColor *fillColor   = [NSColor blackColor];
@@ -56,7 +61,12 @@ static const CGFloat sBorderWidth = 2;
 
         if (style == ResizeKnobStyleCircular) {
             outerPath = [NSBezierPath bezierPathWithOvalInRect:rect];
-            innerPath = [NSBezierPath bezierPathWithOvalInRect:CGRectInset(rect, sBorderWidth, sBorderWidth)];
+
+            CGRect innerRect = CGRectInset(rect, sBorderWidth, sBorderWidth);
+            
+            if (!CGRectIsEmpty(innerRect)) {
+                innerPath = [NSBezierPath bezierPathWithOvalInRect:innerRect];
+            }
 
         } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeLeft || _edge == ObjectEdgeRight)) {
             CGFloat centerX = CGRectGetMidX(rect);
@@ -70,8 +80,13 @@ static const CGFloat sBorderWidth = 2;
                 knobRect.origin.x = centerX - knobRect.size.width;
             }
             
-            outerPath = [NSBezierPath bezierPathWithRoundedRect:knobRect cornerRadius:0];
-            innerPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(knobRect, 1, 1) cornerRadius:0];
+            outerPath = [NSBezierPath bezierPathWithRect:knobRect];
+
+            CGRect innerRect = CGRectInset(knobRect, 1, 1);
+            
+            if (!CGRectIsEmpty(knobRect)) {
+                innerPath = [NSBezierPath bezierPathWithRect:innerRect];
+            }
             
         } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeTop || _edge == ObjectEdgeBottom)) {
             CGFloat centerY = CGRectGetMidY(rect);
@@ -85,9 +100,13 @@ static const CGFloat sBorderWidth = 2;
                 knobRect.origin.y = centerY - knobRect.size.height;
             }
             
-            outerPath = [NSBezierPath bezierPathWithRoundedRect:knobRect cornerRadius:0];
-            innerPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(knobRect, 1, 1) cornerRadius:0];
+            outerPath = [NSBezierPath bezierPathWithRect:knobRect];
             
+            CGRect innerRect = CGRectInset(knobRect, 1, 1);
+
+            if (!CGRectIsEmpty(knobRect)) {
+                innerPath = [NSBezierPath bezierPathWithRect:innerRect];
+            }
         }
 
         CGContextSaveGState(context);
@@ -116,7 +135,7 @@ static const CGFloat sBorderWidth = 2;
             [innerPath fill];
         }
         
-        XUIGraphicsPopContext();
+        PopGraphicsContext();
     }
 }
 
@@ -188,10 +207,10 @@ static const CGFloat sBorderWidth = 2;
 }
 
 
-- (XUIEdgeInsets) paddingForCanvasLayout
+- (NSEdgeInsets) paddingForCanvasLayout
 {
     const CGFloat sKnobPadding = 5;
-    return XUIEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
+    return NSEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
 }
 
 
@@ -277,6 +296,10 @@ static const CGFloat sBorderWidth = 2;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_unhideKnob) object:nil];
     [self performSelector:@selector(_unhideKnob) withObject:nil afterDelay:1.0];
 }
+
+
+- (void) willSnapshot { [self setHidden:YES]; }
+- (void) didSnapshot  { [self setHidden:NO];  }
 
 
 #pragma mark - Accessors

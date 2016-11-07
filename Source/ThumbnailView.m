@@ -9,6 +9,7 @@
 #import "ThumbnailView.h"
 #import "LibraryItem.h"
 #import "Screenshot.h"
+#import "BaseView.h"
 
 
 static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
@@ -37,8 +38,8 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
     LibraryItem *_libraryItem;
     NSImage     *_thumbnailImage;
 
-    XUIView     *_borderView;
-    XUIView     *_imageView;
+    BaseView    *_borderView;
+    BaseView    *_imageView;
     NSButton    *_deleteButton;
 
     BOOL _selected;
@@ -49,8 +50,8 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 - (id) initWithFrame:(NSRect)frameRect
 {
     if ((self = [super initWithFrame:frameRect])) {
-        _imageView  = [[XUIView alloc] initWithFrame:CGRectZero];
-        _borderView = [[XUIView alloc] initWithFrame:CGRectZero];
+        _imageView  = [[BaseView alloc] initWithFrame:CGRectZero];
+        _borderView = [[BaseView alloc] initWithFrame:CGRectZero];
         
         _deleteButton = [[NSButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
         [_deleteButton setImage:[NSImage imageNamed:@"DeleteNormal"]];

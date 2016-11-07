@@ -1,7 +1,9 @@
 #ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-    #import <QuartzCore/QuartzCore.h>
-    #import <XUIKit/XUIKit.h>
+    @import Foundation;
+    @import AppKit;
+    @import QuartzCore;
+
+    #import "ViewAdditions.h"
 
     #import "Utils.h"
     #import "Preferences.h"

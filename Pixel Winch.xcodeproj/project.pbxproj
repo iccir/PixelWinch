@@ -52,7 +52,6 @@
 		557096101B5A394B00326141 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557096041B5A394B00326141 /* Localizable.strings */; };
 		557096111B5A394B00326141 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096061B5A394B00326141 /* MainMenu.xib */; };
 		557096121B5A394B00326141 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096081B5A394B00326141 /* Preferences.xib */; };
-		557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
 		558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A6B1B1B5A495000A501CA /* ImageIO.framework */; };
@@ -66,6 +65,8 @@
 		559D38D2180399B90048F29B /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38CE180399B90048F29B /* PreferencesWindowController.m */; };
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
+		55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7771DCDC2FB0037DF9C /* BaseView.m */; };
+		55A1A7841DCDCA6B0037DF9C /* ViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */; };
 		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
 		55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EC182B7E42008F1CEB /* LineObjectView.m */; };
 		55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */; };
@@ -101,7 +102,6 @@
 		55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E987CD1828E37A00C2208A /* ScreenAdditions.m */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
-		55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F84929181DCEFB00BABB66 /* XUIKit.framework */; };
 		55F892821BB6377400E0A14B /* PixelWinch_Beta.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -115,20 +115,6 @@
 			remoteGlobalIDString = 55346D83194130C900896455;
 			remoteInfo = "Launch Pixel Winch";
 		};
-		55F84928181DCEFB00BABB66 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 551008D3159BEE4000C86022;
-			remoteInfo = XUIKit;
-		};
-		55F8492B181DCF1F00BABB66 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 551008D2159BEE4000C86022;
-			remoteInfo = XUIKit;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,7 +125,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
-				557BA9BF1821E96F004A57FC /* XUIKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,7 +217,6 @@
 		555F16FF1BC2699B00606916 /* ReceiptValidation_E.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_E.h; path = Source/ReceiptValidation_E.h; sourceTree = SOURCE_ROOT; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
-		556D37321935C7B500C90B11 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = lib/Sparkle.framework; sourceTree = "<group>"; };
 		556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GratuitousDelayButton.h; path = Source/GratuitousDelayButton.h; sourceTree = "<group>"; };
 		556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GratuitousDelayButton.m; path = Source/GratuitousDelayButton.m; sourceTree = "<group>"; };
 		557095F91B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/About.xib; sourceTree = "<group>"; };
@@ -273,6 +257,10 @@
 		559D38D1180399B90048F29B /* ShortcutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutManager.h; path = Source/ShortcutManager.h; sourceTree = "<group>"; };
 		559D38D418039D930048F29B /* ShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShortcutView.m; path = Source/ShortcutView.m; sourceTree = "<group>"; };
 		559D38D518039D930048F29B /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutView.h; path = Source/ShortcutView.h; sourceTree = "<group>"; };
+		55A1A7761DCDC2FB0037DF9C /* BaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseView.h; path = Source/BaseView.h; sourceTree = "<group>"; };
+		55A1A7771DCDC2FB0037DF9C /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseView.m; path = Source/BaseView.m; sourceTree = "<group>"; };
+		55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAdditions.h; path = Source/ViewAdditions.h; sourceTree = "<group>"; };
+		55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAdditions.m; path = Source/ViewAdditions.m; sourceTree = "<group>"; };
 		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		55ADF8E4182B7E20008F1CEB /* RectangleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
@@ -349,7 +337,6 @@
 		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
-		55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XUIKit.xcodeproj; path = ../XUIKit/XUIKit.xcodeproj; sourceTree = "<group>"; };
 		55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Debug.xcconfig; sourceTree = "<group>"; };
 		55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Profile.xcconfig; sourceTree = "<group>"; };
 		55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
@@ -374,7 +361,6 @@
 				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
 				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
 				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
-				55F8492A181DCF1800BABB66 /* XUIKit.framework in Frameworks */,
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
@@ -422,12 +408,12 @@
 		29B97314FDCFA39411CA2CEA /* Pixels */ = {
 			isa = PBXGroup;
 			children = (
-				55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */,
 				5516B687180402C3002AED2E /* Pixel Winch.entitlements */,
 				55916E6419413CB400F28F4C /* Launch.entitlements */,
 				557BA9A11821D967004A57FC /* Config */,
 				55B94D97182F2B6B00FE39F3 /* Protection */,
 				559D38BC1802AB220048F29B /* Model */,
+				55A1A7661DCDC2CB0037DF9C /* Base Views */,
 				5512BF5817FB9EE600425AD6 /* Canvas Views */,
 				55C20CE1180109A500ECE184 /* Tools */,
 				55B07A6C17F6C93E0013B05C /* View */,
@@ -483,7 +469,6 @@
 				558A6B1B1B5A495000A501CA /* ImageIO.framework */,
 				55916E6219413B2100F28F4C /* ServiceManagement.framework */,
 				55CB053418285F80001DD1A0 /* libcrypto.a */,
-				556D37321935C7B500C90B11 /* Sparkle.framework */,
 				55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */,
 				55BBCD08182793CB00AC9A26 /* StoreKit.framework */,
 				55FA814E18134F9B00ED67E0 /* Accelerate.framework */,
@@ -664,6 +649,17 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		55A1A7661DCDC2CB0037DF9C /* Base Views */ = {
+			isa = PBXGroup;
+			children = (
+				55A1A7761DCDC2FB0037DF9C /* BaseView.h */,
+				55A1A7771DCDC2FB0037DF9C /* BaseView.m */,
+				55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */,
+				55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */,
+			);
+			name = "Base Views";
+			sourceTree = "<group>";
+		};
 		55B07A6C17F6C93E0013B05C /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,14 +750,6 @@
 			name = Tools;
 			sourceTree = "<group>";
 		};
-		55F84925181DCEFB00BABB66 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				55F84929181DCEFB00BABB66 /* XUIKit.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -800,7 +788,6 @@
 			);
 			dependencies = (
 				55916E5E1941381000F28F4C /* PBXTargetDependency */,
-				55F8492C181DCF1F00BABB66 /* PBXTargetDependency */,
 			);
 			name = "Pixel Winch";
 			productInstallPath = "$(HOME)/Applications";
@@ -842,12 +829,6 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Pixels */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 55F84925181DCEFB00BABB66 /* Products */;
-					ProjectRef = 55F84924181DCEFB00BABB66 /* XUIKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Pixel Winch */,
@@ -855,16 +836,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		55F84929181DCEFB00BABB66 /* XUIKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = XUIKit.framework;
-			remoteRef = 55F84928181DCEFB00BABB66 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		55346D82194130C900896455 /* Resources */ = {
@@ -985,6 +956,7 @@
 				55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */,
 				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
 				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
+				55A1A7841DCDCA6B0037DF9C /* ViewAdditions.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
 				55C4E4DF18013EB80015B8C1 /* BlackButtonCell.m in Sources */,
 				554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */,
@@ -1029,6 +1001,7 @@
 				55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */,
 				5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */,
 				553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */,
+				55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */,
 				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
 				553CB3FD1A67975B00BE802E /* WindowResizerKnob.m in Sources */,
 				5512BF5E17FBA44400425AD6 /* CanvasObjectView.m in Sources */,
@@ -1048,11 +1021,6 @@
 			isa = PBXTargetDependency;
 			target = 55346D83194130C900896455 /* Launch Pixel Winch */;
 			targetProxy = 55916E5D1941381000F28F4C /* PBXContainerItemProxy */;
-		};
-		55F8492C181DCF1F00BABB66 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = XUIKit;
-			targetProxy = 55F8492B181DCF1F00BABB66 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

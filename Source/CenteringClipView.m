@@ -10,6 +10,10 @@
 #import "RulerView.h"
 
 
+@interface CenteringClipView () <CALayerDelegate>
+@end
+
+
 @implementation CenteringClipView {
     NSColor *_backgroundColor;
 }
@@ -29,7 +33,7 @@
 + (void) initialize
 {
     if (![NSClipView instancesRespondToSelector:@selector(constrainBoundsRect:)]) {
-        XUIAliasMethod([CenteringClipView class], '-', @selector(legacy_constrainScrollPoint:), @selector(constrainScrollPoint:));
+        WinchAliasMethod([CenteringClipView class], '-', @selector(legacy_constrainScrollPoint:), @selector(constrainScrollPoint:));
     }
 }
 

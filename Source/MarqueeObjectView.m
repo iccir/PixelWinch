@@ -9,6 +9,10 @@
 #import "MarqueeObjectView.h"
 #import "Marquee.h"
 
+@interface MarqueeObjectView () <CALayerDelegate>
+@end
+
+
 @implementation MarqueeObjectView {
     NSMutableArray *_segmentLayers;
     
@@ -137,6 +141,10 @@
     [self _updateMarqueeWithPoint:point];
     [[CursorInfo sharedInstance] setText:nil forKey:@"new-marquee"];
 }
+
+
+- (void) willSnapshot { [self setHidden:YES]; }
+- (void) didSnapshot  { [self setHidden:NO];  }
 
 
 - (CGRect) rectForCanvasLayout
