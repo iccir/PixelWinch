@@ -2,10 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="7104"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="the Touch Bar" message="Use a version of macOS with Touch Bar support." minToolsVersion="8.1" minSystemVersion="10.12.1" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CanvasWindowController">
@@ -25,8 +23,6 @@
                 <outlet property="scalePicker" destination="LLL-Ww-C7t" id="lpO-mQ-0pD"/>
                 <outlet property="toolPicker" destination="5KM-8b-Puk" id="lRb-7k-Qpl"/>
                 <outlet property="topView" destination="HDR-yg-Zz5" id="m6g-O4-YDl"/>
-                <outlet property="touchBar" destination="KSV-U7-tFf" id="3ud-d7-w8M"/>
-                <outlet property="touchBarToolPicker" destination="07Q-Xv-1vN" id="yAT-Ap-IWJ"/>
                 <outlet property="verticalRuler" destination="78j-k9-6E4" id="NsJ-f7-pIy"/>
                 <outlet property="zoomToolView" destination="LEE-so-sRZ" id="86v-2m-6mN"/>
             </connections>
@@ -332,59 +328,9 @@
             </subviews>
             <point key="canvasLocation" x="231" y="-5"/>
         </customView>
-        <touchBar id="KSV-U7-tFf">
-            <touchBarItems>
-                <touchBarItem id="as5-tm-RD5">
-                    <viewController key="viewController" id="lLg-mI-qJa">
-                        <segmentedControl key="view" verticalHuggingPriority="750" id="07Q-Xv-1vN">
-                            <rect key="frame" x="0.0" y="0.0" width="460" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="4jF-3R-GT7">
-                                <font key="font" metaFont="system"/>
-                                <segments>
-                                    <segment image="ToolbarArrow" imageScaling="none" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarHand" width="64" tag="1">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarMarquee" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarRectangle" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarLine" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarGrappleHorizontal" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                    <segment image="ToolbarZoom" width="64">
-                                        <nil key="label"/>
-                                    </segment>
-                                </segments>
-                            </segmentedCell>
-                            <connections>
-                                <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.selectedToolIndex" id="J76-Ma-wPH"/>
-                            </connections>
-                        </segmentedControl>
-                    </viewController>
-                    <size key="designTimeSize" width="460" height="30"/>
-                </touchBarItem>
-                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="kkO-pI-CWp"/>
-            </touchBarItems>
-        </touchBar>
     </objects>
     <resources>
         <image name="BottomShadow" width="8" height="8"/>
         <image name="HelpIcon" width="24" height="24"/>
-        <image name="ToolbarArrow" width="24" height="24"/>
-        <image name="ToolbarGrappleHorizontal" width="24" height="24"/>
-        <image name="ToolbarHand" width="24" height="24"/>
-        <image name="ToolbarLine" width="24" height="24"/>
-        <image name="ToolbarMarquee" width="24" height="24"/>
-        <image name="ToolbarRectangle" width="24" height="24"/>
-        <image name="ToolbarZoom" width="24" height="24"/>
     </resources>
 </document>

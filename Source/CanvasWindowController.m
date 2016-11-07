@@ -480,8 +480,7 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
     }
 }
 
-
-- (void) awakeFromNib
+- (void) windowDidLoad
 {
     ProtectEntry();
     
@@ -593,6 +592,10 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     [self _updateInspector];
     [self _updateGrappleIcon];
+
+    if ([NSTouchBar class]) {
+        [[NSBundle mainBundle] loadNibNamed:@"TouchBar" owner:self topLevelObjects:nil];
+    }
 
     ProtectExit();
 }

@@ -67,6 +67,7 @@
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
 		55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7771DCDC2FB0037DF9C /* BaseView.m */; };
 		55A1A7841DCDCA6B0037DF9C /* ViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */; };
+		55A1A78D1DD08AD20037DF9C /* TouchBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A1A78B1DD08AD20037DF9C /* TouchBar.xib */; };
 		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
 		55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EC182B7E42008F1CEB /* LineObjectView.m */; };
 		55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */; };
@@ -261,6 +262,7 @@
 		55A1A7771DCDC2FB0037DF9C /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseView.m; path = Source/BaseView.m; sourceTree = "<group>"; };
 		55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAdditions.h; path = Source/ViewAdditions.h; sourceTree = "<group>"; };
 		55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAdditions.m; path = Source/ViewAdditions.m; sourceTree = "<group>"; };
+		55A1A78C1DD08AD20037DF9C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/TouchBar.xib; sourceTree = "<group>"; };
 		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		55ADF8E4182B7E20008F1CEB /* RectangleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 				557096041B5A394B00326141 /* Localizable.strings */,
 				557096061B5A394B00326141 /* MainMenu.xib */,
 				557096081B5A394B00326141 /* Preferences.xib */,
+				55A1A78B1DD08AD20037DF9C /* TouchBar.xib */,
 				554F05971A29588100BF90F0 /* Images.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
 				559D38C8180392B10048F29B /* PixelWinch.icns */,
@@ -854,6 +857,7 @@
 				557096121B5A394B00326141 /* Preferences.xib in Resources */,
 				557096101B5A394B00326141 /* Localizable.strings in Resources */,
 				55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */,
+				55A1A78D1DD08AD20037DF9C /* TouchBar.xib in Resources */,
 				55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */,
 				5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */,
 				5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */,
@@ -1095,6 +1099,14 @@
 				557096091B5A394B00326141 /* English */,
 			);
 			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		55A1A78B1DD08AD20037DF9C /* TouchBar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55A1A78C1DD08AD20037DF9C /* English */,
+			);
+			name = TouchBar.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
