@@ -5,24 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "which rchook &amp;&amp; rchook xcode-app-build-pre-action&#10;">
-               <EnvironmentBuildable>
-                  <BuildableReference
-                     BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "8D1107260486CEB800E47090"
-                     BuildableName = "Pixel Winch.app"
-                     BlueprintName = "Pixel Winch"
-                     ReferencedContainer = "container:Pixel Winch.xcodeproj">
-                  </BuildableReference>
-               </EnvironmentBuildable>
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -110,7 +92,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "which rchook &amp;&amp; rchook xcode-app-archive-post-action -s &quot;Developer ID Application: Ricci Adams (XXXXXXXXXX)&quot;">
+               scriptText = "which rcbump &amp;&amp; rcbump post -s &quot;Developer ID Application: Ricci Adams (XXXXXXXXXX)&quot;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

@@ -925,7 +925,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "which rchook\nif [ $? -eq 0 ]; then\n    rchook xcode-build-phase\n    exit $?\nfi";
+			shellScript = "which rcbump\nif [ $? -eq 0 ]; then\n    rcbump build\n    exit $?\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
