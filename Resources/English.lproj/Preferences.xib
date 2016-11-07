@@ -16,8 +16,6 @@
                 <outlet property="keyboardItem" destination="2cG-c1-4p4" id="o4e-Kl-tjv"/>
                 <outlet property="keyboardPane" destination="cwh-za-zMQ" id="xSX-f7-fRq"/>
                 <outlet property="launchAtLoginButton" destination="gc1-RU-G08" id="7fn-zp-Af0"/>
-                <outlet property="overlayScreenshotsButton" destination="Tgk-U5-E01" id="DIu-nz-Ri3"/>
-                <outlet property="overlayScreenshotsTextField" destination="kdG-cH-OPN" id="8eZ-Ai-Eu9"/>
                 <outlet property="purchaseItem" destination="cbx-I5-8j1" id="hJH-Y5-y7R"/>
                 <outlet property="purchasePane" destination="g52-iv-nqa" id="3Zx-rm-Xd6"/>
                 <outlet property="screenPopUp" destination="xhy-Eb-Abl" id="6O3-0a-iHw"/>
@@ -70,11 +68,11 @@
             </toolbar>
         </window>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="251" userLabel="General Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="218"/>
+        <customView misplaced="YES" id="251" userLabel="General Pane">
+            <rect key="frame" x="0.0" y="0.0" width="368" height="239"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <popUpButton verticalHuggingPriority="750" id="yDE-dF-B84">
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="yDE-dF-B84">
                     <rect key="frame" x="186" y="92" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="W x H" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="F3W-Yj-79p" id="3Bc-zF-RV1">
@@ -99,7 +97,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="0PT-ZY-IHP">
-                    <rect key="frame" x="186" y="174" width="165" height="26"/>
+                    <rect key="frame" x="186" y="195" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="QUu-La-Pvc">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -122,7 +120,28 @@
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.iconMode" id="MlN-9x-7r7"/>
                     </connections>
                 </popUpButton>
-                <popUpButton verticalHuggingPriority="750" id="Q11-9R-akh">
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="MWB-6j-jqs">
+                    <rect key="frame" x="186" y="164" width="165" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Standard window" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="nkf-23-Ca0" id="12N-h5-mgN">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="1kk-AJ-4O0">
+                            <items>
+                                <menuItem title="Standard window" state="on" id="nkf-23-Ca0">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="Overlay" tag="1" id="ee2-oL-nkh">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.usesOverlayWindow" id="pHo-fN-1j0"/>
+                    </connections>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="Q11-9R-akh">
                     <rect key="frame" x="186" y="51" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Never" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oOR-ui-IbL" id="ids-5C-rsN">
@@ -164,7 +183,7 @@
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.screenshotExpiration" id="nJH-Qj-moR"/>
                     </connections>
                 </popUpButton>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="IY2-iC-B3h">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="IY2-iC-B3h">
                     <rect key="frame" x="18" y="98" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Copy measurements as" id="5kq-Ts-98b">
@@ -173,7 +192,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="qYe-Tn-e48">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="qYe-Tn-e48">
                     <rect key="frame" x="22" y="57" width="160" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Delete screenshots when" id="Xq0-Yj-3M4">
@@ -182,7 +201,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <popUpButton verticalHuggingPriority="750" id="xhy-Eb-Abl">
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="xhy-Eb-Abl">
                     <rect key="frame" x="186" y="133" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Main screen" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="hk4-cX-qeu" id="0bo-Cx-20n">
@@ -198,11 +217,15 @@
                     </popUpButtonCell>
                     <connections>
                         <action selector="updatePreferredDisplay:" target="-2" id="nd6-OV-xoU"/>
+                        <binding destination="-2" name="hidden" keyPath="self.preferences.usesOverlayWindow" id="3TJ-SO-dTj">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.preferredDisplay" id="cfA-Jz-Fgg"/>
-                        <binding destination="-2" name="enabled" keyPath="self.preferences.usesOverlayWindow" id="lBq-C6-ySa"/>
                     </connections>
                 </popUpButton>
-                <button id="gc1-RU-G08">
+                <button misplaced="YES" id="gc1-RU-G08">
                     <rect key="frame" x="87" y="18" width="194" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Launch Pixel Winch at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ioF-VY-XrN">
@@ -214,7 +237,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="J5c-5y-1Mz">
-                    <rect key="frame" x="40" y="180" width="142" height="17"/>
+                    <rect key="frame" x="40" y="201" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show icon in" id="KtX-p8-B4I">
                         <font key="font" metaFont="system"/>
@@ -222,28 +245,33 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button id="Tgk-U5-E01">
-                    <rect key="frame" x="15" y="138" width="167" height="18"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="ItA-0T-GJF">
+                    <rect key="frame" x="18" y="170" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Overlay screenshots on" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="q6G-jk-syb">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="-2" name="value" keyPath="self.preferences.usesOverlayWindow" id="gNq-Ui-LFj"/>
-                    </connections>
-                </button>
-                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kdG-cH-OPN">
-                    <rect key="frame" x="15" y="139" width="167" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots on" id="8xL-dN-Uv0">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots as" id="PHP-7f-xAq">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="Ume-dQ-GH8">
+                    <rect key="frame" x="18" y="139" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Display overlay on" id="hDD-dg-Yxd">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="self.preferences.usesOverlayWindow" id="CKe-4w-IVu">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </textField>
             </subviews>
-            <point key="canvasLocation" x="326" y="938"/>
+            <point key="canvasLocation" x="326" y="948.5"/>
         </customView>
         <customView id="337" userLabel="Appearance Pane">
             <rect key="frame" x="0.0" y="0.0" width="368" height="227"/>

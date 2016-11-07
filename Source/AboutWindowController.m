@@ -56,12 +56,10 @@
     [[window standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
     [[window standardWindowButton:NSWindowZoomButton]        setHidden:YES];
 
-    if (!IsLegacyOS()) {
-        [window setTitlebarAppearsTransparent:YES];
-        [window setTitleVisibility:NSWindowTitleHidden];
+    [window setTitlebarAppearsTransparent:YES];
+    [window setTitleVisibility:NSWindowTitleHidden];
 
-        [window setStyleMask:([window styleMask] | NSFullSizeContentViewWindowMask)];
-    }
+    [window setStyleMask:([window styleMask] | NSFullSizeContentViewWindowMask)];
     
     NSView *contentView = [window contentView];
     

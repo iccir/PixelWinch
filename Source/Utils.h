@@ -105,5 +105,3 @@ extern void AddPopInAnimation(CALayer *layer, CGFloat duration);
 extern NSString *GetStringForFloat(CGFloat f);
 extern NSString *GetDisplayStringForSize(CGSize size);
 extern NSString *GetPasteboardStringForSize(CGSize size);
-
-extern BOOL IsLegacyOS(void);

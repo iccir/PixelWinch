@@ -54,15 +54,6 @@
     [toolbar insertItemWithItemIdentifier:[[self purchaseItem] itemIdentifier] atIndex:count];
 #endif
 
-    if (IsLegacyOS()) {
-        [[self overlayScreenshotsButton] removeFromSuperview];
-        [[self overlayScreenshotsTextField] setHidden:NO];
-
-    } else {
-        [[self overlayScreenshotsTextField] removeFromSuperview];
-    }
-
-
     [self _handlePreferencesDidChange:nil];
     [self selectPane:0 animated:NO];
 

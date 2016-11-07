@@ -693,10 +693,6 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 
     NSRect oldContentRect = CGRectMake(0, 0, 640, 400);
 
-    if (IsLegacyOS()) {
-        usesOverlayWindow = YES;
-    }
-
     if (_canvasWindow) {
         oldContentRect = [_canvasWindow contentRectForFrameRect:[_canvasWindow frame]];
         [_canvasWindow setDelegate:nil];
@@ -887,8 +883,8 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     static NSView                *sShieldImageView       = nil;
     static GratuitousDelayButton *sGratuitousDelayButton = nil;
     
-    const CGFloat sFadeInDuration  = 0.25;
-    const CGFloat sFadeOutDuration = 0.25;
+    const CGFloat sFadeInDuration  = 0.2;
+    const CGFloat sFadeOutDuration = 0.2;
 
     NSScrollView *canvasScrollView    = self->_canvasScrollView;
     Toolbox      *toolbox             = self->_toolbox;
@@ -1207,7 +1203,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
             [NSAnimationContext beginGrouping];
             [[NSAnimationContext currentContext] setCompletionHandler:^{ sAnimate(self, AnimationAction_FinishOrderOutAnimation, nil, NULL); }];
-            [[NSAnimationContext currentContext] setDuration:0.25];
+            [[NSAnimationContext currentContext] setDuration:sFadeOutDuration];
 
             sAnimate(self, AnimationAction_RunOrderOutAnimation, nil, NULL);
 
@@ -1219,7 +1215,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
                 fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
                 
                 CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-                [animation setDuration:0.25];
+                [animation setDuration:sFadeOutDuration];
                 [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
                 [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
                 [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];

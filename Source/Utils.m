@@ -802,23 +802,3 @@ NSString *GetPasteboardStringForSize(CGSize size)
         return [NSString stringWithFormat:@"%@ %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
     }
 }
-
-
-BOOL IsLegacyOS()
-{
-    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
-
-    if ([processInfo respondsToSelector:@selector(operatingSystemVersion)]) {
-        NSOperatingSystemVersion version = [processInfo operatingSystemVersion];
-        
-        if (version.majorVersion > 10) {
-            return NO;
-        } else if (version.minorVersion >= 10) {
-            return NO;
-        }
-    }
-
-    return YES;
-}
-
-
