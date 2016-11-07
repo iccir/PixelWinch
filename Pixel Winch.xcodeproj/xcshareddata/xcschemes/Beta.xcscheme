@@ -92,7 +92,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "which rcbump &amp;&amp; rcbump post -s &quot;Developer ID Application: Ricci Adams (XXXXXXXXXX)&quot;">
+               scriptText = "which rcbump &amp;&amp; rcbump post -z &quot;$HOME/Desktop/PW&quot; -u &quot;<redacted>&quot; &gt; /tmp/rcbump-output">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
