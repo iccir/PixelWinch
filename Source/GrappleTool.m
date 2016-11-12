@@ -21,7 +21,6 @@
 
 
 static NSString * const sVerticalKey  = @"vertical";
-static NSString * const sToleranceKey = @"tolerance";
 
 
 @implementation GrappleTool {

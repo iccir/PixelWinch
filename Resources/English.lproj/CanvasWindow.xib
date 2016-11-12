@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,27 +32,10 @@
             <rect key="frame" x="0.0" y="0.0" width="434" height="174"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView id="jka-Rj-MMg" userLabel="Grapple Tool View">
-                    <rect key="frame" x="34" y="135" width="380" height="25"/>
+                <customView misplaced="YES" id="jka-Rj-MMg" userLabel="Grapple Tool View">
+                    <rect key="frame" x="34" y="135" width="268" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <slider hidden="YES" verticalHuggingPriority="750" id="wRw-NE-Rb7" customClass="BlackSlider">
-                            <rect key="frame" x="321" y="3" width="50" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="KLe-U1-eOS" customClass="BlackSliderCell"/>
-                            <connections>
-                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="ARN-GM-MNn"/>
-                            </connections>
-                        </slider>
-                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="UdJ-LV-L0R" customClass="BlackTextField">
-                            <rect key="frame" x="232" y="6" width="59" height="14"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tolerance:" id="ziI-Kd-e0U" customClass="BlackTextFieldCell">
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                        </textField>
                         <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="p7S-8u-XaL">
                             <rect key="frame" x="0.0" y="5" width="166" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -82,19 +64,6 @@
                                 <binding destination="-2" name="selectedTag" keyPath="self.toolbox.grappleTool.vertical" id="mym-rP-brO"/>
                             </connections>
                         </matrix>
-                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="fcR-5i-P94" customClass="BlackTextField">
-                            <rect key="frame" x="293" y="6" width="24" height="14"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="100" id="g9U-fD-jCa" customClass="BlackTextFieldCell">
-                                <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" minimumIntegerDigits="0" maximumIntegerDigits="42" id="tqZ-MV-oWg"/>
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <connections>
-                                <binding destination="-2" name="value" keyPath="self.toolbox.grappleTool.tolerance" id="th6-M4-zdk"/>
-                            </connections>
-                        </textField>
                         <button id="134-MO-R4e">
                             <rect key="frame" x="167" y="0.0" width="25" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -108,15 +77,15 @@
                         </button>
                     </subviews>
                 </customView>
-                <customView id="LEE-so-sRZ" userLabel="Zoom Tool View">
-                    <rect key="frame" x="34" y="108" width="300" height="25"/>
+                <customView misplaced="YES" id="LEE-so-sRZ" userLabel="Zoom Tool View">
+                    <rect key="frame" x="34" y="108" width="268" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="ihd-HV-att">
                             <rect key="frame" x="0.0" y="5" width="158" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="75" height="18"/>
+                            <size key="cellSize" width="74" height="18"/>
                             <size key="intercellSpacing" width="0.0" height="2"/>
                             <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="Kb8-sJ-JYc" customClass="BlackButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -140,16 +109,16 @@
                                 <binding destination="-2" name="selectedTag" keyPath="self.toolbox.zoomTool.zoomsIn" id="nrl-lY-IZO"/>
                             </connections>
                         </matrix>
-                        <slider verticalHuggingPriority="750" id="W5c-xV-hmI" customClass="BlackSlider">
-                            <rect key="frame" x="170" y="3" width="69" height="19"/>
+                        <slider verticalHuggingPriority="750" misplaced="YES" id="W5c-xV-hmI" customClass="BlackSlider">
+                            <rect key="frame" x="156" y="3" width="64" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="66" tickMarkPosition="below" numberOfTickMarks="67" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
                             <connections>
                                 <binding destination="-2" name="value" keyPath="self.magnificationManager.tickMarkPosition" id="46O-U0-ceS"/>
                             </connections>
                         </slider>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="0dA-4M-K3W" customClass="BlackTextField">
-                            <rect key="frame" x="245" y="6" width="38" height="14"/>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="0dA-4M-K3W" customClass="BlackTextField">
+                            <rect key="frame" x="224" y="6" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs" customClass="BlackTextFieldCell">
                                 <font key="font" metaFont="smallSystem"/>
@@ -213,8 +182,8 @@
                         <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.selectedToolIndex" id="s1E-Rw-gm6"/>
                     </connections>
                 </segmentedControl>
-                <customView id="rKi-rg-iQD">
-                    <rect key="frame" x="304" y="6" width="196" height="25"/>
+                <customView misplaced="YES" id="rKi-rg-iQD">
+                    <rect key="frame" x="304" y="6" width="202" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
                 <segmentedControl verticalHuggingPriority="750" id="LLL-Ww-C7t" customClass="BlackSegmentedControl">

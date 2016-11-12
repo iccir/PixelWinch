@@ -19,7 +19,6 @@
 
 - (void) toggleVertical;
 
-@property (nonatomic) NSInteger tolerance;
 @property (nonatomic) BOOL attachesToGuides;
 @property (nonatomic, getter=isVertical) BOOL vertical;
 

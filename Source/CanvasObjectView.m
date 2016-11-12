@@ -134,8 +134,10 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
                 }
             }
             
-            [self autoscroll:event];
-        
+            if ([self allowsAutoscroll]) {
+                [self autoscroll:event];
+            }
+
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
             [self continueTrackingWithEvent:event point:snappedPoint];
             lastDragEvent = event;
@@ -264,6 +266,12 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
 
 - (BOOL) isMeasurementLabelHidden
+{
+    return YES;
+}
+
+
+- (BOOL) allowsAutoscroll
 {
     return YES;
 }

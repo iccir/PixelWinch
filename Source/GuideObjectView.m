@@ -153,6 +153,12 @@
 }
 
 
+- (BOOL) allowsAutoscroll
+{
+    return NO;
+}
+
+
 #pragma - Accessors
 
 - (void) setGuide:(Guide *)guide

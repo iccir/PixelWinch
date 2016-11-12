@@ -65,6 +65,8 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (MeasurementLabelStyle) measurementLabelStyle;
 - (BOOL) isMeasurementLabelHidden;
 
+- (BOOL) allowsAutoscroll;
+
 @property (nonatomic, strong) CanvasObject *canvasObject;
 @property (nonatomic, getter=isNewborn) BOOL newborn;
 @property (nonatomic, getter=isSelected) BOOL selected;
