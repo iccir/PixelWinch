@@ -52,8 +52,6 @@
 #import "CursorAdditions.h"
 #import "ReceiptValidation_B.h"
 #import "ReceiptValidation_C.h"
-#import "ReceiptValidation_D.h"
-#import "ReceiptValidation_E.h"
 
 
 #if 0 && DEBUG
@@ -72,24 +70,17 @@ typedef NS_ENUM(NSInteger, AnimationAction) {
 
     AnimationAction_UpdateOverlayForScreen,
     
-    AnimationAction_CleanupShield,
-
     AnimationAction_SetupTransitionImageView,
-    AnimationAction_SetupShield,
         
     AnimationAction_RunFadeInOverlayAnimation,
     AnimationAction_FinishFadeInOverlayAnimation,
     AnimationAction_RunPopInOverlayAnimation,
-    
-    AnimationAction_RunFadeInShieldAnimation,
-    AnimationAction_FinishFadeInShieldAnimation
 };
 
 
 // Use Dock's approach to anti-hacking: keep things in globals (ew!)
 static CGRect       sTransitionImageGlobalRect = {0};
 static CGImageRef   sTransitionImage           = NULL;
-static BOOL         sShowDelayNextTime         = NO;
 
 
 #define InvalidReceiptDelta_Value MeasurementScaleMode
@@ -107,32 +98,6 @@ static inline void sInvalidate()
 }
 
 #endif
-
-
-static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
-{
-    // The __arc_weak_lock global struct is actually "number of screenshots captured this session"
-    // represented in postive and negative integers and doubles
-    //
-    NSInteger positive_i = __arc_weak_lock.count;
-    NSInteger negative_i = __arc_weak_lock.s1;
-    double    positive_f = __arc_weak_lock.s2;
-    double    negative_f = __arc_weak_lock.s3;
-
-    // Adding the positive and negative portions should always be 0.  If not, the struct has been manipulated
-    NSInteger shouldBeZero_i = labs(positive_i + negative_i);
-    double    shouldBeZero_f = fabs(round(positive_f + negative_f));
-
-    // Bitshifting 0 should always be 0.  Messaging nil should never crash
-    [(__bridge id)(void *)(       shouldBeZero_i  << 16) copy];
-    [(__bridge id)(void *)(lround(shouldBeZero_f) << 24) copy];
-
-    NSTimeInterval a = ((       shouldBeZero_i  + 1) << 3) - 3;
-    NSInteger      b = ((lround(shouldBeZero_f) + 1) << 3) - 3;
-
-    *outA = a;
-    *outB = round(b);
-}
 
 
 @interface CanvasWindowController () <
@@ -872,16 +837,13 @@ static inline void sGetPleaDuration(NSTimeInterval *outA, NSTimeInterval *outB)
 }
 
 
-static void sAnimate(CanvasWindowController *self, AnimationAction action, id argument, CGFloat *outDuration)
+static void sAnimate(CanvasWindowController *self, AnimationAction action, id argument)
 {
     Preferences *preferences = [Preferences sharedInstance];
     BOOL usesOverlayWindow = [preferences usesOverlayWindow];
 
-    CGFloat outDurationValue = 0;
-
     static CGRect                 sScrollRectInWindow    = {0};
     static NSView                *sTransitionImageView   = nil;
-    static NSView                *sShieldImageView       = nil;
     
     const CGFloat sFadeInDuration  = 0.2;
     const CGFloat sFadeOutDuration = 0.2;
@@ -896,19 +858,15 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     if (action == AnimationAction_DoOrderIn) {
         LOG(@"Order in");
 
-        [canvasScrollView  setHidden:NO];
-        [[self bottomView] setHidden:NO];
+        [canvasScrollView setHidden:NO];
 
         [sTransitionImageView removeFromSuperview];
         sTransitionImageView = nil;
 
-        [sShieldImageView removeFromSuperview];
-        sShieldImageView = nil;
-
         NSDisableScreenUpdates();
 
         if (usesOverlayWindow) {
-            sAnimate( self, AnimationAction_SetupTransitionImageView, nil, NULL);
+            sAnimate( self, AnimationAction_SetupTransitionImageView, nil);
 
             [shroudView  setAlphaValue:0];
             [contentView setAlphaValue:0];
@@ -917,44 +875,20 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         [[self window] display];
 
-#if ENABLE_APP_STORE && !defined(DEBUG)
-        B_CheckReceipt();
-#endif
-
-    CHECK_BETA_EXPIRATION();
-
-#if ENABLE_TRIAL
-        NSTimeInterval duration, unused;
-        sGetPleaDuration(&unused, &duration);
-        
-        if (duration && (sTransitionImage || sShowDelayNextTime)) {
-            sAnimate( self, AnimationAction_SetupShield, nil, &outDurationValue);
-        }
-#endif
-
         NSEnableScreenUpdates();
 
         if (usesOverlayWindow) {
             [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
                 [context setDuration:sFadeInDuration];
-                sAnimate( self, AnimationAction_RunFadeInOverlayAnimation, nil, NULL);
+                sAnimate( self, AnimationAction_RunFadeInOverlayAnimation, nil);
 
             } completionHandler:^{
-                sAnimate( self, AnimationAction_FinishFadeInOverlayAnimation, nil, NULL);
+                sAnimate( self, AnimationAction_FinishFadeInOverlayAnimation, nil);
             }];
 
             if (!sTransitionImageView) {
-                sAnimate( self, AnimationAction_RunPopInOverlayAnimation, nil, NULL);
+                sAnimate( self, AnimationAction_RunPopInOverlayAnimation, nil);
             }
-
-        } else if (sShieldImageView) {
-            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-                [context setDuration:sFadeInDuration];
-                sAnimate( self, AnimationAction_RunFadeInShieldAnimation, nil, NULL);
-
-            } completionHandler:^{
-                sAnimate( self, AnimationAction_FinishFadeInShieldAnimation, nil, NULL);
-            }];
         }
 
     } else if (action == AnimationAction_SetupTransitionImageView) {
@@ -984,76 +918,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             sScrollRectInWindow = [canvasView convertRect:[canvasView bounds] toView:nil];
         }
 
-    } else if (action == AnimationAction_SetupShield) {
-        LOG(@"Setup Shield");
-
-        NSView *bottomView = [self bottomView];
-        NSRect  bounds     = [bottomView bounds];
-        CGFloat scale      = [[self window] backingScaleFactor];
-        
-        [bottomView setNeedsDisplay];
-        [bottomView displayIfNeeded];
-        
-        CGImageRef shieldImage = CreateImage(bounds.size, NO, scale, ^(CGContextRef context) {
-            CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, bounds.size.height);
-            CGContextConcatCTM(context, flipVertical);
-            [[bottomView layer] renderInContext:context];
-        });
-        
-        [sShieldImageView removeFromSuperview];
-
-        sShieldImageView = [[NSView alloc] initWithFrame:[bottomView frame]];
-        [sShieldImageView setWantsLayer:YES];
-        [[sShieldImageView layer] setContents:(__bridge id)shieldImage];
-        [[sShieldImageView layer] setContentsScale:scale];
-
-        CGImageRelease(shieldImage);
-        
-        [[bottomView superview] addSubview:sShieldImageView];
-        [bottomView setHidden:YES];
-        
-        NSTimeInterval duration, unused;
-        sGetPleaDuration(&duration, &unused);
-
-        [sShieldImageView setAlphaValue:0.15];
-
-        [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:duration];
-        [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-
-        [sShieldImageView setAlphaValue:0.16];
-
-        [NSAnimationContext endGrouping];
-        
-        outDurationValue = duration + sFadeInDuration;
-
-    } else if (action == AnimationAction_CleanupShield) {
-        LOG(@"Cleanup Shield");
-
-        [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setCompletionHandler:^{
-            [[self bottomView] setHidden:NO];
-
-            [sShieldImageView removeFromSuperview];
-            sShieldImageView = nil;
-            
-            [sTransitionImageView removeFromSuperview];
-            sTransitionImageView = nil;
-            
-            CGImageRelease(sTransitionImage);
-            sTransitionImage = NULL;
-
-            sTransitionImageGlobalRect = CGRectZero;
-        }];
-
-        [[NSAnimationContext currentContext] setDuration:sFadeOutDuration];
-        [[NSAnimationContext currentContext] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-
-        [[sTransitionImageView   animator] setAlphaValue:1.0];
-        [[sShieldImageView       animator] setAlphaValue:1.0];
-
-        [NSAnimationContext endGrouping];
-       
     } else if (action == AnimationAction_RunFadeInOverlayAnimation) {
         LOG(@"Run Fade In Overlay");
 
@@ -1063,10 +927,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         if (sTransitionImageView) {
             [[sTransitionImageView animator] setFrame:sScrollRectInWindow];
-            
-            if (sShieldImageView) {
-                [[sTransitionImageView animator] setAlphaValue:0.15];
-            }
         }
     
     } else if (action == AnimationAction_FinishFadeInOverlayAnimation) {
@@ -1080,36 +940,18 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             [tool canvasWindowDidAppear];
         }
 
-        if (!sShieldImageView) {
-            [sTransitionImageView removeFromSuperview];
-            sTransitionImageView = nil;
-            
-            CGImageRelease(sTransitionImage);
-            sTransitionImage = NULL;
+        [sTransitionImageView removeFromSuperview];
+        sTransitionImageView = nil;
+        
+        CGImageRelease(sTransitionImage);
+        sTransitionImage = NULL;
 
-            sTransitionImageGlobalRect = CGRectZero;
-        }
+        sTransitionImageGlobalRect = CGRectZero;
 
         [[self window] display];
     
         NSEnableScreenUpdates();
-
-    } else if (action == AnimationAction_RunFadeInShieldAnimation) {
-        LOG(@"Run Fade In Shield");
-                
-        if (sShieldImageView) {
-            [[sTransitionImageView animator] setAlphaValue:0.15];
-        }
-    
-    } else if (action == AnimationAction_FinishFadeInShieldAnimation) {
-        LOG(@"Finish Fade In Shield");
-
-        [canvasScrollView setHidden:NO];
-
-        for (Tool *tool in [toolbox allTools]) {
-            [tool canvasWindowDidAppear];
-        }
-    
+                   
     } else if (action == AnimationAction_RunPopInOverlayAnimation) {
         LOG(@"Run Pop In Overlay");
 
@@ -1132,34 +974,30 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     // Order out animation
     if (action == AnimationAction_DoOrderOut) {
-        sShowDelayNextTime = (sShieldImageView != nil);
-
         if (usesOverlayWindow) {
             CGSize size = [contentView bounds].size;
 
             [NSAnimationContext beginGrouping];
-            [[NSAnimationContext currentContext] setCompletionHandler:^{ sAnimate(self, AnimationAction_FinishOrderOutAnimation, nil, NULL); }];
+            [[NSAnimationContext currentContext] setCompletionHandler:^{ sAnimate(self, AnimationAction_FinishOrderOutAnimation, nil); }];
             [[NSAnimationContext currentContext] setDuration:sFadeOutDuration];
 
-            sAnimate(self, AnimationAction_RunOrderOutAnimation, nil, NULL);
+            sAnimate(self, AnimationAction_RunOrderOutAnimation, nil);
 
             [NSAnimationContext endGrouping];
 
-            if (!sShieldImageView) {
-                CGAffineTransform fromTransform = CGAffineTransformIdentity;
-                fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
-                fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
-                
-                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-                [animation setDuration:sFadeOutDuration];
-                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-                [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
-                [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
-                [animation setFillMode:kCAFillModeBoth];
-                
-                [[contentView      layer] addAnimation:animation forKey:@"transform"];
-                [[shadowView       layer] addAnimation:animation forKey:@"transform"];
-            }
+            CGAffineTransform fromTransform = CGAffineTransformIdentity;
+            fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
+            fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
+            
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+            [animation setDuration:sFadeOutDuration];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+            [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
+            [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
+            [animation setFillMode:kCAFillModeBoth];
+            
+            [[contentView layer] addAnimation:animation forKey:@"transform"];
+            [[shadowView  layer] addAnimation:animation forKey:@"transform"];
 
         } else {
             [[self window] orderOut:self];
@@ -1171,16 +1009,12 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         [[shadowView  animator] setAlphaValue:0.0];
     
         [[sTransitionImageView   animator] setAlphaValue:0.0];
-        [[sShieldImageView       animator] setAlphaValue:0.0];
     
     } else if (action == AnimationAction_FinishOrderOutAnimation) {
         [[self window] orderOut:self];
 
         [sTransitionImageView removeFromSuperview];
         sTransitionImageView = nil;
-
-        [sShieldImageView removeFromSuperview];
-        sShieldImageView = nil;
     }
     
     
@@ -1232,8 +1066,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         [contentView setFrame:contentRect];
         [shadowView  setFrame:contentRect];
     }
-    
-    if (outDuration) *outDuration = outDurationValue;
 }
 
 
@@ -2217,7 +2049,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
     NSDisableScreenUpdates();
 
-    sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen, NULL);
+    sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen);
     [self _updateCanvasWithLibraryItem:libraryItem];
 
     NSView *viewToBlock = [[Preferences sharedInstance] usesOverlayWindow] ? _contentView : _bottomView;
@@ -2225,25 +2057,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     BaseView *blockerView = [[BaseView alloc] initWithFrame:[viewToBlock bounds]];
     [blockerView setBackgroundColor:[NSColor clearColor]];
     
-    CGFloat outDuration = 0;
-    sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
-
-    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC));
-
-#if ENABLE_TRIAL
-    E_CheckReceipt();
-#endif
-
-    if (outDuration) {
-        LOG(@"Adding blocker, will remove after %g seconds", outDuration);
-
-        [viewToBlock addSubview:blockerView];
-
-        dispatch_after(time, dispatch_get_main_queue(), ^{
-            sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
-            [blockerView removeFromSuperview];
-        });
-    }
+    sAnimate(self, AnimationAction_DoOrderIn, nil);
 
     [NSApp activateIgnoringOtherApps:YES];
     [[CursorInfo sharedInstance] setEnabled:YES];
@@ -2297,7 +2111,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:NULL];
         if (!preferredScreen) preferredScreen = [NSScreen mainScreen];
 
-        sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen, NULL);
+        sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen);
 
         CGImageRelease(sTransitionImage);
         sTransitionImage = NULL;
@@ -2312,18 +2126,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             [self _updateCanvasWithLibraryItem:item];
         }
 
-        CGFloat outDuration = 0;
-        sAnimate(self, AnimationAction_DoOrderIn, nil, &outDuration);
-
-#if ENABLE_TRIAL
-        D_CheckReceipt();
-#endif
-
-        if (outDuration) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(outDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                sAnimate(self, AnimationAction_CleanupShield, nil, NULL);
-            });
-        }
+        sAnimate(self, AnimationAction_DoOrderIn, nil);
 
         _applicationToReactivate = [[NSWorkspace sharedWorkspace] frontmostApplication];
 
@@ -2352,7 +2155,7 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [[CursorInfo sharedInstance] setEnabled:NO];
     [Screenshot clearCache];
     
-    sAnimate(self, AnimationAction_DoOrderOut, nil, NULL);
+    sAnimate(self, AnimationAction_DoOrderOut, nil);
 }
 
 
