@@ -21,7 +21,6 @@
 #import "RulerView.h"
 #import "CenteringClipView.h"
 #import "WindowResizerKnob.h"
-#import "GratuitousDelayButton.h"
 
 #import "MagnificationManager.h"
 
@@ -77,7 +76,6 @@ typedef NS_ENUM(NSInteger, AnimationAction) {
 
     AnimationAction_SetupTransitionImageView,
     AnimationAction_SetupShield,
-    AnimationAction_SetupGratuitousButton,
         
     AnimationAction_RunFadeInOverlayAnimation,
     AnimationAction_FinishFadeInOverlayAnimation,
@@ -884,7 +882,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     static CGRect                 sScrollRectInWindow    = {0};
     static NSView                *sTransitionImageView   = nil;
     static NSView                *sShieldImageView       = nil;
-    static GratuitousDelayButton *sGratuitousDelayButton = nil;
     
     const CGFloat sFadeInDuration  = 0.2;
     const CGFloat sFadeOutDuration = 0.2;
@@ -907,9 +904,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         [sShieldImageView removeFromSuperview];
         sShieldImageView = nil;
-
-        [sGratuitousDelayButton removeFromSuperview];
-        sGratuitousDelayButton = nil;
 
         NSDisableScreenUpdates();
 
@@ -935,7 +929,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         
         if (duration && (sTransitionImage || sShowDelayNextTime)) {
             sAnimate( self, AnimationAction_SetupShield, nil, &outDurationValue);
-            sAnimate( self, AnimationAction_SetupGratuitousButton, nil, NULL);
         }
 #endif
 
@@ -1044,9 +1037,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             [sShieldImageView removeFromSuperview];
             sShieldImageView = nil;
             
-            [sGratuitousDelayButton removeFromSuperview];
-            sGratuitousDelayButton = nil;
-
             [sTransitionImageView removeFromSuperview];
             sTransitionImageView = nil;
             
@@ -1061,36 +1051,15 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         [[sTransitionImageView   animator] setAlphaValue:1.0];
         [[sShieldImageView       animator] setAlphaValue:1.0];
-        [[sGratuitousDelayButton animator] setAlphaValue:0.0];
 
         [NSAnimationContext endGrouping];
-
-    } else if (action == AnimationAction_SetupGratuitousButton) {
-        LOG(@"Setup Gratuitous Button");
-
-        NSView *superview = [[self window] contentView];
-
-        CGRect superBounds = [superview bounds];
-        CGRect frame = NSMakeRect(0, 0, 410, 346);
-        
-        frame.origin.x = round((superBounds.size.width  - frame.size.width)  / 2);
-        frame.origin.y = round((superBounds.size.height - frame.size.height) / 2);
-        
-        [sGratuitousDelayButton removeFromSuperview];
-        sGratuitousDelayButton = [[GratuitousDelayButton alloc] initWithFrame:frame];
-        [sGratuitousDelayButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin|NSViewMinXMargin|NSViewMinYMargin];
-        
-        [sGratuitousDelayButton setAlphaValue:0];
-        
-        [[[self window] contentView] addSubview:sGratuitousDelayButton];
-
+       
     } else if (action == AnimationAction_RunFadeInOverlayAnimation) {
         LOG(@"Run Fade In Overlay");
 
         [[shroudView             animator] setAlphaValue:1.0];
         [[contentView            animator] setAlphaValue:1.0];
         [[shadowView             animator] setAlphaValue:1.0];
-        [[sGratuitousDelayButton animator] setAlphaValue:1.0];
 
         if (sTransitionImageView) {
             [[sTransitionImageView animator] setFrame:sScrollRectInWindow];
@@ -1125,28 +1094,9 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     
         NSEnableScreenUpdates();
 
-        if (sGratuitousDelayButton) {
-            NSTimeInterval duration, unused;
-            sGetPleaDuration(&duration, &unused);
-
-            CAMediaTimingFunction *linear = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-
-            [CATransaction flush];
-
-            [CATransaction begin];
-            [CATransaction setAnimationDuration:duration];
-            [CATransaction setAnimationTimingFunction:linear];
-
-            [[sGratuitousDelayButton maskLayer] setTransform:CATransform3DIdentity];
-
-            [CATransaction commit];
-        }
-
     } else if (action == AnimationAction_RunFadeInShieldAnimation) {
         LOG(@"Run Fade In Shield");
-        
-        [[sGratuitousDelayButton animator] setAlphaValue:1.0];
-        
+                
         if (sShieldImageView) {
             [[sTransitionImageView animator] setAlphaValue:0.15];
         }
@@ -1158,23 +1108,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         for (Tool *tool in [toolbox allTools]) {
             [tool canvasWindowDidAppear];
-        }
-    
-        if (sGratuitousDelayButton) {
-            NSTimeInterval duration, unused;
-            sGetPleaDuration(&duration, &unused);
-
-            CAMediaTimingFunction *linear = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-
-            [CATransaction flush];
-
-            [CATransaction begin];
-            [CATransaction setAnimationDuration:duration];
-            [CATransaction setAnimationTimingFunction:linear];
-
-            [[sGratuitousDelayButton maskLayer] setTransform:CATransform3DIdentity];
-
-            [CATransaction commit];
         }
     
     } else if (action == AnimationAction_RunPopInOverlayAnimation) {
@@ -1239,7 +1172,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     
         [[sTransitionImageView   animator] setAlphaValue:0.0];
         [[sShieldImageView       animator] setAlphaValue:0.0];
-        [[sGratuitousDelayButton animator] setAlphaValue:0.0];
     
     } else if (action == AnimationAction_FinishOrderOutAnimation) {
         [[self window] orderOut:self];
@@ -1249,9 +1181,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
         [sShieldImageView removeFromSuperview];
         sShieldImageView = nil;
-
-        [sGratuitousDelayButton removeFromSuperview];
-        sGratuitousDelayButton = nil;
     }
     
     

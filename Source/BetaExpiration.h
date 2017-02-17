@@ -1,4 +1,4 @@
-// Expires: 2016-12-11
+// Expires: 2017-03-18
 
-#define kExpirationDouble ((double)    503199675.0 )
-#define kExpirationLong   ((long long) 503199675   )
+#define kExpirationDouble ((double)    511583540.0 )
+#define kExpirationLong   ((long long) 511583540   )

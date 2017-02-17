@@ -42,7 +42,6 @@
 		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
-		556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */; };
 		5570960A1B5A394B00326141 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095F81B5A394B00326141 /* About.xib */; };
 		5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095FA1B5A394B00326141 /* CanvasWindow.xib */; };
 		5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 557095FC1B5A394B00326141 /* GrappleHelp.txt */; };
@@ -218,8 +217,6 @@
 		555F16FF1BC2699B00606916 /* ReceiptValidation_E.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation_E.h; path = Source/ReceiptValidation_E.h; sourceTree = SOURCE_ROOT; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
-		556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GratuitousDelayButton.h; path = Source/GratuitousDelayButton.h; sourceTree = "<group>"; };
-		556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GratuitousDelayButton.m; path = Source/GratuitousDelayButton.m; sourceTree = "<group>"; };
 		557095F91B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/About.xib; sourceTree = "<group>"; };
 		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
 		557095FD1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
@@ -677,8 +674,6 @@
 				5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */,
 				55336A1F180BC4A400F053C7 /* CursorInfo.h */,
 				55336A20180BC4A400F053C7 /* CursorInfo.m */,
-				556FC3C71A6A4C1400F72ABA /* GratuitousDelayButton.h */,
-				556FC3C81A6A4C1400F72ABA /* GratuitousDelayButton.m */,
 				5536B41C17F8F1D000D9B4E9 /* RulerView.h */,
 				5536B41D17F8F1D000D9B4E9 /* RulerView.m */,
 				55E987CC1828E37A00C2208A /* ScreenAdditions.h */,
@@ -946,7 +941,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556FC3C91A6A4C1400F72ABA /* GratuitousDelayButton.m in Sources */,
 				55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */,
 				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
