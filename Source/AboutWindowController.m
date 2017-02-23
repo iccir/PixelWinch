@@ -74,17 +74,7 @@
     NSButton *closeButton = [window standardWindowButton:NSWindowCloseButton];
     [[closeButton superview] bringSubviewToFront:closeButton];
 
-#if ENABLE_APP_STORE
-    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
-
-    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nby Ricci Adams", nil);
-
-    id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-
-    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
-
-#elif ENABLE_BETA
+#if ENABLE_BETA
     [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch-Beta"]];
 
     __block NSString *expirationString = @"";
@@ -115,18 +105,15 @@
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
     [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber, expirationString]];
-
 #else
-    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch-Trial"]];
+    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
 
-    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nTrial Version", nil);
+    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nby Ricci Adams", nil);
 
     id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
     [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
-
-    [[self viewOnAppStoreButton] setTitle:NSLocalizedString(@"Purchase Pixel Winch", nil)];
 #endif
 
     NSScrollView *legalScrollView = [[self legalText] enclosingScrollView];

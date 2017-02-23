@@ -63,8 +63,6 @@
     if (index < 0) return;
     if (index >= [levels count]) return;
 
-    ProtectEntry();
-
     CGFloat magnification = [[levels objectAtIndex:index] doubleValue];
 
     CGPoint point;
@@ -77,8 +75,6 @@
     [_canvasView setMagnification:magnification centeredAtCanvasPoint:point];
 
     [self setMagnification:magnification];
-
-    ProtectExit();
 }
 
 
@@ -90,21 +86,13 @@
 
 - (void) zoomIn
 {
-    ProtectEntry();
-
     [self zoomWithDirection:1 event:nil];
-
-    ProtectExit();
 }
 
 
 - (void) zoomOut
 {
-    ProtectEntry();
-
     [self zoomWithDirection:-1 event:nil];
-
-    ProtectExit();
 }
 
 

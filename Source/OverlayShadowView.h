@@ -9,7 +9,7 @@
 #import "BaseView.h"
 
 
-@interface ShadowView : BaseView
+@interface OverlayShadowView : BaseView
 
 @property (nonatomic, assign) CGFloat cornerRadius;
 

@@ -21,8 +21,6 @@
 
 - (void) awakeFromNib
 {
-    ProtectEntry();
-
     NSView *selfView = [self view];
     NSRect  selfViewBounds = [selfView bounds];
 
@@ -34,41 +32,27 @@
     [[self view] addSubview:_thumbnailView];
     
     [self _updateSelected];
-
-    ProtectExit();
 }
 
 
 - (void) _updateSelected
 {
-    ProtectEntry();
-
     BOOL isSelected = [self isSelected];
     [[self textField] setTextColor:GetRGBColor(0xFFFFFF, isSelected ? 1.0 : 0.5)];
     [_thumbnailView setSelected:isSelected];
-
-    ProtectExit();
 }
 
 
 - (void) thumbnailViewDidClickDelete:(ThumbnailView *)thumbnailView
 {
-    ProtectEntry();
-
     [NSApp sendAction:@selector(deleteSelectedLibraryItem:) to:nil from:self];
-
-    ProtectExit();
 }
 
 
 - (void) setSelected:(BOOL)selected
 {
-    ProtectEntry();
-
     [super setSelected:selected];
     [self _updateSelected];
-
-    ProtectExit();
 }
 
 

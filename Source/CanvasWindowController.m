@@ -16,7 +16,9 @@
 
 #import "BlackScroller.h"
 
-#import "ShadowView.h"
+#import "OverlayShadowView.h"
+#import "OverlayBaseView.h"
+
 #import "CanvasView.h"
 #import "RulerView.h"
 #import "CenteringClipView.h"
@@ -45,13 +47,10 @@
 #import "MarqueeObjectView.h"
 #import "RectangleObjectView.h"
 #import "ResizeKnobView.h"
-#import "ContentView.h"
 #import "CanvasWindow.h"
 #import "MeasurementLabel.h"
 
 #import "CursorAdditions.h"
-#import "ReceiptValidation_B.h"
-#import "ReceiptValidation_C.h"
 
 
 #if 0 && DEBUG
@@ -59,28 +58,6 @@
 #else
 #define LOG(...)
 #endif
-
-
-typedef NS_ENUM(NSInteger, AnimationAction) {
-    AnimationAction_DoOrderIn,
-    
-    AnimationAction_DoOrderOut,
-    AnimationAction_RunOrderOutAnimation,
-    AnimationAction_FinishOrderOutAnimation,
-
-    AnimationAction_UpdateOverlayForScreen,
-    
-    AnimationAction_SetupTransitionImageView,
-        
-    AnimationAction_RunFadeInOverlayAnimation,
-    AnimationAction_FinishFadeInOverlayAnimation,
-    AnimationAction_RunPopInOverlayAnimation,
-};
-
-
-// Use Dock's approach to anti-hacking: keep things in globals (ew!)
-static CGRect       sTransitionImageGlobalRect = {0};
-static CGImageRef   sTransitionImage           = NULL;
 
 
 #define InvalidReceiptDelta_Value MeasurementScaleMode
@@ -103,7 +80,7 @@ static inline void sInvalidate()
 @interface CanvasWindowController () <
     NSToolbarDelegate,
     CanvasWindowDelegate,
-    ContentViewDelegate,
+    OverlayBaseViewDelegate,
     CanvasDelegate,
     CanvasViewDelegate,
     RulerViewDelegate,
@@ -116,7 +93,6 @@ static inline void sInvalidate()
 
 @implementation CanvasWindowController {
     NSWindow    *_canvasWindow;
-    ContentView *_contentView;
     
     NSRect _contentViewFrameAtResizeStart;
     NSRect _contentViewMinFrameAtResizeStart;
@@ -124,8 +100,11 @@ static inline void sInvalidate()
 
     Toolbox     *_toolbox;
     
-    ShadowView  *_shadowView;
-    ContentView *_shroudView;
+    OverlayShadowView  *_shadowView;
+    OverlayBaseView *_shroudView;
+    OverlayBaseView *_contentView;
+
+    NSView      *_transitionImageView;
 
     CGFloat      _liveMagnificationLevel;
     CGPoint      _liveMagnificationPoint;
@@ -445,8 +424,6 @@ static inline void sInvalidate()
 
 - (void) windowDidLoad
 {
-    ProtectEntry();
-    
     __block u_int32_t aRandomInt = arc4random();
     
     CGFloat (^getRandomValueForInvalidReceipt)(u_int32_t) = ^(u_int32_t value) {
@@ -559,8 +536,6 @@ static inline void sInvalidate()
     if ([NSTouchBar class]) {
         [[NSBundle mainBundle] loadNibNamed:@"TouchBar" owner:self topLevelObjects:nil];
     }
-
-    ProtectExit();
 }
 
 
@@ -746,18 +721,18 @@ static inline void sInvalidate()
         [shadow setShadowOffset:NSMakeSize(0, 4)];
         [shadow setShadowBlurRadius:16];
 
-        _shroudView = [[ContentView alloc] initWithFrame:[windowContentView bounds]];
+        _shroudView = [[OverlayBaseView alloc] initWithFrame:[windowContentView bounds]];
         [_shroudView setBackgroundColor:[NSColor colorWithCalibratedWhite:0 alpha:0.5]];
         [_shroudView setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
         [_shroudView setDelegate:self];
 
-        _shadowView = [[ShadowView alloc] initWithFrame:[windowContentView bounds]];
+        _shadowView = [[OverlayShadowView alloc] initWithFrame:[windowContentView bounds]];
         [_shadowView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
         [_shadowView setBackgroundColor:darkColor];
         [_shadowView setCornerRadius:8];
         [_shadowView setShadow:shadow];
 
-        _contentView = [[ContentView alloc] initWithFrame:[windowContentView bounds]];
+        _contentView = [[OverlayBaseView alloc] initWithFrame:[windowContentView bounds]];
         [_contentView setWantsLayer:YES];
         [_contentView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
         [_contentView setBackgroundColor:darkColor];
@@ -837,236 +812,235 @@ static inline void sInvalidate()
 }
 
 
-static void sAnimate(CanvasWindowController *self, AnimationAction action, id argument)
+- (void) _animateInOverlayWithScreenshot:(Screenshot *)screenshot globalRect:(NSRect)globalRect
 {
-    Preferences *preferences = [Preferences sharedInstance];
-    BOOL usesOverlayWindow = [preferences usesOverlayWindow];
-
-    static CGRect                 sScrollRectInWindow    = {0};
-    static NSView                *sTransitionImageView   = nil;
+    if (!_windowIsOverlay) return;
     
-    const CGFloat sFadeInDuration  = 0.2;
-    const CGFloat sFadeOutDuration = 0.2;
+    const CGFloat sOrderInDuration  = 0.2;
 
-    NSScrollView *canvasScrollView    = self->_canvasScrollView;
-    Toolbox      *toolbox             = self->_toolbox;
-    ContentView  *shroudView          = self->_shroudView;
-    ContentView  *contentView         = self->_contentView;
-    ShadowView   *shadowView          = self->_shadowView;
-    CanvasView   *canvasView          = self->_canvasView;
+    [_canvasScrollView setHidden:NO];
+    [_transitionImageView removeFromSuperview];
+    _transitionImageView = nil;
 
-    if (action == AnimationAction_DoOrderIn) {
-        LOG(@"Order in");
+    NSView *windowContentView = [[self window] contentView];
 
-        [canvasScrollView setHidden:NO];
+    NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:globalRect];
+    CGRect fromFrame = [[self window] convertRectFromScreen:appKitRect];
+    fromFrame = [windowContentView convertRect:fromFrame fromView:nil];
 
-        [sTransitionImageView removeFromSuperview];
-        sTransitionImageView = nil;
+    CGRect toFrame = [_canvasView convertRect:[_canvasView bounds] toView:nil];
 
-        NSDisableScreenUpdates();
+    _transitionImageView = [[NSView alloc] initWithFrame:toFrame];
+    [_transitionImageView setLayer:[CALayer layer]];
+    [_transitionImageView setWantsLayer:YES];
+    [[_transitionImageView layer] setMagnificationFilter:kCAFilterNearest];
+    [[_transitionImageView layer] setContents:(__bridge id)[screenshot CGImage]];
 
-        if (usesOverlayWindow) {
-            sAnimate( self, AnimationAction_SetupTransitionImageView, nil);
+    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *fromValue) {
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
 
-            [shroudView  setAlphaValue:0];
-            [contentView setAlphaValue:0];
-            [shadowView  setAlphaValue:0];
-        }
+        [animation setDuration:sOrderInDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [animation setFromValue:fromValue];
+        [animation setFillMode:kCAFillModeBoth];
+        
+        [[view layer] addAnimation:animation forKey:keyPath];
+    };
 
-        [[self window] display];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setDuration:sOrderInDuration];
 
-        NSEnableScreenUpdates();
+        [_canvasScrollView tile];
+        [_canvasScrollView setHidden:YES];
 
-        if (usesOverlayWindow) {
-            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-                [context setDuration:sFadeInDuration];
-                sAnimate( self, AnimationAction_RunFadeInOverlayAnimation, nil);
+        [windowContentView addSubview:_transitionImageView];
 
-            } completionHandler:^{
-                sAnimate( self, AnimationAction_FinishFadeInOverlayAnimation, nil);
-            }];
+        CGAffineTransform fromTransform = CGAffineTransformIdentity;
+        fromTransform = CGAffineTransformTranslate(fromTransform, fromFrame.origin.x - toFrame.origin.x, fromFrame.origin.y - toFrame.origin.y);
+        fromTransform = CGAffineTransformScale(fromTransform, fromFrame.size.width / toFrame.size.width, fromFrame.size.height / toFrame.size.height);
 
-            if (!sTransitionImageView) {
-                sAnimate( self, AnimationAction_RunPopInOverlayAnimation, nil);
-            }
-        }
+        NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
 
-    } else if (action == AnimationAction_SetupTransitionImageView) {
-        LOG(@"Setup Transition Image View");
-
-        if (sTransitionImage) {
-            NSView *windowContentView = [[self window] contentView];
-
-            [canvasScrollView tile];
-            [canvasScrollView setHidden:YES];
-
-            
-            NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:sTransitionImageGlobalRect];
-            CGRect frame = [[self window] convertRectFromScreen:appKitRect];
-            frame = [windowContentView convertRect:frame fromView:nil];
-
-            [sTransitionImageView removeFromSuperview];
-            sTransitionImageView = [[NSView alloc] initWithFrame:frame];
-            [sTransitionImageView setWantsLayer:YES];
-            [[sTransitionImageView layer] setMagnificationFilter:kCAFilterNearest];
-            [[sTransitionImageView layer] setContents:(__bridge id)sTransitionImage];
-
-            [sTransitionImageView setFrame:frame];
-
-            [windowContentView addSubview:sTransitionImageView];
-
-            sScrollRectInWindow = [canvasView convertRect:[canvasView bounds] toView:nil];
-        }
-
-    } else if (action == AnimationAction_RunFadeInOverlayAnimation) {
         LOG(@"Run Fade In Overlay");
 
-        [[shroudView             animator] setAlphaValue:1.0];
-        [[contentView            animator] setAlphaValue:1.0];
-        [[shadowView             animator] setAlphaValue:1.0];
+        animate(_shroudView,          @"opacity", @0.0);
+        animate(_shadowView,          @"opacity", @0.0);
+        animate(_contentView,         @"opacity", @0.0);
+        animate(_transitionImageView, @"transform", fromTransformValue);
 
-        if (sTransitionImageView) {
-            [[sTransitionImageView animator] setFrame:sScrollRectInWindow];
-        }
-    
-    } else if (action == AnimationAction_FinishFadeInOverlayAnimation) {
+    } completionHandler:^{
         LOG(@"Finish Fade In Overlay");
 
-        NSDisableScreenUpdates();
-        
-        [canvasScrollView setHidden:NO];
+        [_canvasScrollView setHidden:NO];
 
-        for (Tool *tool in [toolbox allTools]) {
+        for (Tool *tool in [_toolbox allTools]) {
             [tool canvasWindowDidAppear];
         }
 
-        [sTransitionImageView removeFromSuperview];
-        sTransitionImageView = nil;
+        [_transitionImageView removeFromSuperview];
+        _transitionImageView = nil;
+    }];
+}
+
+
+- (void) _animateInOverlay
+{
+    if (!_windowIsOverlay) return;
+
+    const CGFloat sOrderInDuration = 0.2;
+
+    LOG(@"Order in");
+
+    [_canvasScrollView setHidden:NO];
+    [_transitionImageView removeFromSuperview];
+    _transitionImageView = nil;
+
+    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *fromValue) {
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
+
+        [animation setDuration:sOrderInDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [animation setFromValue:fromValue];
+        [animation setFillMode:kCAFillModeBoth];
         
-        CGImageRelease(sTransitionImage);
-        sTransitionImage = NULL;
+        [[view layer] addAnimation:animation forKey:keyPath];
+    };
 
-        sTransitionImageGlobalRect = CGRectZero;
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setDuration:sOrderInDuration];
+        [context setAllowsImplicitAnimation:NO];
 
-        [[self window] display];
-    
-        NSEnableScreenUpdates();
-                   
-    } else if (action == AnimationAction_RunPopInOverlayAnimation) {
-        LOG(@"Run Pop In Overlay");
-
-        CGSize contentViewBoundsSize = [contentView bounds].size;
+        CGSize contentViewBoundsSize = [_contentView bounds].size;
 
         CGAffineTransform fromTransform = CGAffineTransformIdentity;
         fromTransform = CGAffineTransformTranslate(fromTransform, contentViewBoundsSize.width / 4, contentViewBoundsSize.height / 4);
         fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
+
+        NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
+
+        [[_shroudView  layer] setOpacity:1];
+        [[_shadowView  layer] setOpacity:1];
+        [[_contentView layer] setOpacity:1];
+
+        [[_shadowView  layer] setTransform:CATransform3DIdentity];
+        [[_contentView layer] setTransform:CATransform3DIdentity];
         
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-        [animation setDuration:sFadeInDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-        [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
-        [animation setToValue:  [NSValue valueWithCATransform3D:CATransform3DIdentity]];
-        [animation setFillMode:kCAFillModeBoth];
+        animate(_shroudView,  @"opacity", @0.0);
+        animate(_contentView, @"opacity", @0.0);
+        animate(_shadowView,  @"opacity", @0.0);
+        animate(_contentView, @"transform", fromTransformValue);
+        animate(_contentView, @"transform", fromTransformValue);
 
-        [[contentView layer] addAnimation:animation forKey:@"transform"];
-        [[shadowView  layer] addAnimation:animation forKey:@"transform"];
-    }
+    } completionHandler:^{
+        LOG(@"Finish Fade In Overlay");
 
-    // Order out animation
-    if (action == AnimationAction_DoOrderOut) {
-        if (usesOverlayWindow) {
-            CGSize size = [contentView bounds].size;
+        [_canvasScrollView setHidden:NO];
 
-            [NSAnimationContext beginGrouping];
-            [[NSAnimationContext currentContext] setCompletionHandler:^{ sAnimate(self, AnimationAction_FinishOrderOutAnimation, nil); }];
-            [[NSAnimationContext currentContext] setDuration:sFadeOutDuration];
-
-            sAnimate(self, AnimationAction_RunOrderOutAnimation, nil);
-
-            [NSAnimationContext endGrouping];
-
-            CGAffineTransform fromTransform = CGAffineTransformIdentity;
-            fromTransform = CGAffineTransformTranslate(fromTransform, size.width / 4, size.height / 4);
-            fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
-            
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
-            [animation setDuration:sFadeOutDuration];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-            [animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
-            [animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)]];
-            [animation setFillMode:kCAFillModeBoth];
-            
-            [[contentView layer] addAnimation:animation forKey:@"transform"];
-            [[shadowView  layer] addAnimation:animation forKey:@"transform"];
-
-        } else {
-            [[self window] orderOut:self];
+        for (Tool *tool in [_toolbox allTools]) {
+            [tool canvasWindowDidAppear];
         }
-
-    } else if (action == AnimationAction_RunOrderOutAnimation) {
-        [[shroudView  animator] setAlphaValue:0.0];
-        [[contentView animator] setAlphaValue:0.0];
-        [[shadowView  animator] setAlphaValue:0.0];
-    
-        [[sTransitionImageView   animator] setAlphaValue:0.0];
-    
-    } else if (action == AnimationAction_FinishOrderOutAnimation) {
-        [[self window] orderOut:self];
-
-        [sTransitionImageView removeFromSuperview];
-        sTransitionImageView = nil;
-    }
-    
-    
-    if (action == AnimationAction_UpdateOverlayForScreen) {
-        if (!usesOverlayWindow) return;
-        
-        NSScreen *screen = (NSScreen *)argument;
-
-        CGRect entireFrame  = [screen frame];
-        CGRect visibleFrame = [screen visibleFrame];
-        
-        CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
-        CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
-
-        CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
-        CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
-
-        CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
-        CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
-        
-        [[self window] setFrame:entireFrame display:NO];
-
-        CGRect contentRect = [[[self window] contentView] bounds];
-        contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
-
-        // Limit to prevent huge window on large displays
-        if (contentRect.size.width > 1920) {
-            contentRect.size.width = 1920;
-            contentRect.origin.x = round((entireFrame.size.width - contentRect.size.width) / 2);
-        }
-
-        // Check to see if we had a saved size for this display
-        NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"];
-        NSString     *sizeString = [dictionary objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)[screen winch_CGDirectDisplayID]]];
-        
-        if (sizeString) {
-            CGSize size = NSSizeFromString(sizeString);
-            
-            size.width  = round(size.width);
-            size.height = round(size.height);
-            
-            if ((size.width < contentRect.size.width) && (size.height < contentRect.size.height)) {
-                contentRect.size = size;
-                contentRect.origin.x = round((entireFrame.size.width  - contentRect.size.width)  / 2);
-                contentRect.origin.y = round((entireFrame.size.height - contentRect.size.height) / 2);
-            }
-        }
-
-        [contentView setFrame:contentRect];
-        [shadowView  setFrame:contentRect];
-    }
+    }];
 }
+
+
+- (void) _animateAndOrderOutOverlay
+{
+    if (!_windowIsOverlay) return;
+  
+    [_canvasScrollView setHidden:NO];
+    [_transitionImageView removeFromSuperview];
+    _transitionImageView = nil;
+
+    const CGFloat sOrderOutDuration = 0.2;
+
+    CGSize size = [_contentView bounds].size;
+    
+    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *toValue) {
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
+
+        [animation setDuration:sOrderOutDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [animation setToValue:toValue];
+        [animation setFillMode:kCAFillModeBoth];
+        [animation setRemovedOnCompletion:NO];
+        
+        [[view layer] addAnimation:animation forKey:keyPath];
+    };
+    
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setDuration:sOrderOutDuration];
+        [context setAllowsImplicitAnimation:NO];
+
+        CGAffineTransform toTransform = CGAffineTransformIdentity;
+        toTransform = CGAffineTransformTranslate(toTransform, size.width / 4, size.height / 4);
+        toTransform = CGAffineTransformScale(toTransform, 0.5, 0.5);
+        
+        NSValue *toTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(toTransform)];
+
+        animate(_contentView, @"opacity", @(0));
+        animate(_shroudView,  @"opacity", @(0));
+        animate(_shadowView,  @"opacity", @(0));
+        animate(_contentView, @"transform", toTransformValue);
+        animate(_shadowView,  @"transform", toTransformValue);
+
+    } completionHandler:^{
+        [[self window] orderOut:self];
+        
+        [[_contentView layer] removeAllAnimations];
+        [[_shadowView  layer] removeAllAnimations];
+        [[_shroudView  layer] removeAllAnimations];
+    }];
+}
+
+
+- (void) _updateOverlayForScreen:(NSScreen *)screen
+{
+    if (!_windowIsOverlay) return;
+    
+    CGRect entireFrame  = [screen frame];
+    CGRect visibleFrame = [screen visibleFrame];
+    
+    CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
+    CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
+
+    CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
+    CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
+
+    CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
+    CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
+    
+    [[self window] setFrame:entireFrame display:NO];
+
+    CGRect contentRect = [[[self window] contentView] bounds];
+    contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
+
+    // Limit to prevent huge window on large displays
+    if (contentRect.size.width > 1920) {
+        contentRect.size.width = 1920;
+        contentRect.origin.x = round((entireFrame.size.width - contentRect.size.width) / 2);
+    }
+
+    // Check to see if we had a saved size for this display
+    NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"];
+    NSString     *sizeString = [dictionary objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)[screen winch_CGDirectDisplayID]]];
+    
+    if (sizeString) {
+        CGSize size = NSSizeFromString(sizeString);
+        
+        size.width  = round(size.width);
+        size.height = round(size.height);
+        
+        if ((size.width < contentRect.size.width) && (size.height < contentRect.size.height)) {
+            contentRect.size = size;
+            contentRect.origin.x = round((entireFrame.size.width  - contentRect.size.width)  / 2);
+            contentRect.origin.y = round((entireFrame.size.height - contentRect.size.height) / 2);
+        }
+    }
+
+    [_contentView setFrame:contentRect];
+    [_shadowView  setFrame:contentRect];
+}
+
 
 
 - (void) _handlePreferencesDidChange:(NSNotification *)note
@@ -1795,11 +1769,11 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 
 #pragma mark - Other Delegates
 
-- (void) contentView:(ContentView *)contentView clickedWithEvent:(NSEvent *)event
+- (void) overlayBaseView:(OverlayBaseView *)baseView clickedWithEvent:(NSEvent *)event
 {
-    if (contentView == _shroudView) {
+    if (baseView == _shroudView) {
         [self hide];
-    } else if (contentView == _contentView) {
+    } else if (baseView == _contentView) {
         [[self window] makeFirstResponder:[self window]];
     }
 }
@@ -2018,8 +1992,6 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
 {
     [self window];  // Force nib to load
 
-    ProtectEntry();
-
     CHECK_BETA_EXPIRATION();
 
     BOOL useZoomAnimation = NO;
@@ -2038,18 +2010,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         }
     }
 
-    // Set up transition image if we can use the zoom animation
-    if (useZoomAnimation) {
-        CGImageRef image = CGImageRetain([[libraryItem screenshot] CGImage]);
-
-        CGImageRelease(sTransitionImage);
-        sTransitionImage = image;
-        sTransitionImageGlobalRect = globalRect;
+    if (_windowIsOverlay) {
+        [self _updateOverlayForScreen:preferredScreen];
     }
 
-    NSDisableScreenUpdates();
-
-    sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen);
     [self _updateCanvasWithLibraryItem:libraryItem];
 
     NSView *viewToBlock = [[Preferences sharedInstance] usesOverlayWindow] ? _contentView : _bottomView;
@@ -2057,18 +2021,24 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     BaseView *blockerView = [[BaseView alloc] initWithFrame:[viewToBlock bounds]];
     [blockerView setBackgroundColor:[NSColor clearColor]];
     
-    sAnimate(self, AnimationAction_DoOrderIn, nil);
+    if (_windowIsOverlay) {
+        if (useZoomAnimation) {
+            [self _animateInOverlayWithScreenshot:[libraryItem screenshot] globalRect:globalRect];
+        } else {
+            [self _animateInOverlay];
+        }
 
+    } else {
+        // Overlay animation can hide the scroll view, be paranoid if we changed modes
+        [_canvasScrollView setHidden:NO];
+    }
+    
     [NSApp activateIgnoringOtherApps:YES];
     [[CursorInfo sharedInstance] setEnabled:YES];
 
     [[self window] makeKeyAndOrderFront:self];
     
-    NSEnableScreenUpdates();
-
     [[self window] makeFirstResponder:[self window]];
-
-    ProtectExit();
 }
 
 
@@ -2111,11 +2081,10 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
         NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:NULL];
         if (!preferredScreen) preferredScreen = [NSScreen mainScreen];
 
-        sAnimate(self, AnimationAction_UpdateOverlayForScreen, preferredScreen);
+        if (_windowIsOverlay) {
+            [self _updateOverlayForScreen:preferredScreen];
+        }
 
-        CGImageRelease(sTransitionImage);
-        sTransitionImage = NULL;
-        
         if (!_currentLibraryItem) {
             LibraryItem *item = [[[Library sharedInstance] items] lastObject];
             if (!item) {
@@ -2126,7 +2095,9 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
             [self _updateCanvasWithLibraryItem:item];
         }
 
-        sAnimate(self, AnimationAction_DoOrderIn, nil);
+        if (_windowIsOverlay) {
+            [self _animateInOverlay];
+        }
 
         _applicationToReactivate = [[NSWorkspace sharedWorkspace] frontmostApplication];
 
@@ -2155,7 +2126,11 @@ static void sAnimate(CanvasWindowController *self, AnimationAction action, id ar
     [[CursorInfo sharedInstance] setEnabled:NO];
     [Screenshot clearCache];
     
-    sAnimate(self, AnimationAction_DoOrderOut, nil);
+    if (_windowIsOverlay) {
+        [self _animateAndOrderOutOverlay];
+    } else {
+        [[self window] orderOut:self];
+    }
 }
 
 

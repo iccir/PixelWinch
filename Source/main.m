@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #if ENABLE_APP_STORE
-#include "ReceiptValidation_A.h"
+#include "ReceiptValidation.h"
 #endif
 
 int main(int argc, char *argv[])

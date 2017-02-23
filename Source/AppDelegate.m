@@ -25,14 +25,6 @@
 #import "TutorialWindowController.h"
 
 
-objc_arc_weakLock __arc_weak_lock = {
-    0,
-    0,
-    0,
-    0
-};
-
-
 @interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITHockeyManagerDelegate>
 @end
 
@@ -144,11 +136,8 @@ objc_arc_weakLock __arc_weak_lock = {
 
 - (void) _updateDockAndMenuBar
 {
-    ProtectEntry();
-
     IconMode iconMode = [[Preferences sharedInstance] iconMode];
 
-    NSApplicationActivationPolicy currentActivationPolicy = [NSApp activationPolicy];
     NSMenuItem *quitMenuItem = [self quitMenuItem];
 
     [quitMenuItem setKeyEquivalent:@""];
@@ -161,39 +150,6 @@ objc_arc_weakLock __arc_weak_lock = {
             [quitMenuItem setKeyEquivalent:@"q"];
             [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
         }
-
-    // We are moving from NSApplicationActivationPolicyRegular -> NSApplicationActivationPolicyAccessory
-    // This will hide windows, so do an elaborate workaround
-    } else if (currentActivationPolicy != NSApplicationActivationPolicyAccessory) {
-        BOOL wasActive = [NSApp isActive];
-        
-        NSMutableArray *visibleWindows = [NSMutableArray array];
-        NSWindow *keyWindow = nil;
-
-        for (NSWindow *window in [NSApp windows]) {
-            if ([window isVisible]) {
-                [visibleWindows addObject:window];
-            }
-            if ([window isKeyWindow]) {
-                keyWindow = window;
-            }
-        }
-        
-        NSDisableScreenUpdates();
-        
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (wasActive) [NSApp activateIgnoringOtherApps:YES];
-
-            for (NSWindow *window in visibleWindows) {
-                [window orderFront:self];
-            }
-
-            [keyWindow makeKeyAndOrderFront:self];
-
-            NSEnableScreenUpdates();
-        });
     }
 
     if (iconMode == IconModeInMenuBar || iconMode == IconModeInBoth) {
@@ -220,15 +176,11 @@ objc_arc_weakLock __arc_weak_lock = {
             _statusItem = nil;
         }
     }
-
-    ProtectExit();
 }
 
 
 - (void) _updateShortcuts
 {
-    ProtectEntry();
-
     Preferences    *preferences = [Preferences sharedInstance];
     NSMutableArray *shortcuts   = [NSMutableArray array];
 
@@ -252,8 +204,6 @@ objc_arc_weakLock __arc_weak_lock = {
         [[ShortcutManager sharedInstance] addListener:self];
         [[ShortcutManager sharedInstance] setShortcuts:shortcuts];
     }
-
-    ProtectExit();
 }
 
 
@@ -292,9 +242,7 @@ objc_arc_weakLock __arc_weak_lock = {
 
 - (void) _handlePeriodicUpdate:(NSTimer *)timer
 {
-    ProtectEntry();
     [self _cleanupLibrary:NO];
-    ProtectExit();
 }
 
 
@@ -318,8 +266,6 @@ objc_arc_weakLock __arc_weak_lock = {
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    ProtectEntry();
-
 #if ENABLE_BETA
     ^{
         NSString *message = NSLocalizedString(@"Beta Expired", nil);
@@ -381,8 +327,6 @@ objc_arc_weakLock __arc_weak_lock = {
 
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];
-
-    ProtectExit();
 }
 
 
@@ -395,9 +339,7 @@ objc_arc_weakLock __arc_weak_lock = {
 
 - (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
-    ProtectEntry();
     [[self canvasWindowController] importFilesAtPaths:filenames];
-    ProtectExit();
 }
 
 
@@ -452,17 +394,6 @@ objc_arc_weakLock __arc_weak_lock = {
     [[self canvasWindowController] hideIfOverlay];
 
     [[self preferencesWindowController] showWindow:self];
-    [NSApp activateIgnoringOtherApps:YES];
-}
-
-
-- (IBAction) showPurchasePane:(id)sender
-{
-    [[self canvasWindowController] hideIfOverlay];
-
-    [[self preferencesWindowController] showWindow:self];
-    [[self preferencesWindowController] selectPane:3 animated:NO];
-
     [NSApp activateIgnoringOtherApps:YES];
 }
 

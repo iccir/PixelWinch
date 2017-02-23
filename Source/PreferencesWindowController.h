@@ -34,12 +34,10 @@
 @property (nonatomic, weak) IBOutlet NSToolbarItem *generalItem;
 @property (nonatomic, weak) IBOutlet NSToolbarItem *appearanceItem;
 @property (nonatomic, weak) IBOutlet NSToolbarItem *keyboardItem;
-@property (nonatomic, weak) IBOutlet NSToolbarItem *purchaseItem;
 
 @property (nonatomic, strong) IBOutlet NSView *generalPane;
 @property (nonatomic, strong) IBOutlet NSView *appearancePane;
 @property (nonatomic, strong) IBOutlet NSView *keyboardPane;
-@property (nonatomic, strong) IBOutlet NSView *purchasePane;
 
 @property (nonatomic, weak)   IBOutlet NSButton *launchAtLoginButton;
 

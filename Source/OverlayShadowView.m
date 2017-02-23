@@ -6,9 +6,20 @@
 //
 //
 
-#import "ShadowView.h"
+#import "OverlayShadowView.h"
 
-@implementation ShadowView
+@implementation OverlayShadowView
+
+
+- (instancetype) initWithFrame:(CGRect)frame
+{
+    if ((self = [super initWithFrame:frame])) {
+        [self setLayer:[CALayer layer]];
+    }
+
+    return self;
+}
+
 
 - (void) layoutSubviews
 {
@@ -39,7 +50,6 @@
         [layer setShadowOpacity:0];
     }
 }
-
 
 
 - (void) setCornerRadius:(CGFloat)cornerRadius

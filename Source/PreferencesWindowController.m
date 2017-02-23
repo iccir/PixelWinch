@@ -45,15 +45,6 @@
 
 - (void ) windowDidLoad
 {
-#if ENABLE_TRIAL
-    [[self launchAtLoginButton] setHidden:YES];
-
-    NSToolbar *toolbar = [self toolbar];
-    
-    NSInteger count = [[toolbar visibleItems] count];
-    [toolbar insertItemWithItemIdentifier:[[self purchaseItem] itemIdentifier] atIndex:count];
-#endif
-
     [self _handlePreferencesDidChange:nil];
     [self selectPane:0 animated:NO];
 
@@ -170,11 +161,6 @@
         item = _keyboardItem;
         pane = _keyboardPane;
         title = NSLocalizedString(@"Keyboard", nil);
-
-    } else if (tag == 3) {
-        item = _purchaseItem;
-        pane = _purchasePane;
-        title = NSLocalizedString(@"Purchase", nil);
 
     } else {
         item = _generalItem;

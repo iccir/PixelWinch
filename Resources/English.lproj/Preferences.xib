@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,8 +16,6 @@
                 <outlet property="keyboardItem" destination="2cG-c1-4p4" id="o4e-Kl-tjv"/>
                 <outlet property="keyboardPane" destination="cwh-za-zMQ" id="xSX-f7-fRq"/>
                 <outlet property="launchAtLoginButton" destination="gc1-RU-G08" id="7fn-zp-Af0"/>
-                <outlet property="purchaseItem" destination="cbx-I5-8j1" id="hJH-Y5-y7R"/>
-                <outlet property="purchasePane" destination="g52-iv-nqa" id="3Zx-rm-Xd6"/>
                 <outlet property="screenPopUp" destination="xhy-Eb-Abl" id="6O3-0a-iHw"/>
                 <outlet property="showScreenshotsShortcutView" destination="VgH-zr-qim" id="ZAU-ch-bke"/>
                 <outlet property="toggleScreenshotsShortcutView" destination="k98-DJ-ZEC" id="PaP-PE-KEQ"/>
@@ -49,11 +47,6 @@
                     <toolbarItem implicitItemIdentifier="F56B9E90-EEAB-4C5C-BA4E-DDC4F61AD33A" label="Keyboard" paletteLabel="Keyboard" tag="2" image="CommandIcon" selectable="YES" id="2cG-c1-4p4">
                         <connections>
                             <action selector="selectPane:" target="-2" id="N7T-31-SnV"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="4B0D1DD1-7869-4F48-BC70-CD0EBDB11CE8" label="Purchase" paletteLabel="Purchase" tag="3" image="PurchaseIcon" selectable="YES" id="cbx-I5-8j1">
-                        <connections>
-                            <action selector="selectPane:" target="-2" id="CW0-yc-Hdz"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="167"/>
@@ -217,12 +210,12 @@
                     </popUpButtonCell>
                     <connections>
                         <action selector="updatePreferredDisplay:" target="-2" id="nd6-OV-xoU"/>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.preferredDisplay" id="cfA-Jz-Fgg"/>
                         <binding destination="-2" name="hidden" keyPath="self.preferences.usesOverlayWindow" id="3TJ-SO-dTj">
                             <dictionary key="options">
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
-                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.preferredDisplay" id="cfA-Jz-Fgg"/>
                     </connections>
                 </popUpButton>
                 <button misplaced="YES" id="gc1-RU-G08">
@@ -539,39 +532,10 @@
             <point key="canvasLocation" x="761" y="1010.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="E23-JI-4sA"/>
-        <customView id="g52-iv-nqa" userLabel="Purchase Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="149"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <button verticalHuggingPriority="750" id="Udo-Nb-orr">
-                    <rect key="frame" x="68" y="13" width="232" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Purchase Pixel Winch" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WZv-aL-FOp">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="viewOnAppStore:" target="-2" id="oVF-jS-nU7"/>
-                    </connections>
-                </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="v3Y-sZ-p7C">
-                    <rect key="frame" x="18" y="61" width="332" height="68"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="egc-ZQ-IPh">
-                        <font key="font" metaFont="system"/>
-                        <string key="title">You are using the trial version of Pixel Winch.  All features are available, but screenshots take a few seconds to load.  Purchase Pixel Winch on the App Store to load screenshots immediately.</string>
-                        <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-            </subviews>
-            <point key="canvasLocation" x="580" y="622.5"/>
-        </customView>
     </objects>
     <resources>
         <image name="CommandIcon" width="32" height="32"/>
         <image name="GeneralIcon" width="32" height="32"/>
         <image name="NSColorPanel" width="32" height="32"/>
-        <image name="PurchaseIcon" width="32" height="32"/>
     </resources>
 </document>

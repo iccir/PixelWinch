@@ -175,69 +175,22 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
 }
 
 
-- (void) _orderIn
-{
-    if (!_window) [self _makeWindow];
-
-    if (!_orderedIn) {
-        NSDisableScreenUpdates();
-        
-        [CATransaction begin];
-        [CATransaction setAnimationDuration:0];
-        
-        [[[_window contentView] layer] setOpacity:1];
-        
-        [CATransaction commit];
-        [CATransaction flush];
-        
-        [_window orderFront:self];
-
-        sUpdateWindow(_window);
-        [_window display];
-
-        NSEnableScreenUpdates();
-
-        _orderedIn = YES;
-
-        if (!_eventTap) [self _makeTap];
-        CGEventTapEnable(_eventTap, true);
-    }
-}
-
-
-- (void) _orderOut
-{
-    if (_orderedIn) {
-        CALayer *layer = [[_window contentView] layer];
-
-        [CATransaction begin];
-        [CATransaction setAnimationDuration:0.25];
-        [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-        [CATransaction setCompletionBlock:^{
-            if ([layer opacity] == 0) {
-                [_window orderOut:self];
-                if (!_orderedIn) {
-                    CGEventTapEnable(_eventTap, false);
-                }
-            }
-        }];
-        
-        [layer setOpacity:0];
-        
-        [CATransaction commit];
-
-        _orderedIn = NO;
-    }
-}
-
-
 - (void) _updateWindow
 {
     if ([_text length] && _enabled) {
         [_view setText:_text];
-        [self _orderIn];
+
+        if (!_window)   [self _makeWindow];
+        if (!_eventTap) [self _makeTap];
+
+        sUpdateWindow(_window);
+        [_window orderFront:self];
+
+        CGEventTapEnable(_eventTap, true);
+
     } else {
-        [self _orderOut];
+        [_window orderOut:self];
+        if (_eventTap) CGEventTapEnable(_eventTap, false);
     }
 }
 

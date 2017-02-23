@@ -6,18 +6,29 @@
 //
 //
 
-#import "ContentView.h"
+#import "OverlayBaseView.h"
 
-@implementation ContentView
+@implementation OverlayBaseView
+
+- (instancetype) initWithFrame:(CGRect)frame
+{
+    if ((self = [super initWithFrame:frame])) {
+        [self setLayer:[CALayer layer]];
+    }
+
+    return self;
+}
+
 
 - (BOOL) isFlipped
 {
     return NO;
 }
 
+
 - (void) mouseUp:(NSEvent *)theEvent
 {
-    [_delegate contentView:self clickedWithEvent:theEvent];
+    [_delegate overlayBaseView:self clickedWithEvent:theEvent];
 }
 
 
