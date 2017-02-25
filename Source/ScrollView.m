@@ -24,11 +24,11 @@
     
     if (!_bottomRight) {
         _bottomRight = [[BlackSquare alloc] initWithFrame:NSMakeRect(0, 0, 16, 16)];
-        [self addSubview:_bottomRight];
     }
     
     NSRect bounds = [self bounds];
-    
+
+    [self addSubview:_bottomRight];
     [_bottomRight setFrame:NSMakeRect(bounds.size.width - 15, bounds.size.height - 15, 15, 15)];
 }
 

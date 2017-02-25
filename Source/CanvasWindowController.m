@@ -861,16 +861,12 @@ static inline void sInvalidate()
 
         NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
 
-        LOG(@"Run Fade In Overlay");
-
         animate(_shroudView,          @"opacity", @0.0);
         animate(_shadowView,          @"opacity", @0.0);
         animate(_contentView,         @"opacity", @0.0);
         animate(_transitionImageView, @"transform", fromTransformValue);
 
     } completionHandler:^{
-        LOG(@"Finish Fade In Overlay");
-
         [_canvasScrollView setHidden:NO];
 
         for (Tool *tool in [_toolbox allTools]) {
@@ -887,7 +883,7 @@ static inline void sInvalidate()
 {
     if (!_windowIsOverlay) return;
 
-    const CGFloat sOrderInDuration = 0.2;
+    const CGFloat sOrderInDuration = 0.15;
 
     LOG(@"Order in");
 
@@ -895,11 +891,11 @@ static inline void sInvalidate()
     [_transitionImageView removeFromSuperview];
     _transitionImageView = nil;
 
-    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *fromValue) {
+    void (^animate)(NSView *, NSString *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSString *timingFunction, NSValue *fromValue) {
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
 
         [animation setDuration:sOrderInDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:timingFunction]];
         [animation setFromValue:fromValue];
         [animation setFillMode:kCAFillModeBoth];
         
@@ -912,9 +908,10 @@ static inline void sInvalidate()
 
         CGSize contentViewBoundsSize = [_contentView bounds].size;
 
+        CGFloat scale = 0.8;
         CGAffineTransform fromTransform = CGAffineTransformIdentity;
-        fromTransform = CGAffineTransformTranslate(fromTransform, contentViewBoundsSize.width / 4, contentViewBoundsSize.height / 4);
-        fromTransform = CGAffineTransformScale(fromTransform, 0.5, 0.5);
+        fromTransform = CGAffineTransformTranslate(fromTransform, (contentViewBoundsSize.width * (1.0 - scale)) / 2.0, (contentViewBoundsSize.height * (1.0 - scale)) / 2.0);
+        fromTransform = CGAffineTransformScale(fromTransform, scale, scale);
 
         NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
 
@@ -925,11 +922,11 @@ static inline void sInvalidate()
         [[_shadowView  layer] setTransform:CATransform3DIdentity];
         [[_contentView layer] setTransform:CATransform3DIdentity];
         
-        animate(_shroudView,  @"opacity", @0.0);
-        animate(_contentView, @"opacity", @0.0);
-        animate(_shadowView,  @"opacity", @0.0);
-        animate(_contentView, @"transform", fromTransformValue);
-        animate(_contentView, @"transform", fromTransformValue);
+        animate(_shroudView,  @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
+        animate(_contentView, @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
+        animate(_shadowView,  @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
+        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, fromTransformValue);
+        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, fromTransformValue);
 
     } completionHandler:^{
         LOG(@"Finish Fade In Overlay");
@@ -951,15 +948,15 @@ static inline void sInvalidate()
     [_transitionImageView removeFromSuperview];
     _transitionImageView = nil;
 
-    const CGFloat sOrderOutDuration = 0.2;
+    const CGFloat sOrderOutDuration = 0.15;
 
     CGSize size = [_contentView bounds].size;
     
-    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *toValue) {
+    void (^animate)(NSView *, NSString *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSString *timing, NSValue *toValue) {
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
 
         [animation setDuration:sOrderOutDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:timing]];
         [animation setToValue:toValue];
         [animation setFillMode:kCAFillModeBoth];
         [animation setRemovedOnCompletion:NO];
@@ -971,17 +968,18 @@ static inline void sInvalidate()
         [context setDuration:sOrderOutDuration];
         [context setAllowsImplicitAnimation:NO];
 
+        CGFloat scale = 0.8;
         CGAffineTransform toTransform = CGAffineTransformIdentity;
-        toTransform = CGAffineTransformTranslate(toTransform, size.width / 4, size.height / 4);
-        toTransform = CGAffineTransformScale(toTransform, 0.5, 0.5);
-        
+        toTransform = CGAffineTransformTranslate(toTransform, (size.width * (1.0 - scale)) / 2.0, (size.height * (1.0 - scale)) / 2.0);
+        toTransform = CGAffineTransformScale(toTransform, scale, scale);
+
         NSValue *toTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(toTransform)];
 
-        animate(_contentView, @"opacity", @(0));
-        animate(_shroudView,  @"opacity", @(0));
-        animate(_shadowView,  @"opacity", @(0));
-        animate(_contentView, @"transform", toTransformValue);
-        animate(_shadowView,  @"transform", toTransformValue);
+        animate(_contentView, @"opacity",   kCAMediaTimingFunctionLinear, @(0));
+        animate(_shroudView,  @"opacity",   kCAMediaTimingFunctionLinear, @(0));
+        animate(_shadowView,  @"opacity",   kCAMediaTimingFunctionLinear, @(0));
+        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, toTransformValue);
+        animate(_shadowView,  @"transform", kCAMediaTimingFunctionDefault, toTransformValue);
 
     } completionHandler:^{
         [[self window] orderOut:self];

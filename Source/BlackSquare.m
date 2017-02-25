@@ -21,16 +21,11 @@
     CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
 
     if ([[self superview] isKindOfClass:[NSScrollView class]]) {
-        CGPoint point = CGPointMake(0, bounds.size.height);
-        CGFloat radius = bounds.size.height > bounds.size.width ? bounds.size.height : bounds.size.width;
+        [GetRGBColor(0x101010, 1.0) set];
+        CGContextFillRect(context, bounds);
 
-        NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.12 alpha:1.0] endingColor:GetDarkWindowColor()];
-        [gradient drawFromCenter:point radius:0 toCenter:point radius:radius options:NSGradientDrawsAfterEndingLocation];
-
-        [GetRGBColor(0, 0.5) set];
-        CGContextFillRect(context, CGRectMake(0, bounds.size.height - onePixel, onePixel, onePixel));
-        CGContextFillRect(context, CGRectMake(bounds.size.width - onePixel, 0, onePixel, bounds.size.height));
-        CGContextFillRect(context, CGRectMake(0, 0, bounds.size.width - onePixel, onePixel));
+        [GetRGBColor(0x262626, 1.0) set];
+        CGContextFillRect(context, CGRectInset(bounds, onePixel, onePixel));
 
     } else {
         NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.12 alpha:1.0] endingColor:GetDarkWindowColor()];

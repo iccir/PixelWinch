@@ -144,8 +144,6 @@
     [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
 
     if (iconMode == IconModeInDock || iconMode == IconModeInBoth) {
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-
         if ([[Preferences sharedInstance] allowsQuit]) {
             [quitMenuItem setKeyEquivalent:@"q"];
             [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
@@ -175,6 +173,12 @@
             [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
             _statusItem = nil;
         }
+    }
+    
+    if (iconMode == IconModeInMenuBar) {
+        [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+    } else if (iconMode == IconModeInDock) {
+        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
     }
 }
 
