@@ -40,9 +40,7 @@ static NSString * const sCanvasKey = @"canvas";
     
     NSString *actualDirectory = MakeUniqueDirectory(directoryToTry);
     
-    LibraryItem *item = [[LibraryItem alloc] _initWithBasePath:actualDirectory date:now];
-   
-    return item;
+    return actualDirectory ? [[LibraryItem alloc] _initWithBasePath:actualDirectory date:now] : nil;
 }
 
 

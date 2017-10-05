@@ -260,7 +260,6 @@ NSString *MakeUniqueDirectory(NSString *path)
 
         if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
             suffix = [NSString stringWithFormat:@" %ld", (long)i];
-            continue;
         }
         
         path = [NSString stringWithFormat:@"%@%@", path, suffix];
