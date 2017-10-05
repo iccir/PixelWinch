@@ -1,10 +1,5 @@
-//
-//  main.m
-//  Pixels
-//
-//  Created by Ricci Adams on 4/7/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+//  (c) 2011-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Cocoa/Cocoa.h>
 

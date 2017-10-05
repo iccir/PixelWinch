@@ -1,10 +1,5 @@
-//
-//  HandTool.h
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-10-05.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import "Tool.h"
 

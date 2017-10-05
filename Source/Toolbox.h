@@ -1,10 +1,5 @@
-//
-//  Toolbox.h
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2013-10-23.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Foundation/Foundation.h>
 #import "Tool.h"

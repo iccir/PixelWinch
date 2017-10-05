@@ -1,10 +1,5 @@
-//
-//  MeasurementLabel.m
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-10-10.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import "MeasurementLabel.h"
 #import "CanvasObject.h"

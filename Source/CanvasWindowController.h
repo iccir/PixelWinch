@@ -1,10 +1,5 @@
-//
-//  DocumentController.h
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-09-28.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Foundation/Foundation.h>
 #import "Tool.h"

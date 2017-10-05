@@ -1,10 +1,5 @@
-//
-//  CaptureManager.m
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-09-27.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import "CaptureManager.h"
 

@@ -1,10 +1,5 @@
-//
-//  ShortcutField.h
-//  PixelWinch
-//
-//  Created by Ricci Adams on 4/22/11.
-//  Copyright 2011 Ricci Adams. All rights reserved.
-//
+//  (c) 2011-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Cocoa/Cocoa.h>
 

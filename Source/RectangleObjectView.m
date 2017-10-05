@@ -1,11 +1,5 @@
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
 
-//
-//  RectangleLayer.m
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-10-01.
-//
-//
 
 #import "RectangleObjectView.h"
 #import "Rectangle.h"

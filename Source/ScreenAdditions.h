@@ -1,10 +1,5 @@
-//
-//  ScreenAdditions.h
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2013-11-05.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 @interface NSScreen (PixelWinch)
 

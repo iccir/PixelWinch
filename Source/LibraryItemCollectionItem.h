@@ -1,10 +1,5 @@
-//
-//  LibraryItemView.h
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-10-15.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Foundation/Foundation.h>
 @class ThumbnailView;

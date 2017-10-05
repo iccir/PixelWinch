@@ -1,10 +1,5 @@
-//
-//  WindowResizerKnob.h
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2015-01-14.
-//
-//
+//  (c) 2015-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Foundation/Foundation.h>
 

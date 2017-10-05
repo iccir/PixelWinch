@@ -1,10 +1,5 @@
-//
-//  BlackTextView.h
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2013-10-24.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import <Cocoa/Cocoa.h>
 

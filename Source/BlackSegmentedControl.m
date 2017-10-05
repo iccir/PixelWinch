@@ -1,10 +1,5 @@
-//
-//  BlackSegmentedControl.m
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-10-05.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import "BlackSegmentedControl.h"
 
@@ -13,6 +8,7 @@
     NSMutableDictionary *_segmentNumberToImageMap;
     NSMutableDictionary *_segmentNumberToGradientMap;
 }
+
 
 - (void) setTemplateImage:(NSImage *)image forSegment:(NSInteger)segment
 {
