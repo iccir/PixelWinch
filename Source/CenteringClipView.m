@@ -19,17 +19,6 @@
 }
 
 
-- (void) _commonInit
-{
-    [self setWantsLayer:YES];
-    [self setLayer:[CAScrollLayer layer]];
-    [[self layer] setDelegate:self];
-    
-	[self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
-    [self setOpaque:NO];
-}
-
-
 + (void) initialize
 {
     if (![NSClipView instancesRespondToSelector:@selector(constrainBoundsRect:)]) {
@@ -41,19 +30,31 @@
 - (id) initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
-        [self _commonInit];
+        [self _commonCenteringClipViewInit];
     }
 
     return self;
 }
 
+
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder])) {
-        [self _commonInit];
+        [self _commonCenteringClipViewInit];
     }
     
     return self;
+}
+
+
+- (void) _commonCenteringClipViewInit
+{
+    [self setWantsLayer:YES];
+    [self setLayer:[CAScrollLayer layer]];
+    [[self layer] setDelegate:self];
+    
+    [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
+    [self setOpaque:NO];
 }
 
 

@@ -84,9 +84,9 @@
 }
 
 
-- (void) willMoveToWindow:(NSWindow *)newWindow
+- (void) viewWillMoveToWindow:(NSWindow *)newWindow
 {
-    [super willMoveToWindow:newWindow];
+    [super viewWillMoveToWindow:newWindow];
     
     CGFloat scale = [newWindow backingScaleFactor];
     

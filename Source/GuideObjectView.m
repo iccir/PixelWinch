@@ -70,7 +70,8 @@
     Guide *guide = [self guide];
     CGRect frame = [self bounds];
 
-    CGFloat offset = ([self contentScaleFactor] > 1) ? 1.5 : 2;
+    CGFloat scale = [[self window] backingScaleFactor];
+    CGFloat offset = (scale > 1) ? 1.5 : 2;
 
     if ([guide isVertical]) {
         frame.origin.x = offset;

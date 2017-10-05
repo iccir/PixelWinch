@@ -275,7 +275,7 @@ static const CGFloat sBorderWidth = 2;
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setAllowsImplicitAnimation:YES];
         if (!animated) [context setDuration:0.0];
-        [self setAlpha:0.0];
+        [self setAlphaValue:0.0];
     } completionHandler:nil];
 }
 
@@ -284,7 +284,7 @@ static const CGFloat sBorderWidth = 2;
 {
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setAllowsImplicitAnimation:YES];
-        [self setAlpha:1.0];
+        [self setAlphaValue:1.0];
     } completionHandler:nil];
 }
 

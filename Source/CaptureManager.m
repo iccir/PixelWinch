@@ -14,9 +14,6 @@
 #import "Library.h"
 #import "LibraryItem.h"
 
-#if ENABLE_APP_STORE
-#import "ReceiptValidation_B.h"
-#endif
 
 
 @interface CaptureManager ()

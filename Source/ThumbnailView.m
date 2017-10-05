@@ -30,6 +30,9 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
     scaledSize.width  = round(scaledSize.width  / 2) * 2;
     scaledSize.height = round(scaledSize.height / 2) * 2;
 
+    if (!scaledSize.width)  scaledSize.width = 1;
+    if (!scaledSize.height) scaledSize.height = 1;
+    
     return scaledSize;
 }
 
@@ -182,7 +185,7 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
     [[_imageView layer] setContentsGravity:kCAGravityResize];
     [[_imageView layer] setContents:image];
 
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
 }
 
 

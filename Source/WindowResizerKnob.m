@@ -16,7 +16,7 @@
 - (id) initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
-        [self _commonInit];
+        [self _commonWindowResizerKnobInit];
     }
 
     return self;
@@ -26,7 +26,7 @@
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder])) {
-        [self _commonInit];
+        [self _commonWindowResizerKnobInit];
     }
     
     return self;
@@ -56,7 +56,7 @@
 }
 
 
-- (void) _commonInit
+- (void) _commonWindowResizerKnobInit
 {
 	[self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawOnSetNeedsDisplay];
 

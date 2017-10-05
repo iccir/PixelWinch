@@ -65,7 +65,6 @@
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
 		55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7771DCDC2FB0037DF9C /* BaseView.m */; };
-		55A1A7841DCDCA6B0037DF9C /* ViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */; };
 		55A1A78D1DD08AD20037DF9C /* TouchBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A1A78B1DD08AD20037DF9C /* TouchBar.xib */; };
 		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
 		55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EC182B7E42008F1CEB /* LineObjectView.m */; };
@@ -254,8 +253,6 @@
 		559D38D518039D930048F29B /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutView.h; path = Source/ShortcutView.h; sourceTree = "<group>"; };
 		55A1A7761DCDC2FB0037DF9C /* BaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseView.h; path = Source/BaseView.h; sourceTree = "<group>"; };
 		55A1A7771DCDC2FB0037DF9C /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseView.m; path = Source/BaseView.m; sourceTree = "<group>"; };
-		55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAdditions.h; path = Source/ViewAdditions.h; sourceTree = "<group>"; };
-		55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewAdditions.m; path = Source/ViewAdditions.m; sourceTree = "<group>"; };
 		55A1A78C1DD08AD20037DF9C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/TouchBar.xib; sourceTree = "<group>"; };
 		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -331,7 +328,7 @@
 		55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
 		55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta.xcconfig; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		8D1107320486CEB800E47090 /* Pixel Winch Trial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Trial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Pixel Winch Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,7 +385,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* Pixel Winch Trial.app */,
+				8D1107320486CEB800E47090 /* Pixel Winch Beta.app */,
 				55346D84194130C900896455 /* Launch Pixel Winch.app */,
 			);
 			name = Products;
@@ -639,8 +636,6 @@
 			children = (
 				55A1A7761DCDC2FB0037DF9C /* BaseView.h */,
 				55A1A7771DCDC2FB0037DF9C /* BaseView.m */,
-				55A1A7821DCDCA6B0037DF9C /* ViewAdditions.h */,
-				55A1A7831DCDCA6B0037DF9C /* ViewAdditions.m */,
 			);
 			name = "Base Views";
 			sourceTree = "<group>";
@@ -771,7 +766,7 @@
 			name = "Pixel Winch";
 			productInstallPath = "$(HOME)/Applications";
 			productName = Pixels;
-			productReference = 8D1107320486CEB800E47090 /* Pixel Winch Trial.app */;
+			productReference = 8D1107320486CEB800E47090 /* Pixel Winch Beta.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -934,7 +929,6 @@
 				55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */,
 				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
 				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
-				55A1A7841DCDCA6B0037DF9C /* ViewAdditions.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
 				55C4E4DF18013EB80015B8C1 /* BlackButtonCell.m in Sources */,
 				554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */,

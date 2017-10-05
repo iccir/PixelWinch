@@ -23,24 +23,13 @@
 
 - (id) initWithFrame:(CGRect)frame;
 
-- (void) willMoveToSuperview:(NSView *)newSuperview;
-- (void) didMoveToSuperview;
-
-- (void) willMoveToWindow:(NSWindow *)newWindow;
-- (void) didMoveToWindow;
-
-- (void) layoutIfNeeded;
 - (void) layoutSubviews;
+- (void) setNeedsLayout;
 
 @property (atomic, readwrite) NSInteger tag;
 
-@property (nonatomic)       CGPoint            center;
-@property (nonatomic)       CGAffineTransform  transform;
-@property (nonatomic)       BOOL               clipsToBounds;
-@property (nonatomic, copy) NSColor           *backgroundColor;
-@property (nonatomic)       CGFloat            alpha;
-@property (nonatomic)       CGRect             contentStretch;
-@property (nonatomic)       CGFloat            contentScaleFactor;
+@property (nonatomic) BOOL clipsToBounds;
+@property (nonatomic, copy) NSColor *backgroundColor;
 
 // Defaults to YES
 @property (atomic, readwrite, getter=isFlipped) BOOL flipped;

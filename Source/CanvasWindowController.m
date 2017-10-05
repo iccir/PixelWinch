@@ -1134,10 +1134,6 @@ static inline void sInvalidate()
         if (canvas) {
             CanvasView *canvasView = [[CanvasView alloc] initWithFrame:CGRectZero canvas:canvas];
             [canvasView setDelegate:self];
-
-            #if ENABLE_APP_STORE && !defined(DEBUG)
-                C_CheckReceipt(sInvalidate);
-            #endif
             
             _canvasView = canvasView;
             [_magnificationManager setCanvasView:_canvasView];

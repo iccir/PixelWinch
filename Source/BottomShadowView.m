@@ -8,12 +8,17 @@
 
 #import "BottomShadowView.h"
 
+@interface BottomShadowView () <CALayerDelegate>
+@end
+
+
 @implementation BottomShadowView
 
 - (id) initWithFrame:(NSRect)frameRect
 {
     if ((self = [super initWithFrame:frameRect])) {
         CALayer *selfLayer = [CALayer layer];
+        [selfLayer setDelegate:self];
         
         [self setWantsLayer:YES];
         [self setLayer:selfLayer];

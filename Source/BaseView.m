@@ -45,28 +45,48 @@ static IMP sBaseView_drawRect = NULL;
 }
 
 
-#pragma mark -
-#pragma mark Lifecycle / Superclass Overrides
+#pragma mark - Lifecycle
 
 - (id) initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
-        [self setFlipped:YES];
-
-        IMP selfDrawRect = [[self class] instanceMethodForSelector:@selector(drawRect:)];
-        _implementsDrawRect = (selfDrawRect != sBaseView_drawRect);
-        [self setLayerContentsRedrawPolicy:[self _defaultLayerContentsRedrawPolicy]];
-
-        [self setWantsLayer:YES];
-
-        if (_implementsDrawRect) {
-            [[self layer] setNeedsDisplay];
-        }
-        
-        [self setClipsToBounds:NO];
+        [self _commonBaseViewInit];
     }
 
     return self;
+}
+
+
+- (id) initWithCoder:(NSCoder *)decoder
+{
+    if ((self = [super initWithCoder:decoder])) {
+        [self _commonBaseViewInit];
+    }
+    
+    return self;
+}
+
+
+- (void) _commonBaseViewInit
+{
+    IMP selfDrawRect = [[self class] instanceMethodForSelector:@selector(drawRect:)];
+    _implementsDrawRect = (selfDrawRect != sBaseView_drawRect);
+
+    NSViewLayerContentsRedrawPolicy redrawPolicy = _implementsDrawRect ?
+        NSViewLayerContentsRedrawOnSetNeedsDisplay :
+        NSViewLayerContentsRedrawDuringViewResize;
+
+    [self setLayerContentsRedrawPolicy:redrawPolicy];
+    [self setWantsLayer:YES];
+    [self setFlipped:YES];
+    [self setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self setAutoresizesSubviews:NO];
+
+    if (_implementsDrawRect) {
+        [[self layer] setNeedsDisplay];
+    }
+    
+    [self setClipsToBounds:NO];
 }
 
 
@@ -76,90 +96,59 @@ static IMP sBaseView_drawRect = NULL;
 }
 
 
-#pragma mark -
-#pragma mark Private Methods
+#pragma mark - Superclass Overrides
+
+- (CALayer *) makeBackingLayer
+{
+    CALayer *layer = [CALayer layer];
+    [layer setDelegate:self];
+    return layer;
+}
+
 
 - (BOOL) wantsUpdateLayer
 {
     return !_implementsDrawRect;
 }
 
-
-- (NSViewLayerContentsRedrawPolicy) _defaultLayerContentsRedrawPolicy
-{
-    if (_implementsDrawRect) {
-        return NSViewLayerContentsRedrawOnSetNeedsDisplay;
-    } else {
-        return NSViewLayerContentsRedrawNever;
-    }
-}
-
-#pragma mark -
-#pragma mark Hierarchy
-
-- (void) viewWillMoveToSuperview:(NSView *)newSuperview
-{
-    [self willMoveToSuperview:newSuperview];
-    [super viewWillMoveToSuperview:newSuperview];
-}
-- (void) willMoveToSuperview:(NSView *)superview { }
+- (void) updateLayer { }
 
 
-- (void) viewDidMoveToSuperview
-{
-    [self didMoveToSuperview];
-    [super viewDidMoveToSuperview];
-}
-- (void) didMoveToSuperview { }
-
-
-- (void) viewWillMoveToWindow:(NSWindow *)newWindow
-{
-    [self willMoveToWindow:newWindow];
-    [super viewWillMoveToWindow:newWindow];
-}
-- (void) willMoveToWindow:(NSWindow *)window { }
-
-
-- (void) viewDidMoveToWindow
-{
-    [self didMoveToWindow];
-    [super viewDidMoveToWindow];
-}
-- (void) didMoveToWindow { }
-
+#pragma mark - Hierarchy
 
 - (void) didAddSubview:(NSView *)subview
 {
     [super didAddSubview:subview];
-    [self setNeedsLayout:YES];
+    [self setNeedsLayout];
 }
+
 
 - (void) willRemoveSubview:(NSView *)subview
 {
     [super willRemoveSubview:subview];
-    [self setNeedsLayout:YES];
+    [self setNeedsLayout];
 }
+
 
 - (void) layout
 {
-    [self layoutSubviews];
     [super layout];
+    [self layoutSubviews];
 }
+
 - (void) layoutSubviews { }
 
-
-- (void) layoutIfNeeded
-{
-    [self layoutSubtreeIfNeeded];
-}
-
 - (void) drawRect:(CGRect)rect { }
+
+- (void) setNeedsLayout
+{
+    [self setNeedsLayout:YES];
+}
 
 
 #pragma mark - Accessors
 
-@dynamic center, transform, contentStretch, clipsToBounds, alpha, contentScaleFactor;
+@dynamic clipsToBounds;
 
 - (void) setBackgroundColor:(NSColor *)backgroundColor
 {
@@ -169,22 +158,17 @@ static IMP sBaseView_drawRect = NULL;
     }
 }
 
-- (void) setCenter:(CGPoint)center                   { [[self layer] setPosition:center];               }
-- (CGPoint) center                                   { return [[self layer] position];                  }
-- (void) setTransform:(CGAffineTransform)transform   { [[self layer] setAffineTransform:transform];     }
-- (CGAffineTransform) transform                      { return [[self layer] affineTransform];           }
-- (void)    setContentStretch:(CGRect)contentStretch { [[self layer] setContentsCenter:contentStretch]; }
-- (CGRect)  contentStretch                           { return [[self layer] contentsCenter];            }
-- (void)    setClipsToBounds:(BOOL)clipsToBounds     { [[self layer] setMasksToBounds:clipsToBounds];   }
-- (BOOL)    clipsToBounds                            { return [[self layer] masksToBounds];             }
-- (void)    setAlpha:(CGFloat)alpha                  { [[self layer] setOpacity:alpha];                 }
-- (CGFloat) alpha                                    { return [[self layer] opacity];                   }
-- (void)    setContentScaleFactor:(CGFloat)scale     { [[self layer] setContentsScale:scale];           }
-- (CGFloat) contentScaleFactor                       { return [[self layer] contentsScale];             }
 
-- (void)    setAlphaValue:(CGFloat)alpha             { [[self layer] setOpacity:alpha];                 }
-- (CGFloat) alphaValue                               { return [[self layer] opacity];                   }
+- (void) setClipsToBounds:(BOOL)clipsToBounds
+{
+    [[self layer] setMasksToBounds:clipsToBounds];
+}
 
+
+- (BOOL) clipsToBounds
+{
+    return [[self layer] masksToBounds];
+}
 
 
 @end

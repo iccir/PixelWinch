@@ -159,7 +159,9 @@
     
     CGRect bounds = [self bounds];
     
-    CGFloat scale  = [self contentScaleFactor];
+    CGFloat scale = [[self window] backingScaleFactor];
+    if (!scale) scale = 1;
+
     CGFloat length = 1.0 / scale;
     
     segments[0] = CGRectMake(0, 0, bounds.size.width, length);

@@ -72,7 +72,10 @@
     [contentView setFrame:[[contentView superview] bounds]];
     
     NSButton *closeButton = [window standardWindowButton:NSWindowCloseButton];
-    [[closeButton superview] bringSubviewToFront:closeButton];
+    NSView   *closeSuperView = [closeButton superview];
+
+    [closeButton removeFromSuperview];
+    [closeSuperView addSubview:closeButton];  
 
 #if ENABLE_BETA
     [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch-Beta"]];

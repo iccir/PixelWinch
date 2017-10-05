@@ -73,7 +73,7 @@ BOOL WinchAliasMethod(Class cls, char plusOrMinus, SEL originalSel, SEL aliasSel
 #if DEBUG
     if (!result) {
         @autoreleasepool {
-            NSLog(@"XUIAliasMethod(): could not alias '%@' to '%@'", NSStringFromSelector(originalSel), NSStringFromSelector(aliasSel));
+            NSLog(@"WinchAliasMethod(): could not alias '%@' to '%@'", NSStringFromSelector(originalSel), NSStringFromSelector(aliasSel));
         }
     }
 #endif
