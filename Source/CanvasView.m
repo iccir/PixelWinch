@@ -438,7 +438,7 @@ static CGColorRef GetCheckerColor()
 
         CGRect objectViewFrame = [objectView frame];
 
-        CGSize contentSize = [label intrinsicContentSize];
+        CGSize contentSize = [label neededSize];
        
         CGRect labelFrame = objectViewFrame;
         labelFrame.size = contentSize;
