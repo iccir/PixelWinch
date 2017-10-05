@@ -601,7 +601,7 @@ extern void DrawImageAtPoint(NSImage *image, CGPoint point)
 {
     NSSize imageSize = [image size];
     NSRect imageRect = NSMakeRect(point.x, point.y, imageSize.width, imageSize.height);
-    [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
+    [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1 respectFlipped:YES hints:nil];
 }
 
 
@@ -625,9 +625,9 @@ extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat 
     CGRect middleFrom = CGRectMake(CGRectGetMaxX(leftFrom),   0, imageSize.width - (leftCap + rightCap), rect.size.height);
     CGRect rightFrom  = CGRectMake(CGRectGetMaxX(middleFrom), 0, rightCap, rect.size.height);
 
-    [image drawInRect:leftTo   fromRect:leftFrom   operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-    [image drawInRect:middleTo fromRect:middleFrom operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-    [image drawInRect:rightTo  fromRect:rightFrom  operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:leftTo   fromRect:leftFrom   operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:middleTo fromRect:middleFrom operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    [image drawInRect:rightTo  fromRect:rightFrom  operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 

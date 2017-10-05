@@ -1678,7 +1678,7 @@ static inline void sInvalidate()
         NSArray *selectedObjects = [_canvas selectedObjects];
         NSEventModifierFlags flags = [[NSApp currentEvent] modifierFlags];
 
-        if ((flags & (NSShiftKeyMask|NSCommandKeyMask)) > 0) {
+        if ((flags & (NSEventModifierFlagShift|NSEventModifierFlagCommand)) > 0) {
             if ([selectedObjects containsObject:canvasObject]) {
                 [_canvas deselectObject:canvasObject];
             } else {

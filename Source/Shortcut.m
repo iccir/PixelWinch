@@ -105,10 +105,10 @@ static CFStringRef *sKeyCodeToStringMap = nil;
 {
     NSMutableString *result = [NSMutableString stringWithCapacity:4];
     
-    if (modifierFlags & NSControlKeyMask)   [result appendFormat:@"%C", (unsigned short)kControlUnicode];
-    if (modifierFlags & NSAlternateKeyMask) [result appendFormat:@"%C", (unsigned short)kOptionUnicode];
-    if (modifierFlags & NSShiftKeyMask)     [result appendFormat:@"%C", (unsigned short)kShiftUnicode];
-    if (modifierFlags & NSCommandKeyMask)   [result appendFormat:@"%C", (unsigned short)kCommandUnicode];
+    if (modifierFlags & NSEventModifierFlagControl)  [result appendFormat:@"%C", (unsigned short)kControlUnicode];
+    if (modifierFlags & NSEventModifierFlagOption)   [result appendFormat:@"%C", (unsigned short)kOptionUnicode];
+    if (modifierFlags & NSEventModifierFlagShift)    [result appendFormat:@"%C", (unsigned short)kShiftUnicode];
+    if (modifierFlags & NSEventModifierFlagCommand)  [result appendFormat:@"%C", (unsigned short)kCommandUnicode];
 
     return result;
 }
@@ -186,23 +186,23 @@ static CFStringRef *sKeyCodeToStringMap = nil;
         NSString *datumString    = [components objectAtIndex:2];
 
         if ([modifierString rangeOfString:@"^"].location != NSNotFound) {
-            modifierFlags |= NSControlKeyMask;
+            modifierFlags |= NSEventModifierFlagControl;
         }
         
         if ([modifierString rangeOfString:@"~"].location != NSNotFound) {
-            modifierFlags |= NSAlternateKeyMask;
+            modifierFlags |= NSEventModifierFlagOption;
         }
 
         if ([modifierString rangeOfString:@"$"].location != NSNotFound) {
-            modifierFlags |= NSShiftKeyMask;
+            modifierFlags |= NSEventModifierFlagShift;
         }
 
         if ([modifierString rangeOfString:@"@"].location != NSNotFound) {
-            modifierFlags |= NSCommandKeyMask;
+            modifierFlags |= NSEventModifierFlagCommand;
         }
 
         if ([modifierString rangeOfString:@"F"].location != NSNotFound) {
-            modifierFlags |= NSFunctionKeyMask;
+            modifierFlags |= NSEventModifierFlagFunction;
         }
 
         const char *cString = [datumString cStringUsingEncoding:NSUTF8StringEncoding];
@@ -253,10 +253,10 @@ static CFStringRef *sKeyCodeToStringMap = nil;
 {
     NSUInteger shortcutID = 0;
 
-    if (_modifierFlags & NSControlKeyMask  )  shortcutID |= 0x10000;
-    if (_modifierFlags & NSCommandKeyMask  )  shortcutID |= 0x20000;
-    if (_modifierFlags & NSShiftKeyMask    )  shortcutID |= 0x40000;
-    if (_modifierFlags & NSAlternateKeyMask)  shortcutID |= 0x80000;
+    if (_modifierFlags & NSEventModifierFlagControl)  shortcutID |= 0x10000;
+    if (_modifierFlags & NSEventModifierFlagCommand)  shortcutID |= 0x20000;
+    if (_modifierFlags & NSEventModifierFlagShift  )  shortcutID |= 0x40000;
+    if (_modifierFlags & NSEventModifierFlagOption )  shortcutID |= 0x80000;
 
     shortcutID |= _keyCode;
     
@@ -270,12 +270,12 @@ static CFStringRef *sKeyCodeToStringMap = nil;
 
     [result appendString:@"key,"];
 
-    if (_modifierFlags & NSControlKeyMask)   [result appendString:@"^"];
-    if (_modifierFlags & NSAlternateKeyMask) [result appendString:@"~"];
-    if (_modifierFlags & NSShiftKeyMask)     [result appendString:@"$"];
-    if (_modifierFlags & NSCommandKeyMask)   [result appendString:@"@"];
-    if (_modifierFlags & NSFunctionKeyMask)  [result appendString:@"F"];
-    if (_modifierFlags == 0)                 [result appendString:@"_"];
+    if (_modifierFlags & NSEventModifierFlagControl)   [result appendString:@"^"];
+    if (_modifierFlags & NSEventModifierFlagOption)    [result appendString:@"~"];
+    if (_modifierFlags & NSEventModifierFlagShift)     [result appendString:@"$"];
+    if (_modifierFlags & NSEventModifierFlagCommand)   [result appendString:@"@"];
+    if (_modifierFlags & NSEventModifierFlagFunction)  [result appendString:@"F"];
+    if (_modifierFlags == 0)                           [result appendString:@"_"];
 
     [result appendFormat:@",%04lx", (long)_keyCode];
     

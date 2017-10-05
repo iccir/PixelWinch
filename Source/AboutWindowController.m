@@ -59,7 +59,7 @@
     [window setTitlebarAppearsTransparent:YES];
     [window setTitleVisibility:NSWindowTitleHidden];
 
-    [window setStyleMask:([window styleMask] | NSFullSizeContentViewWindowMask)];
+    [window setStyleMask:([window styleMask] | NSWindowStyleMaskFullSizeContentView)];
     
     NSView *contentView = [window contentView];
     

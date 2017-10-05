@@ -63,7 +63,7 @@
 
 - (void) mouseDown:(NSEvent *)event
 {
-    if ([event type] != NSLeftMouseDown) {
+    if ([event type] != NSEventTypeLeftMouseDown) {
         return;
     }
 

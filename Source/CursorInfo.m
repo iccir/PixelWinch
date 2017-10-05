@@ -47,7 +47,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineSpacing:0];
     [ps setMaximumLineHeight:13];
-    [ps setAlignment:NSCenterTextAlignment];
+    [ps setAlignment:NSTextAlignmentCenter];
     
     NSDictionary *attributes = @{
         NSForegroundColorAttributeName: [NSColor whiteColor],

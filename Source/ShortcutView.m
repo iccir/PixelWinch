@@ -217,10 +217,16 @@ static NSImage *sGetClearIcon()
         return NO;
     }
 
-    NSUInteger mask          = (NSControlKeyMask | NSShiftKeyMask | NSAlternateKeyMask | NSCommandKeyMask | NSFunctionKeyMask);
-    NSUInteger modifierFlags = [theEvent modifierFlags] & mask;
-    NSString  *characters    = [theEvent characters];
-    unichar    c             = [characters length] ? [characters characterAtIndex:0] : 0;
+    NSEventModifierFlags modifierFlags = [theEvent modifierFlags] & (
+        NSEventModifierFlagControl  |
+        NSEventModifierFlagShift    |
+        NSEventModifierFlagOption   |
+        NSEventModifierFlagCommand  |
+        NSEventModifierFlagFunction
+    );
+
+    NSString  *characters = [theEvent characters];
+    unichar    c          = [characters length] ? [characters characterAtIndex:0] : 0;
 
     if (modifierFlags == 0) { 
         if (c == 0x1b /* Escape */) {
@@ -234,7 +240,7 @@ static NSImage *sGetClearIcon()
             return [super performKeyEquivalent:theEvent];
         }
         
-    } else if ((modifierFlags == NSShiftKeyMask) && (c == NSBackTabCharacter || c == NSTabCharacter)) {
+    } else if ((modifierFlags == NSEventModifierFlagShift) && (c == NSBackTabCharacter || c == NSTabCharacter)) {
         return [super performKeyEquivalent:theEvent];
         
 	} else {
@@ -321,7 +327,7 @@ static NSImage *sGetClearIcon()
 
         stringRect.size.width = maxX - cellFrame.origin.x;
 
-        [style setAlignment:NSCenterTextAlignment];
+        [style setAlignment:NSTextAlignmentCenter];
 
         if (_shortcut) {
             stringToDraw = [_shortcut displayString];

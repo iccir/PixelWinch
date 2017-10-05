@@ -204,7 +204,7 @@ static NSString * const sZoomToolKey      = @"zoom";
 
     NSEventModifierFlags flags = [[NSApp currentEvent] modifierFlags];
 
-    if (flags & (NSAlternateKeyMask|NSCommandKeyMask)) {
+    if (flags & (NSEventModifierFlagOption|NSEventModifierFlagCommand)) {
         ZoomTool *zoomTool = [self zoomTool];
         [zoomTool setInTemporaryMode:YES];
         [self setSelectedTool:zoomTool];

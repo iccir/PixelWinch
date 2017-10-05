@@ -63,7 +63,7 @@
         NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
         [ps setLineSpacing:0];
         [ps setMaximumLineHeight:[[self _font] pointSize] + 1];
-        [ps setAlignment:NSCenterTextAlignment];
+        [ps setAlignment:NSTextAlignmentCenter];
         
         _attributes = @{
             NSForegroundColorAttributeName: [NSColor whiteColor],

@@ -63,7 +63,7 @@ static NSString * const sZoomsInKey = @"zoomsIn";
 
 - (BOOL) calculatedZoomsIn
 {
-    BOOL isAltPressed = ([NSEvent modifierFlags] & NSAlternateKeyMask) > 0;
+    BOOL isAltPressed = ([NSEvent modifierFlags] & NSEventModifierFlagOption) > 0;
 
     if (_inTemporaryMode) {
         return !isAltPressed;

@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
 - (void) mouseDown:(NSEvent *)event
 {
-    if ([event type] != NSLeftMouseDown) {
+    if ([event type] != NSEventTypeLeftMouseDown) {
         [super mouseDown:event];
         return;
     }
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 
     [[self canvasView] willTrackObjectView:self];
 
-    BOOL altOptionDownAtStart = ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) > 0;
+    BOOL altOptionDownAtStart = ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption) > 0;
     if (altOptionDownAtStart) {
         _duplicateMouseDownEvent = event;
     }
@@ -95,11 +95,11 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
         *stop = NO;
         
         BOOL isSpaceBarEvent = NO;
-        if (type == NSKeyDown || type == NSKeyUp) {
+        if (type == NSEventTypeKeyDown || type == NSEventTypeKeyUp) {
             isSpaceBarEvent = [[event characters] isEqualToString:@" "];
             
             if (isSpaceBarEvent) {
-                BOOL inMoveMode = (type == NSKeyDown);
+                BOOL inMoveMode = (type == NSEventTypeKeyDown);
                 if (inMoveMode != _inMoveMode) {
                     _inMoveMode = inMoveMode;
                     _canvasObjectRectWhenEnteredMoveMode = [[self canvasObject] rect];
@@ -109,7 +109,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
             }
         }
 
-        if (type == NSLeftMouseUp) {
+        if (type == NSEventTypeLeftMouseUp) {
             snappedPoint = [canvasView roundedCanvasPointForEvent:event];
 
             if (_inMoveMode) {
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
             *stop = YES;
             return;
 
-        } else if (type == NSLeftMouseDragged) {
+        } else if (type == NSEventTypeLeftMouseDragged) {
             if (_duplicateMouseDownEvent) {
                 _duplicateObjectView = [[self canvasView] duplicateObjectView:self];
                 
@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
             [self continueTrackingWithEvent:event point:snappedPoint];
             lastDragEvent = event;
 
-        } else if ((type == NSFlagsChanged || type == NSKeyUp || type == NSKeyDown) && lastDragEvent) {
+        } else if ((type == NSEventTypeFlagsChanged || type == NSEventTypeKeyUp || type == NSEventTypeKeyDown) && lastDragEvent) {
             snappedPoint = [canvasView roundedCanvasPointForEvent:lastDragEvent];
             [self continueTrackingWithEvent:lastDragEvent point:snappedPoint];
         }
@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
     }
 
     while (1) {
-        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask | NSKeyDownMask | NSKeyUpMask)];
+        NSEvent *event = [[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged | NSEventMaskLeftMouseUp | NSEventMaskFlagsChanged | NSEventMaskKeyDown | NSEventMaskKeyUp)];
         BOOL stop = NO;
         
         handleEvent(event, &stop);
@@ -202,7 +202,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
         pointInCanvasView.y - _moveTrackingMousePoint.y
     );
 
-    if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
+    if ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) {
         if (_moveConstraintState == CanvasObjectMoveConstraintNone) {
             if (fabs(deltaPoint.x) >= fabs(deltaPoint.y)) {
                 _moveConstraintState = CanvasObjectMoveConstraintYAxis;

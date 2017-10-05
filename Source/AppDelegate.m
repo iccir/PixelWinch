@@ -141,12 +141,12 @@
     NSMenuItem *quitMenuItem = [self quitMenuItem];
 
     [quitMenuItem setKeyEquivalent:@""];
-    [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [quitMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
 
     if (iconMode == IconModeInDock || iconMode == IconModeInBoth) {
         if ([[Preferences sharedInstance] allowsQuit]) {
             [quitMenuItem setKeyEquivalent:@"q"];
-            [quitMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+            [quitMenuItem setKeyEquivalentModifierMask:NSEventModifierFlagCommand];
         }
     }
 

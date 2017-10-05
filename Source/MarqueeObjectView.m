@@ -97,7 +97,7 @@
 
     Marquee *marquee = [self marquee];
 
-    if ([NSEvent modifierFlags] & NSShiftKeyMask) {
+    if ([NSEvent modifierFlags] & NSEventModifierFlagShift) {
         if (newRect.size.width  > newRect.size.height) newRect.size.height = newRect.size.width;
         if (newRect.size.height > newRect.size.width)  newRect.size.width  = newRect.size.height;
     }

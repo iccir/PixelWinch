@@ -16,17 +16,17 @@ NSString * const SpaceBarWillGoUpNotificationName = @"SpaceBarWillGoUpNotificati
 {
     NSString *selectorName = nil;
 
-	if ([event type] == NSKeyUp) {
+    if ([event type] == NSEventTypeKeyUp) {
         if ([[event charactersIgnoringModifiers] isEqualToString:@" "]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:SpaceBarWillGoUpNotificationName object:nil];
         }
     }
 
-	if ([event type] == NSKeyDown) {
-        NSUInteger modifierFlags = [event modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    if ([event type] == NSEventTypeKeyDown) {
+        NSUInteger modifierFlags = [event modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
         NSString *characters = [event charactersIgnoringModifiers];
 
-		if (modifierFlags == NSCommandKeyMask) {
+        if (modifierFlags == NSEventModifierFlagCommand) {
             selectorName = [@{
                 @"c": @"copy:",
                 @"v": @"paste:",
@@ -37,7 +37,7 @@ NSString * const SpaceBarWillGoUpNotificationName = @"SpaceBarWillGoUpNotificati
                 @"m": @"performMiniaturize:"
             } objectForKey:characters];
 
-        } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {
+        } else if (modifierFlags == (NSEventModifierFlagCommand | NSEventModifierFlagShift)) {
             selectorName = [@{
                 @"Z": @"redo:"
             } objectForKey:characters];

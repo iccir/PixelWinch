@@ -68,7 +68,7 @@
 
 - (void) mouseDown:(NSEvent *)event
 {
-    if ([event type] != NSLeftMouseDown) {
+    if ([event type] != NSEventTypeLeftMouseDown) {
         return;
     }
 
@@ -99,15 +99,15 @@
     [event locationInWindow];
 
     while (1) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+        event = [[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged | NSEventMaskLeftMouseUp)];
 
         NSEventType type = [event type];
-        if (type == NSLeftMouseUp) {
+        if (type == NSEventTypeLeftMouseUp) {
             dispatchWithEvent(event);
             [delegate windowResizerKnobWillEndDrag:self];
             break;
 
-        } else if (type == NSLeftMouseDragged) {
+        } else if (type == NSEventTypeLeftMouseDragged) {
             dispatchWithEvent(event);
         }
     }

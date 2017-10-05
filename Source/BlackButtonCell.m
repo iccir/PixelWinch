@@ -25,7 +25,7 @@
 {
     NSImage *image = [self image];
 
-    NSRectFillListUsingOperation(&cellFrame, 1, NSCompositeClear);
+    NSRectFillListUsingOperation(&cellFrame, 1, NSCompositingOperationClear);
 
     NSRect shadowFrame = cellFrame;
     shadowFrame.size.height -= 1.0;

@@ -112,7 +112,7 @@ static NSString * const sVerticalKey  = @"vertical";
 
 - (BOOL) calculatedIsVertical
 {
-    BOOL isAltPressed = ([NSEvent modifierFlags] & NSAlternateKeyMask) > 0;
+    BOOL isAltPressed = ([NSEvent modifierFlags] & NSEventModifierFlagOption) > 0;
 
     BOOL result = [self isVertical];
     if (isAltPressed) result = !result;
@@ -123,7 +123,7 @@ static NSString * const sVerticalKey  = @"vertical";
 
 - (BOOL) calculatedIsGuide
 {
-    return ([NSEvent modifierFlags] & NSCommandKeyMask) > 0;
+    return ([NSEvent modifierFlags] & NSEventModifierFlagCommand) > 0;
 }
 
 

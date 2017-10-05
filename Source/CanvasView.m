@@ -265,7 +265,7 @@ static CGColorRef GetCheckerColor()
 
 - (void) mouseDown:(NSEvent *)event
 {
-    if ([event type] != NSLeftMouseDown) {
+    if ([event type] != NSEventTypeLeftMouseDown) {
         return;
     }
 
@@ -273,18 +273,18 @@ static CGColorRef GetCheckerColor()
         [self invalidateCursors];
 
         while (1) {
-            event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask | NSFlagsChangedMask)];
+            event = [[self window] nextEventMatchingMask:(NSEventMaskLeftMouseDragged | NSEventMaskLeftMouseUp | NSEventMaskFlagsChanged)];
 
             NSEventType type = [event type];
-            if (type == NSLeftMouseUp) {
+            if (type == NSEventTypeLeftMouseUp) {
                 [_delegate canvasView:self mouseUpWithEvent:event];
                 break;
 
-            } else if (type == NSLeftMouseDragged) {
+            } else if (type == NSEventTypeLeftMouseDragged) {
                 [self autoscroll:event];
                 [_delegate canvasView:self mouseDraggedWithEvent:event];
 
-            } else if (type == NSFlagsChanged) {
+            } else if (type == NSEventTypeFlagsChanged) {
                 [_delegate canvasView:self flagsChangedWithEvent:event];
             }
         }

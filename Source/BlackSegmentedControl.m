@@ -66,7 +66,7 @@
     
     [super drawWithFrame:cellFrame inView:controlView];
 
-    NSRectFillListUsingOperation(&cellFrame, 1, NSCompositeClear);
+    NSRectFillListUsingOperation(&cellFrame, 1, NSCompositingOperationClear);
 
     NSRect shadowFrame = cellFrame;
     shadowFrame.size.height -= 1.0;
