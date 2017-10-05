@@ -77,13 +77,7 @@ static CGColorRef GetCheckerColor()
     if ((self = [super initWithFrame:frameRect])) {
         _canvas = canvas;
         
-        CALayer *selfLayer = [CALayer layer];
-        
-        [self setWantsLayer:YES];
-        [self setLayer:selfLayer];
-        [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawNever];
-        [selfLayer setDelegate:self];
-        [selfLayer setOpaque:YES];
+        [[self layer] setOpaque:YES];
         
         _checkerLayer = [CALayer layer];
         [_checkerLayer setAnchorPoint:CGPointMake(0, 0)];
@@ -310,13 +304,28 @@ static CGColorRef GetCheckerColor()
 }
 
 
+- (void) viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self _inheritContentsScaleFromWindow:[self window]];
+}
+
+
 - (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
 {
-    [[self layer] setContentsScale:newScale];
-    [_imageLayer setContentsScale:newScale];
-    [_checkerLayer setContentsScale:newScale];
-
+    [self _inheritContentsScaleFromWindow:window];
     return YES;
+}
+
+
+- (void) _inheritContentsScaleFromWindow:(NSWindow *)window
+{
+    CGFloat contentsScale = [window backingScaleFactor];
+
+    if (contentsScale) {
+        [_imageLayer setContentsScale:contentsScale];
+        [_checkerLayer setContentsScale:contentsScale];
+    }
 }
 
 
@@ -753,7 +762,6 @@ static CGColorRef GetCheckerColor()
         MeasurementLabel *label = [[MeasurementLabel alloc] initWithFrame:CGRectZero];
         [label setOwningObjectView:view];
         [label setHidden:[view isMeasurementLabelHidden]];
-        [label setTranslatesAutoresizingMaskIntoConstraints:NO];
 
         [_measurementLabels addObject:label];
 

@@ -55,23 +55,6 @@
 #endif
 
 
-#define InvalidReceiptDelta_Value MeasurementScaleMode
-static NSInteger InvalidReceiptDelta_Value = 0;
-
-#if ENABLE_APP_STORE && !defined(DEBUG)
-
-static inline void sInvalidate()
-{
-    NSInteger notReallyUsed = [[Preferences sharedInstance] measurementCopyType];
-    
-    if (notReallyUsed >= 0) {
-        InvalidReceiptDelta = InvalidReceiptDelta_Value;
-    } 
-}
-
-#endif
-
-
 @interface CanvasWindowController () <
     NSToolbarDelegate,
     CanvasWindowDelegate,
@@ -419,13 +402,6 @@ static inline void sInvalidate()
 
 - (void) windowDidLoad
 {
-    __block u_int32_t aRandomInt = arc4random();
-    
-    CGFloat (^getRandomValueForInvalidReceipt)(u_int32_t) = ^(u_int32_t value) {
-        CGFloat map[6] = { -2, -1, 1, 2 };
-        return map[value % 6];
-    };
-
     NSImage *arrowImage     = [NSImage imageNamed:@"ToolbarArrow"];
     NSImage *handImage      = [NSImage imageNamed:@"ToolbarHand"];
     NSImage *marqueeImage   = [NSImage imageNamed:@"ToolbarMarquee"];
@@ -511,8 +487,6 @@ static inline void sInvalidate()
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
     
-    InvalidReceiptDelta_Value = getRandomValueForInvalidReceipt( aRandomInt & 0x0F);
-
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowOffset:NSMakeSize(0, 4)];
@@ -528,7 +502,7 @@ static inline void sInvalidate()
     [self _updateInspector];
     [self _updateGrappleIcon];
 
-    if ([NSTouchBar class]) {
+    if (@available(macOS 10.12.2, *)) {
         [[NSBundle mainBundle] loadNibNamed:@"TouchBar" owner:self topLevelObjects:nil];
     }
 }

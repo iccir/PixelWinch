@@ -49,7 +49,7 @@
 @property (nonatomic, strong) IBOutlet NSView *topView;
 @property (nonatomic, strong) IBOutlet NSView *bottomView;
 
-@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar;
+@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar NS_AVAILABLE_MAC(10_12_2);
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *touchBarToolPicker;
 
 

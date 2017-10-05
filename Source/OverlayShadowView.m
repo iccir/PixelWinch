@@ -1,25 +1,9 @@
-//
-//  ShadowView.m
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2013-10-29.
-//
-//
+//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+
 
 #import "OverlayShadowView.h"
 
 @implementation OverlayShadowView
-
-
-- (instancetype) initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame])) {
-        [self setLayer:[CALayer layer]];
-    }
-
-    return self;
-}
-
 
 - (void) layoutSubviews
 {

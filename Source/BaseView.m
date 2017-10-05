@@ -62,8 +62,6 @@ static IMP sBaseView_drawRect = NULL;
     [self setLayerContentsRedrawPolicy:redrawPolicy];
     [self setWantsLayer:YES];
     [self setFlipped:YES];
-    [self setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self setAutoresizesSubviews:NO];
 
     if (_implementsDrawRect) {
         [[self layer] setNeedsDisplay];

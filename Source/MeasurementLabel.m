@@ -83,12 +83,27 @@
 }
 
 
+- (void) viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self _inheritContentsScaleFromWindow:[self window]];
+}
+
+
 - (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
 {
-    [[self layer] setContentsScale:newScale];
-    [_sublayer setContentsScale:newScale];
-
+    [self _inheritContentsScaleFromWindow:window];
     return YES;
+}
+
+
+- (void) _inheritContentsScaleFromWindow:(NSWindow *)window
+{
+    CGFloat contentsScale = [window backingScaleFactor];
+
+    if (contentsScale) {
+        [_sublayer setContentsScale:contentsScale];
+    }
 }
 
 

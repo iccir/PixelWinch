@@ -134,13 +134,29 @@ static const CGFloat sBorderWidth = 2;
     }
 }
 
+
+- (void) viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self _inheritContentsScaleFromWindow:[self window]];
+}
+
+
 - (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
 {
-    [[self layer] setContentsScale:newScale];
-    [_sublayer setContentsScale:newScale];
-    [_sublayer setNeedsDisplay];
-
+    [self _inheritContentsScaleFromWindow:window];
     return YES;
+}
+
+
+- (void) _inheritContentsScaleFromWindow:(NSWindow *)window
+{
+    CGFloat contentsScale = [window backingScaleFactor];
+
+    if (contentsScale) {
+        [_sublayer setContentsScale:contentsScale];
+        [_sublayer setNeedsDisplay];
+    }
 }
 
 
