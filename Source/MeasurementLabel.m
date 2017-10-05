@@ -141,7 +141,7 @@
 }
 
 
-- (CGSize) intrinsicContentSize
+- (CGSize) neededSize
 {
     NSRect rect = [[self _text] boundingRectWithSize:NSMakeSize(INFINITY, INFINITY) options:NSStringDrawingUsesLineFragmentOrigin attributes:[self _attributes]];
     CGSize size = rect.size;
@@ -155,8 +155,7 @@
 
 - (void) updateText
 {
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
     [_sublayer setNeedsDisplay];
 }
 
