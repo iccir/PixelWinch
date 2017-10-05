@@ -160,7 +160,7 @@
 }
 
 
-#pragma - Accessors
+#pragma mark - Accessors
 
 - (void) setGuide:(Guide *)guide
 {

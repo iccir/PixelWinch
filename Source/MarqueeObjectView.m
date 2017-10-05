@@ -210,7 +210,7 @@
 }
 
 
-#pragma - Accessors
+#pragma mark - Accessors
 
 - (void) setMarquee:(Marquee *)marquee
 {

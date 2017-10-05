@@ -225,7 +225,7 @@
 }
 
 
-#pragma - Accessors
+#pragma mark - Accessors
 
 - (void) setLine:(Line *)line
 {

@@ -171,7 +171,7 @@
 }
 
 
-#pragma - Accessors
+#pragma mark - Accessors
 
 - (void) setRectangle:(Rectangle *)rectangle
 {
