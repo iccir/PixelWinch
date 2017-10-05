@@ -24,7 +24,6 @@
 - (id) initWithFrame:(CGRect)frame;
 
 - (void) layoutSubviews;
-- (void) setNeedsLayout;
 
 @property (atomic, readwrite) NSInteger tag;
 

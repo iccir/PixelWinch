@@ -119,31 +119,31 @@ static IMP sBaseView_drawRect = NULL;
 - (void) didAddSubview:(NSView *)subview
 {
     [super didAddSubview:subview];
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
 }
 
 
 - (void) willRemoveSubview:(NSView *)subview
 {
     [super willRemoveSubview:subview];
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
 }
 
 
 - (void) layout
 {
-    [super layout];
+    if (@available(macOS 10.12, *)) {
+        // In 10.12, we no longer need to call [super layout]
+    } else {
+        [super layout];
+    }
+
     [self layoutSubviews];
 }
 
 - (void) layoutSubviews { }
 
 - (void) drawRect:(CGRect)rect { }
-
-- (void) setNeedsLayout
-{
-    [self setNeedsLayout:YES];
-}
 
 
 #pragma mark - Accessors

@@ -38,7 +38,7 @@ static const CGFloat sBorderWidth = 2;
         [_sublayer setDelegate:self];
         [_sublayer setNeedsDisplay];
 
-        [self setNeedsLayout];
+        [self setNeedsLayout:YES];
     }
 
     return self;

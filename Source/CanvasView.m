@@ -649,7 +649,7 @@ static CGColorRef GetCheckerColor()
     if (_magnification != magnification) {
         _magnification = magnification;
         [self sizeToFit];
-        [self setNeedsLayout];
+        [self setNeedsLayout:YES];
         [self invalidateCursors];
     }
 }
@@ -678,7 +678,7 @@ static CGColorRef GetCheckerColor()
         [label updateText];
     }
 
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
 }
 
 
@@ -789,7 +789,7 @@ static CGColorRef GetCheckerColor()
     NSString *GUID = [[view canvasObject] GUID];
     MeasurementLabel *label = [_GUIDToMeasurementLabelMap objectForKey:GUID];
 
-    [self setNeedsLayout];
+    [self setNeedsLayout:YES];
 
     [label updateText];
 }
