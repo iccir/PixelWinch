@@ -1,5 +1,10 @@
-//  (c) 2011-2018, Ricci Adams.  All rights reserved.
-
+//
+//  ShortcutField.m
+//  PixelWinch
+//
+//  Created by Ricci Adams on 4/22/11.
+//  Copyright 2011 Ricci Adams. All rights reserved.
+//
 
 #import "ShortcutView.h"
 
@@ -15,19 +20,10 @@
 
 - (NSRect) rectOfClearIconForFrame:(NSRect)frame;
 
-@property (nonatomic, strong) Shortcut *shortcut;
-@property (nonatomic, assign, getter=isMouseDownInClearIcon) BOOL mouseDownInClearIcon;
+@property (nonatomic) Shortcut *shortcut;
+@property (nonatomic, getter=isMouseDownInClearIcon) BOOL mouseDownInClearIcon;
 
 @end
-
-
-static NSGradient *sMakeGradient(CGFloat gray1, CGFloat gray2, CGFloat location1, CGFloat location2)
-{
-    NSColor *color1 = [NSColor colorWithDeviceWhite:gray1 alpha:1.0];
-    NSColor *color2 = [NSColor colorWithDeviceWhite:gray2 alpha:1.0];
-
-    return [[NSGradient alloc] initWithColorsAndLocations:color1, location1, color2, location2, nil];
-}
 
 
 static NSBezierPath *sMakeRoundedPath(CGRect rect)
@@ -42,14 +38,6 @@ static NSBezierPath *sMakeRoundedPath(CGRect rect)
 
 static NSImage *sMakeClearIcon(BOOL isPressed)
 {
-    NSGradient *gradient = nil;
-
-    if (isPressed) {
-        gradient = sMakeGradient(0.66, 0.5, 0.0, 1.0);
-    } else {
-        gradient = sMakeGradient(0.75, 0.66, 0.0, 1.0);
-    }
-
     NSImage *result = [[NSImage alloc] initWithSize:NSMakeSize(14.0, 14.0)];
 
     [result lockFocus];
@@ -58,7 +46,16 @@ static NSImage *sMakeClearIcon(BOOL isPressed)
     NSSize      size     = [template size];
 
     NSRect toRect = NSMakeRect(0.0, 0.0, 14.0, 14.0);
-    [gradient drawInBezierPath:[NSBezierPath bezierPathWithRect:toRect] angle:-90];
+
+    NSColor *textColor = [NSColor textColor];
+
+    if (isPressed) {
+        [[textColor colorWithAlphaComponent:0.5] set];
+    } else {
+        [[textColor colorWithAlphaComponent:0.33] set];
+    }
+
+    [[NSBezierPath bezierPathWithRect:toRect] fill];
     [template drawInRect:toRect fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositingOperationDestinationIn fraction:1.0];
 
     [result unlockFocus];
@@ -99,8 +96,7 @@ static NSImage *sGetClearIcon()
 }
 
 
-#pragma mark -
-#pragma mark Private Methods
+#pragma mark - Private Methods
 
 - (_ShortcutCell *) _shortcutCell
 {
@@ -124,8 +120,7 @@ static NSImage *sGetClearIcon()
 }
 
 
-#pragma mark -
-#pragma mark Superclass Overrides
+#pragma mark - Superclass Overrides
 
 - (BOOL) needsPanelToBecomeKey
 {
@@ -141,7 +136,7 @@ static NSImage *sGetClearIcon()
 
 - (BOOL) acceptsFirstMouse:(NSEvent *)theEvent
 {
-	return YES;
+    return YES;
 }
 
 
@@ -212,16 +207,10 @@ static NSImage *sGetClearIcon()
         return NO;
     }
 
-    NSEventModifierFlags modifierFlags = [theEvent modifierFlags] & (
-        NSEventModifierFlagControl  |
-        NSEventModifierFlagShift    |
-        NSEventModifierFlagOption   |
-        NSEventModifierFlagCommand  |
-        NSEventModifierFlagFunction
-    );
-
-    NSString  *characters = [theEvent characters];
-    unichar    c          = [characters length] ? [characters characterAtIndex:0] : 0;
+    NSUInteger mask          = (NSEventModifierFlagControl | NSEventModifierFlagShift | NSEventModifierFlagOption | NSEventModifierFlagCommand | NSEventModifierFlagFunction);
+    NSUInteger modifierFlags = [theEvent modifierFlags] & mask;
+    NSString  *characters    = [theEvent characters];
+    unichar    c             = [characters length] ? [characters characterAtIndex:0] : 0;
 
     if (modifierFlags == 0) { 
         if (c == 0x1b /* Escape */) {
@@ -238,7 +227,7 @@ static NSImage *sGetClearIcon()
     } else if ((modifierFlags == NSEventModifierFlagShift) && (c == NSBackTabCharacter || c == NSTabCharacter)) {
         return [super performKeyEquivalent:theEvent];
         
-	} else {
+    } else {
         Shortcut *shortcut = [Shortcut shortcutWithWithKeyCode:[theEvent keyCode] modifierFlags:modifierFlags];
         [self setShortcut:shortcut];
         [self sendAction:[self action] to:[self target]];
@@ -248,8 +237,24 @@ static NSImage *sGetClearIcon()
 }
 
 
-#pragma mark -
-#pragma mark Accessors
+- (CGRect) focusRingMaskBounds
+{
+    return [self bounds];
+}
+
+
+- (void) drawFocusRingMask
+{
+    CGRect bounds = [self bounds];
+    bounds = CGRectInset(bounds, 1, 1);
+
+    NSBezierPath *boundsPath = sMakeRoundedPath(bounds);
+
+    [boundsPath fill];
+}
+
+
+#pragma mark - Accessors
 
 - (void) setShortcut:(Shortcut *)shortcut
 {
@@ -278,7 +283,7 @@ static NSImage *sGetClearIcon()
 
 - (BOOL) acceptsFirstMouse:(NSEvent *)theEvent
 {
-	return YES;
+    return YES;
 }
 
 
@@ -288,13 +293,15 @@ static NSImage *sGetClearIcon()
 
     NSBezierPath *boundsPath = sMakeRoundedPath(cellFrame);
     
+    NSColor *backgroundColor = [NSColor colorNamed:@"FieldBackground"];
+    NSColor *foregroundColor = [NSColor textColor];
+    
     // Draw background
     //
-    {
-        [[NSColor whiteColor] set];
+    if (backgroundColor) {
+        [backgroundColor set];
         [boundsPath fill];
     }
-
 
     // Draw circle X
     //
@@ -309,7 +316,6 @@ static NSImage *sGetClearIcon()
 
         [image drawInRect:clearImageRect];
     }
-
     
     // Draw text string
     //
@@ -317,7 +323,6 @@ static NSImage *sGetClearIcon()
         NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
         NSString *stringToDraw = nil;
         NSRect stringRect = cellFrame;
-        NSColor *color = [NSColor blackColor];
         CGFloat fontSize = 13.0;
 
         stringRect.size.width = maxX - cellFrame.origin.x;
@@ -336,43 +341,21 @@ static NSImage *sGetClearIcon()
             }
 
             fontSize = 11.0;
-            color = [NSColor colorWithDeviceWhite:0.5 alpha:1.0];
+            foregroundColor = [foregroundColor colorWithAlphaComponent:0.5];
             stringRect = NSInsetRect(stringRect, 3, 4);
         }
 
-        NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-            [NSFont systemFontOfSize:fontSize], NSFontAttributeName,
-            style, NSParagraphStyleAttributeName,
-            color, NSForegroundColorAttributeName,
-            nil];
-
-        [stringToDraw drawInRect:stringRect withAttributes:attributes];
+        [stringToDraw drawInRect:stringRect withAttributes:@{
+            NSFontAttributeName: [NSFont systemFontOfSize:fontSize],
+            NSParagraphStyleAttributeName: style,
+            NSForegroundColorAttributeName: foregroundColor
+        }];
     }
-
-
-    // Draw focus ring if necessary
-    //
-    if ([self showsFirstResponder]) {
-        [NSGraphicsContext saveGraphicsState];
-
-        NSSetFocusRingStyle(NSFocusRingOnly);
-        [[NSColor whiteColor] set];
-        [boundsPath fill];
-
-        [NSGraphicsContext restoreGraphicsState];
-    }
-
 
     // Apply stroke
     {
         NSBezierPath *path = sMakeRoundedPath(NSInsetRect(cellFrame, 0.5, 0.5));
-        
-        if ([self showsFirstResponder]) {
-            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.15] set];
-        } else {
-            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.33] set];
-        }
-
+        [[foregroundColor colorWithAlphaComponent:0.33] set];
         [path stroke];
     }
 }

@@ -21,7 +21,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleApplicationDidChangeScreenParameters:) name:NSApplicationDidChangeScreenParametersNotification object:nil];
     }
-    
+
     return self;
 }
 
