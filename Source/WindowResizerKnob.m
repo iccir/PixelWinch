@@ -1,4 +1,4 @@
-//  (c) 2015-2017, Ricci Adams.  All rights reserved.
+//  (c) 2015-2018, Ricci Adams.  All rights reserved.
 
 
 #import "WindowResizerKnob.h"

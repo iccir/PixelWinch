@@ -714,7 +714,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
-				55CC21A81832F24F004076CF /* Generate Receipt Validation */,
 				558A9FDC1BB696A400674B16 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rcbump */,
 				8D1107290486CEB800E47090 /* Resources */,
@@ -836,21 +835,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ \"$CONFIGURATION\" == *\"Beta\" ]]; then\n    EXPIRATION_H=\"$PROJECT_DIR/Source/BetaExpiration.h\"\n    WHEN=`date -v+30d \"+%Y-%m-%d\"`\n    \n    SKIP=`egrep -q \"Expires: $WHEN\" \"${EXPIRATION_H}\" && \\\n            echo \"YES\"`\n          \n    if [ \"x${SKIP}\" = \"x\" ]; then\n        INTERVAL=`date -v+30d -v-978307200S \"+%s\"`\n\n        echo \"// Expires: $WHEN\" > $EXPIRATION_H\n        echo >> $EXPIRATION_H\n        echo \"#define kExpirationDouble ((double)    $INTERVAL.0 )\" >> $EXPIRATION_H\n        echo \"#define kExpirationLong   ((long long) $INTERVAL   )\" >> $EXPIRATION_H\n    fi\nfi\n\n";
 		};
-		55CC21A81832F24F004076CF /* Generate Receipt Validation */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Receipt Validation";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "
-";
-		};
 		55FA815A1815DE8600ED67E0 /* rcbump */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -863,7 +847,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "which rcbump\nif [ $? -eq 0 ]; then\n    rcbump build -h Source/rcbump.h\n    exit $?\nfi";
+			shellScript = "which rcbump\n\nif [ $? -eq 0 ]; then\n    rcbump build\n    exit $?\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

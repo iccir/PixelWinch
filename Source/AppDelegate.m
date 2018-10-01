@@ -1,4 +1,4 @@
-//  (c) 2013-2017, Ricci Adams.  All rights reserved.
+//  (c) 2013-2018, Ricci Adams.  All rights reserved.
 
 
 #import "AppDelegate.h"
@@ -150,7 +150,7 @@
             NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
             [image setTemplate:YES];
                      
-            if (YES || ![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
+            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
                 _tutorialWindowController = [[TutorialWindowController alloc] init];
                 [_tutorialWindowController orderInWithStatusItem:_statusItem];
             }
