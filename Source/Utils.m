@@ -11,11 +11,11 @@
 
 static NSMutableArray *sGraphicsContextStack = nil;
 
-NSString * const WinchFeedbackURLString = @"http://www.ricciadams.com/contact/pixel-winch";
-NSString * const WinchWebsiteURLString  = @"http://www.ricciadams.com/projects/pixel-winch";
-NSString * const WinchGuideURLString    = @"http://www.ricciadams.com/projects/pixel-winch/guide";
-NSString * const WinchPrivacyURLString  = @"http://www.ricciadams.com/projects/pixel-winch/privacy";
-NSString * const WinchAppStoreURLString = @"http://www.ricciadams.com/buy/pixel-winch";
+NSString * const WinchFeedbackURLString = @"https://www.ricciadams.com/contact/pixel-winch";
+NSString * const WinchWebsiteURLString  = @"https://www.ricciadams.com/projects/pixel-winch";
+NSString * const WinchGuideURLString    = @"https://www.ricciadams.com/projects/pixel-winch/guide";
+NSString * const WinchPrivacyURLString  = @"https://www.ricciadams.com/privacy/pixel-winch";
+NSString * const WinchAppStoreURLString = @"https://www.ricciadams.com/buy/pixel-winch";
 
 
 #define InvalidReceiptDeltaThreshold k3xWorkaround
@@ -115,30 +115,6 @@ BOOL IsInDebugger(void)
 CGSize GetMaxThumbnailSize(void)
 {
     return CGSizeMake(128, 64);
-}
-
-
-NSString *GetPixelWinchFeedbackURLString(void)
-{
-    return @"http://www.ricciadams.com/contact/pixel-winch";
-}
-
-
-NSString *GetPixelWinchWebsiteURLString(void)
-{
-    return @"http://www.ricciadams.com/projects/pixel-winch";
-}
-
-
-NSString *GetPixelWinchGuideURLString(void)
-{
-    return @"http://www.ricciadams.com/projects/pixel-winch/guide";
-}
-
-
-NSString *GetPixelWinchOnAppStoreURLString(void)
-{
-    return @"http://www.ricciadams.com/buy/pixel-winch";
 }
 
 

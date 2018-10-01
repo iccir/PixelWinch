@@ -188,7 +188,6 @@
         newFrame.origin.y += delta;
     }
 
-
     [window setFrame:newFrame display:YES animate:animated];
     [window setTitle:title];
 
@@ -229,7 +228,7 @@
 
 - (IBAction) viewOnAppStore:(id)sender
 {
-    NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
+    NSURL *url = [NSURL URLWithString:WinchAppStoreURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
