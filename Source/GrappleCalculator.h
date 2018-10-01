@@ -28,19 +28,4 @@
                                        outY1: (size_t *) outY1
                                        outY2: (size_t *) outY2;
 
-- (void) calculateExpansionWithPlane: (UInt8 *) plane
-                          planeWidth: (size_t ) width
-                         planeHeight: (size_t ) height
-                              inRect: (CGRect ) inRect
-                                edge: (ObjectEdge) edge
-                             outRect: (CGRect *) outRect;
-
-- (void) calculateShrinkageWithPlane: (UInt8 *) plane
-                          planeWidth: (size_t ) width
-                         planeHeight: (size_t ) height
-                              inRect: (CGRect ) inRect
-                                edge: (ObjectEdge) edge
-                             outRect: (CGRect *) outRect;
-
-
 @end

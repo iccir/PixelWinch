@@ -156,11 +156,7 @@ static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_
     sMakeLAB(input, lab_accelerate, width, height);
     free(input);
 
-    if (SupportsSSE4_1()) {
-        CalculateImageDistanceMap_SSE4(lab_accelerate, hmap_accelerate, vmap_accelerate, width, height);
-    } else {
-        CalculateImageDistanceMap_SSE3(lab_accelerate, hmap_accelerate, vmap_accelerate, width, height);
-    }
+    CalculateImageDistanceMap(lab_accelerate, hmap_accelerate, vmap_accelerate, width, height);
 
     free(lab_accelerate);
     

@@ -7,7 +7,6 @@
 #import "CanvasObjectView.h"
 #import "CanvasObject.h"
 #import "CursorAdditions.h"
-#import "WeakTargetActionPair.h"
 
 static const CGFloat sPaddingForShadow = 8;
 static const CGFloat sBorderWidth = 2;

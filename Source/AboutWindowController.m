@@ -5,7 +5,13 @@
 
 @interface AboutWindowController ()
 
+@property (nonatomic, weak) IBOutlet NSImageView *imageView;
+@property (nonatomic, weak) IBOutlet NSTextField *versionField;
+
+@property (nonatomic, weak) IBOutlet NSButton *viewOnAppStoreButton;
+
 @end
+
 
 @interface AboutWindowContentView : NSView
 @end
@@ -15,6 +21,10 @@
 
 - (void) drawRect:(NSRect)dirtyRect
 {
+    if (IsAppearanceDarkAqua(self)) {
+        return;
+    }
+
     NSColor *startingColor = GetRGBColor(0xe0e0e0, 1.0);
     NSColor *endingColor   = GetRGBColor(0xffffff, 1.0);
 
@@ -27,14 +37,6 @@
 
 @implementation AboutWindowController
 
-- (id)initWithWindow:(NSWindow *)window
-{
-    self = [super initWithWindow:window];
-    if (self) {
-        // Initialization code here.
-    }
-    return self;
-}
 
 - (NSString *) windowNibName
 {
@@ -113,19 +115,6 @@
 
     [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
 #endif
-
-    NSScrollView *legalScrollView = [[self legalText] enclosingScrollView];
-
-    [legalScrollView setHasVerticalScroller:YES];
-    [legalScrollView setScrollerStyle:NSScrollerStyleLegacy];
-    [legalScrollView setHasHorizontalScroller:NO];
-
-    NSString *legalPath = [[NSBundle mainBundle] pathForResource:@"Legal" ofType:@"rtf"];
-    [[self legalText] readRTFDFromFile:legalPath];
-
-    NSRect frame = [[self legalText] frame];
-    frame.size.width -= 20;
-    [[self legalText] setFrame:frame];
 }
 
 
@@ -157,11 +146,10 @@
 }
 
 
-- (IBAction) viewAcknowledgements:(id)sender
+- (IBAction) viewPrivacy:(id)sender
 {
-    [[self legalWindow] center];
-    [[self window] orderOut:self];
-    [[self legalWindow] makeKeyAndOrderFront:self];
+    NSURL *url = [NSURL URLWithString:WinchPrivacyURLString];
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 

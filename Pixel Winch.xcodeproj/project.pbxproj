@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		550DF71D1943EC9C00E941E3 /* WinchFastMath_SSE4.c in Sources */ = {isa = PBXBuildFile; fileRef = 550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */; settings = {COMPILER_FLAGS = "-msse4.1"; }; };
 		5512BF3117F94EA100425AD6 /* Guide.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3017F94EA100425AD6 /* Guide.m */; };
 		5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF3917F968E300425AD6 /* MarqueeObjectView.m */; };
 		5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF5617FB9ACA00425AD6 /* CursorAdditions.m */; };
@@ -23,7 +22,6 @@
 		5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF6B180FDD1C002D5451 /* BlackSquare.m */; };
 		5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF6E180FE436002D5451 /* BottomShadowView.m */; };
 		552873CC1936C11100FA9143 /* Tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 552873CB1936C11100FA9143 /* Tips.png */; };
-		55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
 		55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A20180BC4A400F053C7 /* CursorInfo.m */; };
 		5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B41D17F8F1D000D9B4E9 /* RulerView.m */; };
@@ -46,7 +44,6 @@
 		5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095FA1B5A394B00326141 /* CanvasWindow.xib */; };
 		5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 557095FC1B5A394B00326141 /* GrappleHelp.txt */; };
 		5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557095FE1B5A394B00326141 /* InfoPlist.strings */; };
-		5570960E1B5A394B00326141 /* Legal.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 557096001B5A394B00326141 /* Legal.rtf */; };
 		5570960F1B5A394B00326141 /* LibraryItemPrototype.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096021B5A394B00326141 /* LibraryItemPrototype.xib */; };
 		557096101B5A394B00326141 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557096041B5A394B00326141 /* Localizable.strings */; };
 		557096111B5A394B00326141 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096061B5A394B00326141 /* MainMenu.xib */; };
@@ -75,9 +72,6 @@
 		55B07A6A17F654400013B05C /* CaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureManager.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasWindowController.m */; };
-		55B908441B761252005E1C65 /* ExportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B908431B761252005E1C65 /* ExportManager.m */; };
-		55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */; };
 		55BB972D180602A600DED9B5 /* OverlayBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* OverlayBaseView.m */; };
 		55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */; };
 		55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CCB1800E9A400ECE184 /* BlackSegmentedControl.m */; };
@@ -96,11 +90,9 @@
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
 		55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E29A44183088C200D9D933 /* AboutWindowController.m */; };
-		55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55CB053418285F80001DD1A0 /* libcrypto.a */; };
 		55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E987CD1828E37A00C2208A /* ScreenAdditions.m */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
-		55F892821BB6377400E0A14B /* PixelWinch_Beta.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -116,17 +108,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		557BA9BE1821E969004A57FC /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				55B94D9D182F6EF600FE39F3 /* HockeySDK.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		55916E601941387800F28F4C /* Copy LoginItems */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -144,7 +125,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath_SSE4.c; path = Source/WinchFastMath_SSE4.c; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -175,8 +155,6 @@
 		5520DF6E180FE436002D5451 /* BottomShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomShadowView.m; path = Source/BottomShadowView.m; sourceTree = "<group>"; };
 		552486B318500B4000276F67 /* CanvasTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasTypes.h; path = Source/CanvasTypes.h; sourceTree = "<group>"; };
 		552873CB1936C11100FA9143 /* Tips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tips.png; path = Resources/Tips.png; sourceTree = "<group>"; };
-		55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeakTargetActionPair.m; path = Source/WeakTargetActionPair.m; sourceTree = "<group>"; };
-		55314E56185154B9005BDAE8 /* WeakTargetActionPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeakTargetActionPair.h; path = Source/WeakTargetActionPair.h; sourceTree = "<group>"; };
 		55336A1A180B5C8400F053C7 /* Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Screenshot.h; path = Source/Screenshot.h; sourceTree = "<group>"; };
 		55336A1B180B5C8400F053C7 /* Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Screenshot.m; path = Source/Screenshot.m; sourceTree = "<group>"; };
 		55336A1F180BC4A400F053C7 /* CursorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CursorInfo.h; path = Source/CursorInfo.h; sourceTree = "<group>"; };
@@ -184,7 +162,6 @@
 		55346D84194130C900896455 /* Launch Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Launch Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5536B41C17F8F1D000D9B4E9 /* RulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulerView.h; path = Source/RulerView.h; sourceTree = "<group>"; };
 		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
-		553A1E831E5ED4DB00942D08 /* ReceiptValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReceiptValidation.h; path = Source/ReceiptValidation.h; sourceTree = SOURCE_ROOT; };
 		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
 		553AC79017F7DCC200C253C2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils.m; sourceTree = "<group>"; };
 		553ACC5B1820E027009AB09E /* OverlayShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayShadowView.h; path = Source/OverlayShadowView.h; sourceTree = "<group>"; };
@@ -218,15 +195,21 @@
 		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
 		557095FD1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
 		557095FF1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		557096011B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Resources/English.lproj/Legal.rtf; sourceTree = "<group>"; };
 		557096031B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/LibraryItemPrototype.xib; sourceTree = "<group>"; };
 		557096051B5A394B00326141 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		557096071B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		557096091B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/Preferences.xib; sourceTree = "<group>"; };
-		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
-		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
-		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
-		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
+		557B7739215F00F700CAAB7C /* ReceiptValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ReceiptValidation.m; path = Source/ReceiptValidation.m; sourceTree = SOURCE_ROOT; };
+		557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Release.xcconfig; path = Config/Combined/PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
+		557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Profile.xcconfig; path = Config/Combined/PixelWinch_Beta_Profile.xcconfig; sourceTree = "<group>"; };
+		557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Debug.xcconfig; path = Config/Combined/PixelWinch_Beta_Debug.xcconfig; sourceTree = "<group>"; };
+		557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Release.xcconfig; path = Config/Combined/PixelWinch_AppStore_Release.xcconfig; sourceTree = "<group>"; };
+		557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Profile.xcconfig; path = Config/Combined/PixelWinch_AppStore_Profile.xcconfig; sourceTree = "<group>"; };
+		557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Debug.xcconfig; path = Config/Combined/PixelWinch_AppStore_Debug.xcconfig; sourceTree = "<group>"; };
+		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Base.xcconfig; path = Config/PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
+		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Debug.xcconfig; path = Config/PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
+		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Profile.xcconfig; path = Config/PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
+		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Release.xcconfig; path = Config/PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
 		5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculatorImpl.h; path = Source/GrappleCalculatorImpl.h; sourceTree = "<group>"; };
 		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
 		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
@@ -276,8 +259,6 @@
 		55B07A7517F6CE7B0013B05C /* CanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasView.m; path = Source/CanvasView.m; sourceTree = "<group>"; };
 		55B07A8817F7A19D0013B05C /* CanvasWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindowController.h; path = Source/CanvasWindowController.h; sourceTree = "<group>"; };
 		55B07A8917F7A19D0013B05C /* CanvasWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindowController.m; path = Source/CanvasWindowController.m; sourceTree = "<group>"; };
-		55B908421B761252005E1C65 /* ExportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExportManager.h; path = Source/ExportManager.h; sourceTree = "<group>"; };
-		55B908431B761252005E1C65 /* ExportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExportManager.m; path = Source/ExportManager.m; sourceTree = "<group>"; };
 		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
 		55BB972B180602A600DED9B5 /* OverlayBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayBaseView.h; path = Source/OverlayBaseView.h; sourceTree = "<group>"; };
 		55BB972C180602A600DED9B5 /* OverlayBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayBaseView.m; path = Source/OverlayBaseView.m; sourceTree = "<group>"; };
@@ -305,10 +286,7 @@
 		55CB053418285F80001DD1A0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		55CC21A51832D668004076CF /* MagnificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagnificationManager.h; path = Source/MagnificationManager.h; sourceTree = "<group>"; };
 		55CC21A61832D668004076CF /* MagnificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagnificationManager.m; path = Source/MagnificationManager.m; sourceTree = "<group>"; };
-		55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Release.xcconfig; sourceTree = "<group>"; };
-		55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Profile.xcconfig; sourceTree = "<group>"; };
-		55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore_Debug.xcconfig; sourceTree = "<group>"; };
-		55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_AppStore.xcconfig; sourceTree = "<group>"; };
+		55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore.xcconfig; path = Config/PixelWinch_AppStore.xcconfig; sourceTree = "<group>"; };
 		55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "PixelWinch-Beta.icns"; path = "Resources/PixelWinch-Beta.icns"; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
@@ -323,10 +301,7 @@
 		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
-		55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Debug.xcconfig; sourceTree = "<group>"; };
-		55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Profile.xcconfig; sourceTree = "<group>"; };
-		55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
-		55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PixelWinch_Beta.xcconfig; sourceTree = "<group>"; };
+		55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta.xcconfig; path = Config/PixelWinch_Beta.xcconfig; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8D1107320486CEB800E47090 /* Pixel Winch Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -345,8 +320,6 @@
 			files = (
 				558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */,
 				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
-				55B94D9E182F6F2000FE39F3 /* HockeySDK.framework in Frameworks */,
-				55E987AF18286D5E00C2208A /* libcrypto.a in Frameworks */,
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
 				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
@@ -434,7 +407,6 @@
 				557095FA1B5A394B00326141 /* CanvasWindow.xib */,
 				557095FC1B5A394B00326141 /* GrappleHelp.txt */,
 				557095FE1B5A394B00326141 /* InfoPlist.strings */,
-				557096001B5A394B00326141 /* Legal.rtf */,
 				557096021B5A394B00326141 /* LibraryItemPrototype.xib */,
 				557096041B5A394B00326141 /* Localizable.strings */,
 				557096061B5A394B00326141 /* MainMenu.xib */,
@@ -531,7 +503,7 @@
 				55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */,
 				55346D86194130C900896455 /* Supporting Files */,
 			);
-			path = LaunchAtLogin;
+			name = LaunchAtLogin;
 			sourceTree = "<group>";
 		};
 		55346D86194130C900896455 /* Supporting Files */ = {
@@ -590,32 +562,29 @@
 				557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */,
 				557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */,
 			);
-			path = Config;
+			name = Config;
 			sourceTree = "<group>";
 		};
 		557BA9A21821D967004A57FC /* Combined */ = {
 			isa = PBXGroup;
 			children = (
-				55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */,
-				55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */,
-				55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */,
-				55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */,
-				55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */,
-				55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */,
+				557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */,
+				557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */,
+				557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */,
+				557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */,
+				557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */,
+				557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */,
 			);
-			path = Combined;
+			name = Combined;
 			sourceTree = "<group>";
 		};
 		559D38BC1802AB220048F29B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				55314E56185154B9005BDAE8 /* WeakTargetActionPair.h */,
-				55314E55185154B9005BDAE8 /* WeakTargetActionPair.m */,
 				5516B68E1804EE3B002AED2E /* Disk Model */,
 				5512BF2E17F94E9300425AD6 /* Canvas Model */,
 				558E47781943E87A0028255C /* WinchFastMath.h */,
 				558E47741943E7080028255C /* WinchFastMath.c */,
-				550DF71C1943EC9C00E941E3 /* WinchFastMath_SSE4.c */,
 				5588EF82182C623F000B6224 /* GrappleCalculator.h */,
 				5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */,
 				5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */,
@@ -683,8 +652,6 @@
 				55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */,
 				55CC21A51832D668004076CF /* MagnificationManager.h */,
 				55CC21A61832D668004076CF /* MagnificationManager.m */,
-				55B908421B761252005E1C65 /* ExportManager.h */,
-				55B908431B761252005E1C65 /* ExportManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -693,10 +660,9 @@
 			isa = PBXGroup;
 			children = (
 				558A9FDB1BB6948200674B16 /* BetaExpiration.h */,
-				553A1E831E5ED4DB00942D08 /* ReceiptValidation.h */,
+				557B7739215F00F700CAAB7C /* ReceiptValidation.m */,
 			);
 			name = Protection;
-			path = Config;
 			sourceTree = "<group>";
 		};
 		55C20CE1180109A500ECE184 /* Tools */ = {
@@ -753,7 +719,6 @@
 				55FA815A1815DE8600ED67E0 /* rcbump */,
 				8D1107290486CEB800E47090 /* Resources */,
 				55916E601941387800F28F4C /* Copy LoginItems */,
-				557BA9BE1821E969004A57FC /* Copy Frameworks */,
 				557F652A1ABE596A003C2FEA /* Delete Unused Files */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
@@ -823,8 +788,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55F892821BB6377400E0A14B /* PixelWinch_Beta.xcconfig in Resources */,
-				5570960E1B5A394B00326141 /* Legal.rtf in Resources */,
 				557096121B5A394B00326141 /* Preferences.xib in Resources */,
 				557096101B5A394B00326141 /* Localizable.strings in Resources */,
 				55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */,
@@ -885,7 +848,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RECEIGEN=\"/Applications/Receigen.app/Contents/MacOS/Receigen\"\n\nINPUT=\"$INFOPLIST_FILE\"\nBUNDLE_ID=`/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INPUT\"`\nBUNDLE_VERSION=`/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INPUT\"`\n\nEXPANDED_BUNDLE_ID=\"com.pixelwinch.PixelWinch\"\nEXPANDED_BUNDLE_VERSION=`eval \"echo $BUNDLE_VERSION\"`\n\nmake_header() {\n    local header_file=\"$PROJECT_DIR/Source/ReceiptValidation.h\"\n\n    if [ -e \"${header_file}\" ]; then\n        local skip=`egrep -q \"CFBundleIdentifier.+:.+$EXPANDED_BUNDLE_ID\" \"${header_file}\" && \\\n            egrep -q \"CFBundleShortVersionString.+:.+$EXPANDED_BUNDLE_VERSION$\" \"${header_file}\" && \\\n            echo \"YES\"`\n    fi\n\n    if [ \"x${skip}\" = \"x\" ]; then\n        \"$RECEIGEN\" --identifier \"$EXPANDED_BUNDLE_ID\" --version \"$EXPANDED_BUNDLE_VERSION\" --os osx  \\\n            \"$@\" > \"${header_file}\"\n    fi\n}\n\nmake_header --success runapplication --failure exitwith173\n";
+			shellScript = "
+";
 		};
 		55FA815A1815DE8600ED67E0 /* rcbump */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -926,7 +890,6 @@
 				553ED14A18061AB000F06B45 /* ScrollView.m in Sources */,
 				559D38D3180399B90048F29B /* ShortcutManager.m in Sources */,
 				555153011819F19E004485F6 /* BlackTextView.m in Sources */,
-				55314E57185154B9005BDAE8 /* WeakTargetActionPair.m in Sources */,
 				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
 				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
@@ -946,7 +909,6 @@
 				5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */,
 				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
 				555152F81818AC6D004485F6 /* Toolbox.m in Sources */,
-				55B908441B761252005E1C65 /* ExportManager.m in Sources */,
 				559D38C21802ABC60048F29B /* Shortcut.m in Sources */,
 				554D8988135BEFCF003BFC89 /* main.m in Sources */,
 				55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */,
@@ -982,7 +944,6 @@
 				55C20CF91801172F00ECE184 /* HandTool.m in Sources */,
 				5512BF5B17FB9F6700425AD6 /* GuideObjectView.m in Sources */,
 				558E47751943E7080028255C /* WinchFastMath.c in Sources */,
-				550DF71D1943EC9C00E941E3 /* WinchFastMath_SSE4.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,14 +988,6 @@
 				557095FF1B5A394B00326141 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		557096001B5A394B00326141 /* Legal.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557096011B5A394B00326141 /* English */,
-			);
-			name = Legal.rtf;
 			sourceTree = "<group>";
 		};
 		557096021B5A394B00326141 /* LibraryItemPrototype.xib */ = {
@@ -1217,7 +1170,7 @@
 		};
 		557BA9BB1821DA06004A57FC /* Profile-AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AB1832F3F6004076CF /* PixelWinch_AppStore_Profile.xcconfig */;
+			baseConfigurationReference = 557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1240,13 +1193,14 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Profile-AppStore";
 		};
 		55CC21B51832F4CF004076CF /* Debug-AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21AD1832F3F6004076CF /* PixelWinch_AppStore_Debug.xcconfig */;
+			baseConfigurationReference = 557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1274,13 +1228,14 @@
 					DEBUG,
 					ENABLE_APP_STORE,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Debug-AppStore";
 		};
 		55CC21B71832F4DB004076CF /* Release-AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55CC21A91832F3F6004076CF /* PixelWinch_AppStore_Release.xcconfig */;
+			baseConfigurationReference = 557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1303,13 +1258,14 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch";
 			};
 			name = "Release-AppStore";
 		};
 		55E6ADA81BB633E500A18AD0 /* Debug-Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55F8927B1BB6370800E0A14B /* PixelWinch_Beta_Debug.xcconfig */;
+			baseConfigurationReference = 557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1334,6 +1290,7 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch Beta";
 			};
 			name = "Debug-Beta";
@@ -1388,7 +1345,7 @@
 		};
 		55F892751BB6345800E0A14B /* Profile-Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55F8927C1BB6370800E0A14B /* PixelWinch_Beta_Profile.xcconfig */;
+			baseConfigurationReference = 557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1412,6 +1369,7 @@
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch Beta";
 			};
 			name = "Profile-Beta";
@@ -1460,7 +1418,7 @@
 		};
 		55F892781BB6346200E0A14B /* Release-Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55F8927D1BB6370800E0A14B /* PixelWinch_Beta_Release.xcconfig */;
+			baseConfigurationReference = 557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1483,6 +1441,7 @@
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "Pixel Winch Beta";
 			};
 			name = "Release-Beta";

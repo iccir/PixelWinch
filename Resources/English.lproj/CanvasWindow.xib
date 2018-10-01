@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -32,7 +33,7 @@
             <rect key="frame" x="0.0" y="0.0" width="434" height="174"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView misplaced="YES" id="jka-Rj-MMg" userLabel="Grapple Tool View">
+                <customView id="jka-Rj-MMg" userLabel="Grapple Tool View">
                     <rect key="frame" x="34" y="135" width="268" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -77,7 +78,7 @@
                         </button>
                     </subviews>
                 </customView>
-                <customView misplaced="YES" id="LEE-so-sRZ" userLabel="Zoom Tool View">
+                <customView id="LEE-so-sRZ" userLabel="Zoom Tool View">
                     <rect key="frame" x="34" y="108" width="268" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -109,7 +110,7 @@
                                 <binding destination="-2" name="selectedTag" keyPath="self.toolbox.zoomTool.zoomsIn" id="nrl-lY-IZO"/>
                             </connections>
                         </matrix>
-                        <slider verticalHuggingPriority="750" misplaced="YES" id="W5c-xV-hmI" customClass="BlackSlider">
+                        <slider verticalHuggingPriority="750" id="W5c-xV-hmI" customClass="BlackSlider">
                             <rect key="frame" x="156" y="3" width="64" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="66" tickMarkPosition="below" numberOfTickMarks="67" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
@@ -117,7 +118,7 @@
                                 <binding destination="-2" name="value" keyPath="self.magnificationManager.tickMarkPosition" id="46O-U0-ceS"/>
                             </connections>
                         </slider>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="0dA-4M-K3W" customClass="BlackTextField">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="0dA-4M-K3W" customClass="BlackTextField">
                             <rect key="frame" x="224" y="6" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs" customClass="BlackTextFieldCell">
@@ -150,7 +151,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
             <subviews>
                 <segmentedControl verticalHuggingPriority="750" id="5KM-8b-Puk" customClass="BlackSegmentedControl">
-                    <rect key="frame" x="8" y="6" width="288" height="25"/>
+                    <rect key="frame" x="8.5" y="6" width="288" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT" customClass="BlackSegmentedCell">
                         <font key="font" metaFont="system"/>
@@ -182,12 +183,12 @@
                         <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.selectedToolIndex" id="s1E-Rw-gm6"/>
                     </connections>
                 </segmentedControl>
-                <customView misplaced="YES" id="rKi-rg-iQD">
+                <customView id="rKi-rg-iQD">
                     <rect key="frame" x="304" y="6" width="202" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
                 <segmentedControl verticalHuggingPriority="750" id="LLL-Ww-C7t" customClass="BlackSegmentedControl">
-                    <rect key="frame" x="508" y="6" width="124" height="25"/>
+                    <rect key="frame" x="508.5" y="6" width="124" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="JG3-gB-X8R" customClass="BlackSegmentedCell">
                         <font key="font" metaFont="system"/>

@@ -59,7 +59,7 @@ static NSImage *sMakeClearIcon(BOOL isPressed)
 
     NSRect toRect = NSMakeRect(0.0, 0.0, 14.0, 14.0);
     [gradient drawInBezierPath:[NSBezierPath bezierPathWithRect:toRect] angle:-90];
-    [template drawInRect:toRect fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositeDestinationIn fraction:1.0];
+    [template drawInRect:toRect fromRect:NSMakeRect(0, 0, size.width, size.height) operation:NSCompositingOperationDestinationIn fraction:1.0];
 
     [result unlockFocus];
     
@@ -150,7 +150,7 @@ static NSImage *sGetClearIcon()
     NSEvent     *event     = [NSApp currentEvent];
     NSEventType  eventType = [event type];
 
-    if ((eventType == NSLeftMouseDown) || (eventType == NSRightMouseDown)) {
+    if ((eventType == NSEventTypeLeftMouseDown) || (eventType == NSEventTypeRightMouseDown)) {
         if ([self _isEventForClearIcon:event]) {
             return NO;
         }

@@ -3,8 +3,6 @@
 
 #import "AppDelegate.h"
 
-#import <HockeySDK/HockeySDK.h>
-#import <HockeySDK/BITHockeyManager.h>
 #import <ServiceManagement/ServiceManagement.h>
 
 #import "ShortcutManager.h"
@@ -12,15 +10,15 @@
 #import "AboutWindowController.h"
 #import "CanvasWindowController.h"
 #import "PreferencesWindowController.h"
+#import "TutorialWindowController.h"
 
 #import "CaptureManager.h"
 
 #import "Library.h"
 #import "LibraryItem.h"
-#import "TutorialWindowController.h"
 
 
-@interface AppDelegate () <NSMenuDelegate, ShortcutListener, BITHockeyManagerDelegate>
+@interface AppDelegate () <NSMenuDelegate, ShortcutListener>
 @end
 
 
@@ -151,12 +149,12 @@
 
             NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
             [image setTemplate:YES];
-            
-            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
+                     
+            if (YES || ![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
                 _tutorialWindowController = [[TutorialWindowController alloc] init];
                 [_tutorialWindowController orderInWithStatusItem:_statusItem];
             }
-            
+               
             [[self statusBarMenu] setDelegate:self];
 
             [_statusItem setImage:image];
@@ -316,13 +314,6 @@
                                                repeats: YES];
 
     [[NSRunLoop currentRunLoop] addTimer:_periodicTimer forMode:NSRunLoopCommonModes];
-
-
-    if (!IsInDebugger()) {
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"<redacted>"];
-        [[BITHockeyManager sharedHockeyManager] setDisableFeedbackManager:YES];
-        [[BITHockeyManager sharedHockeyManager] startManager];
-    }
 
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];

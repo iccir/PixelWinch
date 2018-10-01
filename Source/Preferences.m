@@ -12,6 +12,23 @@
 
 NSString * const PreferencesDidChangeNotification = @"PreferencesDidChange";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+static NSCoder *sMakeArchiver(NSMutableData *data)
+{
+    return [[NSArchiver alloc] initForWritingWithMutableData:data];
+}
+
+static NSCoder *sMakeUnarchiver(NSData *data)
+{
+    return [[NSUnarchiver alloc] initForReadingWithData:data];
+}
+
+#pragma clang diagnostic pop
+
+
+
 static NSDictionary *sGetDefaultValues()
 {
     static NSDictionary *sDefaultValues = nil;
@@ -20,16 +37,16 @@ static NSDictionary *sGetDefaultValues()
     dispatch_once(&onceToken, ^{
 
     sDefaultValues = @{
-        @"iconMode":              @(IconModeInMenuBar),
+        @"iconMode":              @(IconModeInBoth),
         @"launchAtLogin":         @(NO),
-        @"usesOverlayWindow":     @(YES),
+        @"usesOverlayWindow":     @(NO),
         @"allowsQuit":            @(YES),
 
         @"captureSelectionShortcut":    [Shortcut emptyShortcut],
         @"importFromClipboardShortcut": [Shortcut emptyShortcut],
         @"showScreenshotsShortcut":     [Shortcut emptyShortcut],
         @"toggleScreenshotsShortcut":   [Shortcut emptyShortcut],
-        @"closeScreenshotsKey":         @( CloseScreenshotsKeyBoth ),
+        @"closeScreenshotsKey":         @( CloseScreenshotsKeyCommandW ),
         
         @"preferredDisplay":          @( 0 ),
         @"preferredDisplayName":      @"",
@@ -82,8 +99,9 @@ static void sSetDefaultObject(id dictionary, NSString *key, id valueToSave, id d
         
         if (valueToSave) {
             data = [NSMutableData data];
-            NSArchiver *encoder = [[NSArchiver alloc] initForWritingWithMutableData:data];
-            [encoder encodeRootObject:valueToSave];
+
+            NSCoder *archiver = sMakeArchiver(data);
+            [archiver encodeRootObject:valueToSave];
         }
         
         saveObject(data, key);
@@ -173,9 +191,9 @@ static void sRegisterDefaults()
                 NSData *data = loadObjectOfClass([NSData class], key);
                 if (!data) continue;
                 
-                NSUnarchiver *unarchiver = [[NSUnarchiver alloc] initForReadingWithData:data];
+                NSCoder *unarchiver = sMakeUnarchiver(data);
                 if (!unarchiver) continue;
-                
+
                 result = [unarchiver decodeObject];
 
             } @catch (NSException *e) { }

@@ -267,7 +267,7 @@ static NSString * const sVerticalKey  = @"vertical";
     BOOL stopsOnGuides     = ![canvas isGroupNameHidden:guidesGroupName];
     BOOL stopsOnRectangles = ![canvas isGroupNameHidden:rectanglesGroupName];
     
-    if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) {
+    if ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) {
         stopsOnGuides = stopsOnRectangles = NO;
     }
     
@@ -395,7 +395,7 @@ static NSString * const sVerticalKey  = @"vertical";
 - (void) _updateNewGrappleWithEvent:(NSEvent *)event
 {
     CGPoint currentPoint = [event locationInWindow];
-    if ([event type] == NSFlagsChanged) {
+    if ([event type] == NSEventTypeFlagsChanged) {
         currentPoint = _lastPoint;
     } else {
         _lastPoint = currentPoint;

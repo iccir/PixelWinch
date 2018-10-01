@@ -4,6 +4,7 @@
 extern NSString * const WinchFeedbackURLString;
 extern NSString * const WinchWebsiteURLString;
 extern NSString * const WinchGuideURLString;
+extern NSString * const WinchPrivacyURLString;
 extern NSString * const WinchAppStoreURLString;
 
 
@@ -99,3 +100,5 @@ extern void AddPopInAnimation(CALayer *layer, CGFloat duration);
 extern NSString *GetStringForFloat(CGFloat f);
 extern NSString *GetDisplayStringForSize(CGSize size);
 extern NSString *GetPasteboardStringForSize(CGSize size);
+
+extern BOOL IsAppearanceDarkAqua(NSView *view);

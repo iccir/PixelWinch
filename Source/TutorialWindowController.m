@@ -39,7 +39,7 @@
     NSRect imageRect = NSMakeRect(0, 0, imageSize.width, imageSize.height);
 
     NSRect screenRect = [self _screenRectOfStatusItem:_statusItem];
-    screenRect.origin.y -= ((imageRect.size.height + screenRect.size.height) - 8);
+    screenRect.origin.y -= ((imageRect.size.height + screenRect.size.height) - 24);
 
     screenRect.origin.x += round(screenRect.size.width / 2);
     screenRect.origin.x -= round(imageRect.size.width  / 2);
@@ -48,7 +48,7 @@
 
     _endFrame = screenRect;
 
-    screenRect.origin.y -= 128.0;
+    screenRect.origin.y -= 80.0;
     _startFrame = screenRect;
 }
 
@@ -90,8 +90,6 @@
 
     _window = window;
 }
-
-
 
 
 - (void) orderOut

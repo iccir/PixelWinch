@@ -14,6 +14,7 @@ static NSMutableArray *sGraphicsContextStack = nil;
 NSString * const WinchFeedbackURLString = @"http://www.ricciadams.com/contact/pixel-winch";
 NSString * const WinchWebsiteURLString  = @"http://www.ricciadams.com/projects/pixel-winch";
 NSString * const WinchGuideURLString    = @"http://www.ricciadams.com/projects/pixel-winch/guide";
+NSString * const WinchPrivacyURLString  = @"http://www.ricciadams.com/projects/pixel-winch/privacy";
 NSString * const WinchAppStoreURLString = @"http://www.ricciadams.com/buy/pixel-winch";
 
 
@@ -796,3 +797,20 @@ NSString *GetPasteboardStringForSize(CGSize size)
         return [NSString stringWithFormat:@"%@ %@", GetStringForFloat(size.width), GetStringForFloat(size.height)];
     }
 }
+
+
+BOOL IsAppearanceDarkAqua(NSView *view)
+{
+    if (@available(macOS 10.14, *)) {
+        NSAppearance *effectiveAppearance =[view effectiveAppearance];
+        NSArray *names = @[ NSAppearanceNameAqua, NSAppearanceNameDarkAqua ];
+       
+        NSAppearanceName bestMatch = [effectiveAppearance bestMatchFromAppearancesWithNames:names];
+
+        return [bestMatch isEqualToString:NSAppearanceNameDarkAqua];
+
+    } else {
+        return NO;
+    }
+}
+

@@ -86,6 +86,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "NSRequiresAquaSystemAppearance"
+            value = "0"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "CGBITMAP_CONTEXT_LOG_ERRORS"
             value = "1"
             isEnabled = "YES">

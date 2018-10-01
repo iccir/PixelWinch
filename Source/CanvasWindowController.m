@@ -199,7 +199,12 @@
     NSString *characters = [theEvent charactersIgnoringModifiers];
     unichar   c          = [characters length] ? [characters characterAtIndex:0] : 0;
 
-    NSUInteger modifierFlags = [theEvent modifierFlags] & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
+    NSUInteger modifierFlags = [theEvent modifierFlags] & (
+        NSEventModifierFlagShift   |
+        NSEventModifierFlagControl |
+        NSEventModifierFlagOption  |
+        NSEventModifierFlagCommand
+    );
 
     BOOL isArrowKey = (c == NSUpArrowFunctionKey ||
                        c == NSDownArrowFunctionKey ||
@@ -245,7 +250,7 @@
             }
         }
 
-    } else if (modifierFlags == NSCommandKeyMask) {
+    } else if (modifierFlags == NSEventModifierFlagCommand) {
         if (c == NSDeleteCharacter || c == NSBackspaceCharacter) {
             [self deleteSelectedLibraryItem:nil];
             return;
@@ -288,7 +293,7 @@
             }
         }
 
-    } else if (modifierFlags == (NSCommandKeyMask | NSShiftKeyMask)) {
+    } else if (modifierFlags == (NSEventModifierFlagCommand | NSEventModifierFlagShift)) {
         if (c == '+') {
             [_magnificationManager zoomIn];
             return;
@@ -310,7 +315,7 @@
             return;
         }
 
-    } else if (modifierFlags == NSShiftKeyMask) {
+    } else if (modifierFlags == NSEventModifierFlagShift) {
         if (isArrowKey) {
             if ([self _moveSelectionWithArrowKey:c delta:10]) {
                 return;
@@ -331,7 +336,7 @@
             return;
         }
 
-    } else if (modifierFlags == (NSCommandKeyMask | NSAlternateKeyMask | NSControlKeyMask)) {
+    } else if (modifierFlags == (NSEventModifierFlagCommand | NSEventModifierFlagOption | NSEventModifierFlagControl)) {
         if (c == 'r') {
             [self _debugResponderChain];
             return;
@@ -483,7 +488,7 @@
 
     [_libraryScrollView setScrollerKnobStyle:NSScrollerKnobStyleLight];
     [_libraryScrollView setScrollerStyle:NSScrollerStyleOverlay];
-    [[_libraryScrollView horizontalScroller] setControlSize:NSSmallControlSize];
+    [[_libraryScrollView horizontalScroller] setControlSize:NSControlSizeSmall];
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
     
@@ -620,10 +625,10 @@
         _shroudView = nil;
     }
 
-    NSUInteger canvasStyleMask = NSBorderlessWindowMask;
+    NSUInteger canvasStyleMask = NSWindowStyleMaskBorderless;
     
     if (!usesOverlayWindow) {
-        canvasStyleMask |= NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask | NSMiniaturizableWindowMask | NSFullSizeContentViewWindowMask;
+        canvasStyleMask |= NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskFullSizeContentView;
     }
 
     CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:oldContentRect styleMask:canvasStyleMask backing:NSBackingStoreBuffered defer:NO];
@@ -739,7 +744,13 @@
         }
         
     } else {
-        buildTopView(NSEdgeInsetsMake(9, 0, 6, 0), 8);
+        CGFloat topPadding = 9;
+        
+        if (@available(macOS 10.14, *)) {
+            topPadding = 7;
+        }
+
+        buildTopView(NSEdgeInsetsMake(topPadding, 0, 6, 0), 8);
 
         [window setHasShadow:YES];
 
@@ -747,7 +758,13 @@
         [window setTitleVisibility:NSWindowTitleHidden];
 
         [window setBackgroundColor:[_canvasScrollView backgroundColor]];
-        [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+
+        if (@available(macOS 10.14, *)) {
+            [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
+        } else {
+            [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+        }
+
         [window setContentMinSize:NSMakeSize(780, 320)];
         
         NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"Toolbar"];
@@ -1763,6 +1780,7 @@
     NSToolbarItem *result = [[NSToolbarItem alloc] initWithItemIdentifier:@"main"];
 
     [result setView:_topView];
+    [result setMinSize:NSMakeSize(630,  40)];
     [result setMaxSize:NSMakeSize(9999, 40)];
 
     return result;
@@ -2349,7 +2367,7 @@
     [savePanel setShowsTagField:NO];
     [savePanel setAllowedFileTypes:@[ @"public.png" ]];
     
-    if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
+    if ([savePanel runModal] == NSModalResponseOK) {
         CGSize size = [[_currentLibraryItem screenshot] size];
         CGRect rect = { CGPointZero, size };
 
