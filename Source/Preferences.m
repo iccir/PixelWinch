@@ -39,7 +39,6 @@ static NSDictionary *sGetDefaultValues()
     sDefaultValues = @{
         @"iconMode":              @(IconModeInBoth),
         @"launchAtLogin":         @(NO),
-        @"usesOverlayWindow":     @(NO),
         @"allowsQuit":            @(YES),
 
         @"captureSelectionShortcut":    [Shortcut emptyShortcut],
@@ -48,8 +47,6 @@ static NSDictionary *sGetDefaultValues()
         @"toggleScreenshotsShortcut":   [Shortcut emptyShortcut],
         @"closeScreenshotsKey":         @( CloseScreenshotsKeyCommandW ),
         
-        @"preferredDisplay":          @( 0 ),
-        @"preferredDisplayName":      @"",
         @"customScaleMultiplier":     @"",
 
         @"scaleMode":                 @( 1 ),

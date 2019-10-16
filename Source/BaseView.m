@@ -113,12 +113,6 @@ static IMP sBaseView_drawRect = NULL;
 
 - (void) layout
 {
-    if (@available(macOS 10.12, *)) {
-        // In 10.12, we no longer need to call [super layout]
-    } else {
-        [super layout];
-    }
-
     [self layoutSubviews];
 }
 

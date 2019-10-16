@@ -32,7 +32,7 @@
 
 - (void) drawRect:(NSRect)dirtyRect
 {
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
     CGContextClipToRect(context, dirtyRect);
 
     CGRect bounds = [self bounds];
@@ -312,5 +312,17 @@
     }
 }
 
+
+@end
+
+
+
+@implementation RulerCornerView
+
+- (void) drawRect:(NSRect)dirtyRect
+{
+    [GetDarkWindowColor() set];
+    [[NSBezierPath bezierPathWithRect:dirtyRect] fill];
+}
 
 @end

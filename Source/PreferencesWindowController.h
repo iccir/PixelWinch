@@ -14,10 +14,6 @@
 
 - (IBAction) restoreDefaultColors:(id)sender;
 
-- (IBAction) viewOnAppStore:(id)sender;
-
-- (IBAction) updatePreferredDisplay:(id)sender;
-
 @property (nonatomic, weak) Preferences *preferences;
 
 @property (nonatomic, weak) IBOutlet ShortcutView *captureSelectionShortcutView;
@@ -35,15 +31,5 @@
 @property (nonatomic, strong) IBOutlet NSView *keyboardPane;
 
 @property (nonatomic, weak)   IBOutlet NSButton *launchAtLoginButton;
-
-@property (nonatomic, weak)   IBOutlet NSPopUpButton *screenPopUp;
-
-@property (nonatomic, strong) IBOutlet NSView *timedPane;
-@property (nonatomic, weak)   IBOutlet NSTextField *timedTitleField;
-@property (nonatomic, weak)   IBOutlet NSTextField *timedTextField;
-@property (nonatomic, weak)   IBOutlet NSTextField *timedRemainingField;
-
-@property (nonatomic, weak)   IBOutlet NSButton    *overlayScreenshotsButton;
-@property (nonatomic, strong) IBOutlet NSTextField *overlayScreenshotsTextField;
 
 @end

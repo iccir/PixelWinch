@@ -14,14 +14,6 @@
 }
 
 
-+ (void) initialize
-{
-    if (![NSClipView instancesRespondToSelector:@selector(constrainBoundsRect:)]) {
-        WinchAliasMethod([CenteringClipView class], '-', @selector(legacy_constrainScrollPoint:), @selector(constrainScrollPoint:));
-    }
-}
-
-
 - (id) initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
@@ -115,13 +107,7 @@
 }
 
 
-- (NSPoint) legacy_constrainScrollPoint:(NSPoint)proposedNewOrigin
-{
-    return [self _centeredPointForPoint:proposedNewOrigin];
-}
-
-
-- (void)setBackgroundColor:(NSColor *)backgroundColor
+- (void) setBackgroundColor:(NSColor *)backgroundColor
 {
     if (_backgroundColor != backgroundColor) {
         _backgroundColor = backgroundColor;

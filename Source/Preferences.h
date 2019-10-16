@@ -23,11 +23,6 @@ typedef NS_ENUM(NSInteger, CloseScreenshotsKey) {
     CloseScreenshotsKeyBoth      = 2
 };
 
-typedef NS_ENUM(NSInteger, PreferredDisplay) {
-    PreferredDisplaySame = 0,
-    PreferredDisplayMain = -1
-};
-
 
 typedef NS_ENUM(NSInteger, IconMode) {
     IconModeInMenuBar = 0,
@@ -45,7 +40,6 @@ typedef NS_ENUM(NSInteger, IconMode) {
 @property (nonatomic) BOOL launchAtLogin;
 
 @property (nonatomic) NSInteger iconMode;
-@property (nonatomic) BOOL usesOverlayWindow;
 
 @property (nonatomic) BOOL allowsQuit;
 
@@ -56,9 +50,6 @@ typedef NS_ENUM(NSInteger, IconMode) {
 @property (nonatomic) Shortcut *importFromClipboardShortcut;
 @property (nonatomic) Shortcut *showScreenshotsShortcut;
 @property (nonatomic) Shortcut *toggleScreenshotsShortcut;
-
-@property (nonatomic) long long preferredDisplay;
-@property (nonatomic) NSString *preferredDisplayName;
 
 @property (nonatomic) NSInteger closeScreenshotsKey;
 

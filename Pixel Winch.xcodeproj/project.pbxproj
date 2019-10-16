@@ -18,18 +18,11 @@
 		5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobView.m */; };
 		55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55163C3513569D6000CDE290 /* QuartzCore.framework */; };
 		5516B68D1804ECAD002AED2E /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 5516B68C1804ECAD002AED2E /* Library.m */; };
-		5520DF69180F8420002D5451 /* BlackScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF68180F8420002D5451 /* BlackScroller.m */; };
-		5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF6B180FDD1C002D5451 /* BlackSquare.m */; };
-		5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5520DF6E180FE436002D5451 /* BottomShadowView.m */; };
 		552873CC1936C11100FA9143 /* Tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 552873CB1936C11100FA9143 /* Tips.png */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
 		55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A20180BC4A400F053C7 /* CursorInfo.m */; };
 		5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5536B41D17F8F1D000D9B4E9 /* RulerView.m */; };
 		553AC79117F7DCC200C253C2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 553AC79017F7DCC200C253C2 /* Utils.m */; };
-		553ACC5D1820E027009AB09E /* OverlayShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ACC5C1820E027009AB09E /* OverlayShadowView.m */; };
-		553CB3FD1A67975B00BE802E /* WindowResizerKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = 553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */; };
-		553ED14A18061AB000F06B45 /* ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED14918061AB000F06B45 /* ScrollView.m */; };
-		553ED16B180651FA00F06B45 /* BlackSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED16A180651FA00F06B45 /* BlackSlider.m */; };
 		553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED1741806A7F000F06B45 /* MeasurementLabel.m */; };
 		554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 554B43A51808D1DE00804373 /* ImageDistanceMap.m */; };
 		554B43B1180A237900804373 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554B43B0180A237900804373 /* OpenGL.framework */; };
@@ -37,7 +30,6 @@
 		554D8988135BEFCF003BFC89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D8987135BEFCF003BFC89 /* main.m */; };
 		554F05981A29588100BF90F0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Images.xcassets */; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
-		555153011819F19E004485F6 /* BlackTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153001819F19E004485F6 /* BlackTextView.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		5570960A1B5A394B00326141 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095F81B5A394B00326141 /* About.xib */; };
@@ -62,7 +54,6 @@
 		559D38D3180399B90048F29B /* ShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D0180399B90048F29B /* ShortcutManager.m */; };
 		559D38D618039D930048F29B /* ShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D38D418039D930048F29B /* ShortcutView.m */; };
 		55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A1A7771DCDC2FB0037DF9C /* BaseView.m */; };
-		55A1A78D1DD08AD20037DF9C /* TouchBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A1A78B1DD08AD20037DF9C /* TouchBar.xib */; };
 		55ADF90A182B8A84008F1CEB /* LineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF908182B8A84008F1CEB /* LineTool.m */; };
 		55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EC182B7E42008F1CEB /* LineObjectView.m */; };
 		55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8E7182B7E20008F1CEB /* RectangleObjectView.m */; };
@@ -72,16 +63,12 @@
 		55B07A6A17F654400013B05C /* CaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A6917F654400013B05C /* CaptureManager.m */; };
 		55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A7517F6CE7B0013B05C /* CanvasView.m */; };
 		55B07A8A17F7A19D0013B05C /* CanvasWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B07A8917F7A19D0013B05C /* CanvasWindowController.m */; };
-		55BB972D180602A600DED9B5 /* OverlayBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BB972C180602A600DED9B5 /* OverlayBaseView.m */; };
 		55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */; };
-		55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CCB1800E9A400ECE184 /* BlackSegmentedControl.m */; };
 		55C20CE4180109AF00ECE184 /* Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CE3180109AF00ECE184 /* Tool.m */; };
 		55C20CEA180109FC00ECE184 /* ZoomTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CE9180109FC00ECE184 /* ZoomTool.m */; };
 		55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CEC18010A0900ECE184 /* MarqueeTool.m */; };
 		55C20CF61801171E00ECE184 /* MoveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF51801171E00ECE184 /* MoveTool.m */; };
 		55C20CF91801172F00ECE184 /* HandTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF81801172F00ECE184 /* HandTool.m */; };
-		55C4E4DF18013EB80015B8C1 /* BlackButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C4E4DE18013EB80015B8C1 /* BlackButtonCell.m */; };
-		55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C4E4E1180159200015B8C1 /* BlackTextField.m */; };
 		55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C9E42C1835AE5A0059651B /* TutorialWindowController.m */; };
 		55CC21A71832D668004076CF /* MagnificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CC21A61832D668004076CF /* MagnificationManager.m */; };
 		55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */ = {isa = PBXBuildFile; fileRef = 55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */; };
@@ -90,7 +77,6 @@
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
 		55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E29A44183088C200D9D933 /* AboutWindowController.m */; };
-		55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E987CD1828E37A00C2208A /* ScreenAdditions.m */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
@@ -125,6 +111,11 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		550F35242356D2FD0038264F /* TargetApp.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = TargetApp.xcconfig; path = Config/TargetApp.xcconfig; sourceTree = "<group>"; };
+		550F35262356D3830038264F /* Launcher_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Profile.xcconfig; path = Config/Combined/Launcher_Profile.xcconfig; sourceTree = "<group>"; };
+		550F35272356D3830038264F /* Launcher_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Release.xcconfig; path = Config/Combined/Launcher_Release.xcconfig; sourceTree = "<group>"; };
+		550F35282356D3830038264F /* Launcher_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Debug.xcconfig; path = Config/Combined/Launcher_Debug.xcconfig; sourceTree = "<group>"; };
+		550F352C2356D3EA0038264F /* TargetLauncher.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TargetLauncher.xcconfig; path = Config/TargetLauncher.xcconfig; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -147,12 +138,6 @@
 		5516B687180402C3002AED2E /* Pixel Winch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Pixel Winch.entitlements"; path = "Resources/Pixel Winch.entitlements"; sourceTree = "<group>"; };
 		5516B68B1804ECAD002AED2E /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Library.h; path = Source/Library.h; sourceTree = "<group>"; };
 		5516B68C1804ECAD002AED2E /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Library.m; path = Source/Library.m; sourceTree = "<group>"; };
-		5520DF67180F8420002D5451 /* BlackScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackScroller.h; path = Source/BlackScroller.h; sourceTree = "<group>"; };
-		5520DF68180F8420002D5451 /* BlackScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackScroller.m; path = Source/BlackScroller.m; sourceTree = "<group>"; };
-		5520DF6A180FDD1C002D5451 /* BlackSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackSquare.h; path = Source/BlackSquare.h; sourceTree = "<group>"; };
-		5520DF6B180FDD1C002D5451 /* BlackSquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackSquare.m; path = Source/BlackSquare.m; sourceTree = "<group>"; };
-		5520DF6D180FE436002D5451 /* BottomShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomShadowView.h; path = Source/BottomShadowView.h; sourceTree = "<group>"; };
-		5520DF6E180FE436002D5451 /* BottomShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomShadowView.m; path = Source/BottomShadowView.m; sourceTree = "<group>"; };
 		552486B318500B4000276F67 /* CanvasTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasTypes.h; path = Source/CanvasTypes.h; sourceTree = "<group>"; };
 		552873CB1936C11100FA9143 /* Tips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tips.png; path = Resources/Tips.png; sourceTree = "<group>"; };
 		55336A1A180B5C8400F053C7 /* Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Screenshot.h; path = Source/Screenshot.h; sourceTree = "<group>"; };
@@ -164,14 +149,6 @@
 		5536B41D17F8F1D000D9B4E9 /* RulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulerView.m; path = Source/RulerView.m; sourceTree = "<group>"; };
 		553AC78F17F7DCC200C253C2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Source/Utils.h; sourceTree = "<group>"; };
 		553AC79017F7DCC200C253C2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = Source/Utils.m; sourceTree = "<group>"; };
-		553ACC5B1820E027009AB09E /* OverlayShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayShadowView.h; path = Source/OverlayShadowView.h; sourceTree = "<group>"; };
-		553ACC5C1820E027009AB09E /* OverlayShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayShadowView.m; path = Source/OverlayShadowView.m; sourceTree = "<group>"; };
-		553CB3FB1A67975B00BE802E /* WindowResizerKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowResizerKnob.h; path = Source/WindowResizerKnob.h; sourceTree = "<group>"; };
-		553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowResizerKnob.m; path = Source/WindowResizerKnob.m; sourceTree = "<group>"; };
-		553ED14818061AB000F06B45 /* ScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollView.h; path = Source/ScrollView.h; sourceTree = "<group>"; };
-		553ED14918061AB000F06B45 /* ScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollView.m; path = Source/ScrollView.m; sourceTree = "<group>"; };
-		553ED169180651FA00F06B45 /* BlackSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackSlider.h; path = Source/BlackSlider.h; sourceTree = "<group>"; };
-		553ED16A180651FA00F06B45 /* BlackSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackSlider.m; path = Source/BlackSlider.m; sourceTree = "<group>"; };
 		553ED1731806A7F000F06B45 /* MeasurementLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementLabel.h; path = Source/MeasurementLabel.h; sourceTree = "<group>"; };
 		553ED1741806A7F000F06B45 /* MeasurementLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementLabel.m; path = Source/MeasurementLabel.m; sourceTree = "<group>"; };
 		554B43A01808C30700804373 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
@@ -185,8 +162,6 @@
 		554F05971A29588100BF90F0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		555152F61818AC6D004485F6 /* Toolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Toolbox.h; path = Source/Toolbox.h; sourceTree = "<group>"; };
 		555152F71818AC6D004485F6 /* Toolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toolbox.m; path = Source/Toolbox.m; sourceTree = "<group>"; };
-		555152FF1819F19E004485F6 /* BlackTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackTextView.h; path = Source/BlackTextView.h; sourceTree = "<group>"; };
-		555153001819F19E004485F6 /* BlackTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackTextView.m; path = Source/BlackTextView.m; sourceTree = "<group>"; };
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
@@ -199,22 +174,17 @@
 		557096051B5A394B00326141 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		557096071B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		557096091B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/Preferences.xib; sourceTree = "<group>"; };
-		557B7739215F00F700CAAB7C /* ReceiptValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ReceiptValidation.m; path = Source/ReceiptValidation.m; sourceTree = SOURCE_ROOT; };
-		557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Release.xcconfig; path = Config/Combined/PixelWinch_Beta_Release.xcconfig; sourceTree = "<group>"; };
-		557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Profile.xcconfig; path = Config/Combined/PixelWinch_Beta_Profile.xcconfig; sourceTree = "<group>"; };
-		557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta_Debug.xcconfig; path = Config/Combined/PixelWinch_Beta_Debug.xcconfig; sourceTree = "<group>"; };
-		557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Release.xcconfig; path = Config/Combined/PixelWinch_AppStore_Release.xcconfig; sourceTree = "<group>"; };
-		557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Profile.xcconfig; path = Config/Combined/PixelWinch_AppStore_Profile.xcconfig; sourceTree = "<group>"; };
-		557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore_Debug.xcconfig; path = Config/Combined/PixelWinch_AppStore_Debug.xcconfig; sourceTree = "<group>"; };
-		557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Base.xcconfig; path = Config/PixelWinch_Base.xcconfig; sourceTree = "<group>"; };
-		557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Debug.xcconfig; path = Config/PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
-		557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Profile.xcconfig; path = Config/PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
-		557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Release.xcconfig; path = Config/PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
+		557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Release.xcconfig; path = Config/Combined/PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
+		557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Profile.xcconfig; path = Config/Combined/PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
+		557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Debug.xcconfig; path = Config/Combined/PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
+		557BA9B11821D99A004A57FC /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Base.xcconfig; path = Config/Base.xcconfig; sourceTree = "<group>"; };
+		557BA9B31821D99A004A57FC /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ConfigDebug.xcconfig; path = Config/ConfigDebug.xcconfig; sourceTree = "<group>"; };
+		557BA9B41821D99A004A57FC /* ConfigProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ConfigProfile.xcconfig; path = Config/ConfigProfile.xcconfig; sourceTree = "<group>"; };
+		557BA9B51821D99A004A57FC /* ConfigRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = ConfigRelease.xcconfig; path = Config/ConfigRelease.xcconfig; sourceTree = "<group>"; };
 		5588EF7F182C5467000B6224 /* GrappleCalculatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculatorImpl.h; path = Source/GrappleCalculatorImpl.h; sourceTree = "<group>"; };
 		5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrappleCalculatorImpl.m; path = Source/GrappleCalculatorImpl.m; sourceTree = "<group>"; };
 		5588EF82182C623F000B6224 /* GrappleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrappleCalculator.h; path = Source/GrappleCalculator.h; sourceTree = "<group>"; };
 		558A6B1B1B5A495000A501CA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		558A9FDB1BB6948200674B16 /* BetaExpiration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BetaExpiration.h; path = Source/BetaExpiration.h; sourceTree = SOURCE_ROOT; };
 		558E47741943E7080028255C /* WinchFastMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = WinchFastMath.c; path = Source/WinchFastMath.c; sourceTree = "<group>"; };
 		558E47781943E87A0028255C /* WinchFastMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WinchFastMath.h; path = Source/WinchFastMath.h; sourceTree = "<group>"; };
 		55916E58194137ED00F28F4C /* LaunchPixelWinch_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaunchPixelWinch_main.m; path = Source/LaunchPixelWinch_main.m; sourceTree = SOURCE_ROOT; };
@@ -236,7 +206,6 @@
 		559D38D518039D930048F29B /* ShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShortcutView.h; path = Source/ShortcutView.h; sourceTree = "<group>"; };
 		55A1A7761DCDC2FB0037DF9C /* BaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseView.h; path = Source/BaseView.h; sourceTree = "<group>"; };
 		55A1A7771DCDC2FB0037DF9C /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseView.m; path = Source/BaseView.m; sourceTree = "<group>"; };
-		55A1A78C1DD08AD20037DF9C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/TouchBar.xib; sourceTree = "<group>"; };
 		55ADF8B0182B7DAB008F1CEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55ADF8B2182B7DAB008F1CEB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		55ADF8E4182B7E20008F1CEB /* RectangleTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RectangleTool.m; path = Source/RectangleTool.m; sourceTree = "<group>"; };
@@ -260,13 +229,9 @@
 		55B07A8817F7A19D0013B05C /* CanvasWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CanvasWindowController.h; path = Source/CanvasWindowController.h; sourceTree = "<group>"; };
 		55B07A8917F7A19D0013B05C /* CanvasWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasWindowController.m; path = Source/CanvasWindowController.m; sourceTree = "<group>"; };
 		55B94D9C182F6EDC00FE39F3 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = lib/HockeySDK.framework; sourceTree = "<group>"; };
-		55BB972B180602A600DED9B5 /* OverlayBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverlayBaseView.h; path = Source/OverlayBaseView.h; sourceTree = "<group>"; };
-		55BB972C180602A600DED9B5 /* OverlayBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverlayBaseView.m; path = Source/OverlayBaseView.m; sourceTree = "<group>"; };
 		55BBCD08182793CB00AC9A26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		55C20C9517FFAE3B00ECE184 /* CenteringClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CenteringClipView.h; path = Source/CenteringClipView.h; sourceTree = "<group>"; };
 		55C20C9617FFAE3B00ECE184 /* CenteringClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CenteringClipView.m; path = Source/CenteringClipView.m; sourceTree = "<group>"; };
-		55C20CCA1800E9A400ECE184 /* BlackSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackSegmentedControl.h; path = Source/BlackSegmentedControl.h; sourceTree = "<group>"; };
-		55C20CCB1800E9A400ECE184 /* BlackSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackSegmentedControl.m; path = Source/BlackSegmentedControl.m; sourceTree = "<group>"; };
 		55C20CE2180109AF00ECE184 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tool.h; path = Source/Tool.h; sourceTree = "<group>"; };
 		55C20CE3180109AF00ECE184 /* Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tool.m; path = Source/Tool.m; sourceTree = "<group>"; };
 		55C20CE8180109FC00ECE184 /* ZoomTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomTool.h; path = Source/ZoomTool.h; sourceTree = "<group>"; };
@@ -277,16 +242,11 @@
 		55C20CF51801171E00ECE184 /* MoveTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoveTool.m; path = Source/MoveTool.m; sourceTree = "<group>"; };
 		55C20CF71801172F00ECE184 /* HandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTool.h; path = Source/HandTool.h; sourceTree = "<group>"; };
 		55C20CF81801172F00ECE184 /* HandTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HandTool.m; path = Source/HandTool.m; sourceTree = "<group>"; };
-		55C4E4DD18013EB80015B8C1 /* BlackButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackButtonCell.h; path = Source/BlackButtonCell.h; sourceTree = "<group>"; };
-		55C4E4DE18013EB80015B8C1 /* BlackButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackButtonCell.m; path = Source/BlackButtonCell.m; sourceTree = "<group>"; };
-		55C4E4E0180159200015B8C1 /* BlackTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlackTextField.h; path = Source/BlackTextField.h; sourceTree = "<group>"; };
-		55C4E4E1180159200015B8C1 /* BlackTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlackTextField.m; path = Source/BlackTextField.m; sourceTree = "<group>"; };
 		55C9E42B1835AE5A0059651B /* TutorialWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialWindowController.h; path = Source/TutorialWindowController.h; sourceTree = "<group>"; };
 		55C9E42C1835AE5A0059651B /* TutorialWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialWindowController.m; path = Source/TutorialWindowController.m; sourceTree = "<group>"; };
 		55CB053418285F80001DD1A0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		55CC21A51832D668004076CF /* MagnificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagnificationManager.h; path = Source/MagnificationManager.h; sourceTree = "<group>"; };
 		55CC21A61832D668004076CF /* MagnificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagnificationManager.m; path = Source/MagnificationManager.m; sourceTree = "<group>"; };
-		55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_AppStore.xcconfig; path = Config/PixelWinch_AppStore.xcconfig; sourceTree = "<group>"; };
 		55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "PixelWinch-Beta.icns"; path = "Resources/PixelWinch-Beta.icns"; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
@@ -297,13 +257,10 @@
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
 		55E29A43183088C200D9D933 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = Source/AboutWindowController.h; sourceTree = "<group>"; };
 		55E29A44183088C200D9D933 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = Source/AboutWindowController.m; sourceTree = "<group>"; };
-		55E987CC1828E37A00C2208A /* ScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenAdditions.h; path = Source/ScreenAdditions.h; sourceTree = "<group>"; };
-		55E987CD1828E37A00C2208A /* ScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenAdditions.m; path = Source/ScreenAdditions.m; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
-		55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Beta.xcconfig; path = Config/PixelWinch_Beta.xcconfig; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		8D1107320486CEB800E47090 /* Pixel Winch Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Pixel Winch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pixel Winch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,7 +315,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* Pixel Winch Beta.app */,
+				8D1107320486CEB800E47090 /* Pixel Winch.app */,
 				55346D84194130C900896455 /* Launch Pixel Winch.app */,
 			);
 			name = Products;
@@ -370,7 +327,6 @@
 				5516B687180402C3002AED2E /* Pixel Winch.entitlements */,
 				55916E6419413CB400F28F4C /* Launch.entitlements */,
 				557BA9A11821D967004A57FC /* Config */,
-				55B94D97182F2B6B00FE39F3 /* Protection */,
 				559D38BC1802AB220048F29B /* Model */,
 				55A1A7661DCDC2CB0037DF9C /* Base Views */,
 				5512BF5817FB9EE600425AD6 /* Canvas Views */,
@@ -411,7 +367,6 @@
 				557096041B5A394B00326141 /* Localizable.strings */,
 				557096061B5A394B00326141 /* MainMenu.xib */,
 				557096081B5A394B00326141 /* Preferences.xib */,
-				55A1A78B1DD08AD20037DF9C /* TouchBar.xib */,
 				554F05971A29588100BF90F0 /* Images.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
 				559D38C8180392B10048F29B /* PixelWinch.icns */,
@@ -530,37 +485,16 @@
 			name = "View Controller";
 			sourceTree = "<group>";
 		};
-		553ED14B180636DB00F06B45 /* Black AppKit */ = {
-			isa = PBXGroup;
-			children = (
-				55C20CCA1800E9A400ECE184 /* BlackSegmentedControl.h */,
-				55C20CCB1800E9A400ECE184 /* BlackSegmentedControl.m */,
-				55C4E4DD18013EB80015B8C1 /* BlackButtonCell.h */,
-				55C4E4DE18013EB80015B8C1 /* BlackButtonCell.m */,
-				55C4E4E0180159200015B8C1 /* BlackTextField.h */,
-				55C4E4E1180159200015B8C1 /* BlackTextField.m */,
-				555152FF1819F19E004485F6 /* BlackTextView.h */,
-				555153001819F19E004485F6 /* BlackTextView.m */,
-				553ED169180651FA00F06B45 /* BlackSlider.h */,
-				553ED16A180651FA00F06B45 /* BlackSlider.m */,
-				5520DF67180F8420002D5451 /* BlackScroller.h */,
-				5520DF68180F8420002D5451 /* BlackScroller.m */,
-				5520DF6A180FDD1C002D5451 /* BlackSquare.h */,
-				5520DF6B180FDD1C002D5451 /* BlackSquare.m */,
-			);
-			name = "Black AppKit";
-			sourceTree = "<group>";
-		};
 		557BA9A11821D967004A57FC /* Config */ = {
 			isa = PBXGroup;
 			children = (
 				557BA9A21821D967004A57FC /* Combined */,
-				557BA9B11821D99A004A57FC /* PixelWinch_Base.xcconfig */,
-				55CC21AF1832F444004076CF /* PixelWinch_AppStore.xcconfig */,
-				55F892811BB6377400E0A14B /* PixelWinch_Beta.xcconfig */,
-				557BA9B31821D99A004A57FC /* PixelWinch_Debug.xcconfig */,
-				557BA9B41821D99A004A57FC /* PixelWinch_Profile.xcconfig */,
-				557BA9B51821D99A004A57FC /* PixelWinch_Release.xcconfig */,
+				557BA9B11821D99A004A57FC /* Base.xcconfig */,
+				557BA9B31821D99A004A57FC /* ConfigDebug.xcconfig */,
+				557BA9B41821D99A004A57FC /* ConfigProfile.xcconfig */,
+				557BA9B51821D99A004A57FC /* ConfigRelease.xcconfig */,
+				550F35242356D2FD0038264F /* TargetApp.xcconfig */,
+				550F352C2356D3EA0038264F /* TargetLauncher.xcconfig */,
 			);
 			name = Config;
 			sourceTree = "<group>";
@@ -568,12 +502,12 @@
 		557BA9A21821D967004A57FC /* Combined */ = {
 			isa = PBXGroup;
 			children = (
-				557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */,
-				557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */,
-				557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */,
-				557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */,
-				557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */,
-				557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */,
+				557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */,
+				557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */,
+				557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */,
+				550F35282356D3830038264F /* Launcher_Debug.xcconfig */,
+				550F35262356D3830038264F /* Launcher_Profile.xcconfig */,
+				550F35272356D3830038264F /* Launcher_Release.xcconfig */,
 			);
 			name = Combined;
 			sourceTree = "<group>";
@@ -612,9 +546,6 @@
 		55B07A6C17F6C93E0013B05C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				553ED14B180636DB00F06B45 /* Black AppKit */,
-				5520DF6D180FE436002D5451 /* BottomShadowView.h */,
-				5520DF6E180FE436002D5451 /* BottomShadowView.m */,
 				559B45951803DB5B00849B87 /* CanvasWindow.h */,
 				559B45961803DB5B00849B87 /* CanvasWindow.m */,
 				55C20C9517FFAE3B00ECE184 /* CenteringClipView.h */,
@@ -625,20 +556,10 @@
 				55336A20180BC4A400F053C7 /* CursorInfo.m */,
 				5536B41C17F8F1D000D9B4E9 /* RulerView.h */,
 				5536B41D17F8F1D000D9B4E9 /* RulerView.m */,
-				55E987CC1828E37A00C2208A /* ScreenAdditions.h */,
-				55E987CD1828E37A00C2208A /* ScreenAdditions.m */,
-				553ED14818061AB000F06B45 /* ScrollView.h */,
-				553ED14918061AB000F06B45 /* ScrollView.m */,
-				559D38D418039D930048F29B /* ShortcutView.m */,
 				559D38D518039D930048F29B /* ShortcutView.h */,
-				553ACC5B1820E027009AB09E /* OverlayShadowView.h */,
-				553ACC5C1820E027009AB09E /* OverlayShadowView.m */,
-				55BB972B180602A600DED9B5 /* OverlayBaseView.h */,
-				55BB972C180602A600DED9B5 /* OverlayBaseView.m */,
+				559D38D418039D930048F29B /* ShortcutView.m */,
 				55E24137180E10410093CF04 /* ThumbnailView.h */,
 				55E24138180E10410093CF04 /* ThumbnailView.m */,
-				553CB3FB1A67975B00BE802E /* WindowResizerKnob.h */,
-				553CB3FC1A67975B00BE802E /* WindowResizerKnob.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -654,15 +575,6 @@
 				55CC21A61832D668004076CF /* MagnificationManager.m */,
 			);
 			name = Controller;
-			sourceTree = "<group>";
-		};
-		55B94D97182F2B6B00FE39F3 /* Protection */ = {
-			isa = PBXGroup;
-			children = (
-				558A9FDB1BB6948200674B16 /* BetaExpiration.h */,
-				557B7739215F00F700CAAB7C /* ReceiptValidation.m */,
-			);
-			name = Protection;
 			sourceTree = "<group>";
 		};
 		55C20CE1180109A500ECE184 /* Tools */ = {
@@ -730,7 +642,7 @@
 			name = "Pixel Winch";
 			productInstallPath = "$(HOME)/Applications";
 			productName = Pixels;
-			productReference = 8D1107320486CEB800E47090 /* Pixel Winch Beta.app */;
+			productReference = 8D1107320486CEB800E47090 /* Pixel Winch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -793,7 +705,6 @@
 				557096121B5A394B00326141 /* Preferences.xib in Resources */,
 				557096101B5A394B00326141 /* Localizable.strings in Resources */,
 				55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */,
-				55A1A78D1DD08AD20037DF9C /* TouchBar.xib in Resources */,
 				55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */,
 				5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */,
 				5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */,
@@ -871,16 +782,11 @@
 				5512BF3117F94EA100425AD6 /* Guide.m in Sources */,
 				55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */,
 				5536B41E17F8F1D000D9B4E9 /* RulerView.m in Sources */,
-				553ACC5D1820E027009AB09E /* OverlayShadowView.m in Sources */,
 				55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */,
 				5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */,
-				553ED14A18061AB000F06B45 /* ScrollView.m in Sources */,
 				559D38D3180399B90048F29B /* ShortcutManager.m in Sources */,
-				555153011819F19E004485F6 /* BlackTextView.m in Sources */,
 				55ADF90F182B8D7B008F1CEB /* Rectangle.m in Sources */,
-				5520DF6F180FE436002D5451 /* BottomShadowView.m in Sources */,
 				5512BF7017FCD44000425AD6 /* Canvas.m in Sources */,
-				55C4E4DF18013EB80015B8C1 /* BlackButtonCell.m in Sources */,
 				554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */,
 				55ADF90D182B8CF6008F1CEB /* RectangleTool.m in Sources */,
 				55C20CEA180109FC00ECE184 /* ZoomTool.m in Sources */,
@@ -891,7 +797,6 @@
 				55ADF90B182B8BC0008F1CEB /* LineObjectView.m in Sources */,
 				55CC21A71832D668004076CF /* MagnificationManager.m in Sources */,
 				55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */,
-				553ED16B180651FA00F06B45 /* BlackSlider.m in Sources */,
 				554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */,
 				5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */,
 				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
@@ -901,15 +806,11 @@
 				55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */,
 				55E24139180E10410093CF04 /* ThumbnailView.m in Sources */,
 				559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */,
-				55E987CE1828E37A00C2208A /* ScreenAdditions.m in Sources */,
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
-				55BB972D180602A600DED9B5 /* OverlayBaseView.m in Sources */,
-				55C20CCC1800E9A400ECE184 /* BlackSegmentedControl.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
-				5520DF69180F8420002D5451 /* BlackScroller.m in Sources */,
 				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
 				55ADF90C182B8CEE008F1CEB /* RectangleObjectView.m in Sources */,
 				55ADF90E182B8CFF008F1CEB /* Line.m in Sources */,
@@ -918,13 +819,10 @@
 				5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */,
 				5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */,
 				559D38C11802ABC60048F29B /* Preferences.m in Sources */,
-				5520DF6C180FDD1C002D5451 /* BlackSquare.m in Sources */,
 				55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */,
 				5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */,
 				553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */,
 				55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */,
-				55C4E4E2180159200015B8C1 /* BlackTextField.m in Sources */,
-				553CB3FD1A67975B00BE802E /* WindowResizerKnob.m in Sources */,
 				5512BF5E17FBA44400425AD6 /* CanvasObjectView.m in Sources */,
 				559D38D2180399B90048F29B /* PreferencesWindowController.m in Sources */,
 				5512BF7317FCD47F00425AD6 /* CanvasObject.m in Sources */,
@@ -1009,163 +907,53 @@
 			name = Preferences.xib;
 			sourceTree = "<group>";
 		};
-		55A1A78B1DD08AD20037DF9C /* TouchBar.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				55A1A78C1DD08AD20037DF9C /* English */,
-			);
-			name = TouchBar.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		55346DA1194130C900896455 /* Debug-AppStore */ = {
+		55346DA1194130C900896455 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 550F35282356D3830038264F /* Launcher_Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch.Launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 			};
-			name = "Debug-AppStore";
+			name = Debug;
 		};
-		55346DA2194130C900896455 /* Profile-AppStore */ = {
+		55346DA2194130C900896455 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 550F35262356D3830038264F /* Launcher_Profile.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch.Launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 			};
-			name = "Profile-AppStore";
+			name = Profile;
 		};
-		55346DA3194130C900896455 /* Release-AppStore */ = {
+		55346DA3194130C900896455 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 550F35272356D3830038264F /* Launcher_Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Resources/Launch.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch.Launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 			};
-			name = "Release-AppStore";
+			name = Release;
 		};
-		557BA9BB1821DA06004A57FC /* Profile-AppStore */ = {
+		557BA9BB1821DA06004A57FC /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B77402160DB9C00CAAB7C /* PixelWinch_AppStore_Profile.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1179,23 +967,23 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = "Profile-AppStore";
+			name = Profile;
 		};
-		557BA9BC1821DA06004A57FC /* Profile-AppStore */ = {
+		557BA9BC1821DA06004A57FC /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;
 				PRODUCT_NAME = "Pixel Winch";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
-			name = "Profile-AppStore";
+			name = Profile;
 		};
-		55CC21B51832F4CF004076CF /* Debug-AppStore */ = {
+		55CC21B51832F4CF004076CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B77412160DB9C00CAAB7C /* PixelWinch_AppStore_Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1210,27 +998,23 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
-			name = "Debug-AppStore";
+			name = Debug;
 		};
-		55CC21B61832F4CF004076CF /* Debug-AppStore */ = {
+		55CC21B61832F4CF004076CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					DEBUG,
-					ENABLE_APP_STORE,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;
 				PRODUCT_NAME = "Pixel Winch";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
-			name = "Debug-AppStore";
+			name = Debug;
 		};
-		55CC21B71832F4DB004076CF /* Release-AppStore */ = {
+		55CC21B71832F4DB004076CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B773F2160DB9C00CAAB7C /* PixelWinch_AppStore_Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1244,253 +1028,20 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
-			name = "Release-AppStore";
+			name = Release;
 		};
-		55CC21B81832F4DB004076CF /* Release-AppStore */ = {
+		55CC21B81832F4DB004076CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;
 				PRODUCT_NAME = "Pixel Winch";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
-			name = "Release-AppStore";
-		};
-		55E6ADA81BB633E500A18AD0 /* Debug-Beta */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B773E2160DB9C00CAAB7C /* PixelWinch_Beta_Debug.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
-			};
-			name = "Debug-Beta";
-		};
-		55E6ADA91BB633E500A18AD0 /* Debug-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_NAME = "Pixel Winch Beta";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = "Debug-Beta";
-		};
-		55E6ADAA1BB633E500A18AD0 /* Debug-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = "Debug-Beta";
-		};
-		55F892751BB6345800E0A14B /* Profile-Beta */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B773D2160DB9C00CAAB7C /* PixelWinch_Beta_Profile.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-			};
-			name = "Profile-Beta";
-		};
-		55F892761BB6345800E0A14B /* Profile-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_NAME = "Pixel Winch Beta";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = "Profile-Beta";
-		};
-		55F892771BB6345800E0A14B /* Profile-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = "Profile-Beta";
-		};
-		55F892781BB6346200E0A14B /* Release-Beta */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 557B773C2160DB9C00CAAB7C /* PixelWinch_Beta_Release.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-			};
-			name = "Release-Beta";
-		};
-		55F892791BB6346200E0A14B /* Release-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_NAME = "Pixel Winch Beta";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = "Release-Beta";
-		};
-		55F8927A1BB6346200E0A14B /* Release-Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Resources/LaunchPixelWinch_Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = "Release-Beta";
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1498,41 +1049,32 @@
 		55346DAA194130C900896455 /* Build configuration list for PBXNativeTarget "Launch Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				55E6ADAA1BB633E500A18AD0 /* Debug-Beta */,
-				55F892771BB6345800E0A14B /* Profile-Beta */,
-				55F8927A1BB6346200E0A14B /* Release-Beta */,
-				55346DA1194130C900896455 /* Debug-AppStore */,
-				55346DA2194130C900896455 /* Profile-AppStore */,
-				55346DA3194130C900896455 /* Release-AppStore */,
+				55346DA1194130C900896455 /* Debug */,
+				55346DA2194130C900896455 /* Profile */,
+				55346DA3194130C900896455 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-AppStore";
+			defaultConfigurationName = Release;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				55E6ADA91BB633E500A18AD0 /* Debug-Beta */,
-				55F892761BB6345800E0A14B /* Profile-Beta */,
-				55F892791BB6346200E0A14B /* Release-Beta */,
-				55CC21B61832F4CF004076CF /* Debug-AppStore */,
-				557BA9BC1821DA06004A57FC /* Profile-AppStore */,
-				55CC21B81832F4DB004076CF /* Release-AppStore */,
+				55CC21B61832F4CF004076CF /* Debug */,
+				557BA9BC1821DA06004A57FC /* Profile */,
+				55CC21B81832F4DB004076CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-AppStore";
+			defaultConfigurationName = Release;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Pixel Winch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				55E6ADA81BB633E500A18AD0 /* Debug-Beta */,
-				55F892751BB6345800E0A14B /* Profile-Beta */,
-				55F892781BB6346200E0A14B /* Release-Beta */,
-				55CC21B51832F4CF004076CF /* Debug-AppStore */,
-				557BA9BB1821DA06004A57FC /* Profile-AppStore */,
-				55CC21B71832F4DB004076CF /* Release-AppStore */,
+				55CC21B51832F4CF004076CF /* Debug */,
+				557BA9BB1821DA06004A57FC /* Profile */,
+				55CC21B71832F4DB004076CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-AppStore";
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

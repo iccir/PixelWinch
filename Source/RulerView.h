@@ -15,6 +15,10 @@
 @end
 
 
+@interface RulerCornerView : NSView
+@end
+
+
 @protocol RulerViewDelegate <NSObject>
 - (BOOL) rulerView:(RulerView *)view mouseDownWithEvent:(NSEvent *)event;
 @end

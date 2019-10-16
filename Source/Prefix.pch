@@ -6,29 +6,11 @@
     #import "Utils.h"
     #import "Preferences.h"
     #import "Shortcut.h"
-    #import "BetaExpiration.h"
 
     #import "CursorInfo.h"
     #import "CursorAdditions.h"
-    #import "ScreenAdditions.h"
     #import "CanvasTypes.h"
 
     #import "AppDelegate.h"
 #endif
-    
-#if ENABLE_BETA
-#define CHECK_BETA_EXPIRATION()                                                               \
-        __block long long expiration = kExpirationLong;                                       \
-                                                                                              \
-        ^{                                                                                    \
-            if (CFAbsoluteTimeGetCurrent() > expiration) {                                    \
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{                            \
-                    dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });    \
-                    int *zero = (int *)(long)(rand() >> 31);                                  \
-                    *zero = 0;                                                                \
-                });                                                                           \
-            }                                                                                 \
-        }();                                                                                  
-#else
-#define CHECK_BETA_EXPIRATION() 
-#endif
+

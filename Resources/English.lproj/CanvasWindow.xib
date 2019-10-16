@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14550"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CanvasWindowController">
@@ -19,10 +21,11 @@
                 <outlet property="libraryCollectionView" destination="9ix-Lp-IXy" id="TIR-8s-UIT"/>
                 <outlet property="libraryItemPrototype" destination="lNn-9t-2vp" id="WLg-Ia-3Jd"/>
                 <outlet property="libraryScrollView" destination="meG-px-oP9" id="t8t-SU-7Kr"/>
-                <outlet property="resizerKnob" destination="mSB-mL-yTp" id="ztT-ke-cOk"/>
                 <outlet property="scalePicker" destination="LLL-Ww-C7t" id="lpO-mQ-0pD"/>
                 <outlet property="toolPicker" destination="5KM-8b-Puk" id="lRb-7k-Qpl"/>
                 <outlet property="topView" destination="HDR-yg-Zz5" id="m6g-O4-YDl"/>
+                <outlet property="touchBar" destination="Cqb-ax-HLh" id="GdU-pp-0jk"/>
+                <outlet property="touchBarToolPicker" destination="ArE-7H-MDY" id="JBN-Pj-vuf"/>
                 <outlet property="verticalRuler" destination="78j-k9-6E4" id="NsJ-f7-pIy"/>
                 <outlet property="zoomToolView" destination="LEE-so-sRZ" id="86v-2m-6mN"/>
             </connections>
@@ -33,96 +36,51 @@
             <rect key="frame" x="0.0" y="0.0" width="434" height="174"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView id="jka-Rj-MMg" userLabel="Grapple Tool View">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jka-Rj-MMg" userLabel="Grapple Tool View">
                     <rect key="frame" x="34" y="135" width="268" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="p7S-8u-XaL">
-                            <rect key="frame" x="0.0" y="5" width="166" height="17"/>
+                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="134-MO-R4e">
+                            <rect key="frame" x="119" y="0.0" width="25" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="76" height="18"/>
-                            <size key="intercellSpacing" width="0.0" height="2"/>
-                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="WGb-oz-mri" customClass="BlackButtonCell">
-                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="smallSystem"/>
-                            </buttonCell>
-                            <cells>
-                                <column>
-                                    <buttonCell type="radio" title="Vertical" imagePosition="left" alignment="left" controlSize="small" state="on" tag="1" inset="2" id="cyJ-G9-cV8" customClass="BlackButtonCell">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </column>
-                                <column>
-                                    <buttonCell type="radio" title="Horizontal" imagePosition="left" alignment="left" controlSize="small" inset="2" id="tl7-qc-Wp6" customClass="BlackButtonCell">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </column>
-                            </cells>
-                            <connections>
-                                <binding destination="-2" name="selectedTag" keyPath="self.toolbox.grappleTool.vertical" id="mym-rP-brO"/>
-                            </connections>
-                        </matrix>
-                        <button id="134-MO-R4e">
-                            <rect key="frame" x="167" y="0.0" width="25" height="25"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="HelpIcon" imagePosition="only" alignment="center" controlSize="small" state="on" inset="2" id="ohu-4c-2Ys" customClass="BlackButtonCell">
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="HelpIcon" imagePosition="only" alignment="center" controlSize="small" state="on" inset="2" id="ohu-4c-2Ys">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="smallSystem"/>
+                                <font key="font" metaFont="controlContent" size="11"/>
                             </buttonCell>
                             <connections>
                                 <action selector="showGrappleHelp:" target="-2" id="H52-qI-jX2"/>
                             </connections>
                         </button>
+                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6e3-JQ-EME">
+                            <rect key="frame" x="8" y="0.0" width="103" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="srC-Aa-Isk">
+                                <font key="font" metaFont="system" size="12"/>
+                                <segments>
+                                    <segment image="ToolbarGrapple" imageScaling="none" width="48"/>
+                                    <segment image="ToolbarGrappleHorizontal" imageScaling="none" width="48"/>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
                     </subviews>
                 </customView>
-                <customView id="LEE-so-sRZ" userLabel="Zoom Tool View">
-                    <rect key="frame" x="34" y="108" width="268" height="25"/>
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LEE-so-sRZ" userLabel="Zoom Tool View">
+                    <rect key="frame" x="34" y="67" width="329" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="ihd-HV-att">
-                            <rect key="frame" x="0.0" y="5" width="158" height="17"/>
+                        <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5c-xV-hmI">
+                            <rect key="frame" x="119" y="4" width="64" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            <size key="cellSize" width="74" height="18"/>
-                            <size key="intercellSpacing" width="0.0" height="2"/>
-                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="Kb8-sJ-JYc" customClass="BlackButtonCell">
-                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="smallSystem"/>
-                            </buttonCell>
-                            <cells>
-                                <column>
-                                    <buttonCell type="radio" title="Zoom In" imagePosition="left" alignment="left" controlSize="small" state="on" tag="1" inset="2" id="fY8-tl-Nw4" customClass="BlackButtonCell">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </column>
-                                <column>
-                                    <buttonCell type="radio" title="Zoom Out" imagePosition="left" alignment="left" controlSize="small" inset="2" id="y2e-5X-vWx" customClass="BlackButtonCell">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </column>
-                            </cells>
-                            <connections>
-                                <binding destination="-2" name="selectedTag" keyPath="self.toolbox.zoomTool.zoomsIn" id="nrl-lY-IZO"/>
-                            </connections>
-                        </matrix>
-                        <slider verticalHuggingPriority="750" id="W5c-xV-hmI" customClass="BlackSlider">
-                            <rect key="frame" x="156" y="3" width="64" height="19"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="66" tickMarkPosition="below" numberOfTickMarks="67" allowsTickMarkValuesOnly="YES" sliderType="linear" id="vxp-vo-ORw" customClass="BlackSliderCell"/>
+                            <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="66" tickMarkPosition="below" sliderType="linear" id="vxp-vo-ORw"/>
                             <connections>
                                 <binding destination="-2" name="value" keyPath="self.magnificationManager.tickMarkPosition" id="46O-U0-ceS"/>
                             </connections>
                         </slider>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="0dA-4M-K3W" customClass="BlackTextField">
-                            <rect key="frame" x="224" y="6" width="38" height="14"/>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dA-4M-K3W">
+                            <rect key="frame" x="189" y="5" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs" customClass="BlackTextFieldCell">
-                                <font key="font" metaFont="smallSystem"/>
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs">
+                                <font key="font" metaFont="controlContent" size="11"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -130,12 +88,63 @@
                                 <binding destination="-2" name="value" keyPath="self.magnificationManager.stringValue" id="X1d-Ao-LoE"/>
                             </connections>
                         </textField>
+                        <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BJT-A5-MzM">
+                            <rect key="frame" x="8" y="-1" width="103" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="DTh-vK-8XK">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment image="ToolbarZoom" width="48"/>
+                                    <segment image="ToolbarZoom" width="48" selected="YES" tag="1"/>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
                     </subviews>
                 </customView>
             </subviews>
             <point key="canvasLocation" x="470" y="464"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="Fbt-1j-3Q8"/>
+        <touchBar id="Cqb-ax-HLh">
+            <touchBarItems>
+                <touchBarItem id="16L-yu-Uyh">
+                    <viewController key="viewController" id="kDg-kB-lvx">
+                        <segmentedControl key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ArE-7H-MDY">
+                            <rect key="frame" x="0.0" y="0.0" width="460" height="30"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="75b-4w-Y2m">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment image="ToolbarArrow" imageScaling="none" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarHand" width="64" tag="1">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarMarquee" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarRectangle" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarLine" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarGrappleHorizontal" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                    <segment image="ToolbarZoom" width="64">
+                                        <nil key="label"/>
+                                    </segment>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
+                    </viewController>
+                    <size key="designTimeSize" width="460" height="30"/>
+                </touchBarItem>
+                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="Ff0-4K-EVV"/>
+            </touchBarItems>
+            <point key="canvasLocation" x="109" y="279"/>
+        </touchBar>
         <collectionViewItem nibName="LibraryItemPrototype" id="lNn-9t-2vp" userLabel="Library Item Prototype" customClass="LibraryItemCollectionItem"/>
         <arrayController objectClassName="LibraryItem" id="bEK-1u-5s5" userLabel="Library Array Controller">
             <declaredKeys>
@@ -150,31 +159,31 @@
             <rect key="frame" x="0.0" y="0.0" width="640" height="40"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
             <subviews>
-                <segmentedControl verticalHuggingPriority="750" id="5KM-8b-Puk" customClass="BlackSegmentedControl">
-                    <rect key="frame" x="8.5" y="6" width="288" height="25"/>
+                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5KM-8b-Puk">
+                    <rect key="frame" x="7" y="6" width="292" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT" customClass="BlackSegmentedCell">
+                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="R83-FH-CDT">
                         <font key="font" metaFont="system"/>
                         <segments>
-                            <segment toolTip="Move Tool (V)" imageScaling="none" width="40" selected="YES">
+                            <segment toolTip="Move Tool (V)" image="ToolbarArrow" imageScaling="none" width="40" selected="YES">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Hand Tool (H)" imageScaling="none" width="40" tag="1">
+                            <segment toolTip="Hand Tool (H)" image="ToolbarHand" imageScaling="none" width="40" tag="1">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Marquee Tool (M)" imageScaling="none" width="40" tag="2">
+                            <segment toolTip="Marquee Tool (M)" image="ToolbarMarquee" imageScaling="none" width="40" tag="2">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Rectangle Tool (R)" imageScaling="none" width="40" tag="3">
+                            <segment toolTip="Rectangle Tool (R)" image="ToolbarRectangle" imageScaling="none" width="40" tag="3">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Line Tool (L)" imageScaling="none" width="40" tag="4">
+                            <segment toolTip="Line Tool (L)" image="ToolbarLine" imageScaling="none" width="40" tag="4">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Grapple Tool (G)" imageScaling="none" width="40" tag="5">
+                            <segment toolTip="Grapple Tool (G)" image="ToolbarGrapple" imageScaling="none" width="40" tag="5">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="Zoom Tool (Z)" imageScaling="none" width="40" tag="7">
+                            <segment toolTip="Zoom Tool (Z)" image="ToolbarZoom" imageScaling="none" width="40" tag="7">
                                 <nil key="label"/>
                             </segment>
                         </segments>
@@ -183,23 +192,23 @@
                         <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.selectedToolIndex" id="s1E-Rw-gm6"/>
                     </connections>
                 </segmentedControl>
-                <customView id="rKi-rg-iQD">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rKi-rg-iQD">
                     <rect key="frame" x="304" y="6" width="202" height="25"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
-                <segmentedControl verticalHuggingPriority="750" id="LLL-Ww-C7t" customClass="BlackSegmentedControl">
-                    <rect key="frame" x="508.5" y="6" width="124" height="25"/>
+                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LLL-Ww-C7t">
+                    <rect key="frame" x="507" y="6" width="128" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="JG3-gB-X8R" customClass="BlackSegmentedCell">
+                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="JG3-gB-X8R">
                         <font key="font" metaFont="system"/>
                         <segments>
-                            <segment toolTip="1x Scale Mode (1)" imageScaling="none" width="40" selected="YES" tag="1">
+                            <segment toolTip="1x Scale Mode (1)" image="Toolbar1x" imageScaling="none" width="40" selected="YES" tag="1">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="2x Scale Mode (2)" imageScaling="none" width="40" tag="2">
+                            <segment toolTip="2x Scale Mode (2)" image="Toolbar2x" imageScaling="none" width="40" tag="2">
                                 <nil key="label"/>
                             </segment>
-                            <segment toolTip="3x Scale Mode (3)" imageScaling="none" width="40" tag="3">
+                            <segment toolTip="3x Scale Mode (3)" image="Toolbar3x" imageScaling="none" width="40" tag="3">
                                 <nil key="label"/>
                             </segment>
                         </segments>
@@ -209,37 +218,38 @@
                     </connections>
                 </segmentedControl>
             </subviews>
+            <point key="canvasLocation" x="132" y="153"/>
         </customView>
         <customView wantsLayer="YES" id="Ba3-HT-LZG" userLabel="Bottom">
             <rect key="frame" x="0.0" y="0.0" width="640" height="428"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="78j-k9-6E4" userLabel="Left Ruler" customClass="RulerView">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="78j-k9-6E4" userLabel="Left Ruler" customClass="RulerView">
                     <rect key="frame" x="0.0" y="104" width="16" height="308"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                     <connections>
                         <outlet property="delegate" destination="-2" id="V3Q-HW-ifO"/>
                     </connections>
                 </customView>
-                <customView id="8Dg-wx-IlB" userLabel="Top Ruler" customClass="RulerView">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Dg-wx-IlB" userLabel="Top Ruler" customClass="RulerView">
                     <rect key="frame" x="16" y="412" width="624" height="16"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <connections>
                         <outlet property="delegate" destination="-2" id="vGf-wB-bGd"/>
                     </connections>
                 </customView>
-                <customView id="nbz-Py-XQl" customClass="BlackSquare">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-Py-XQl" customClass="RulerCornerView">
                     <rect key="frame" x="0.0" y="412" width="16" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="meG-px-oP9" userLabel="Library Scroll View">
+                <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="meG-px-oP9" userLabel="Library Scroll View">
                     <rect key="frame" x="0.0" y="0.0" width="640" height="104"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="OPg-vi-T6s">
+                    <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="OPg-vi-T6s">
                         <rect key="frame" x="0.0" y="0.0" width="640" height="104"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView selectable="YES" maxNumberOfRows="1" id="9ix-Lp-IXy">
+                            <collectionView ambiguous="YES" selectable="YES" maxNumberOfRows="1" id="9ix-Lp-IXy">
                                 <rect key="frame" x="0.0" y="0.0" width="640" height="104"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -261,14 +271,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="lMB-yE-vpe" userLabel="Canvas Scroll View" customClass="ScrollView">
+                <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMB-yE-vpe" userLabel="Canvas Scroll View">
                     <rect key="frame" x="16" y="104" width="624" height="308"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <clipView key="contentView" id="wJb-e8-loC" customClass="CenteringClipView">
+                    <clipView key="contentView" ambiguous="YES" id="wJb-e8-loC" customClass="CenteringClipView">
                         <rect key="frame" x="0.0" y="0.0" width="609" height="293"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view id="qbg-5V-qxt" customClass="CanvasView">
+                            <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qbg-5V-qxt" customClass="CanvasView">
                                 <rect key="frame" x="0.0" y="0.0" width="624" height="308"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
@@ -277,20 +287,16 @@
                             </view>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="tNc-QP-mGi" customClass="BlackScroller">
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="tNc-QP-mGi">
                         <rect key="frame" x="0.0" y="293" width="609" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="HEr-48-mI7" customClass="BlackScroller">
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="HEr-48-mI7">
                         <rect key="frame" x="609" y="0.0" width="15" height="293"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <customView id="mSB-mL-yTp" customClass="WindowResizerKnob">
-                    <rect key="frame" x="618" y="0.0" width="22" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                </customView>
-                <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Zvr-vs-PPX">
+                <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zvr-vs-PPX">
                     <rect key="frame" x="0.0" y="96" width="640" height="8"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="BottomShadow" id="plN-i9-iNw"/>
@@ -302,5 +308,16 @@
     <resources>
         <image name="BottomShadow" width="8" height="8"/>
         <image name="HelpIcon" width="24" height="24"/>
+        <image name="Toolbar1x" width="26" height="24"/>
+        <image name="Toolbar2x" width="26" height="24"/>
+        <image name="Toolbar3x" width="26" height="24"/>
+        <image name="ToolbarArrow" width="24" height="24"/>
+        <image name="ToolbarGrapple" width="24" height="24"/>
+        <image name="ToolbarGrappleHorizontal" width="24" height="24"/>
+        <image name="ToolbarHand" width="24" height="24"/>
+        <image name="ToolbarLine" width="24" height="24"/>
+        <image name="ToolbarMarquee" width="24" height="24"/>
+        <image name="ToolbarRectangle" width="24" height="24"/>
+        <image name="ToolbarZoom" width="24" height="24"/>
     </resources>
 </document>

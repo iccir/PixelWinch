@@ -74,38 +74,6 @@
     [closeButton removeFromSuperview];
     [closeSuperView addSubview:closeButton];  
 
-#if ENABLE_BETA
-    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch-Beta"]];
-
-    __block NSString *expirationString = @"";
-    __block long long expiration = kExpirationLong;
-    
-    ^{
-        if (CFAbsoluteTimeGetCurrent() > expiration) {
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                int *zero = (int *)(long)(rand() >> 31);
-                *zero = 0;
-            });
-
-        } else {
-            NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:expiration];
-
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateStyle:NSDateFormatterMediumStyle];
-            [formatter setTimeStyle:NSDateFormatterNoStyle];
-            
-            expirationString = [formatter stringFromDate:date];
-        }
-    }();
-    
-    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@ Beta, Build %@\nThis build expires on %@", nil);
-
-    id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-
-    [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber, expirationString]];
-#else
     [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
 
     NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nby Ricci Adams", nil);
@@ -114,7 +82,6 @@
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
     [[self versionField] setStringValue:[NSString stringWithFormat:versionFormat, shortVersion, buildNumber]];
-#endif
 }
 
 

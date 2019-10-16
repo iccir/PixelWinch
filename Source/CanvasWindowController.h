@@ -22,7 +22,6 @@
 - (void) activateAndShowWindow;
 - (void) toggleVisibility;
 - (void) saveCurrentLibraryItem;
-- (void) hideIfOverlay;
 
 - (BOOL) isWindowVisible;
 
@@ -49,21 +48,19 @@
 @property (nonatomic, strong) IBOutlet NSView *topView;
 @property (nonatomic, strong) IBOutlet NSView *bottomView;
 
-@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar NS_AVAILABLE_MAC(10_12_2);
+@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar;
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *touchBarToolPicker;
 
 
 // Outlets
-@property (nonatomic, weak) IBOutlet BlackSegmentedControl *toolPicker;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *toolPicker;
 @property (nonatomic, weak) IBOutlet NSView *inspectorContainer;
-@property (nonatomic, weak) IBOutlet BlackSegmentedControl *scalePicker;
+@property (nonatomic, weak) IBOutlet NSSegmentedControl *scalePicker;
 
 @property (nonatomic, weak) IBOutlet NSScrollView *canvasScrollView;
 @property (nonatomic, weak) IBOutlet CanvasView   *canvasView;
 @property (nonatomic, weak) IBOutlet RulerView    *horizontalRuler;
 @property (nonatomic, weak) IBOutlet RulerView    *verticalRuler;
-
-@property (nonatomic, weak) IBOutlet WindowResizerKnob *resizerKnob;
 
 @property (nonatomic, weak) IBOutlet NSScrollView *libraryScrollView;
 @property (nonatomic, weak) IBOutlet NSCollectionView *libraryCollectionView;

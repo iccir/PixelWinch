@@ -111,7 +111,7 @@
 {
     if (layer == _sublayer) {
         NSGraphicsContext *savedContext = [NSGraphicsContext currentContext];
-        [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:YES]];
+        [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithCGContext:context flipped:YES]];
     
         NSString *text = [self _text];
         NSDictionary *attributes = [self _attributes];

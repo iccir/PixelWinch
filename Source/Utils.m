@@ -18,71 +18,8 @@ NSString * const WinchPrivacyURLString  = @"http://www.ricciadams.com/projects/p
 NSString * const WinchAppStoreURLString = @"http://www.ricciadams.com/buy/pixel-winch";
 
 
-#define InvalidReceiptDeltaThreshold k3xWorkaround
-static CGFloat InvalidReceiptDeltaThreshold = 6.0;
-
-CGFloat InvalidReceiptDelta = 0.0;
 
 #pragma mark - Compatibility
-
-
-BOOL WinchSwizzleMethod(Class cls, char plusOrMinus, SEL selA, SEL selB)
-{
-    if (plusOrMinus == '+') {
-        const char *clsName = class_getName(cls);
-        cls = objc_getMetaClass(clsName);
-    }
-
-	Method methodA = class_getInstanceMethod(cls, selA);
-    if (!methodA) return NO;
-	
-	Method methodB = class_getInstanceMethod(cls, selB);
-	if (!methodB) return NO;
-	
-	class_addMethod(cls, selA, class_getMethodImplementation(cls, selA), method_getTypeEncoding(methodA));
-	class_addMethod(cls, selB, class_getMethodImplementation(cls, selB), method_getTypeEncoding(methodB));
-	
-	method_exchangeImplementations(class_getInstanceMethod(cls, selA), class_getInstanceMethod(cls, selB));
-
-	return YES;
-}
-
-
-BOOL WinchAliasMethod(Class cls, char plusOrMinus, SEL originalSel, SEL aliasSel)
-{
-    BOOL result = NO;
-
-    if (plusOrMinus == '+') {
-        const char *clsName = class_getName(cls);
-        cls = objc_getMetaClass(clsName);
-    }
-
-    Method method = class_getInstanceMethod(cls, originalSel);
-
-    if (method) {
-        IMP         imp    = method_getImplementation(method);
-        const char *types  = method_getTypeEncoding(method);
-
-        result = class_addMethod(cls, aliasSel, imp, types);
-    }
-
-#if DEBUG
-    if (!result) {
-        @autoreleasepool {
-            NSLog(@"WinchAliasMethod(): could not alias '%@' to '%@'", NSStringFromSelector(originalSel), NSStringFromSelector(aliasSel));
-        }
-    }
-#endif
-
-    return result;
-}
-
-
-CGContextRef GetCurrentGraphicsContext()
-{
-    return [[NSGraphicsContext currentContext] graphicsPort];
-}
-
 
 void PushGraphicsContext(CGContextRef ctx)
 {
@@ -93,7 +30,7 @@ void PushGraphicsContext(CGContextRef ctx)
     NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
 
     if (currentContext) [sGraphicsContextStack addObject:currentContext];
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:(void *)ctx flipped:YES]];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithCGContext:ctx flipped:YES]];
 }
 
 
@@ -299,84 +236,6 @@ NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, SEL sele
 }
 
 
-
-NSImage *GetSnapshotImageForView(NSView *view)
-{
-    NSRect   bounds = [view bounds];
-    NSImage *image  = [[NSImage alloc] initWithSize:bounds.size];
-
-    [image lockFocus];
-    [view displayRectIgnoringOpacity:[view bounds] inContext:[NSGraphicsContext currentContext]];
-    [image unlockFocus];
-
-    return image;
-}
-
-
-extern CGPathRef CopyPathWithBezierPath(NSBezierPath *inPath)
-{
-    CGMutablePathRef path = CGPathCreateMutable();
-    NSPoint p[3];
-    BOOL closed = NO;
-
-    NSInteger elementCount = [inPath elementCount];
-    for (NSInteger i = 0; i < elementCount; i++) {
-        switch ([inPath elementAtIndex:i associatedPoints:p]) {
-        case NSMoveToBezierPathElement:
-            CGPathMoveToPoint(path, NULL, p[0].x, p[0].y);
-            break;
-
-        case NSLineToBezierPathElement:
-            CGPathAddLineToPoint(path, NULL, p[0].x, p[0].y);
-            closed = NO;
-            break;
-
-        case NSCurveToBezierPathElement:
-            CGPathAddCurveToPoint(path, NULL, p[0].x, p[0].y, p[1].x, p[1].y, p[2].x, p[2].y);
-            closed = NO;
-            break;
-
-        case NSClosePathBezierPathElement:
-            CGPathCloseSubpath(path);
-            closed = YES;
-            break;
-        }
-    }
-
-    if (!closed) CGPathCloseSubpath(path);
-
-    CGPathRef immutablePath = CGPathCreateCopy(path);
-    CFRelease(path);
-    
-    return immutablePath;
-}
-
-
-
-NSImage *MakeImageWithCGImage(CGImageRef cgImage, CGFloat scale)
-{
-    if (!cgImage) {
-        return nil;
-    }
-    
-    if (!scale) scale = 1;
-
-    NSSize size = NSMakeSize(
-        CGImageGetWidth(cgImage)  / scale,
-        CGImageGetHeight(cgImage) / scale
-    );
-    
-    NSImage *result = [[NSImage alloc] initWithSize:size];
-
-    if (result) {
-        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
-        [result addRepresentation:rep];
-    }
-
-    return result;
-}
-
-
 extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets)
 {
     rect.origin.x    += insets.left;
@@ -384,69 +243,6 @@ extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets)
     rect.size.width  -= (insets.left + insets.right);
     rect.size.height -= (insets.top  + insets.bottom);
     return rect;
-}
-
-
-CGContextRef CreateBitmapContext(CGSize size, BOOL opaque, CGFloat scale)
-{
-    size_t width  = size.width  * scale;
-    size_t height = size.height * scale;
-
-    CGContextRef result = NULL;
-    
-    if (width > 0 && height > 0) {
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-        if (colorSpace) {
-            CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Little;
-            bitmapInfo |= (opaque ? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst);
-
-            result = CGBitmapContextCreate(NULL, width, height, 8, width * 4, colorSpace, bitmapInfo);
-        
-            if (result) {
-                CGContextTranslateCTM(result, 0, height);
-                CGContextScaleCTM(result, scale, -scale);
-            }
-        }
-
-        CGColorSpaceRelease(colorSpace);
-    }
-
-    
-    return result;
-}
-
-
-CGImageRef CreateImageMask(CGSize size, CGFloat scale, void (^callback)(CGContextRef))
-{
-    size_t width  = size.width * scale;
-    size_t height = size.height * scale;
-
-    CGImageRef      cgImage    = NULL;
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-
-    if (colorSpace && width > 0 && height > 0) {
-        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, width, colorSpace, 0|kCGImageAlphaNone);
-    
-        if (context) {
-            CGContextTranslateCTM(context, 0, height);
-            CGContextScaleCTM(context, scale, -scale);
-
-            NSGraphicsContext *savedContext = [NSGraphicsContext currentContext];
-            [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:YES]];
-
-            callback(context);
-            
-            [NSGraphicsContext setCurrentContext:savedContext];
-
-            cgImage = CGBitmapContextCreateImage(context);
-            CFRelease(context);
-        }
-    }
-
-    CGColorSpaceRelease(colorSpace);
-
-    return cgImage;
 }
 
 
@@ -467,7 +263,7 @@ CGImageRef CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)
             CGContextScaleCTM(context, scale, -scale);
 
             NSGraphicsContext *savedContext = [NSGraphicsContext currentContext];
-            [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:YES]];
+            [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithCGContext:context flipped:YES]];
 
             callback(context);
             
@@ -592,44 +388,10 @@ extern CGFloat GetDistance(CGPoint p1, CGPoint p2)
 }
 
 
-extern void DrawImageAtPoint(NSImage *image, CGPoint point)
-{
-    NSSize imageSize = [image size];
-    NSRect imageRect = NSMakeRect(point.x, point.y, imageSize.width, imageSize.height);
-    [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1 respectFlipped:YES hints:nil];
-}
-
-
-extern void DrawThreePart(NSImage *image, CGRect rect, CGFloat leftCap, CGFloat rightCap)
-{
-    NSSize imageSize = [image size];
-
-    CGRect leftTo   = rect;
-    CGRect middleTo = rect;
-    CGRect rightTo  = rect;
-
-    leftTo.size.width = leftCap;
-
-    middleTo.origin.x = CGRectGetMaxX(leftTo);
-    middleTo.size.width -= (leftCap + rightCap);
-    
-    rightTo.origin.x = CGRectGetMaxX(middleTo);
-    rightTo.size.width = rightCap;
-
-    CGRect leftFrom   = CGRectMake(0, 0, leftCap, rect.size.height);
-    CGRect middleFrom = CGRectMake(CGRectGetMaxX(leftFrom),   0, imageSize.width - (leftCap + rightCap), rect.size.height);
-    CGRect rightFrom  = CGRectMake(CGRectGetMaxX(middleFrom), 0, rightCap, rect.size.height);
-
-    [image drawInRect:leftTo   fromRect:leftFrom   operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-    [image drawInRect:middleTo fromRect:middleFrom operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-    [image drawInRect:rightTo  fromRect:rightFrom  operation:NSCompositingOperationSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-}
-
-
 extern void ClipToImage(NSImage *image, CGRect rect)
 {
     NSGraphicsContext *nsContext = [NSGraphicsContext currentContext];
-    CGContextRef       cgContext = [nsContext graphicsPort];
+    CGContextRef       cgContext = [nsContext CGContext];
     
     NSImageRep *imageRep = [image bestRepresentationForRect:rect context:nsContext hints:nil];
     
@@ -645,38 +407,6 @@ extern void ClipToImage(NSImage *image, CGRect rect)
     } else {
         CGContextClipToRect(cgContext, rect);
     }
-}
-
-
-extern void FillPathWithInnerShadow(NSBezierPath *path, NSShadow *shadow)
-{
-	[NSGraphicsContext saveGraphicsState];
-	
-	NSSize offset = shadow.shadowOffset;
-	NSSize originalOffset = offset;
-	CGFloat radius = shadow.shadowBlurRadius;
-	NSRect bounds = NSInsetRect([path bounds], -(ABS(offset.width) + radius), -(ABS(offset.height) + radius));
-	offset.height += bounds.size.height;
-	shadow.shadowOffset = offset;
-	NSAffineTransform *transform = [NSAffineTransform transform];
-	if ([[NSGraphicsContext currentContext] isFlipped])
-		[transform translateXBy:0 yBy:bounds.size.height];
-	else
-		[transform translateXBy:0 yBy:-bounds.size.height];
-	
-	NSBezierPath *drawingPath = [NSBezierPath bezierPathWithRect:bounds];
-	[drawingPath setWindingRule:NSEvenOddWindingRule];
-	[drawingPath appendBezierPath:path];
-	[drawingPath transformUsingAffineTransform:transform];
-	
-	[path addClip];
-	[shadow set];
-	[[NSColor blackColor] set];
-	[drawingPath fill];
-	
-	shadow.shadowOffset = originalOffset;
-	
-	[NSGraphicsContext restoreGraphicsState];
 }
 
 
@@ -698,7 +428,7 @@ extern NSShadow *GetWhiteOnBlackTextShadow()
 
 extern void WithWhiteOnBlackTextMode(void (^callback)())
 {
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
     
     CGContextSaveGState(context);
     CGContextSetShouldSmoothFonts(context, false);
@@ -745,7 +475,6 @@ void AddPopInAnimation(CALayer *layer, CGFloat duration)
 NSString *GetStringForFloat(CGFloat f)
 {
     NSInteger scaleMode = [[Preferences sharedInstance] scaleMode];
-    CGFloat   invalidReceiptDelta = (f > InvalidReceiptDeltaThreshold) ? InvalidReceiptDelta : 0;
     
     if (scaleMode == 0) {
         double m = [[[Preferences sharedInstance] customScaleMultiplier] doubleValue];
@@ -755,22 +484,16 @@ NSString *GetStringForFloat(CGFloat f)
             f *= 10.0;
             f = floor(f);
             f /= 10.0;
-            f += invalidReceiptDelta;
         }
 
     } else if (scaleMode == 2) {
         f /= 2.0;
-        f += invalidReceiptDelta;
 
     } else if (scaleMode == 3) {
         f /= 3.0;
         f *= 10.0;
         f = floor(f);
         f /= 10.0;
-        f += invalidReceiptDelta;
-
-    } else {
-        f += invalidReceiptDelta;
     }
 
     return [NSNumberFormatter localizedStringFromNumber:@(f) numberStyle:NSNumberFormatterDecimalStyle];
@@ -801,16 +524,11 @@ NSString *GetPasteboardStringForSize(CGSize size)
 
 BOOL IsAppearanceDarkAqua(NSView *view)
 {
-    if (@available(macOS 10.14, *)) {
-        NSAppearance *effectiveAppearance =[view effectiveAppearance];
-        NSArray *names = @[ NSAppearanceNameAqua, NSAppearanceNameDarkAqua ];
-       
-        NSAppearanceName bestMatch = [effectiveAppearance bestMatchFromAppearancesWithNames:names];
+    NSAppearance *effectiveAppearance =[view effectiveAppearance];
+    NSArray *names = @[ NSAppearanceNameAqua, NSAppearanceNameDarkAqua ];
+   
+    NSAppearanceName bestMatch = [effectiveAppearance bestMatchFromAppearancesWithNames:names];
 
-        return [bestMatch isEqualToString:NSAppearanceNameDarkAqua];
-
-    } else {
-        return NO;
-    }
+    return [bestMatch isEqualToString:NSAppearanceNameDarkAqua];
 }
 

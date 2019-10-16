@@ -1,0 +1,2 @@
+INFOPLIST_FILE = Resources/Info-PixelWinch.plist
+CODE_SIGN_ENTITLEMENTS = Resources/Pixel Winch.entitlements

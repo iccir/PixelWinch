@@ -14,18 +14,13 @@
 
 - (CGRect) _screenRectOfStatusItem:(NSStatusItem *)statusItem
 {
-    NSView *oldView = [statusItem view];
+    NSView *button = [statusItem button];
     CGRect result = CGRectZero;
 
-    NSView *view = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 1, 1)];
-    [statusItem setView:view];
-
-    if ([view window]) {
-        NSRect statusItemRect = [view convertRect:[view bounds] toView:nil];
-        result = [[view window] convertRectToScreen:statusItemRect];
+    if ([button window]) {
+        NSRect statusItemRect = [button convertRect:[button bounds] toView:nil];
+        result = [[button window] convertRectToScreen:statusItemRect];
     }
-
-    [statusItem setView:oldView];
 
     return result;
 }

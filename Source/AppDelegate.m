@@ -157,8 +157,7 @@
                
             [[self statusBarMenu] setDelegate:self];
 
-            [_statusItem setImage:image];
-            [_statusItem setHighlightMode:YES];
+            [[_statusItem button] setImage:image];
             [_statusItem setMenu:[self statusBarMenu]];
         }
     } else {
@@ -263,44 +262,6 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-#if ENABLE_BETA
-    ^{
-        NSString *message = NSLocalizedString(@"Beta Expired", nil);
-        NSString *text    = NSLocalizedString(@"This version of Pixel Winch has expired.  Please contact me if you need a new build.", nil);
-        NSString *quit    = NSLocalizedString(@"Quit",    nil);
-        NSString *visit   = NSLocalizedString(@"Contact Me",    nil);
-        
-        NSAlert *alert = [[NSAlert alloc] init];
-        
-        [alert setMessageText:message];
-        [alert setInformativeText:text];
-        [alert addButtonWithTitle:quit];
-        [alert addButtonWithTitle:visit];
-
-        if (CFAbsoluteTimeGetCurrent() > kExpirationDouble) {
-            if ([alert runModal] == NSAlertSecondButtonReturn) {
-                NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
-                [[NSWorkspace sharedWorkspace] openURL:url];
-            }
-            
-            [NSApp terminate:nil];
-            exit(0);
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunreachable-code"
-
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                dispatch_sync(dispatch_get_main_queue(), ^{ [NSApp terminate:nil]; });
-                int *zero = (int *)(long)(rand() >> 31);
-                *zero = 0;
-            });
-
-#pragma clang diagnostic pop
-
-        }
-    }();
-#endif
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library
@@ -381,8 +342,6 @@
 
 - (IBAction) showPreferences:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     [[self preferencesWindowController] showWindow:self];
     [NSApp activateIgnoringOtherApps:YES];
 }
@@ -390,8 +349,6 @@
 
 - (IBAction) showAbout:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     [NSApp activateIgnoringOtherApps:YES];
 
     if (!_aboutWindowController) {
@@ -405,8 +362,6 @@
 
 - (IBAction) provideFeedback:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     NSURL *url = [NSURL URLWithString:GetPixelWinchFeedbackURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
@@ -414,8 +369,6 @@
 
 - (IBAction) visitWebsite:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     NSURL *url = [NSURL URLWithString:GetPixelWinchWebsiteURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
@@ -423,8 +376,6 @@
 
 - (IBAction) viewGuide:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     NSURL *url = [NSURL URLWithString:GetPixelWinchGuideURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
@@ -432,8 +383,6 @@
 
 - (IBAction) viewOnAppStore:(id)sender
 {
-    [[self canvasWindowController] hideIfOverlay];
-
     NSURL *url = [NSURL URLWithString:GetPixelWinchOnAppStoreURLString()];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }

@@ -3,21 +3,13 @@
 
 #import "CanvasWindowController.h"
 
-#import "BlackSegmentedControl.h"
-
 #import "Library.h"
 #import "LibraryItem.h"
 #import "Screenshot.h"
 
-#import "BlackScroller.h"
-
-#import "OverlayShadowView.h"
-#import "OverlayBaseView.h"
-
 #import "CanvasView.h"
 #import "RulerView.h"
 #import "CenteringClipView.h"
-#import "WindowResizerKnob.h"
 
 #import "MagnificationManager.h"
 
@@ -58,12 +50,10 @@
 @interface CanvasWindowController () <
     NSToolbarDelegate,
     CanvasWindowDelegate,
-    OverlayBaseViewDelegate,
     CanvasDelegate,
     CanvasViewDelegate,
     RulerViewDelegate,
-    ToolOwner,
-    WindowResizerKnobDelegate
+    ToolOwner
 >
 
 @end
@@ -72,18 +62,8 @@
 @implementation CanvasWindowController {
     NSWindow    *_canvasWindow;
     
-    NSRect _contentViewFrameAtResizeStart;
-    NSRect _contentViewMinFrameAtResizeStart;
-    NSRect _contentViewMaxFrameAtResizeStart;
-
     Toolbox     *_toolbox;
     
-    OverlayShadowView  *_shadowView;
-    OverlayBaseView *_shroudView;
-    OverlayBaseView *_contentView;
-
-    NSView      *_transitionImageView;
-
     CGFloat      _liveMagnificationLevel;
     CGPoint      _liveMagnificationPoint;
 
@@ -96,8 +76,6 @@
     NSMutableDictionary *_GUIDToResizeKnobsMap;
     
     NSRunningApplication *_applicationToReactivate;
-
-    BOOL _windowIsOverlay;
 }
 
 
@@ -128,7 +106,6 @@
         
         _magnificationManager = [[MagnificationManager alloc] init];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleApplicationDidResignActiveNotification:) name:NSApplicationDidResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
     }
     
@@ -407,50 +384,11 @@
 
 - (void) windowDidLoad
 {
-    NSImage *arrowImage     = [NSImage imageNamed:@"ToolbarArrow"];
-    NSImage *handImage      = [NSImage imageNamed:@"ToolbarHand"];
-    NSImage *marqueeImage   = [NSImage imageNamed:@"ToolbarMarquee"];
-    NSImage *rectangleImage = [NSImage imageNamed:@"ToolbarRectangle"];
-    NSImage *lineImage      = [NSImage imageNamed:@"ToolbarLine"];
-    NSImage *grappleImage   = [NSImage imageNamed:@"ToolbarGrapple"];
-    NSImage *zoomImage      = [NSImage imageNamed:@"ToolbarZoom"];
-
-    NSImage *scale1xImage   = [NSImage imageNamed:@"Toolbar1x"];
-    NSImage *scale2xImage   = [NSImage imageNamed:@"Toolbar2x"];
-    NSImage *scale3xImage   = [NSImage imageNamed:@"Toolbar3x"];
-
-    [_toolPicker setTemplateImage:arrowImage     forSegment:0];
-    [_toolPicker setTemplateImage:handImage      forSegment:1];
-    [_toolPicker setTemplateImage:marqueeImage   forSegment:2];
-    [_toolPicker setTemplateImage:rectangleImage forSegment:3];
-    [_toolPicker setTemplateImage:lineImage      forSegment:4];
-    [_toolPicker setTemplateImage:grappleImage   forSegment:5];
-    [_toolPicker setTemplateImage:zoomImage      forSegment:6];
-
-    [_scalePicker setTemplateImage:scale1xImage  forSegment:0];
-    [_scalePicker setTemplateImage:scale2xImage  forSegment:1];
-    [_scalePicker setTemplateImage:scale3xImage  forSegment:2];
-
-    [_scalePicker setSelectedGradient:[[NSGradient alloc] initWithColors:@[
-        GetRGBColor(0xffffa0, 1.0),
-        GetRGBColor(0xffffe0, 1.0)
-    ]] forSegment:1];
-
-    [_scalePicker setSelectedGradient:[[NSGradient alloc] initWithColors:@[
-        GetRGBColor(0xa0ffa0, 1.0),
-        GetRGBColor(0xe0ffe0, 1.0)
-    ]] forSegment:2];
-
     if ([[[Preferences sharedInstance] customScaleMultiplier] doubleValue]) {
         [_scalePicker setSegmentCount:4];
 
-        [_scalePicker setSelectedGradient:[[NSGradient alloc] initWithColors:@[
-            GetRGBColor(0xa0ffff, 1.0),
-            GetRGBColor(0xe0ffff, 1.0)
-        ]] forSegment:3];
-        
         NSImage *scaleCxImage = [NSImage imageNamed:@"ToolbarCx"];
-        [_scalePicker setTemplateImage:scaleCxImage forSegment:3];
+        [_scalePicker setImage:scaleCxImage forSegment:3];
         [_scalePicker setWidth:40 forSegment:3];
 
         NSRect pickerFrame = [_scalePicker frame];
@@ -458,7 +396,6 @@
         pickerFrame.origin.x -= 40;
         [_scalePicker setFrame:pickerFrame];
     }
-
 
     [_horizontalRuler setCanDrawConcurrently:YES];
     [_horizontalRuler setVertical:NO];
@@ -468,8 +405,6 @@
     
     [_magnificationManager setHorizontalRuler:_horizontalRuler];
     [_magnificationManager setVerticalRuler:_verticalRuler];
-    
-    [[self resizerKnob] setDelegate:self];
     
     NSColor *darkColor = [NSColor colorWithWhite:0.1 alpha:1.0];
 
@@ -491,25 +426,16 @@
     [[_libraryScrollView horizontalScroller] setControlSize:NSControlSizeSmall];
     
     [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
-    
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowOffset:NSMakeSize(0, 4)];
-    [shadow setShadowBlurRadius:16];
-    
+        
     [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
     [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
     [[_toolbox grappleTool] addObserver:self forKeyPath:@"vertical"                options:0 context:NULL];
 
-    [self _updateWindowsForOverlayMode];
+    [self _updateCanvasWindow];
 
     [self _updateInspector];
     [self _updateGrappleIcon];
-
-    if (@available(macOS 10.12.2, *)) {
-        [[NSBundle mainBundle] loadNibNamed:@"TouchBar" owner:self topLevelObjects:nil];
-    }
 }
 
 
@@ -602,10 +528,8 @@
     NSLog(@"*** End of key view loop ***");
 }
 
-- (void) _updateWindowsForOverlayMode
+- (void) _updateCanvasWindow
 {
-    BOOL usesOverlayWindow = [[Preferences sharedInstance] usesOverlayWindow];
-
     NSRect oldContentRect = CGRectMake(0, 0, 640, 400);
 
     if (_canvasWindow) {
@@ -615,21 +539,9 @@
         _canvasWindow = nil;
     }
 
-    if (_contentView) {
-        [_contentView setDelegate:nil];
-        _contentView = nil;
-    }
-
-    if (_shroudView) {
-        [_shroudView setDelegate:nil];
-        _shroudView = nil;
-    }
-
     NSUInteger canvasStyleMask = NSWindowStyleMaskBorderless;
     
-    if (!usesOverlayWindow) {
-        canvasStyleMask |= NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskFullSizeContentView;
-    }
+    canvasStyleMask |= NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskFullSizeContentView;
 
     CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:oldContentRect styleMask:canvasStyleMask backing:NSBackingStoreBuffered defer:NO];
 
@@ -681,76 +593,7 @@
         [self setTopView:topView];
     };
     
-    if (usesOverlayWindow) {
-        NSColor *darkColor = [_canvasScrollView backgroundColor];
-
-        buildTopView(NSEdgeInsetsMake(9, 8, 6, 8), 8);
-
-        [window setHasShadow:NO];
-        [window setBackgroundColor:[NSColor clearColor]];
-        [window setOpaque:NO];
-
-        NSShadow *shadow = [[NSShadow alloc] init];
-        [shadow setShadowColor:[NSColor blackColor]];
-        [shadow setShadowOffset:NSMakeSize(0, 4)];
-        [shadow setShadowBlurRadius:16];
-
-        _shroudView = [[OverlayBaseView alloc] initWithFrame:[windowContentView bounds]];
-        [_shroudView setBackgroundColor:[NSColor colorWithCalibratedWhite:0 alpha:0.5]];
-        [_shroudView setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
-        [_shroudView setDelegate:self];
-
-        _shadowView = [[OverlayShadowView alloc] initWithFrame:[windowContentView bounds]];
-        [_shadowView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
-        [_shadowView setBackgroundColor:darkColor];
-        [_shadowView setCornerRadius:8];
-        [_shadowView setShadow:shadow];
-
-        _contentView = [[OverlayBaseView alloc] initWithFrame:[windowContentView bounds]];
-        [_contentView setWantsLayer:YES];
-        [_contentView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
-        [_contentView setBackgroundColor:darkColor];
-        [_contentView setCornerRadius:8];
-        [_contentView setDelegate:self];
-        [_contentView setClipsToBounds:YES];
-        
-        [[self resizerKnob] setHidden:NO];
-        
-        NSView *topView    = [self topView];
-        NSView *bottomView = [self bottomView];
-        
-        CGFloat topViewHeight = [topView bounds].size.height;
-        
-        NSRect containerBounds = [_contentView bounds];
-        NSRect bottomFrame     = containerBounds;
-        NSRect topFrame        = containerBounds;
-        
-        bottomFrame.size.height -= topViewHeight;
-        topFrame.origin.y = NSMaxY(bottomFrame);
-        topFrame.size.height = topViewHeight;
-
-        [topView    setFrame:topFrame];
-        [bottomView setFrame:bottomFrame];
-        
-        [_contentView addSubview:topView];
-        [_contentView addSubview:bottomView];
-
-        [windowContentView addSubview:_shroudView];
-        [windowContentView addSubview:_shadowView];
-        [windowContentView addSubview:_contentView];
-
-        if (!IsInDebugger()) {
-            [window setLevel:NSModalPanelWindowLevel-1];
-        }
-        
-    } else {
-        CGFloat topPadding = 9;
-        
-        if (@available(macOS 10.14, *)) {
-            topPadding = 7;
-        }
-
-        buildTopView(NSEdgeInsetsMake(topPadding, 0, 6, 0), 8);
+        buildTopView(NSEdgeInsetsMake(7, 0, 6, 0), 8);
 
         [window setHasShadow:YES];
 
@@ -759,11 +602,7 @@
 
         [window setBackgroundColor:[_canvasScrollView backgroundColor]];
 
-        if (@available(macOS 10.14, *)) {
-            [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
-        } else {
-            [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
-        }
+        [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
 
         [window setContentMinSize:NSMakeSize(780, 320)];
         
@@ -783,183 +622,15 @@
         [window setFrame:windowFrame display:NO];
         [window center];
 
-        [[self resizerKnob] setHidden:YES];
-
         [window setFrameAutosaveName:@"CanvasWindow"];
 
         [windowContentView addSubview:_bottomView];
         [_bottomView setFrame:[window contentLayoutRect]];
-    }
     
     [self setWindow:window];
 
-    _canvasWindow    = window;
-    _windowIsOverlay = usesOverlayWindow;
+    _canvasWindow = window;
 }
-
-
-
-
-- (void) _animateInOverlay
-{
-    if (!_windowIsOverlay) return;
-
-    const CGFloat sOrderInDuration = 0.15;
-
-    LOG(@"Order in");
-
-    [_canvasScrollView setHidden:NO];
-    [_transitionImageView removeFromSuperview];
-    _transitionImageView = nil;
-
-    void (^animate)(NSView *, NSString *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSString *timingFunction, NSValue *fromValue) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
-
-        [animation setDuration:sOrderInDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:timingFunction]];
-        [animation setFromValue:fromValue];
-        [animation setFillMode:kCAFillModeBoth];
-        
-        [[view layer] addAnimation:animation forKey:keyPath];
-    };
-
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:sOrderInDuration];
-        [context setAllowsImplicitAnimation:NO];
-
-        CGSize contentViewBoundsSize = [_contentView bounds].size;
-
-        CGFloat scale = 0.8;
-        CGAffineTransform fromTransform = CGAffineTransformIdentity;
-        fromTransform = CGAffineTransformTranslate(fromTransform, (contentViewBoundsSize.width * (1.0 - scale)) / 2.0, (contentViewBoundsSize.height * (1.0 - scale)) / 2.0);
-        fromTransform = CGAffineTransformScale(fromTransform, scale, scale);
-
-        NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
-
-        [[_shroudView  layer] setOpacity:1];
-        [[_shadowView  layer] setOpacity:1];
-        [[_contentView layer] setOpacity:1];
-
-        [[_shadowView  layer] setTransform:CATransform3DIdentity];
-        [[_contentView layer] setTransform:CATransform3DIdentity];
-        
-        animate(_shroudView,  @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
-        animate(_contentView, @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
-        animate(_shadowView,  @"opacity",   kCAMediaTimingFunctionLinear,  @0.0);
-        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, fromTransformValue);
-        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, fromTransformValue);
-
-    } completionHandler:^{
-        LOG(@"Finish Fade In Overlay");
-
-        [_canvasScrollView setHidden:NO];
-
-        for (Tool *tool in [_toolbox allTools]) {
-            [tool canvasWindowDidAppear];
-        }
-    }];
-}
-
-
-- (void) _animateAndOrderOutOverlay
-{
-    if (!_windowIsOverlay) return;
-  
-    [_canvasScrollView setHidden:NO];
-    [_transitionImageView removeFromSuperview];
-    _transitionImageView = nil;
-
-    const CGFloat sOrderOutDuration = 0.15;
-
-    CGSize size = [_contentView bounds].size;
-    
-    void (^animate)(NSView *, NSString *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSString *timing, NSValue *toValue) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
-
-        [animation setDuration:sOrderOutDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:timing]];
-        [animation setToValue:toValue];
-        [animation setFillMode:kCAFillModeBoth];
-        [animation setRemovedOnCompletion:NO];
-        
-        [[view layer] addAnimation:animation forKey:keyPath];
-    };
-    
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:sOrderOutDuration];
-        [context setAllowsImplicitAnimation:NO];
-
-        CGFloat scale = 0.8;
-        CGAffineTransform toTransform = CGAffineTransformIdentity;
-        toTransform = CGAffineTransformTranslate(toTransform, (size.width * (1.0 - scale)) / 2.0, (size.height * (1.0 - scale)) / 2.0);
-        toTransform = CGAffineTransformScale(toTransform, scale, scale);
-
-        NSValue *toTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(toTransform)];
-
-        animate(_contentView, @"opacity",   kCAMediaTimingFunctionLinear, @(0));
-        animate(_shroudView,  @"opacity",   kCAMediaTimingFunctionLinear, @(0));
-        animate(_shadowView,  @"opacity",   kCAMediaTimingFunctionLinear, @(0));
-        animate(_contentView, @"transform", kCAMediaTimingFunctionDefault, toTransformValue);
-        animate(_shadowView,  @"transform", kCAMediaTimingFunctionDefault, toTransformValue);
-
-    } completionHandler:^{
-        [[self window] orderOut:self];
-        
-        [[_contentView layer] removeAllAnimations];
-        [[_shadowView  layer] removeAllAnimations];
-        [[_shroudView  layer] removeAllAnimations];
-    }];
-}
-
-
-- (void) _updateOverlayForScreen:(NSScreen *)screen
-{
-    if (!_windowIsOverlay) return;
-    
-    CGRect entireFrame  = [screen frame];
-    CGRect visibleFrame = [screen visibleFrame];
-    
-    CGFloat leftEdge   = CGRectGetMinX(visibleFrame) - CGRectGetMinX(entireFrame);
-    CGFloat topEdge    = CGRectGetMinY(visibleFrame) - CGRectGetMinY(entireFrame);
-
-    CGFloat rightEdge  = CGRectGetMaxX(entireFrame) - CGRectGetMaxX(visibleFrame);
-    CGFloat bottomEdge = CGRectGetMaxY(entireFrame) - CGRectGetMaxY(visibleFrame);
-
-    CGFloat leftRight = leftEdge > rightEdge ? leftEdge : rightEdge;
-    CGFloat topBottom = topEdge > bottomEdge ? topEdge : bottomEdge;
-    
-    [[self window] setFrame:entireFrame display:NO];
-
-    CGRect contentRect = [[[self window] contentView] bounds];
-    contentRect = CGRectInset(contentRect, leftRight + 16, topBottom + 16);
-
-    // Limit to prevent huge window on large displays
-    if (contentRect.size.width > 1920) {
-        contentRect.size.width = 1920;
-        contentRect.origin.x = round((entireFrame.size.width - contentRect.size.width) / 2);
-    }
-
-    // Check to see if we had a saved size for this display
-    NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"];
-    NSString     *sizeString = [dictionary objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)[screen winch_CGDirectDisplayID]]];
-    
-    if (sizeString) {
-        CGSize size = NSSizeFromString(sizeString);
-        
-        size.width  = round(size.width);
-        size.height = round(size.height);
-        
-        if ((size.width < contentRect.size.width) && (size.height < contentRect.size.height)) {
-            contentRect.size = size;
-            contentRect.origin.x = round((entireFrame.size.width  - contentRect.size.width)  / 2);
-            contentRect.origin.y = round((entireFrame.size.height - contentRect.size.height) / 2);
-        }
-    }
-
-    [_contentView setFrame:contentRect];
-    [_shadowView  setFrame:contentRect];
-}
-
 
 
 - (void) _handlePreferencesDidChange:(NSNotification *)note
@@ -968,19 +639,6 @@
 
     for (CanvasObjectView *view in [_GUIDToViewMap allValues]) {
         [view preferencesDidChange:preferences];
-    }
-    
-    BOOL usesOverlayWindow = [preferences usesOverlayWindow];
-    if (usesOverlayWindow != _windowIsOverlay) {
-        [self _updateWindowsForOverlayMode];
-    }
-}
-
-
-- (void) _handleApplicationDidResignActiveNotification:(NSNotification *)note
-{
-    if (!IsInDebugger()) {
-        [self hideIfOverlay];
     }
 }
 
@@ -1015,8 +673,8 @@
     NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrapple" : @"ToolbarGrappleHorizontal";
     NSImage *grappleImage = [NSImage imageNamed:name];
 
-    [_touchBarToolPicker setImage:grappleImage forSegment:5];
-    [_toolPicker setTemplateImage:grappleImage forSegment:5];
+    [[self touchBarToolPicker] setImage:grappleImage forSegment:5];
+    [[self toolPicker] setImage:grappleImage forSegment:5];
 }
 
 
@@ -1103,27 +761,7 @@
 }
 
 
-
 #pragma mark - Selection
-
-- (NSScreen *) _preferredScreenForOverlay
-{
-    PreferredDisplay preferredDisplay = [[Preferences sharedInstance] preferredDisplay];
-
-    NSScreen *preferredScreen = nil;
-    if (preferredDisplay == PreferredDisplayMain) {
-        preferredScreen = [[NSScreen screens] firstObject];
-    } else {
-        preferredScreen = [NSScreen winch_screenWithCGDirectDisplayID:preferredDisplay];
-    }
-
-    if (!preferredScreen) {
-        preferredScreen = [[NSScreen screens] firstObject];
-    }
-    
-    return preferredScreen;
-}
-
 
 - (BOOL) _deleteSelectedObjects
 {
@@ -1148,27 +786,6 @@
     }
     
     return NO;
-}
-
-
-- (BOOL) _canEdgeSelect
-{
-    NSArray *selectedObjects = [_canvas selectedObjects];
-
-    if (![selectedObjects count]) {
-        return NO;
-    }
-
-    Class objectClass = nil;
-    for (CanvasObject *object in selectedObjects) {
-        if (objectClass && ![object isKindOfClass:objectClass]) {
-            return NO;
-        }
-        
-        objectClass = [object class];
-    }
-
-    return YES;
 }
 
 
@@ -1682,16 +1299,6 @@
 
 #pragma mark - Other Delegates
 
-- (void) overlayBaseView:(OverlayBaseView *)baseView clickedWithEvent:(NSEvent *)event
-{
-    if (baseView == _shroudView) {
-        [self hide];
-    } else if (baseView == _contentView) {
-        [[self window] makeFirstResponder:[self window]];
-    }
-}
-
-
 - (BOOL) rulerView:(RulerView *)rulerView mouseDownWithEvent:(NSEvent *)event
 {
     Guide *guide = [Guide guideVertical:(rulerView == _verticalRuler)];
@@ -1756,70 +1363,6 @@
     }
 
     return YES;
-}
-
-
-- (void) windowResizerKnobWillStartDrag:(WindowResizerKnob *)knob
-{
-    _contentViewFrameAtResizeStart = [_contentView frame];
-
-    NSRect windowRect = [[[self window] contentView] bounds];
-
-    _contentViewMaxFrameAtResizeStart = NSInsetRect(windowRect, 32, 32);
-
-    _contentViewMinFrameAtResizeStart = NSMakeRect(0, 0, 640, 480);
-    _contentViewMinFrameAtResizeStart.origin.x = round((windowRect.size.width  - _contentViewMinFrameAtResizeStart.size.width)  / 2);
-    _contentViewMinFrameAtResizeStart.origin.y = round((windowRect.size.height - _contentViewMinFrameAtResizeStart.size.height) / 2);
-}
-
-
-- (void) windowResizerKnob:(WindowResizerKnob *)knob didDragWithDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY
-{
-    NSRect frame = NSInsetRect(_contentViewFrameAtResizeStart, -deltaX, deltaY);
-
-    if (frame.size.width > _contentViewMaxFrameAtResizeStart.size.width) {
-        frame.origin.x   = _contentViewMaxFrameAtResizeStart.origin.x;
-        frame.size.width = _contentViewMaxFrameAtResizeStart.size.width;
-    }
-
-    if (frame.size.height > _contentViewMaxFrameAtResizeStart.size.height) {
-        frame.origin.y    = _contentViewMaxFrameAtResizeStart.origin.y;
-        frame.size.height = _contentViewMaxFrameAtResizeStart.size.height;
-    }
-
-    if (frame.size.width < _contentViewMinFrameAtResizeStart.size.width) {
-        frame.origin.x   = _contentViewMinFrameAtResizeStart.origin.x;
-        frame.size.width = _contentViewMinFrameAtResizeStart.size.width;
-    }
-
-    if (frame.size.height < _contentViewMinFrameAtResizeStart.size.height) {
-        frame.origin.y    = _contentViewMinFrameAtResizeStart.origin.y;
-        frame.size.height = _contentViewMinFrameAtResizeStart.size.height;
-    }
-
-    [_contentView setFrame:frame];
-    [_shadowView  setFrame:frame];
-}
-
-
-- (void) windowResizerKnobWillEndDrag:(WindowResizerKnob *)knob
-{
-    NSSize size = [_contentView frame].size;
-    
-    NSMutableDictionary *dictionary = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"OverlaySizes"] mutableCopy];
-    
-    if (!dictionary) {
-        dictionary = [NSMutableDictionary dictionary];
-    }
-    
-    NSString *key        = [NSString stringWithFormat:@"%lu", (unsigned long)[[[self window] screen] winch_CGDirectDisplayID]];
-    NSString *sizeString = NSStringFromSize(size);
-    
-    if (sizeString && key) {
-        [dictionary setObject:sizeString forKey:key];
-    }
-
-    [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"OverlaySizes"];
 }
 
 
@@ -1906,29 +1449,13 @@
 {
     [self window];  // Force nib to load
 
-    CHECK_BETA_EXPIRATION();
-
-    NSScreen *preferredScreen = [self _preferredScreenForOverlay];
-
-    if (!preferredScreen) {
-        preferredScreen = [[NSScreen screens] firstObject];
-    }
-
-    if (_windowIsOverlay) {
-        [self _updateOverlayForScreen:preferredScreen];
-    }
-
     [self _updateCanvasWithLibraryItem:libraryItem];
 
-    NSView *viewToBlock = [[Preferences sharedInstance] usesOverlayWindow] ? _contentView : _bottomView;
+    NSView *viewToBlock = _bottomView;
 
     BaseView *blockerView = [[BaseView alloc] initWithFrame:[viewToBlock bounds]];
     [blockerView setBackgroundColor:[NSColor clearColor]];
-    
-    if (_windowIsOverlay) {
-        [self _animateInOverlay];
-
-    } else {
+     {
         // Overlay animation can hide the scroll view, be paranoid if we changed modes
         [_canvasScrollView setHidden:NO];
     }
@@ -1972,19 +1499,10 @@
 
 - (void) toggleVisibility
 {
-    CHECK_BETA_EXPIRATION();
-
     if ([self isWindowVisible]) {
         [self hide];
 
     } else {
-        NSScreen *preferredScreen = [self _preferredScreenForOverlay];
-        if (!preferredScreen) preferredScreen = [NSScreen mainScreen];
-
-        if (_windowIsOverlay) {
-            [self _updateOverlayForScreen:preferredScreen];
-        }
-
         if (!_currentLibraryItem) {
             LibraryItem *item = [[[Library sharedInstance] items] lastObject];
             if (!item) {
@@ -1993,10 +1511,6 @@
             }
 
             [self _updateCanvasWithLibraryItem:item];
-        }
-
-        if (_windowIsOverlay) {
-            [self _animateInOverlay];
         }
 
         _applicationToReactivate = [[NSWorkspace sharedWorkspace] frontmostApplication];
@@ -2026,25 +1540,13 @@
     [[CursorInfo sharedInstance] setEnabled:NO];
     [Screenshot clearCache];
     
-    if (_windowIsOverlay) {
-        [self _animateAndOrderOutOverlay];
-    } else {
-        [[self window] orderOut:self];
-    }
-}
-
-
-- (void) hideIfOverlay
-{
-    if (_windowIsOverlay && [[self window] isVisible]) {
-        [self hide];
-    }
+    [[self window] orderOut:self];
 }
 
 
 - (BOOL) isWindowVisible
 {
-    if (!_windowIsOverlay && (([[self window] occlusionState] & NSWindowOcclusionStateVisible) == 0)) {
+    if (([[self window] occlusionState] & NSWindowOcclusionStateVisible) == 0) {
         return NO;
     }
 
@@ -2072,7 +1574,7 @@
         }
 
         [pboard clearContents];
-        [pboard setString:[lines componentsJoinedByString:@"\n"] forType:NSStringPboardType];
+        [pboard setString:[lines componentsJoinedByString:@"\n"] forType:NSPasteboardTypeString];
         
         NSData *data = [CanvasObject pasteboardDataWithCanvasObjects:selectedObjects];
         if (data) [pboard setData:data forType:PasteboardTypeCanvasObjects];
@@ -2295,7 +1797,7 @@
         NSDictionary *properties = [NSDictionary dictionary];
         
         NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[snapshot TIFFRepresentation]];
-        NSData *data = [rep representationUsingType:NSPNGFileType properties:properties];
+        NSData *data = [rep representationUsingType:NSBitmapImageFileTypePNG properties:properties];
         [data writeToURL:[savePanel URL] atomically:YES];
     }
 }

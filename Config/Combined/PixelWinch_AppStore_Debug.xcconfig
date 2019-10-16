@@ -1,3 +1,0 @@
-#include "../PixelWinch_Base.xcconfig"
-#include "../PixelWinch_Debug.xcconfig"
-#include "../PixelWinch_AppStore.xcconfig"
