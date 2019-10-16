@@ -17,7 +17,7 @@
 - (BOOL) importFilesAtPaths:(NSArray *)filePaths;
 - (BOOL) importImagesWithPasteboard:(NSPasteboard *)pasteboard;
 
-- (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)fromRect;
+- (void) presentLibraryItem:(LibraryItem *)libraryItem;
 - (void) performToggleWindowShortcut;
 - (void) activateAndShowWindow;
 - (void) toggleVisibility;

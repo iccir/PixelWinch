@@ -160,7 +160,7 @@ static CGEventRef sEventTapCallBack(CGEventTapProxy proxy, CGEventType type, CGE
                        CGEventMaskBit(kCGEventLeftMouseDragged)    |
                        CGEventMaskBit(kCGEventRightMouseDragged);
 
-    _eventTap = CGEventTapCreate(kCGSessionEventTap, kCGTailAppendEventTap, kCGEventTapOptionListenOnly, mask, sEventTapCallBack, (__bridge void *)_window);
+    _eventTap = CGEventTapCreateForPid(getpid(), kCGTailAppendEventTap, kCGEventTapOptionListenOnly, mask, sEventTapCallBack, (__bridge void *)_window);
     _eventTapRunLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, _eventTap, 0);
 
     CFRunLoopAddSource(CFRunLoopGetCurrent(), _eventTapRunLoopSource, (__bridge CFStringRef)NSEventTrackingRunLoopMode);

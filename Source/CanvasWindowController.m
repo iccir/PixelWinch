@@ -798,71 +798,6 @@
 }
 
 
-- (void) _animateInOverlayWithScreenshot:(Screenshot *)screenshot globalRect:(NSRect)globalRect
-{
-    if (!_windowIsOverlay) return;
-    
-    const CGFloat sOrderInDuration  = 0.2;
-
-    [_canvasScrollView setHidden:NO];
-    [_transitionImageView removeFromSuperview];
-    _transitionImageView = nil;
-
-    NSView *windowContentView = [[self window] contentView];
-
-    NSRect appKitRect = [NSScreen winch_convertRectFromGlobal:globalRect];
-    CGRect fromFrame = [[self window] convertRectFromScreen:appKitRect];
-    fromFrame = [windowContentView convertRect:fromFrame fromView:nil];
-
-    CGRect toFrame = [_canvasView convertRect:[_canvasView bounds] toView:nil];
-
-    _transitionImageView = [[NSView alloc] initWithFrame:toFrame];
-    [_transitionImageView setLayer:[CALayer layer]];
-    [_transitionImageView setWantsLayer:YES];
-    [[_transitionImageView layer] setMagnificationFilter:kCAFilterNearest];
-    [[_transitionImageView layer] setContents:(__bridge id)[screenshot CGImage]];
-
-    void (^animate)(NSView *, NSString *, NSValue *) = ^(NSView *view, NSString *keyPath, NSValue *fromValue) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:keyPath];
-
-        [animation setDuration:sOrderInDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-        [animation setFromValue:fromValue];
-        [animation setFillMode:kCAFillModeBoth];
-        
-        [[view layer] addAnimation:animation forKey:keyPath];
-    };
-
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [context setDuration:sOrderInDuration];
-
-        [_canvasScrollView tile];
-        [_canvasScrollView setHidden:YES];
-
-        [windowContentView addSubview:_transitionImageView];
-
-        CGAffineTransform fromTransform = CGAffineTransformIdentity;
-        fromTransform = CGAffineTransformTranslate(fromTransform, fromFrame.origin.x - toFrame.origin.x, fromFrame.origin.y - toFrame.origin.y);
-        fromTransform = CGAffineTransformScale(fromTransform, fromFrame.size.width / toFrame.size.width, fromFrame.size.height / toFrame.size.height);
-
-        NSValue *fromTransformValue = [NSValue valueWithCATransform3D:CATransform3DMakeAffineTransform(fromTransform)];
-
-        animate(_shroudView,          @"opacity", @0.0);
-        animate(_shadowView,          @"opacity", @0.0);
-        animate(_contentView,         @"opacity", @0.0);
-        animate(_transitionImageView, @"transform", fromTransformValue);
-
-    } completionHandler:^{
-        [_canvasScrollView setHidden:NO];
-
-        for (Tool *tool in [_toolbox allTools]) {
-            [tool canvasWindowDidAppear];
-        }
-
-        [_transitionImageView removeFromSuperview];
-        _transitionImageView = nil;
-    }];
-}
 
 
 - (void) _animateInOverlay
@@ -1171,15 +1106,13 @@
 
 #pragma mark - Selection
 
-- (NSScreen *) _preferredScreenForOverlayWithScreenshotRect:(NSRect *)screenshotRect
+- (NSScreen *) _preferredScreenForOverlay
 {
     PreferredDisplay preferredDisplay = [[Preferences sharedInstance] preferredDisplay];
 
     NSScreen *preferredScreen = nil;
     if (preferredDisplay == PreferredDisplayMain) {
         preferredScreen = [[NSScreen screens] firstObject];
-    } else if ((preferredDisplay == PreferredDisplaySame) && screenshotRect) {
-        preferredScreen = [NSScreen winch_screenWithGlobalRect:*screenshotRect];
     } else {
         preferredScreen = [NSScreen winch_screenWithCGDirectDisplayID:preferredDisplay];
     }
@@ -1969,26 +1902,16 @@
 
 
 
-- (void) presentLibraryItem:(LibraryItem *)libraryItem fromGlobalRect:(CGRect)globalRect
+- (void) presentLibraryItem:(LibraryItem *)libraryItem
 {
     [self window];  // Force nib to load
 
     CHECK_BETA_EXPIRATION();
 
-    BOOL useZoomAnimation = NO;
-
-    NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:&globalRect];
+    NSScreen *preferredScreen = [self _preferredScreenForOverlay];
 
     if (!preferredScreen) {
         preferredScreen = [[NSScreen screens] firstObject];
-    }
-
-    // Determine which screens intersect the rect
-    {
-        NSArray *screens = [NSScreen winch_screensWithGlobalRect:globalRect];
-        if ([screens containsObject:preferredScreen]) {
-            useZoomAnimation = YES;
-        }
     }
 
     if (_windowIsOverlay) {
@@ -2003,11 +1926,7 @@
     [blockerView setBackgroundColor:[NSColor clearColor]];
     
     if (_windowIsOverlay) {
-        if (useZoomAnimation) {
-            [self _animateInOverlayWithScreenshot:[libraryItem screenshot] globalRect:globalRect];
-        } else {
-            [self _animateInOverlay];
-        }
+        [self _animateInOverlay];
 
     } else {
         // Overlay animation can hide the scroll view, be paranoid if we changed modes
@@ -2059,7 +1978,7 @@
         [self hide];
 
     } else {
-        NSScreen *preferredScreen = [self _preferredScreenForOverlayWithScreenshotRect:NULL];
+        NSScreen *preferredScreen = [self _preferredScreenForOverlay];
         if (!preferredScreen) preferredScreen = [NSScreen mainScreen];
 
         if (_windowIsOverlay) {
