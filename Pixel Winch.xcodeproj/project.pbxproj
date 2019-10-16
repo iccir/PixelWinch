@@ -71,8 +71,6 @@
 		55C20CF91801172F00ECE184 /* HandTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF81801172F00ECE184 /* HandTool.m */; };
 		55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C9E42C1835AE5A0059651B /* TutorialWindowController.m */; };
 		55CC21A71832D668004076CF /* MagnificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CC21A61832D668004076CF /* MagnificationManager.m */; };
-		55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */ = {isa = PBXBuildFile; fileRef = 55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */; };
-		55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 559D38C8180392B10048F29B /* PixelWinch.icns */; };
 		55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2412E180DF4170093CF04 /* LibraryItem.m */; };
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
@@ -197,7 +195,6 @@
 		559D38BE1802ABC60048F29B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = Source/Preferences.m; sourceTree = "<group>"; };
 		559D38BF1802ABC60048F29B /* Shortcut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shortcut.m; path = Source/Shortcut.m; sourceTree = "<group>"; };
 		559D38C01802ABC60048F29B /* Shortcut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shortcut.h; path = Source/Shortcut.h; sourceTree = "<group>"; };
-		559D38C8180392B10048F29B /* PixelWinch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PixelWinch.icns; path = Resources/PixelWinch.icns; sourceTree = "<group>"; };
 		559D38CE180399B90048F29B /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesWindowController.m; path = Source/PreferencesWindowController.m; sourceTree = "<group>"; };
 		559D38CF180399B90048F29B /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesWindowController.h; path = Source/PreferencesWindowController.h; sourceTree = "<group>"; };
 		559D38D0180399B90048F29B /* ShortcutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShortcutManager.m; path = Source/ShortcutManager.m; sourceTree = "<group>"; };
@@ -247,7 +244,6 @@
 		55CB053418285F80001DD1A0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		55CC21A51832D668004076CF /* MagnificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagnificationManager.h; path = Source/MagnificationManager.h; sourceTree = "<group>"; };
 		55CC21A61832D668004076CF /* MagnificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagnificationManager.m; path = Source/MagnificationManager.m; sourceTree = "<group>"; };
-		55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "PixelWinch-Beta.icns"; path = "Resources/PixelWinch-Beta.icns"; sourceTree = "<group>"; };
 		55E2412D180DF4170093CF04 /* LibraryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItem.h; path = Source/LibraryItem.h; sourceTree = "<group>"; };
 		55E2412E180DF4170093CF04 /* LibraryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LibraryItem.m; path = Source/LibraryItem.m; sourceTree = "<group>"; };
 		55E24132180E02CA0093CF04 /* LibraryItemCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryItemCollectionItem.h; path = Source/LibraryItemCollectionItem.h; sourceTree = "<group>"; };
@@ -369,8 +365,6 @@
 				557096081B5A394B00326141 /* Preferences.xib */,
 				554F05971A29588100BF90F0 /* Images.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
-				559D38C8180392B10048F29B /* PixelWinch.icns */,
-				55D1CCB71BB6901C0018AF70 /* PixelWinch-Beta.icns */,
 				5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */,
 			);
 			name = Resources;
@@ -626,7 +620,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Pixel Winch" */;
 			buildPhases = (
-				558A9FDC1BB696A400674B16 /* Generate Expiration */,
 				55FA815A1815DE8600ED67E0 /* rcbump */,
 				8D1107290486CEB800E47090 /* Resources */,
 				55916E601941387800F28F4C /* Copy LoginItems */,
@@ -704,8 +697,6 @@
 			files = (
 				557096121B5A394B00326141 /* Preferences.xib in Resources */,
 				557096101B5A394B00326141 /* Localizable.strings in Resources */,
-				55D1CCB81BB6901C0018AF70 /* PixelWinch-Beta.icns in Resources */,
-				55D1CCB91BB690320018AF70 /* PixelWinch.icns in Resources */,
 				5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */,
 				5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */,
 				554F05981A29588100BF90F0 /* Images.xcassets in Resources */,
@@ -734,20 +725,6 @@
 			shellPath = /bin/bash;
 			shellScript = "if [[ \"$CONFIGURATION\" == *\"Trial\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Beta.icns\"\nelif [[ \"$CONFIGURATION\" == *\"Beta\" ]]; then\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\nelse\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Trial.icns\"\n    rm -rf \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources/PixelWinch-Beta.icns\"\nfi\n\n";
 			showEnvVarsInLog = 0;
-		};
-		558A9FDC1BB696A400674B16 /* Generate Expiration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Expiration";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$CONFIGURATION\" == *\"Beta\" ]]; then\n    EXPIRATION_H=\"$PROJECT_DIR/Source/BetaExpiration.h\"\n    WHEN=`date -v+30d \"+%Y-%m-%d\"`\n    \n    SKIP=`egrep -q \"Expires: $WHEN\" \"${EXPIRATION_H}\" && \\\n            echo \"YES\"`\n          \n    if [ \"x${SKIP}\" = \"x\" ]; then\n        INTERVAL=`date -v+30d -v-978307200S \"+%s\"`\n\n        echo \"// Expires: $WHEN\" > $EXPIRATION_H\n        echo >> $EXPIRATION_H\n        echo \"#define kExpirationDouble ((double)    $INTERVAL.0 )\" >> $EXPIRATION_H\n        echo \"#define kExpirationLong   ((long long) $INTERVAL   )\" >> $EXPIRATION_H\n    fi\nfi\n\n";
 		};
 		55FA815A1815DE8600ED67E0 /* rcbump */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -914,7 +891,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 550F35282356D3830038264F /* Launcher_Debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
@@ -928,7 +904,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 550F35262356D3830038264F /* Launcher_Profile.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
@@ -942,7 +917,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 550F35272356D3830038264F /* Launcher_Release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;

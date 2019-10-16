@@ -65,8 +65,6 @@ static CGColorRef GetCheckerColor()
     NSMutableArray      *_measurementLabels;
     NSMutableDictionary *_GUIDToMeasurementLabelMap;
 
-    NSMutableArray      *_labelConstraints;
-
     NSTrackingArea  *_trackingArea;
     BOOL             _needsObjectViewReorder;
 }

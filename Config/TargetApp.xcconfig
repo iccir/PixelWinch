@@ -1,2 +1,3 @@
 INFOPLIST_FILE = Resources/Info-PixelWinch.plist
 CODE_SIGN_ENTITLEMENTS = Resources/Pixel Winch.entitlements
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon

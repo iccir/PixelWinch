@@ -45,7 +45,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="HelpIcon" imagePosition="only" alignment="center" controlSize="small" state="on" inset="2" id="ohu-4c-2Ys">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="controlContent" size="11"/>
+                                <font key="font" metaFont="menu" size="11"/>
                             </buttonCell>
                             <connections>
                                 <action selector="showGrappleHelp:" target="-2" id="H52-qI-jX2"/>
@@ -61,6 +61,13 @@
                                     <segment image="ToolbarGrappleHorizontal" imageScaling="none" width="48"/>
                                 </segments>
                             </segmentedCell>
+                            <connections>
+                                <binding destination="-2" name="selectedIndex" keyPath="toolbox.grappleTool.vertical" id="npF-8z-oe6">
+                                    <dictionary key="options">
+                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                    </dictionary>
+                                </binding>
+                            </connections>
                         </segmentedControl>
                     </subviews>
                 </customView>
@@ -80,7 +87,7 @@
                             <rect key="frame" x="189" y="5" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs">
-                                <font key="font" metaFont="controlContent" size="11"/>
+                                <font key="font" metaFont="menu" size="11"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -94,10 +101,17 @@
                             <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="DTh-vK-8XK">
                                 <font key="font" metaFont="system"/>
                                 <segments>
-                                    <segment image="ToolbarZoom" width="48"/>
-                                    <segment image="ToolbarZoom" width="48" selected="YES" tag="1"/>
+                                    <segment image="ToolbarZoom" imageScaling="none" width="48"/>
+                                    <segment image="ToolbarZoom" imageScaling="none" width="48" selected="YES" tag="1"/>
                                 </segments>
                             </segmentedCell>
+                            <connections>
+                                <binding destination="-2" name="selectedIndex" keyPath="self.toolbox.zoomTool.zoomsIn" id="u9F-QB-Zq8">
+                                    <dictionary key="options">
+                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                    </dictionary>
+                                </binding>
+                            </connections>
                         </segmentedControl>
                     </subviews>
                 </customView>
