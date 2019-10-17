@@ -45,7 +45,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="HelpIcon" imagePosition="only" alignment="center" controlSize="small" state="on" inset="2" id="ohu-4c-2Ys">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu" size="11"/>
+                                <font key="font" metaFont="message" size="11"/>
                             </buttonCell>
                             <connections>
                                 <action selector="showGrappleHelp:" target="-2" id="H52-qI-jX2"/>
@@ -87,7 +87,7 @@
                             <rect key="frame" x="189" y="5" width="38" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100%" id="0TF-oq-BHs">
-                                <font key="font" metaFont="menu" size="11"/>
+                                <font key="font" metaFont="message" size="11"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>

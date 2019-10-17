@@ -148,7 +148,6 @@
             _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
 
             NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
-            [image setTemplate:YES];
                      
             if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
                 _tutorialWindowController = [[TutorialWindowController alloc] init];

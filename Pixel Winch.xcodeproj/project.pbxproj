@@ -114,6 +114,7 @@
 		550F35272356D3830038264F /* Launcher_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Release.xcconfig; path = Config/Combined/Launcher_Release.xcconfig; sourceTree = "<group>"; };
 		550F35282356D3830038264F /* Launcher_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Debug.xcconfig; path = Config/Combined/Launcher_Debug.xcconfig; sourceTree = "<group>"; };
 		550F352C2356D3EA0038264F /* TargetLauncher.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TargetLauncher.xcconfig; path = Config/TargetLauncher.xcconfig; sourceTree = "<group>"; };
+		550F352F2356E78E0038264F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/About.xib; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -164,7 +165,6 @@
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
-		557095F91B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/About.xib; sourceTree = "<group>"; };
 		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
 		557095FD1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
 		557095FF1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -823,7 +823,7 @@
 		557095F81B5A394B00326141 /* About.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				557095F91B5A394B00326141 /* English */,
+				550F352F2356E78E0038264F /* Base */,
 			);
 			name = About.xib;
 			sourceTree = "<group>";
