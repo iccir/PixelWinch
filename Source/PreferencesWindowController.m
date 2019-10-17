@@ -20,7 +20,7 @@
         [self setPreferences:[Preferences sharedInstance]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
     }
-    
+
     return self;
 }
 
@@ -107,7 +107,6 @@
         newFrame.size.height -= delta;
         newFrame.origin.y += delta;
     }
-
 
     [window setFrame:newFrame display:YES animate:animated];
     [window setTitle:title];

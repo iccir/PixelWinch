@@ -112,8 +112,6 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 
             NSURL *outURL = [NSURL fileURLWithPath:[item thumbnailPath]];
 
-            size_t bitsPerComponent = CGImageGetBitsPerComponent(screenshotImage);
-
             CGImageRef outImage = NULL;
 
             CGColorSpaceRef colorSpace = CGImageGetColorSpace(screenshotImage);
@@ -137,7 +135,7 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
             }
 
             CGBitmapInfo bitmapInfo = 0 | alphaInfo;
-            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, bitsPerComponent, thumbnailSize.width * numberOfComponents, colorSpace, bitmapInfo);
+            CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize.width, thumbnailSize.height, 8, thumbnailSize.width * numberOfComponents, colorSpace, bitmapInfo);
 
             CGContextDrawImage(context, CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height), screenshotImage);
             CGImageRelease(screenshotImage);

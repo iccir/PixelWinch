@@ -37,11 +37,6 @@ extern BOOL IsInDebugger(void);
 
 extern CGSize GetMaxThumbnailSize(void);
 
-extern NSString *GetPixelWinchFeedbackURLString(void);
-extern NSString *GetPixelWinchWebsiteURLString(void);
-extern NSString *GetPixelWinchGuideURLString(void);
-extern NSString *GetPixelWinchOnAppStoreURLString(void);
-
 extern NSArray *GetClassesMatchesProtocol(Protocol *p);
 
 extern NSColor *GetRGBColor(int rgb, CGFloat alpha);
