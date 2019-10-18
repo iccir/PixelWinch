@@ -20,7 +20,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="256" height="380"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="2" customClass="AboutWindowContentView">
                 <rect key="frame" x="0.0" y="0.0" width="256" height="380"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -35,7 +35,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="UFb-DL-5sy">
-                        <rect key="frame" x="29" y="224" width="200" height="25"/>
+                        <rect key="frame" x="29.5" y="224" width="200" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundTextured" title="Visit Website" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e3l-Eu-aY3">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -46,7 +46,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="VCy-ac-ZeN">
-                        <rect key="frame" x="29" y="194" width="200" height="25"/>
+                        <rect key="frame" x="29.5" y="194" width="200" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundTextured" title="View on App Store" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k1T-5F-1dC">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -57,7 +57,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="4SE-7K-ehx">
-                        <rect key="frame" x="29" y="134" width="200" height="25"/>
+                        <rect key="frame" x="29.5" y="134" width="200" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundTextured" title="Quick Guide" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YHs-LR-GPt">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -68,7 +68,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="dTo-VA-yAe">
-                        <rect key="frame" x="29" y="104" width="200" height="25"/>
+                        <rect key="frame" x="29.5" y="104" width="200" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundTextured" title="Legal &amp; Privacy" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Olf-R3-7je">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -79,7 +79,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="Cij-Tv-f2F">
-                        <rect key="frame" x="29" y="164" width="200" height="25"/>
+                        <rect key="frame" x="29.5" y="164" width="200" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundTextured" title="Provide Feedback" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cHh-Uv-vtc">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -92,7 +92,7 @@
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfk-Bd-Nvp">
                         <rect key="frame" x="96" y="296" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="8jU-mE-Hsj"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PixelWinch" id="8jU-mE-Hsj"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="xhZ-bj-O9A">
                         <rect key="frame" x="16" y="20" width="224" height="70"/>
@@ -116,6 +116,6 @@ All Rights Reserved.</string>
         </window>
     </objects>
     <resources>
-        <image name="AppIcon" width="128" height="128"/>
+        <image name="PixelWinch" width="512" height="512"/>
     </resources>
 </document>
