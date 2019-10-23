@@ -205,10 +205,7 @@ static CGColorRef GetCheckerColor()
 
 - (CGPoint) canvasPointForEvent:(NSEvent *)event
 {
-    CGPoint location = [event locationInWindow];
-    NSView *contentView = [[self window] contentView];
-    
-    location = [self convertPoint:location fromView:contentView];
+    CGPoint location = [self convertPoint:[event locationInWindow] fromView:nil];
 
     return [self _canvasPointForPoint:location round:NO];
 }
@@ -222,12 +219,9 @@ static CGColorRef GetCheckerColor()
 
 - (CGPoint) roundedCanvasPointForEvent:(NSEvent *)event
 {
-    CGPoint location = [event locationInWindow];
-    NSView *contentView = [[self window] contentView];
-    
-    location = [self convertPoint:location fromView:contentView];
+    CGPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 
-    return [self _canvasPointForPoint:location round:YES];
+    return [self _canvasPointForPoint:point round:YES];
 }
 
 
@@ -236,10 +230,9 @@ static CGColorRef GetCheckerColor()
     CGPoint globalMousePoint = [NSEvent mouseLocation];
     NSRect  globalMouseRect  = NSMakeRect(globalMousePoint.x, globalMousePoint.y, 0, 0);
 
-    CGPoint location    = [[self window] convertRectFromScreen:globalMouseRect].origin;
-    NSView *contentView = [[self window] contentView];
+    CGPoint location = [[self window] convertRectFromScreen:globalMouseRect].origin;
 
-    location = [self convertPoint:location fromView:contentView];
+    location = [self convertPoint:location fromView:nil];
     
     if ([self hitTest:location]) {
         *outPoint = [self _canvasPointForPoint:location round:NO];

@@ -387,7 +387,7 @@
     if ([[[Preferences sharedInstance] customScaleMultiplier] doubleValue]) {
         [_scalePicker setSegmentCount:4];
 
-        NSImage *scaleCxImage = [NSImage imageNamed:@"ToolbarCx"];
+        NSImage *scaleCxImage = [NSImage imageNamed:@"ToolbarScaleC"];
         [_scalePicker setImage:scaleCxImage forSegment:3];
         [_scalePicker setWidth:40 forSegment:3];
 
@@ -431,8 +431,6 @@
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
     [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
     [[_toolbox grappleTool] addObserver:self forKeyPath:@"vertical"                options:0 context:NULL];
-
-    [self _updateCanvasWindow];
 
     [self _updateInspector];
     [self _updateGrappleIcon];
@@ -528,110 +526,6 @@
     NSLog(@"*** End of key view loop ***");
 }
 
-- (void) _updateCanvasWindow
-{
-    NSRect oldContentRect = CGRectMake(0, 0, 640, 400);
-
-    if (_canvasWindow) {
-        oldContentRect = [_canvasWindow contentRectForFrameRect:[_canvasWindow frame]];
-        [_canvasWindow setDelegate:nil];
-        [_canvasWindow orderOut:nil];
-        _canvasWindow = nil;
-    }
-
-    NSUInteger canvasStyleMask = NSWindowStyleMaskBorderless;
-    
-    canvasStyleMask |= NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskFullSizeContentView;
-
-    CanvasWindow *window = [[CanvasWindow alloc] initWithContentRect:oldContentRect styleMask:canvasStyleMask backing:NSBackingStoreBuffered defer:NO];
-
-    BaseView *windowContentView = [[BaseView alloc] initWithFrame:[[window contentView] frame]];
-    [windowContentView setFlipped:NO];
-
-    [window setContentView:windowContentView];
-    [window setRestorable:NO];
-    [window setDelegate:self];
-    [window setAutorecalculatesKeyViewLoop:YES];
-
-    void (^buildTopView)(NSEdgeInsets, CGFloat) = ^(NSEdgeInsets outerPadding, CGFloat innerPadding) {
-        NSView *toolPicker  = [self toolPicker];
-        NSView *inspector   = [self inspectorContainer];
-        NSView *scalePicker = [self scalePicker];
-        
-        NSRect toolFrame      = [toolPicker  frame];
-        NSRect inspectorFrame = [inspector   frame];
-        NSRect scaleFrame     = [scalePicker frame];
-
-        NSSize neededSize = NSMakeSize(
-            outerPadding.left + toolFrame.size.width  + innerPadding + inspectorFrame.size.width + innerPadding + scaleFrame.size.width + outerPadding.right,
-            outerPadding.top  + toolFrame.size.height + outerPadding.bottom
-        );
-        
-        CGPoint origin = CGPointMake(outerPadding.left, outerPadding.bottom);
-        
-        toolFrame.origin = origin;
-        origin.x += toolFrame.size.width + innerPadding;
-
-        inspectorFrame.origin = origin;
-        origin.x += inspectorFrame.size.width + innerPadding;
-
-        scaleFrame.origin = origin;
-
-        NSRect frame    = { NSZeroPoint, neededSize };
-        NSView *topView = [[NSView alloc] initWithFrame:frame];
-        
-        [toolPicker  setFrame:toolFrame];
-        [inspector   setFrame:inspectorFrame];
-        [scalePicker setFrame:scaleFrame];
-        
-        [topView addSubview:toolPicker];
-        [topView addSubview:inspector];
-        [topView addSubview:scalePicker];
-        
-        [topView setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
-        
-        [self setTopView:topView];
-    };
-    
-        buildTopView(NSEdgeInsetsMake(7, 0, 6, 0), 8);
-
-        [window setHasShadow:YES];
-
-        [window setTitlebarAppearsTransparent:NO];
-        [window setTitleVisibility:NSWindowTitleHidden];
-
-        [window setBackgroundColor:[_canvasScrollView backgroundColor]];
-
-        [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
-
-        [window setContentMinSize:NSMakeSize(780, 320)];
-        
-        NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"Toolbar"];
-
-        [toolbar setDelegate:self];
-        [toolbar setAllowsUserCustomization:NO];
-        [toolbar setAutosavesConfiguration:NO];
-        [toolbar setAllowsExtensionItems:NO];
-        [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-
-        [window setToolbar:toolbar];
-        
-        NSRect screenVisibleFrame = [[NSScreen mainScreen] visibleFrame];
-        NSRect windowFrame = NSMakeRect(screenVisibleFrame.origin.x, screenVisibleFrame.origin.y, 800, 600);
-
-        [window setFrame:windowFrame display:NO];
-        [window center];
-
-        [window setFrameAutosaveName:@"CanvasWindow"];
-
-        [windowContentView addSubview:_bottomView];
-        [_bottomView setFrame:[window contentLayoutRect]];
-    
-    [self setWindow:window];
-
-    _canvasWindow = window;
-}
-
 
 - (void) _handlePreferencesDidChange:(NSNotification *)note
 {
@@ -670,7 +564,7 @@
 
 - (void) _updateGrappleIcon
 {
-    NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrapple" : @"ToolbarGrappleHorizontal";
+    NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrappleDualVertical" : @"ToolbarGrappleDualHorizontal";
     NSImage *grappleImage = [NSImage imageNamed:name];
 
     [[self touchBarToolPicker] setImage:grappleImage forSegment:5];
@@ -1451,15 +1345,6 @@
 
     [self _updateCanvasWithLibraryItem:libraryItem];
 
-    NSView *viewToBlock = _bottomView;
-
-    BaseView *blockerView = [[BaseView alloc] initWithFrame:[viewToBlock bounds]];
-    [blockerView setBackgroundColor:[NSColor clearColor]];
-     {
-        // Overlay animation can hide the scroll view, be paranoid if we changed modes
-        [_canvasScrollView setHidden:NO];
-    }
-    
     [NSApp activateIgnoringOtherApps:YES];
     [[CursorInfo sharedInstance] setEnabled:YES];
 

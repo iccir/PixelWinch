@@ -18,7 +18,6 @@
 		5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobView.m */; };
 		55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55163C3513569D6000CDE290 /* QuartzCore.framework */; };
 		5516B68D1804ECAD002AED2E /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 5516B68C1804ECAD002AED2E /* Library.m */; };
-		55272239235870C00001CAB3 /* Info-PixelWinch.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55272238235870C00001CAB3 /* Info-PixelWinch.plist */; };
 		5527223C235872BC0001CAB3 /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5527223B235872BC0001CAB3 /* PixelWinch.icns */; };
 		552873CC1936C11100FA9143 /* Tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 552873CB1936C11100FA9143 /* Tips.png */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
@@ -712,7 +711,6 @@
 				5570960F1B5A394B00326141 /* LibraryItemPrototype.xib in Resources */,
 				5527223C235872BC0001CAB3 /* PixelWinch.icns in Resources */,
 				557096111B5A394B00326141 /* MainMenu.xib in Resources */,
-				55272239235870C00001CAB3 /* Info-PixelWinch.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

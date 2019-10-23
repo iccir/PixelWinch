@@ -7,13 +7,7 @@
 
 - (void) layoutSubviews;
 
-@property (atomic, readwrite) NSInteger tag;
-
-@property (nonatomic) BOOL clipsToBounds;
 @property (nonatomic, copy) NSColor *backgroundColor;
-
-// Defaults to YES
-@property (atomic, readwrite, getter=isFlipped) BOOL flipped;
 
 @end
 

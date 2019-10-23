@@ -12,19 +12,6 @@
 
 
 @implementation BaseView {
-    BOOL _implementsDrawRect;
-}
-
-@synthesize tag = _tag, flipped = _flipped;
-
-
-static IMP sBaseView_drawRect = NULL;
-
-+ (void) initialize
-{
-    if (self == [BaseView class]) {
-        sBaseView_drawRect = [self instanceMethodForSelector:@selector(drawRect:)];
-    }
 }
 
 
@@ -52,22 +39,8 @@ static IMP sBaseView_drawRect = NULL;
 
 - (void) _commonBaseViewInit
 {
-    IMP selfDrawRect = [[self class] instanceMethodForSelector:@selector(drawRect:)];
-    _implementsDrawRect = (selfDrawRect != sBaseView_drawRect);
-
-    NSViewLayerContentsRedrawPolicy redrawPolicy = _implementsDrawRect ?
-        NSViewLayerContentsRedrawOnSetNeedsDisplay :
-        NSViewLayerContentsRedrawDuringViewResize;
-
-    [self setLayerContentsRedrawPolicy:redrawPolicy];
+    [self setLayerContentsRedrawPolicy:NSViewLayerContentsRedrawDuringViewResize];
     [self setWantsLayer:YES];
-    [self setFlipped:YES];
-
-    if (_implementsDrawRect) {
-        [[self layer] setNeedsDisplay];
-    }
-    
-    [self setClipsToBounds:NO];
 }
 
 
@@ -89,10 +62,16 @@ static IMP sBaseView_drawRect = NULL;
 
 - (BOOL) wantsUpdateLayer
 {
-    return !_implementsDrawRect;
+    return YES;
 }
 
 - (void) updateLayer { }
+
+
+- (BOOL) isFlipped
+{
+    return YES;
+}
 
 
 #pragma mark - Hierarchy
@@ -118,12 +97,8 @@ static IMP sBaseView_drawRect = NULL;
 
 - (void) layoutSubviews { }
 
-- (void) drawRect:(CGRect)rect { }
-
 
 #pragma mark - Accessors
-
-@dynamic clipsToBounds;
 
 - (void) setBackgroundColor:(NSColor *)backgroundColor
 {
@@ -134,16 +109,6 @@ static IMP sBaseView_drawRect = NULL;
 }
 
 
-- (void) setClipsToBounds:(BOOL)clipsToBounds
-{
-    [[self layer] setMasksToBounds:clipsToBounds];
-}
-
-
-- (BOOL) clipsToBounds
-{
-    return [[self layer] masksToBounds];
-}
 
 
 @end

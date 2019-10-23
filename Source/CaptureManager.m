@@ -29,6 +29,8 @@ static NSInteger sGetPermissionDialogCount(void)
                 count++;
             }
         }
+
+        CFRelease(list);
     }
     
     return count;
