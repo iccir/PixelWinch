@@ -53,19 +53,21 @@
 
 
 // Outlets
+@property (nonatomic, weak) IBOutlet NSToolbarItem *inspectorToolbarItem;
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *toolPicker;
-@property (nonatomic, weak) IBOutlet NSView *inspectorContainer;
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *scalePicker;
 
 @property (nonatomic, weak) IBOutlet NSScrollView *canvasScrollView;
 @property (nonatomic, weak) IBOutlet CanvasView   *canvasView;
 @property (nonatomic, weak) IBOutlet RulerView    *horizontalRuler;
 @property (nonatomic, weak) IBOutlet RulerView    *verticalRuler;
+@property (nonatomic, weak) IBOutlet NSSlider     *zoomSlider;
 
 @property (nonatomic, weak) IBOutlet NSScrollView *libraryScrollView;
 @property (nonatomic, weak) IBOutlet NSCollectionView *libraryCollectionView;
 
 // These need to be strong as they are going to be added/removed from subviews
+@property (nonatomic, strong) IBOutlet NSView *blankToolView;
 @property (nonatomic, strong) IBOutlet NSView *grappleToolView;
 @property (nonatomic, strong) IBOutlet NSView *zoomToolView;
 

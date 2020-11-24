@@ -91,11 +91,6 @@ NSColor *GetRGBColor(int rgb, CGFloat alpha)
 }
 
 
-extern NSColor *GetDarkWindowColor()
-{
-    return [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
-}
-
 
 void WinchLog(NSString *category,  NSString *format, ...)
 {

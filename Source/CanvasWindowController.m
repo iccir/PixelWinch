@@ -48,7 +48,6 @@
 
 
 @interface CanvasWindowController () <
-    NSToolbarDelegate,
     CanvasWindowDelegate,
     CanvasDelegate,
     CanvasViewDelegate,
@@ -60,8 +59,6 @@
 
 
 @implementation CanvasWindowController {
-    NSWindow    *_canvasWindow;
-    
     Toolbox     *_toolbox;
     
     CGFloat      _liveMagnificationLevel;
@@ -389,12 +386,10 @@
 
         NSImage *scaleCxImage = [NSImage imageNamed:@"ToolbarScaleC"];
         [_scalePicker setImage:scaleCxImage forSegment:3];
-        [_scalePicker setWidth:40 forSegment:3];
 
-        NSRect pickerFrame = [_scalePicker frame];
-        pickerFrame.size.width += 40;
-        pickerFrame.origin.x -= 40;
-        [_scalePicker setFrame:pickerFrame];
+        for (NSInteger i = 0; i < 4; i++) {
+            [_scalePicker setWidth:33 forSegment:i];
+        }
     }
 
     [_horizontalRuler setCanDrawConcurrently:YES];
@@ -405,9 +400,9 @@
     
     [_magnificationManager setHorizontalRuler:_horizontalRuler];
     [_magnificationManager setVerticalRuler:_verticalRuler];
+        
+    NSColor *darkColor = [NSColor colorNamed:@"MainBackgroundColor"];
     
-    NSColor *darkColor = [NSColor colorWithWhite:0.1 alpha:1.0];
-
     [_canvasScrollView setBackgroundColor:darkColor];
     [[_canvasScrollView contentView] setBackgroundColor:darkColor];
     
@@ -424,9 +419,7 @@
     [_libraryScrollView setScrollerKnobStyle:NSScrollerKnobStyleLight];
     [_libraryScrollView setScrollerStyle:NSScrollerStyleOverlay];
     [[_libraryScrollView horizontalScroller] setControlSize:NSControlSizeSmall];
-    
-    [_libraryCollectionView setBackgroundColors:@[ darkColor ]];
-        
+       
     [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
     [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
@@ -547,18 +540,11 @@
         view = [self zoomToolView];
     } else if (grappleTool && (selectedTool == grappleTool)) {
         view = [self grappleToolView];
+    } else {
+        view = [self blankToolView];
     }
     
-    if ([view superview] != _inspectorContainer) {
-        NSArray *subviews = [[_inspectorContainer subviews] copy];
-
-        for (NSView *subview in subviews) {
-            [subview removeFromSuperview];
-        }
-        
-        [_inspectorContainer addSubview:view];
-        [view setFrame:[_inspectorContainer bounds]];
-    }
+    [_inspectorToolbarItem setView:view];
 }
 
 
@@ -1208,29 +1194,6 @@
     return NO;
 }
 
-
-- (NSToolbarItem *) toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
-{
-    NSToolbarItem *result = [[NSToolbarItem alloc] initWithItemIdentifier:@"main"];
-
-    [result setView:_topView];
-    [result setMinSize:NSMakeSize(630,  40)];
-    [result setMaxSize:NSMakeSize(9999, 40)];
-
-    return result;
-}
-
-
-- (NSArray *) toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
-{
-    return @[ @"main" ];
-}
-
-
-- (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
-{
-    return @[ @"main" ];
-}
 
 
 - (BOOL) window:(CanvasWindow *)window cancelOperation:(id)sender

@@ -26,12 +26,12 @@
 		553AC79117F7DCC200C253C2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 553AC79017F7DCC200C253C2 /* Utils.m */; };
 		553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 553ED1741806A7F000F06B45 /* MeasurementLabel.m */; };
 		554B43A61808D1DE00804373 /* ImageDistanceMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 554B43A51808D1DE00804373 /* ImageDistanceMap.m */; };
-		554B43B1180A237900804373 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554B43B0180A237900804373 /* OpenGL.framework */; };
 		554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D895A135BEECB003BFC89 /* AppDelegate.m */; };
 		554D8988135BEFCF003BFC89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 554D8987135BEFCF003BFC89 /* main.m */; };
 		554F05981A29588100BF90F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Assets.xcassets */; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
+		555AF11823602F8F00025161 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AF11723602F8F00025161 /* CustomSlider.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		5570960A1B5A394B00326141 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095F81B5A394B00326141 /* About.xib */; };
 		5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095FA1B5A394B00326141 /* CanvasWindow.xib */; };
@@ -166,6 +166,8 @@
 		555152F71818AC6D004485F6 /* Toolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toolbox.m; path = Source/Toolbox.m; sourceTree = "<group>"; };
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
+		555AF11623602F8F00025161 /* CustomSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomSlider.h; path = Source/CustomSlider.h; sourceTree = "<group>"; };
+		555AF11723602F8F00025161 /* CustomSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomSlider.m; path = Source/CustomSlider.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
 		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
@@ -277,7 +279,6 @@
 				558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */,
 				55916E6319413B2100F28F4C /* ServiceManagement.framework in Frameworks */,
 				55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */,
-				554B43B1180A237900804373 /* OpenGL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */,
 				55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */,
@@ -559,6 +560,8 @@
 				559D38D418039D930048F29B /* ShortcutView.m */,
 				55E24137180E10410093CF04 /* ThumbnailView.h */,
 				55E24138180E10410093CF04 /* ThumbnailView.m */,
+				555AF11623602F8F00025161 /* CustomSlider.h */,
+				555AF11723602F8F00025161 /* CustomSlider.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
+				555AF11823602F8F00025161 /* CustomSlider.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
 				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
@@ -953,7 +957,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;
@@ -984,7 +987,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;
@@ -1014,7 +1016,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch;

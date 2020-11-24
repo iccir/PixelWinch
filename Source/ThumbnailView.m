@@ -45,12 +45,11 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 }
 
 
+#pragma mark - Superclass Overrides
+
 - (id) initWithFrame:(NSRect)frameRect
 {
     if ((self = [super initWithFrame:frameRect])) {
-        _imageView  = [[BaseView alloc] initWithFrame:CGRectZero];
-        _borderView = [[BaseView alloc] initWithFrame:CGRectZero];
-        
         _deleteButton = [[NSButton alloc] initWithFrame:CGRectMake(0, 0, 17, 17)];
         [_deleteButton setImage:[NSImage imageNamed:@"DeleteNormal"]];
         [_deleteButton setAlternateImage:[NSImage imageNamed:@"DeletePressed"]];
@@ -59,11 +58,6 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         [_deleteButton setTarget:self];
         [_deleteButton setAction:@selector(_handleDeleteButton:)];
 
-        [_borderView setBackgroundColor:[NSColor whiteColor]];
-        [_imageView setBackgroundColor:[NSColor colorWithWhite:0.1 alpha:1.0]];
-        
-        [self addSubview:_borderView];
-        [self addSubview:_imageView];
         [self addSubview:_deleteButton];
         
         [self _updateSelection];
@@ -79,6 +73,107 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
     _libraryItem = nil;
 }
 
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == _libraryItem) {
+        if ([keyPath isEqualToString:@"thumbnail"]) {
+            _thumbnailImage = nil;
+            [self loadThumbnail];
+        }
+    }
+}
+
+
+- (void) layout
+{
+    CGRect bounds = [self bounds];
+    CGRect deleteFrame = [_deleteButton frame];
+    
+    CGRect imageFrame = [self _imageFrame];
+    CGFloat maxY = bounds.size.height - deleteFrame.size.height;
+    
+    CGPoint origin = CGPointMake(imageFrame.origin.x, bounds.size.height - (imageFrame.origin.y + deleteFrame.size.height));
+    deleteFrame.origin = origin;
+    deleteFrame.origin.x -= 9;
+    deleteFrame.origin.y += 9;
+    
+    if (deleteFrame.origin.x < 0)    deleteFrame.origin.x = 0;
+    if (deleteFrame.origin.y > maxY) deleteFrame.origin.y = maxY;
+
+    [_deleteButton setFrame:deleteFrame];
+}
+
+
+- (void) drawRect:(NSRect)dirtyRect
+{
+    if (!_thumbnailImage) return;
+
+    if ([self isSelected]) {
+        [[NSColor selectedContentBackgroundColor] set];
+    } else {
+        [[NSColor textColor] set];
+    }
+
+    NSRect imageFrame = [self _imageFrame];
+    [[NSBezierPath bezierPathWithRect:CGRectInset(imageFrame, -2, -2)] fill];
+    [_thumbnailImage drawInRect:imageFrame];
+}
+
+
+
+#pragma mark - Private Methods
+
+- (void) _updateSelection
+{
+    if ([self isSelected]) {
+        [_deleteButton setHidden:NO];
+        [_deleteButton setEnabled:YES];
+    } else {
+        [_deleteButton setHidden:YES];
+        [_deleteButton setEnabled:NO];
+    }
+}
+
+
+- (void) _updateThumbnailImage:(NSImage *)image
+{
+    if (image != _thumbnailImage) {
+        _thumbnailImage = image;
+        [self setNeedsLayout:YES];
+        [self setNeedsDisplay:YES];
+    }
+}
+
+
+- (void) _handleDeleteButton:(id)sender
+{
+    [_delegate thumbnailViewDidClickDelete:self];
+}
+
+
+- (CGRect) _imageFrame
+{
+    CGRect bounds = [self bounds];
+
+    CGSize size = [_thumbnailImage size];
+    
+    CGRect imageFrame = CGRectMake(
+        round((bounds.size.width  - size.width)  / 2),
+        round((bounds.size.height - size.height) / 2),
+        size.width,
+        size.height
+    );
+
+    return imageFrame;
+}
+
+
+
+
+
+
+#pragma mark - Public Methods
 
 - (void) loadThumbnail
 {
@@ -164,91 +259,14 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         
         if (thumbnail) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf _setThumbnailImage:thumbnail];
+                [weakSelf _updateThumbnailImage:thumbnail];
             });
         }
     });
 }
 
 
-- (void) _setThumbnailImage:(NSImage *)image
-{
-    _thumbnailImage = image;
-
-    [[_imageView layer] setContentsGravity:kCAGravityResize];
-    [[_imageView layer] setContents:image];
-
-    [self setNeedsLayout:YES];
-}
-
-
-- (void) _handleDeleteButton:(id)sender
-{
-    [_delegate thumbnailViewDidClickDelete:self];
-}
-
-
-- (void) layout
-{
-    [super layout];
-    
-    if (!_thumbnailImage) return;
-
-    CGRect bounds = [self bounds];
-
-    CGSize size = [_thumbnailImage size];
-    
-    CGRect imageFrame = CGRectMake(
-        round((bounds.size.width  - size.width)  / 2),
-        round((bounds.size.height - size.height) / 2),
-        size.width,
-        size.height
-    );
-
-    [_imageView setFrame:imageFrame];
-    [_borderView setFrame:CGRectInset(imageFrame, -2, -2)];
-
-
-    CGRect deleteFrame = [_deleteButton frame];
-    
-    CGFloat maxY = bounds.size.height - deleteFrame.size.height;
-    
-    CGPoint origin = CGPointMake(imageFrame.origin.x, bounds.size.height - (imageFrame.origin.y + deleteFrame.size.height));
-    deleteFrame.origin = origin;
-    deleteFrame.origin.x -= 9;
-    deleteFrame.origin.y += 9;
-    
-    if (deleteFrame.origin.x < 0)    deleteFrame.origin.x = 0;
-    if (deleteFrame.origin.y > maxY) deleteFrame.origin.y = maxY;
-
-    [_deleteButton setFrame:deleteFrame];
-}
-
-
-- (void) _updateSelection
-{
-    if ([self isSelected]) {
-        [_borderView setBackgroundColor:GetRGBColor(0x0D72FE, 1.0)];
-        [_deleteButton setHidden:NO];
-        [_deleteButton setEnabled:YES];
-    } else {
-        [_borderView setBackgroundColor:[NSColor whiteColor]];
-        [_deleteButton setHidden:YES];
-        [_deleteButton setEnabled:NO];
-    }
-}
-
-
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (object == _libraryItem) {
-        if ([keyPath isEqualToString:@"thumbnail"]) {
-            _thumbnailImage = nil;
-            [self loadThumbnail];
-        }
-    }
-}
-
+#pragma mark - Accessors
 
 - (void) setLibraryItem:(LibraryItem *)libraryItem
 {
@@ -276,6 +294,7 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
         if (_selected != selected) {
             _selected = selected;
             [self _updateSelection];
+            [self setNeedsDisplay:YES];
         }
     }
 }

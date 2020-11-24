@@ -13,8 +13,6 @@
 
 @implementation GuideObjectView {
     CALayer *_sublayer;
-    NSArray *_grapplesToUpdateStart;
-    NSArray *_grapplesToUpdateEnd;
     BOOL     _tracking;
 }
 
@@ -108,9 +106,6 @@
 
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    _grapplesToUpdateStart = nil;
-    _grapplesToUpdateEnd   = nil;
-
     _tracking = NO;
     [self _updateLayersAnimated:YES];
 }

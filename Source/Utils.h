@@ -40,7 +40,6 @@ extern CGSize GetMaxThumbnailSize(void);
 extern NSArray *GetClassesMatchesProtocol(Protocol *p);
 
 extern NSColor *GetRGBColor(int rgb, CGFloat alpha);
-extern NSColor *GetDarkWindowColor(void);
 
 extern NSString *GetApplicationSupportDirectory(void);
 extern NSString *GetScreenshotsDirectory(void);

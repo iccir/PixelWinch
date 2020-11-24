@@ -36,13 +36,29 @@
     CGContextClipToRect(context, dirtyRect);
 
     CGRect bounds = [self bounds];
+    CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
 
     CGContextTranslateCTM(context, 0, bounds.size.height);
     CGContextScaleCTM(context, 1, -1);
 
-    [self _drawBackgroundInContext:context];
+    // Draw background
+    {
+        [[NSColor colorNamed:@"RulerBackgroundColor"] set];
+        CGContextFillRect(context, bounds);
+    }
+    
     [self _drawTickMarksInContext:context];
-    [self _drawOverlayInContext:context];
+    
+    // Draw overlay
+    {
+        [[NSColor colorNamed:@"RulerOutlineColor"] set];
+
+        CGContextFillRect(context, CGRectMake(0, bounds.size.height - onePixel, bounds.size.width, onePixel));
+        
+        if (_vertical) {
+            CGContextFillRect(context, CGRectMake(bounds.size.width - onePixel, 0, onePixel, bounds.size.height));
+        }
+    }
 }
 
 
@@ -68,22 +84,6 @@
 
 #pragma mark - Private Methods
 
-- (void) _drawBackgroundInContext:(CGContextRef)context
-{
-    CGRect bounds = [self bounds];
-
-    [GetDarkWindowColor() set];
-    CGContextFillRect(context, bounds);
-    
-    if (_vertical) {
-        NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.12 alpha:1.0] endingColor:GetDarkWindowColor()];
-        [gradient drawInRect:bounds angle:180];
-
-    } else {
-        NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.12 alpha:1.0] endingColor:GetDarkWindowColor()];
-        [gradient drawInRect:bounds angle:90];
-    }
-}
 
 
 - (void) _drawTickMarksInContext: (CGContextRef) context
@@ -178,7 +178,7 @@
 
     NSShadow *textShadow = [[NSShadow alloc] init];
     
-    [textShadow setShadowColor:[NSColor blackColor]];
+    [textShadow setShadowColor:[NSColor textBackgroundColor]];
     [textShadow setShadowOffset:NSZeroSize];
     [textShadow setShadowBlurRadius:1];
 
@@ -203,10 +203,10 @@
             CGContextScaleCTM(context, 1, -1);
         }
         
-        NSColor *color = [NSColor colorWithCalibratedWhite:1.0 alpha:0.6];
-
+        NSColor *color = [NSColor labelColor];
+        
         [label drawAtPoint:rect.origin withAttributes:@{
-            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],
+            NSForegroundColorAttributeName: [NSColor secondaryLabelColor],
             NSFontAttributeName: [NSFont userFontOfSize:10],
             NSShadowAttributeName: textShadow
         }];
@@ -222,24 +222,24 @@
     void (^drawLargeTickAtOffset)(CGFloat) = ^(CGFloat xy) {
         CGRect rect;
         if (_vertical) {
-            rect = CGRectMake(bounds.size.width - 6, xy, 6, onePixel);
+            rect = CGRectMake(bounds.size.width - 4, xy, 4, onePixel);
         } else {
-            rect = CGRectMake(xy, bounds.size.height - 6, onePixel, 6);
+            rect = CGRectMake(xy, bounds.size.height - 4, onePixel, 4);
         }
         
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.5] set];
+        [[NSColor labelColor] set];
         CGContextFillRect(context, rect);
     };
 
     void (^drawSmallTickAtOffset)(CGFloat) = ^(CGFloat xy) {
         CGRect rect;
         if (_vertical) {
-            rect = CGRectMake(bounds.size.width - 3, xy, 3, onePixel);
+            rect = CGRectMake(bounds.size.width - 2, xy, 2, onePixel);
         } else {
-            rect = CGRectMake(xy, bounds.size.height - 3, onePixel, 3);
+            rect = CGRectMake(xy, bounds.size.height - 2, onePixel, 2);
         }
 
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] set];
+        [[NSColor secondaryLabelColor] set];
         CGContextFillRect(context, rect);
     };
 
@@ -261,36 +261,6 @@
     }
 }
 
-
-- (void) _drawOverlayInContext:(CGContextRef)context
-{
-    CGRect bounds = [self bounds];
-   
-    CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
-    
-    if (_vertical) {
-        [GetRGBColor(0, 0.5) set];
-        CGContextFillRect(context, CGRectMake(0, 0, onePixel, bounds.size.height));
-
-        [GetRGBColor(0, 0.5) set];
-        CGContextFillRect(context, CGRectMake(bounds.size.width - onePixel, 0, onePixel, bounds.size.height));
-
-    } else {
-        [GetRGBColor(0, 0.5) set];
-        CGContextFillRect(context, CGRectMake(0, 0, bounds.size.width, onePixel));
-
-        [GetRGBColor(0, 0.5) set];
-        CGContextFillRect(context, CGRectMake(0, bounds.size.height - onePixel, bounds.size.width, onePixel));
-    }
-
-    CGContextSetShadowWithColor(context, CGSizeZero, 1, [GetRGBColor(0, 0.5) CGColor]);
-    
-    if (_vertical) {
-        CGContextFillRect(context, CGRectMake(-bounds.size.width, -bounds.size.width, bounds.size.width * 3, bounds.size.width));
-    } else {
-        CGContextFillRect(context, CGRectMake(-bounds.size.height, -bounds.size.height, bounds.size.height, bounds.size.height * 3));
-    }
-}
 
 
 #pragma mark - Accessors
@@ -321,8 +291,17 @@
 
 - (void) drawRect:(NSRect)dirtyRect
 {
-    [GetDarkWindowColor() set];
-    [[NSBezierPath bezierPathWithRect:dirtyRect] fill];
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+
+    CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
+    CGRect  bounds   = [self bounds];
+
+    [[NSColor colorNamed:@"RulerBackgroundColor"] set];
+    CGContextFillRect(context, bounds);
+
+    [[NSColor colorNamed:@"RulerOutlineColor"] set];
+    CGContextFillRect(context, CGRectMake(bounds.size.width - onePixel, 0, onePixel, bounds.size.height));
+    CGContextFillRect(context, CGRectMake(0, 0, bounds.size.width, onePixel));
 }
 
 @end
