@@ -72,8 +72,6 @@
     [closeButton removeFromSuperview];
     [closeSuperView addSubview:closeButton];  
 
-    [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
-
     NSString *versionFormat = NSLocalizedString(@"Version %@ (%@)", nil);
 
     id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];

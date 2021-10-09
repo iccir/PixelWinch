@@ -101,7 +101,10 @@ All Rights Reserved.</string>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfk-Bd-Nvp">
                         <rect key="frame" x="81" y="279" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PixelWinch" id="8jU-mE-Hsj"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="8jU-mE-Hsj"/>
+                        <connections>
+                            <binding destination="-3" name="value" keyPath="self.applicationIconImage" id="2O6-Fr-ptc"/>
+                        </connections>
                     </imageView>
                 </subviews>
             </view>
@@ -110,8 +113,6 @@ All Rights Reserved.</string>
             </connections>
             <point key="canvasLocation" x="565" y="444.5"/>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="6ue-k6-yT7"/>
     </objects>
-    <resources>
-        <image name="PixelWinch" width="512" height="512"/>
-    </resources>
 </document>
