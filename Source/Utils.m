@@ -5,7 +5,6 @@
 
 
 #include "util.h"
-#import <cpuid.h>
 
 #import <objc/runtime.h>
 

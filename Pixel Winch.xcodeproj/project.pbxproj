@@ -840,6 +840,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixelwinch.PixelWinch.Launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
