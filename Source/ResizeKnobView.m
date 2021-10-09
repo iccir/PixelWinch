@@ -12,7 +12,7 @@ static const CGFloat sPaddingForShadow = 8;
 static const CGFloat sBorderWidth = 2;
 
 
-@interface ResizeKnobView () <CALayerDelegate>
+@interface ResizeKnobView () <CALayerDelegate, NSViewLayerContentScaleDelegate>
 @end
 
 

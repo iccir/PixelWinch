@@ -52,7 +52,7 @@ static CGColorRef GetCheckerColor()
 }
 
 
-@interface CanvasView () <CALayerDelegate>
+@interface CanvasView () <CALayerDelegate, NSViewLayerContentScaleDelegate>
 @end
 
 

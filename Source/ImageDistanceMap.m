@@ -200,7 +200,7 @@ static __inline__ void sMakeLAB(UInt8 *inRGB, float *outLAB, size_t width, size_
     NSImage *nsHImage = [[NSImage alloc] initWithCGImage:hImage size:NSZeroSize];
     [[nsHImage TIFFRepresentation] writeToFile:[NSTemporaryDirectory() stringByAppendingPathComponent:@"horizontal.tiff"] atomically:YES];
     
-    [[NSWorkspace sharedWorkspace] openFile:NSTemporaryDirectory()];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:NSTemporaryDirectory()]];
     
     CFRelease(gray);
     CGImageRelease(vImage);

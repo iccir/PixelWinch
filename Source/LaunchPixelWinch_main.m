@@ -28,7 +28,10 @@
         [components removeLastObject];
 
         NSString *appPath = [NSString pathWithComponents:components];
-        [[NSWorkspace sharedWorkspace] launchApplication:appPath];
+        
+        NSURL *appURL = [NSURL fileURLWithPath:appPath];
+        
+        [[NSWorkspace sharedWorkspace] openApplicationAtURL:appURL configuration:[NSWorkspaceOpenConfiguration configuration] completionHandler:nil];
     }
 
     [NSApp terminate:nil];

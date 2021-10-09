@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -17,6 +16,7 @@
             <connections>
                 <outlet property="quitMenuItem" destination="Paa-v7-EaW" id="Qa5-xd-1jp"/>
                 <outlet property="statusBarMenu" destination="ItF-Pm-shU" id="86a-id-yeB"/>
+                <outlet property="viewMenu" destination="Gfe-Op-2Wf" id="8mr-U3-etU"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
@@ -78,6 +78,7 @@
             <connections>
                 <outlet property="delegate" destination="494" id="Fzg-Md-9tj"/>
             </connections>
+            <point key="canvasLocation" x="-47" y="142"/>
         </menu>
         <menu id="NiG-CN-dfH">
             <items>
@@ -377,10 +378,10 @@ CA
                                     <action selector="provideFeedback:" target="494" id="Cl6-FN-NgW"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="View on App Store" id="yOR-eH-gkq">
+                            <menuItem title="Visit Website" id="U3p-dD-cPJ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="viewOnAppStore:" target="494" id="ch6-HD-fHD"/>
+                                    <action selector="visitWebsite:" target="494" id="Lch-ud-4pm"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="r6M-Ie-0sh"/>
@@ -390,17 +391,11 @@ CA
                                     <action selector="viewGuide:" target="494" id="n5d-1z-aYx"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="qgw-KV-PHU"/>
-                            <menuItem title="Visit Website" id="U3p-dD-cPJ">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="visitWebsite:" target="494" id="Lch-ud-4pm"/>
-                                </connections>
-                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="0.0" y="321"/>
         </menu>
         <menuItem title="Zoom Out" id="7kx-Jk-SVv">
             <modifierMask key="keyEquivalentModifierMask"/>

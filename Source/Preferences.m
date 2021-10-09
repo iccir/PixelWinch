@@ -37,6 +37,7 @@ static NSDictionary *sGetDefaultValues()
     dispatch_once(&onceToken, ^{
 
     sDefaultValues = @{
+        @"canvasAppearance":      @(CanvasAppearanceDarkMode),
         @"iconMode":              @(IconModeInBoth),
         @"launchAtLogin":         @(NO),
         @"allowsQuit":            @(YES),

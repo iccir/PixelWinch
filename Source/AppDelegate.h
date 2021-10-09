@@ -12,6 +12,8 @@
 
 @property (nonatomic, weak) IBOutlet NSMenuItem *quitMenuItem;
 
+@property (nonatomic, weak) IBOutlet NSMenu *viewMenu;
+
 - (IBAction) captureSelection:(id)sender;
 - (IBAction) importImage:(id)sender;
 - (IBAction) importImageFromPasteboard:(id)sender;
@@ -21,7 +23,6 @@
 - (IBAction) showAbout:(id)sender;
 - (IBAction) visitWebsite:(id)sender;
 - (IBAction) viewGuide:(id)sender;
-- (IBAction) viewOnAppStore:(id)sender;
 - (IBAction) provideFeedback:(id)sender;
 - (IBAction) quit:(id)sender;
 

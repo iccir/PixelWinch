@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,34 +9,33 @@
             <connections>
                 <outlet property="imageView" destination="Vfk-Bd-Nvp" id="JPP-Bw-f2C"/>
                 <outlet property="versionField" destination="yTM-l1-5n8" id="eZN-VN-Lir"/>
-                <outlet property="viewOnAppStoreButton" destination="VCy-ac-ZeN" id="VIo-TI-QCd"/>
                 <outlet property="window" destination="1" id="uQF-U4-RK1"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="256" height="380"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="contentRect" x="196" y="240" width="226" height="359"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="2" customClass="AboutWindowContentView">
-                <rect key="frame" x="0.0" y="0.0" width="256" height="380"/>
+                <rect key="frame" x="0.0" y="0.0" width="226" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="yTM-l1-5n8">
-                        <rect key="frame" x="26" y="260" width="204" height="28"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;VERSION&gt;" id="Sxy-0N-S0b">
-                            <font key="font" metaFont="menu" size="11"/>
-                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                        <rect key="frame" x="18" y="233" width="190" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="&lt;VERSION&gt;" id="Sxy-0N-S0b">
+                            <font key="font" metaFont="system" size="10"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="UFb-DL-5sy">
-                        <rect key="frame" x="29.5" y="224" width="200" height="25"/>
+                        <rect key="frame" x="13" y="190" width="200" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="Visit Website" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e3l-Eu-aY3">
+                        <buttonCell key="cell" type="push" title="Visit Website" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e3l-Eu-aY3">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -45,21 +43,10 @@
                             <action selector="viewWebsite:" target="-2" id="xYh-BI-VJD"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="VCy-ac-ZeN">
-                        <rect key="frame" x="29.5" y="194" width="200" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="View on App Store" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k1T-5F-1dC">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="viewOnAppStore:" target="-2" id="bLc-pD-6Zc"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" id="4SE-7K-ehx">
-                        <rect key="frame" x="29.5" y="134" width="200" height="25"/>
+                        <rect key="frame" x="13" y="126" width="200" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="Quick Guide" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YHs-LR-GPt">
+                        <buttonCell key="cell" type="push" title="Quick Guide" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YHs-LR-GPt">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -68,9 +55,9 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="dTo-VA-yAe">
-                        <rect key="frame" x="29.5" y="104" width="200" height="25"/>
+                        <rect key="frame" x="13" y="94" width="200" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="Legal &amp; Privacy" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Olf-R3-7je">
+                        <buttonCell key="cell" type="push" title="Legal &amp; Privacy" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Olf-R3-7je">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -79,9 +66,9 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="Cij-Tv-f2F">
-                        <rect key="frame" x="29.5" y="164" width="200" height="25"/>
+                        <rect key="frame" x="13" y="158" width="200" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="Provide Feedback" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cHh-Uv-vtc">
+                        <buttonCell key="cell" type="push" title="Provide Feedback" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cHh-Uv-vtc">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -89,30 +76,39 @@
                             <action selector="provideFeedback:" target="-2" id="3eF-gS-MFB"/>
                         </connections>
                     </button>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfk-Bd-Nvp">
-                        <rect key="frame" x="96" y="296" width="64" height="64"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PixelWinch" id="8jU-mE-Hsj"/>
-                    </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="xhZ-bj-O9A">
-                        <rect key="frame" x="16" y="20" width="224" height="70"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="QdR-ud-aiH">
-                            <font key="font" metaFont="menu" size="11"/>
+                        <rect key="frame" x="18" y="20" width="190" height="65"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" id="QdR-ud-aiH">
+                            <font key="font" metaFont="system" size="10"/>
                             <string key="title">Pixel Winch uses licensed technology covered by Patent US8194089
 
-© 2013-2019 Ricci Adams.
+© 2013-2021 Ricci Adams.
 All Rights Reserved.</string>
-                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4N9-he-GFM">
+                        <rect key="frame" x="18" y="255" width="190" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" alignment="center" title="Pixel Winch" id="EU4-Lr-7i2">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfk-Bd-Nvp">
+                        <rect key="frame" x="81" y="279" width="64" height="64"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PixelWinch" id="8jU-mE-Hsj"/>
+                    </imageView>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="azK-5b-nn0"/>
             </connections>
-            <point key="canvasLocation" x="580" y="455"/>
+            <point key="canvasLocation" x="565" y="444.5"/>
         </window>
     </objects>
     <resources>

@@ -10,7 +10,6 @@
 #import "AboutWindowController.h"
 #import "CanvasWindowController.h"
 #import "PreferencesWindowController.h"
-#import "TutorialWindowController.h"
 
 #import "CaptureManager.h"
 
@@ -29,7 +28,6 @@
     AboutWindowController       *_aboutWindowController;
     PreferencesWindowController *_preferencesWindowController;
     CanvasWindowController      *_canvasWindowController;
-    TutorialWindowController    *_tutorialWindowController;
 
     CaptureManager *_captureManager;
 }
@@ -148,11 +146,6 @@
             _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:33.0];
 
             NSImage *image = [NSImage imageNamed:@"StatusBarIcon"];
-                     
-            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"did-show-arrow"]) {
-                _tutorialWindowController = [[TutorialWindowController alloc] init];
-                [_tutorialWindowController orderInWithStatusItem:_statusItem];
-            }
                
             [[self statusBarMenu] setDelegate:self];
 
@@ -293,18 +286,6 @@
 }
 
 
-- (void) menuWillOpen:(NSMenu *)menu
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"did-show-arrow"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    if (_tutorialWindowController) {
-        [_tutorialWindowController orderOut];
-        _tutorialWindowController = nil;
-    }
-}
-
-
 - (IBAction) captureSelection:(id)sender
 {
     [[self captureManager] captureSelection:self];
@@ -376,13 +357,6 @@
 - (IBAction) viewGuide:(id)sender
 {
     NSURL *url = [NSURL URLWithString:WinchGuideURLString];
-    [[NSWorkspace sharedWorkspace] openURL:url];
-}
-
-
-- (IBAction) viewOnAppStore:(id)sender
-{
-    NSURL *url = [NSURL URLWithString:WinchAppStoreURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

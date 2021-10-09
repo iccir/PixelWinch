@@ -8,8 +8,6 @@
 @property (nonatomic, weak) IBOutlet NSImageView *imageView;
 @property (nonatomic, weak) IBOutlet NSTextField *versionField;
 
-@property (nonatomic, weak) IBOutlet NSButton *viewOnAppStoreButton;
-
 @end
 
 
@@ -76,7 +74,7 @@
 
     [[self imageView] setImage:[NSImage imageNamed:@"PixelWinch"]];
 
-    NSString *versionFormat = NSLocalizedString(@"Pixel Winch %@, Build %@\nby Ricci Adams", nil);
+    NSString *versionFormat = NSLocalizedString(@"Version %@ (%@)", nil);
 
     id buildNumber  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     id shortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -88,13 +86,6 @@
 - (IBAction) viewWebsite:(id)sender
 {
     NSURL *url = [NSURL URLWithString:WinchWebsiteURLString];
-    [[NSWorkspace sharedWorkspace] openURL:url];
-}
-
-
-- (IBAction) viewOnAppStore:(id)sender
-{
-    NSURL *url = [NSURL URLWithString:WinchAppStoreURLString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

@@ -33,7 +33,10 @@
 - (void) _updateSelected
 {
     BOOL isSelected = [self isSelected];
-    [[self textField] setTextColor:GetRGBColor(0xFFFFFF, isSelected ? 1.0 : 0.5)];
+    
+    NSString *colorName = isSelected ? @"LibraryTextSelected" : @"LibraryText";
+    [[self textField] setTextColor:[NSColor colorNamed:colorName]];
+    
     [_thumbnailView setSelected:isSelected];
 }
 

@@ -5,7 +5,7 @@
 #import "CanvasObject.h"
 
 
-@interface MeasurementLabel () <CALayerDelegate>
+@interface MeasurementLabel () <CALayerDelegate, NSViewLayerContentScaleDelegate>
 @end
 
 

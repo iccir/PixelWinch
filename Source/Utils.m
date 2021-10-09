@@ -15,7 +15,6 @@ NSString * const WinchFeedbackURLString = @"https://www.ricciadams.com/contact/p
 NSString * const WinchWebsiteURLString  = @"https://www.ricciadams.com/projects/pixel-winch";
 NSString * const WinchGuideURLString    = @"https://www.ricciadams.com/projects/pixel-winch/guide";
 NSString * const WinchPrivacyURLString  = @"https://www.ricciadams.com/privacy/pixel-winch";
-NSString * const WinchAppStoreURLString = @"https://www.ricciadams.com/buy/pixel-winch";
 
 
 
@@ -356,28 +355,6 @@ extern CGFloat GetDistance(CGPoint p1, CGPoint p2)
 #else
     return sqrtf(powf(p2.x - p1.x, 2.0f) + powf(p2.y - p1.y, 2.0f));
 #endif
-}
-
-
-extern void ClipToImage(NSImage *image, CGRect rect)
-{
-    NSGraphicsContext *nsContext = [NSGraphicsContext currentContext];
-    CGContextRef       cgContext = [nsContext CGContext];
-    
-    NSImageRep *imageRep = [image bestRepresentationForRect:rect context:nsContext hints:nil];
-    
-    if ([imageRep respondsToSelector:@selector(CGImage)]) {
-        CGImageRef cgImage = [(id)imageRep CGImage];
-
-        CGContextTranslateCTM(cgContext, 0, rect.size.height);
-        CGContextScaleCTM(cgContext, 1, -1);
-        CGContextClipToMask(cgContext, rect, cgImage);
-        CGContextScaleCTM(cgContext, 1, -1);
-        CGContextTranslateCTM(cgContext, 0, -rect.size.height);
-
-    } else {
-        CGContextClipToRect(cgContext, rect);
-    }
 }
 
 

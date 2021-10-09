@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,27 +23,27 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="Preferences" animationBehavior="default" id="164">
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="Preferences" animationBehavior="default" tabbingMode="disallowed" toolbarStyle="preference" id="164">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="163" y="695" width="480" height="480"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <view key="contentView" id="165">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="0BB9A39A-86B3-41BA-831B-1DE94554B3DE" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="166">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="EA2B5BAC-DDE9-45E3-9EF1-898EA0A3F46C" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="174">
+                    <toolbarItem implicitItemIdentifier="EA2B5BAC-DDE9-45E3-9EF1-898EA0A3F46C" label="General" paletteLabel="General" image="gearshape" catalog="system" sizingBehavior="auto" selectable="YES" id="174">
                         <connections>
                             <action selector="selectPane:" target="-2" id="293"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="B7BD9DA7-316E-4674-9FB5-37551103C0C8" label="Colors" paletteLabel="Colors" tag="1" image="NSColorPanel" selectable="YES" id="374">
+                    <toolbarItem implicitItemIdentifier="B7BD9DA7-316E-4674-9FB5-37551103C0C8" label="Colors" paletteLabel="Colors" tag="1" image="paintpalette" catalog="system" sizingBehavior="auto" selectable="YES" id="374">
                         <connections>
                             <action selector="selectPane:" target="-2" id="379"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F56B9E90-EEAB-4C5C-BA4E-DDC4F61AD33A" label="Keyboard" paletteLabel="Keyboard" tag="2" image="CommandIcon" selectable="YES" id="2cG-c1-4p4">
+                    <toolbarItem implicitItemIdentifier="F56B9E90-EEAB-4C5C-BA4E-DDC4F61AD33A" label="Keyboard" paletteLabel="Keyboard" tag="2" image="keyboard" catalog="system" sizingBehavior="auto" selectable="YES" id="2cG-c1-4p4">
                         <connections>
                             <action selector="selectPane:" target="-2" id="N7T-31-SnV"/>
                         </connections>
@@ -63,15 +62,15 @@
         </window>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="251" userLabel="General Pane">
-            <rect key="frame" x="0.0" y="0.0" width="368" height="155"/>
+            <rect key="frame" x="0.0" y="0.0" width="368" height="190"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yDE-dF-B84">
-                    <rect key="frame" x="186" y="81" width="165" height="26"/>
+                    <rect key="frame" x="186" y="83" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="W x H" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="F3W-Yj-79p" id="3Bc-zF-RV1">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="SmN-hn-Fgx">
                             <items>
                                 <menuItem title="W H" id="zBC-Zb-IUt">
@@ -91,11 +90,11 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0PT-ZY-IHP">
-                    <rect key="frame" x="186" y="111" width="165" height="26"/>
+                    <rect key="frame" x="186" y="114" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Dock and menu bar" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="7ZA-lI-Z0Z" id="QUu-La-Pvc">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="alk-EQ-cG7">
                             <items>
                                 <menuItem title="Dock and menu bar" state="on" tag="2" id="7ZA-lI-Z0Z">
@@ -115,12 +114,37 @@
                         <binding destination="-2" name="selectedTag" keyPath="self.preferences.iconMode" id="MlN-9x-7r7"/>
                     </connections>
                 </popUpButton>
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Chp-Fz-Hdg">
+                    <rect key="frame" x="187" y="145" width="165" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="System Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="hUU-NY-KvH" id="jTs-Y1-iSD">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="8hT-Co-0mD">
+                            <items>
+                                <menuItem title="System Default" state="on" id="hUU-NY-KvH">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem isSeparatorItem="YES" id="qlh-Dk-DxI"/>
+                                <menuItem title="Light Mode" tag="1" id="b0V-as-a5g">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="Dark Mode" tag="2" id="e8L-jx-qJi">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="-2" name="selectedTag" keyPath="self.preferences.canvasAppearance" id="0b0-Xz-xOq"/>
+                    </connections>
+                </popUpButton>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q11-9R-akh">
-                    <rect key="frame" x="186" y="51" width="165" height="26"/>
+                    <rect key="frame" x="186" y="52" width="165" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Never" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="oOR-ui-IbL" id="ids-5C-rsN">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="Lyn-2c-Eyq">
                             <items>
                                 <menuItem title="Never" state="on" id="oOR-ui-IbL">
@@ -158,25 +182,16 @@
                     </connections>
                 </popUpButton>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IY2-iC-B3h">
-                    <rect key="frame" x="18" y="87" width="164" height="17"/>
+                    <rect key="frame" x="18" y="89" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Copy measurements as" id="5kq-Ts-98b">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qYe-Tn-e48">
-                    <rect key="frame" x="22" y="57" width="160" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Delete screenshots when" id="Xq0-Yj-3M4">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Copy measurements as:" id="5kq-Ts-98b">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gc1-RU-G08">
-                    <rect key="frame" x="87" y="18" width="194" height="18"/>
+                    <rect key="frame" x="84" y="19" width="194" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Launch Pixel Winch at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ioF-VY-XrN">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -187,16 +202,34 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J5c-5y-1Mz">
-                    <rect key="frame" x="40" y="117" width="142" height="17"/>
+                    <rect key="frame" x="40" y="120" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show icon in" id="KtX-p8-B4I">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show icon in:" id="KtX-p8-B4I">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4zK-Nb-Svt">
+                    <rect key="frame" x="40" y="151" width="142" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Canvas appearance:" id="FCi-6V-uQD">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qYe-Tn-e48">
+                    <rect key="frame" x="21" y="58" width="161" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Delete screenshots when:" id="Xq0-Yj-3M4">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
-            <point key="canvasLocation" x="326" y="906.5"/>
+            <point key="canvasLocation" x="326" y="924"/>
         </customView>
         <customView id="337" userLabel="Appearance Pane">
             <rect key="frame" x="0.0" y="0.0" width="368" height="227"/>
@@ -335,9 +368,9 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pyv-f3-vcu">
-                    <rect key="frame" x="121" y="18" width="128" height="25"/>
+                    <rect key="frame" x="113" y="18" width="142" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="roundTextured" title="Restore Defaults" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qLH-Yq-4lq">
+                    <buttonCell key="cell" type="push" title="Restore Defaults" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qLH-Yq-4lq">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -346,7 +379,7 @@
                     </connections>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="326" y="1251"/>
+            <point key="canvasLocation" x="326" y="1250.5"/>
         </customView>
         <customView id="cwh-za-zMQ" userLabel="Keyboard Pane">
             <rect key="frame" x="0.0" y="0.0" width="368" height="215"/>
@@ -357,7 +390,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FMX-Iz-sZ4">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="crC-Yd-bgh">
                             <items>
                                 <menuItem title="⌘W" id="QCh-fp-Isc">
@@ -380,7 +413,7 @@
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-Ip-3PL">
                     <rect key="frame" x="18" y="146" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Import from Clipboard" id="Nq9-rb-hPx">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Import from Clipboard:" id="Nq9-rb-hPx">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -417,7 +450,7 @@
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ol-ZF-7Ck">
                     <rect key="frame" x="18" y="116" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots" id="xQH-vt-jro">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Show screenshots:" id="xQH-vt-jro">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -426,7 +459,7 @@
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nk4-xz-Lvo">
                     <rect key="frame" x="18" y="57" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Close screenshots" id="o2n-Zr-Cjs">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Close screenshots:" id="o2n-Zr-Cjs">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -446,7 +479,7 @@
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pVP-CH-dzK">
                     <rect key="frame" x="18" y="176" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Capture selection" id="IUd-fJ-zbZ">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Capture selection:" id="IUd-fJ-zbZ">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -455,7 +488,7 @@
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8rW-4p-eY0">
                     <rect key="frame" x="18" y="86" width="164" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Toggle screenshots" id="bED-KF-Y0H">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Toggle screenshots:" id="bED-KF-Y0H">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -467,8 +500,8 @@
         <userDefaultsController representsSharedInstance="YES" id="E23-JI-4sA"/>
     </objects>
     <resources>
-        <image name="CommandIcon" width="32" height="32"/>
-        <image name="NSColorPanel" width="32" height="32"/>
-        <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="gearshape" catalog="system" width="16" height="16"/>
+        <image name="keyboard" catalog="system" width="19" height="13"/>
+        <image name="paintpalette" catalog="system" width="18" height="15"/>
     </resources>
 </document>

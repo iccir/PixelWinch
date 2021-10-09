@@ -4,13 +4,12 @@
 #import <Foundation/Foundation.h>
 #import "Tool.h"
 
-@class BlackSegmentedControl;
 @class CanvasObject;
 @class MagnificationManager;
 @class Toolbox;
 @class Library;
 @class LibraryItem;
-@class RulerView, CanvasView, ContentView, WindowResizerKnob;
+@class RulerView, CanvasView;
 
 @interface CanvasWindowController : NSWindowController
 
@@ -35,25 +34,15 @@
 // Adapters for bindings
 @property (nonatomic, weak) Preferences *preferences;
 @property (nonatomic, weak) Library *library;
-@property (nonatomic, strong) CanvasObject *selectedObject DEPRECATED_ATTRIBUTE;
 
 @property (nonatomic, strong) NSIndexSet *librarySelectionIndexes;
 
 // Nib top-level objects
-@property (nonatomic, strong) IBOutlet NSView *inspectorTopLevelView;
-
 @property (nonatomic, strong) IBOutlet NSArrayController *libraryArrayController;
 @property (nonatomic, strong) IBOutlet NSCollectionViewItem *libraryItemPrototype;
 
-@property (nonatomic, strong) IBOutlet NSView *topView;
-@property (nonatomic, strong) IBOutlet NSView *bottomView;
-
-@property (nonatomic, strong) IBOutlet NSTouchBar *touchBar;
-@property (nonatomic, weak) IBOutlet NSSegmentedControl *touchBarToolPicker;
-
 
 // Outlets
-@property (nonatomic, weak) IBOutlet NSToolbarItem *inspectorToolbarItem;
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *toolPicker;
 @property (nonatomic, weak) IBOutlet NSSegmentedControl *scalePicker;
 
@@ -61,17 +50,15 @@
 @property (nonatomic, weak) IBOutlet CanvasView   *canvasView;
 @property (nonatomic, weak) IBOutlet RulerView    *horizontalRuler;
 @property (nonatomic, weak) IBOutlet RulerView    *verticalRuler;
-@property (nonatomic, weak) IBOutlet NSSlider     *zoomSlider;
 
 @property (nonatomic, weak) IBOutlet NSScrollView *libraryScrollView;
 @property (nonatomic, weak) IBOutlet NSCollectionView *libraryCollectionView;
 
 // These need to be strong as they are going to be added/removed from subviews
-@property (nonatomic, strong) IBOutlet NSView *blankToolView;
-@property (nonatomic, strong) IBOutlet NSView *grappleToolView;
-@property (nonatomic, strong) IBOutlet NSView *zoomToolView;
+@property (nonatomic, strong) IBOutlet NSToolbarItem *grappleToolbarItem;
+@property (nonatomic, strong) IBOutlet NSToolbarItem *zoomToolbarItem;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *viewPopUpButton;
 
-- (IBAction) showGrappleHelp:(id)sender;
 
 - (IBAction) zoomIn:(id)sender;
 - (IBAction) zoomOut:(id)sender;

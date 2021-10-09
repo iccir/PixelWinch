@@ -23,6 +23,11 @@ typedef NS_ENUM(NSInteger, CloseScreenshotsKey) {
     CloseScreenshotsKeyBoth      = 2
 };
 
+typedef NS_ENUM(NSInteger, CanvasAppearance) {
+    CanvasAppearanceSystemDefault = 0,
+    CanvasAppearanceLightMode     = 1,
+    CanvasAppearanceDarkMode      = 2
+};
 
 typedef NS_ENUM(NSInteger, IconMode) {
     IconModeInMenuBar = 0,
@@ -39,7 +44,8 @@ typedef NS_ENUM(NSInteger, IconMode) {
 
 @property (nonatomic) BOOL launchAtLogin;
 
-@property (nonatomic) NSInteger iconMode;
+@property (nonatomic) CanvasAppearance canvasAppearance;
+@property (nonatomic) IconMode iconMode;
 
 @property (nonatomic) BOOL allowsQuit;
 

@@ -52,7 +52,8 @@
     CanvasDelegate,
     CanvasViewDelegate,
     RulerViewDelegate,
-    ToolOwner
+    ToolOwner,
+    NSMenuItemValidation
 >
 
 @end
@@ -303,6 +304,7 @@
             
             if ([[_toolbox selectedTool] isEqual:grappleTool]) {
                 [grappleTool toggleVertical];
+
             } else {
                 [_toolbox setSelectedToolName:[grappleTool name]];
             }
@@ -324,7 +326,8 @@
             return;
 
         } else if (c == 'a') {
-            [[NSWorkspace sharedWorkspace] openFile:GetApplicationSupportDirectory()];
+            NSURL *appSupport = [NSURL fileURLWithPath:GetApplicationSupportDirectory()];
+            [[NSWorkspace sharedWorkspace] openURL:appSupport];
             return;
         }
     }
@@ -401,29 +404,32 @@
     [_magnificationManager setHorizontalRuler:_horizontalRuler];
     [_magnificationManager setVerticalRuler:_verticalRuler];
         
-    NSColor *darkColor = [NSColor colorNamed:@"MainBackgroundColor"];
-    
-    [_canvasScrollView setBackgroundColor:darkColor];
-    [[_canvasScrollView contentView] setBackgroundColor:darkColor];
+    NSColor *backgroundColor = [NSColor colorNamed:@"MainBackgroundColor"];
+
+    [_canvasScrollView setScrollerStyle:NSScrollerStyleLegacy];
+    [_canvasScrollView setBackgroundColor:backgroundColor];
+    [[_canvasScrollView contentView] setBackgroundColor:backgroundColor];
     
     CenteringClipView *clipView = (CenteringClipView *)[_canvasScrollView contentView];
     [clipView setHorizontalRulerView:_horizontalRuler];
     [clipView setVerticalRulerView:_verticalRuler];
 
-    [_canvasScrollView setScrollerKnobStyle:NSScrollerKnobStyleLight];
-    [_canvasScrollView setScrollerStyle:NSScrollerStyleLegacy];
-
-    [_libraryScrollView setBackgroundColor:darkColor];
-    [[_libraryScrollView contentView] setBackgroundColor:darkColor];
-
-    [_libraryScrollView setScrollerKnobStyle:NSScrollerKnobStyleLight];
-    [_libraryScrollView setScrollerStyle:NSScrollerStyleOverlay];
     [[_libraryScrollView horizontalScroller] setControlSize:NSControlSizeSmall];
        
     [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
-    [_libraryCollectionView addObserver:self forKeyPath:@"isFirstResponder"        options:0 context:NULL];
+    [_libraryCollectionView addObserver:self forKeyPath:@"firstResponder"        options:0 context:NULL];
     [[_toolbox grappleTool] addObserver:self forKeyPath:@"vertical"                options:0 context:NULL];
+
+    // Copy the main menu's View menu to our view pop up button
+    {
+        NSMenu *appViewMenu = [(AppDelegate *)[NSApp delegate] viewMenu];
+        NSMenu *buttonViewMenu = [[self viewPopUpButton] menu];
+        
+        for (NSMenuItem *item in [appViewMenu itemArray]) {
+            [buttonViewMenu addItem:[item copy]];
+        }
+    }
 
     [self _updateInspector];
     [self _updateGrappleIcon];
@@ -464,7 +470,7 @@
         }
 
     } else if (object == _libraryCollectionView) {
-        if ([keyPath isEqualToString:@"isFirstResponder"]) {
+        if ([keyPath isEqualToString:@"firstResponder"]) {
             if ([_libraryCollectionView isFirstResponder]) {
                 [_libraryCollectionView resignFirstResponder];
                 [[self window] makeFirstResponder:[self window]];
@@ -527,24 +533,39 @@
     for (CanvasObjectView *view in [_GUIDToViewMap allValues]) {
         [view preferencesDidChange:preferences];
     }
+    
+    CanvasAppearance canvasAppearance = [preferences canvasAppearance];
+    NSAppearance *appearance;
+
+    if (canvasAppearance == CanvasAppearanceLightMode) {
+        appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    } else if (canvasAppearance == CanvasAppearanceDarkMode) {
+        appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+    }
+
+    [[self window] setAppearance:appearance];
 }
 
 
 - (void) _updateInspector
 {
     Tool *selectedTool = [_toolbox selectedTool];
-    Tool *grappleTool  = (Tool *)[_toolbox grappleTool];
-    NSView *view = nil;
 
-    if (selectedTool == [_toolbox zoomTool]) {
-        view = [self zoomToolView];
-    } else if (grappleTool && (selectedTool == grappleTool)) {
-        view = [self grappleToolView];
-    } else {
-        view = [self blankToolView];
+    NSToolbar *toolbar = [[self window] toolbar];
+    
+    NSToolbarItem *toolbarItem = nil;
+    
+    if (selectedTool == [_toolbox grappleTool]) {
+        toolbarItem = [self grappleToolbarItem];
+    } else if (selectedTool == [_toolbox zoomTool]) {
+        toolbarItem = [self zoomToolbarItem];
     }
     
-    [_inspectorToolbarItem setView:view];
+    if (![[[[toolbar items] objectAtIndex:1] itemIdentifier] isEqual:NSToolbarFlexibleSpaceItemIdentifier]) {
+        [toolbar removeItemAtIndex:1];
+    }
+    
+    [toolbar insertItemWithItemIdentifier:[toolbarItem itemIdentifier] atIndex:1];
 }
 
 
@@ -553,7 +574,6 @@
     NSString *name = [[_toolbox grappleTool] isVertical] ? @"ToolbarGrappleDualVertical" : @"ToolbarGrappleDualHorizontal";
     NSImage *grappleImage = [NSImage imageNamed:name];
 
-    [[self touchBarToolPicker] setImage:grappleImage forSegment:5];
     [[self toolPicker] setImage:grappleImage forSegment:5];
 }
 
@@ -1648,52 +1668,6 @@
         NSData *data = [rep representationUsingType:NSBitmapImageFileTypePNG properties:properties];
         [data writeToURL:[savePanel URL] atomically:YES];
     }
-}
-
-
-- (IBAction) showGrappleHelp:(id)sender
-{
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"GrappleHelp" ofType:@"txt"];
-    
-    NSError  *error;
-    NSString *text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-    
-    text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-    if (!text) return;
-
-    NSPopover *popover = [[NSPopover alloc] init];
-    
-    NSAppearance *popoverAppearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
-    [popover setAppearance:popoverAppearance];
-    [popover setBehavior:NSPopoverBehaviorTransient];
-
-    NSView *container = [[NSView alloc] init];
-
-    NSTextField *label = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 360, 1000)];
-    [label setStringValue:text];
-    [label setBackgroundColor:[NSColor clearColor]];
-    [label setDrawsBackground:NO];
-    [label setTextColor:GetRGBColor(0xe0e0e0, 1.0)];
-    [label setEditable:NO];
-    [label setSelectable:NO];
-    [label setBordered:NO];
-    [label sizeToFit];
-    [label setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-
-    NSRect labelFrame = [label frame];
-
-    [container setFrame:NSInsetRect(labelFrame, -16, -16)];
-    labelFrame.origin = NSMakePoint(16, 16);
-    [label setFrame:labelFrame];
-    [container addSubview:label];
-    
-    NSViewController *vc = [[NSViewController alloc] init];
-    [vc setView:container];
-
-    [popover setContentViewController:vc];
-    
-    [popover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMinYEdge];
 }
 
 

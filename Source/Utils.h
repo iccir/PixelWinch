@@ -5,7 +5,6 @@ extern NSString * const WinchFeedbackURLString;
 extern NSString * const WinchWebsiteURLString;
 extern NSString * const WinchGuideURLString;
 extern NSString * const WinchPrivacyURLString;
-extern NSString * const WinchAppStoreURLString;
 
 
 #define NSStringFromCGPoint(P) NSStringFromPoint(NSPointFromCGPoint(P))
@@ -52,8 +51,6 @@ extern NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, S
 extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets);
 
 extern CGImageRef   CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)(CGContextRef));
-
-extern void ClipToImage(NSImage *image, CGRect rect);
 
 
 extern CGImageRef CopyImageNamed(NSString *name);

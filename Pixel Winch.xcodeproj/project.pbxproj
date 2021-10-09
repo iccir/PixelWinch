@@ -18,7 +18,6 @@
 		5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobView.m */; };
 		55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55163C3513569D6000CDE290 /* QuartzCore.framework */; };
 		5516B68D1804ECAD002AED2E /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 5516B68C1804ECAD002AED2E /* Library.m */; };
-		5527223C235872BC0001CAB3 /* PixelWinch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5527223B235872BC0001CAB3 /* PixelWinch.icns */; };
 		552873CC1936C11100FA9143 /* Tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 552873CB1936C11100FA9143 /* Tips.png */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
 		55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A20180BC4A400F053C7 /* CursorInfo.m */; };
@@ -31,16 +30,7 @@
 		554F05981A29588100BF90F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Assets.xcassets */; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
-		555AF11823602F8F00025161 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AF11723602F8F00025161 /* CustomSlider.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
-		5570960A1B5A394B00326141 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095F81B5A394B00326141 /* About.xib */; };
-		5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557095FA1B5A394B00326141 /* CanvasWindow.xib */; };
-		5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */ = {isa = PBXBuildFile; fileRef = 557095FC1B5A394B00326141 /* GrappleHelp.txt */; };
-		5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557095FE1B5A394B00326141 /* InfoPlist.strings */; };
-		5570960F1B5A394B00326141 /* LibraryItemPrototype.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096021B5A394B00326141 /* LibraryItemPrototype.xib */; };
-		557096101B5A394B00326141 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 557096041B5A394B00326141 /* Localizable.strings */; };
-		557096111B5A394B00326141 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096061B5A394B00326141 /* MainMenu.xib */; };
-		557096121B5A394B00326141 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557096081B5A394B00326141 /* Preferences.xib */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
 		558A6B1C1B5A495000A501CA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A6B1B1B5A495000A501CA /* ImageIO.framework */; };
@@ -70,12 +60,17 @@
 		55C20CED18010A0900ECE184 /* MarqueeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CEC18010A0900ECE184 /* MarqueeTool.m */; };
 		55C20CF61801171E00ECE184 /* MoveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF51801171E00ECE184 /* MoveTool.m */; };
 		55C20CF91801172F00ECE184 /* HandTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C20CF81801172F00ECE184 /* HandTool.m */; };
-		55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C9E42C1835AE5A0059651B /* TutorialWindowController.m */; };
 		55CC21A71832D668004076CF /* MagnificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CC21A61832D668004076CF /* MagnificationManager.m */; };
 		55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2412E180DF4170093CF04 /* LibraryItem.m */; };
 		55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24133180E02CA0093CF04 /* LibraryItemCollectionItem.m */; };
 		55E24139180E10410093CF04 /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E24138180E10410093CF04 /* ThumbnailView.m */; };
 		55E29A45183088C200D9D933 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E29A44183088C200D9D933 /* AboutWindowController.m */; };
+		55EAE16C270C13280001097C /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE168270C13280001097C /* About.xib */; };
+		55EAE16D270C13280001097C /* CanvasWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE169270C13280001097C /* CanvasWindow.xib */; };
+		55EAE16E270C13280001097C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE16A270C13280001097C /* MainMenu.xib */; };
+		55EAE16F270C13280001097C /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE16B270C13280001097C /* Preferences.xib */; };
+		55EAE174270C135B0001097C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE171270C135B0001097C /* Localizable.strings */; };
+		55EAE175270C135B0001097C /* LibraryItemPrototype.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55EAE172270C135B0001097C /* LibraryItemPrototype.xib */; };
 		55EDEF58134ED944009C3D36 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EDEF57134ED944009C3D36 /* IOKit.framework */; };
 		55F279F913594306008788B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F279F813594306008788B1 /* Carbon.framework */; };
 		55FA814F18134F9B00ED67E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55FA814E18134F9B00ED67E0 /* Accelerate.framework */; };
@@ -115,7 +110,6 @@
 		550F35272356D3830038264F /* Launcher_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Release.xcconfig; path = Config/Combined/Launcher_Release.xcconfig; sourceTree = "<group>"; };
 		550F35282356D3830038264F /* Launcher_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Launcher_Debug.xcconfig; path = Config/Combined/Launcher_Debug.xcconfig; sourceTree = "<group>"; };
 		550F352C2356D3EA0038264F /* TargetLauncher.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TargetLauncher.xcconfig; path = Config/TargetLauncher.xcconfig; sourceTree = "<group>"; };
-		550F352F2356E78E0038264F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/About.xib; sourceTree = "<group>"; };
 		5512BF2F17F94EA100425AD6 /* Guide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Guide.h; path = Source/Guide.h; sourceTree = "<group>"; };
 		5512BF3017F94EA100425AD6 /* Guide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Guide.m; path = Source/Guide.m; sourceTree = "<group>"; };
 		5512BF3817F968E300425AD6 /* MarqueeObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarqueeObjectView.h; path = Source/MarqueeObjectView.h; sourceTree = "<group>"; };
@@ -139,8 +133,6 @@
 		5516B68B1804ECAD002AED2E /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Library.h; path = Source/Library.h; sourceTree = "<group>"; };
 		5516B68C1804ECAD002AED2E /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Library.m; path = Source/Library.m; sourceTree = "<group>"; };
 		552486B318500B4000276F67 /* CanvasTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasTypes.h; path = Source/CanvasTypes.h; sourceTree = "<group>"; };
-		55272238235870C00001CAB3 /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
-		5527223B235872BC0001CAB3 /* PixelWinch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PixelWinch.icns; path = Resources/PixelWinch.icns; sourceTree = "<group>"; };
 		552873CB1936C11100FA9143 /* Tips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tips.png; path = Resources/Tips.png; sourceTree = "<group>"; };
 		55336A1A180B5C8400F053C7 /* Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Screenshot.h; path = Source/Screenshot.h; sourceTree = "<group>"; };
 		55336A1B180B5C8400F053C7 /* Screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Screenshot.m; path = Source/Screenshot.m; sourceTree = "<group>"; };
@@ -166,17 +158,8 @@
 		555152F71818AC6D004485F6 /* Toolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toolbox.m; path = Source/Toolbox.m; sourceTree = "<group>"; };
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
-		555AF11623602F8F00025161 /* CustomSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomSlider.h; path = Source/CustomSlider.h; sourceTree = "<group>"; };
-		555AF11723602F8F00025161 /* CustomSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomSlider.m; path = Source/CustomSlider.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
-		557095FB1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/CanvasWindow.xib; sourceTree = "<group>"; };
-		557095FD1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text; name = English; path = Resources/English.lproj/GrappleHelp.txt; sourceTree = "<group>"; };
-		557095FF1B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		557096031B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/LibraryItemPrototype.xib; sourceTree = "<group>"; };
-		557096051B5A394B00326141 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		557096071B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		557096091B5A394B00326141 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/Preferences.xib; sourceTree = "<group>"; };
 		557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Release.xcconfig; path = Config/Combined/PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
 		557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Profile.xcconfig; path = Config/Combined/PixelWinch_Profile.xcconfig; sourceTree = "<group>"; };
 		557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Debug.xcconfig; path = Config/Combined/PixelWinch_Debug.xcconfig; sourceTree = "<group>"; };
@@ -244,8 +227,6 @@
 		55C20CF51801171E00ECE184 /* MoveTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoveTool.m; path = Source/MoveTool.m; sourceTree = "<group>"; };
 		55C20CF71801172F00ECE184 /* HandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTool.h; path = Source/HandTool.h; sourceTree = "<group>"; };
 		55C20CF81801172F00ECE184 /* HandTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HandTool.m; path = Source/HandTool.m; sourceTree = "<group>"; };
-		55C9E42B1835AE5A0059651B /* TutorialWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialWindowController.h; path = Source/TutorialWindowController.h; sourceTree = "<group>"; };
-		55C9E42C1835AE5A0059651B /* TutorialWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialWindowController.m; path = Source/TutorialWindowController.m; sourceTree = "<group>"; };
 		55CB053418285F80001DD1A0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		55CC21A51832D668004076CF /* MagnificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MagnificationManager.h; path = Source/MagnificationManager.h; sourceTree = "<group>"; };
 		55CC21A61832D668004076CF /* MagnificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MagnificationManager.m; path = Source/MagnificationManager.m; sourceTree = "<group>"; };
@@ -258,6 +239,12 @@
 		55E24138180E10410093CF04 /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbnailView.m; path = Source/ThumbnailView.m; sourceTree = "<group>"; };
 		55E29A43183088C200D9D933 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutWindowController.h; path = Source/AboutWindowController.h; sourceTree = "<group>"; };
 		55E29A44183088C200D9D933 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutWindowController.m; path = Source/AboutWindowController.m; sourceTree = "<group>"; };
+		55EAE168270C13280001097C /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = About.xib; path = Resources/About.xib; sourceTree = "<group>"; };
+		55EAE169270C13280001097C /* CanvasWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CanvasWindow.xib; path = Resources/CanvasWindow.xib; sourceTree = "<group>"; };
+		55EAE16A270C13280001097C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Resources/MainMenu.xib; sourceTree = "<group>"; };
+		55EAE16B270C13280001097C /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = Resources/Preferences.xib; sourceTree = "<group>"; };
+		55EAE171270C135B0001097C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Resources/Localizable.strings; sourceTree = "<group>"; };
+		55EAE172270C135B0001097C /* LibraryItemPrototype.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LibraryItemPrototype.xib; path = Resources/LibraryItemPrototype.xib; sourceTree = "<group>"; };
 		55EDEF57134ED944009C3D36 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		55F279F813594306008788B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
 		55FA814E18134F9B00ED67E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -359,16 +346,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				557095F81B5A394B00326141 /* About.xib */,
-				557095FA1B5A394B00326141 /* CanvasWindow.xib */,
-				557095FC1B5A394B00326141 /* GrappleHelp.txt */,
-				557095FE1B5A394B00326141 /* InfoPlist.strings */,
-				55272238235870C00001CAB3 /* Info-PixelWinch.plist */,
-				557096021B5A394B00326141 /* LibraryItemPrototype.xib */,
-				557096041B5A394B00326141 /* Localizable.strings */,
-				557096061B5A394B00326141 /* MainMenu.xib */,
-				5527223B235872BC0001CAB3 /* PixelWinch.icns */,
-				557096081B5A394B00326141 /* Preferences.xib */,
+				55EAE171270C135B0001097C /* Localizable.strings */,
+				55EAE172270C135B0001097C /* LibraryItemPrototype.xib */,
+				55EAE168270C13280001097C /* About.xib */,
+				55EAE169270C13280001097C /* CanvasWindow.xib */,
+				55EAE16A270C13280001097C /* MainMenu.xib */,
+				55EAE16B270C13280001097C /* Preferences.xib */,
 				554F05971A29588100BF90F0 /* Assets.xcassets */,
 				552873CB1936C11100FA9143 /* Tips.png */,
 				5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */,
@@ -479,8 +462,6 @@
 				55B07A8917F7A19D0013B05C /* CanvasWindowController.m */,
 				559D38CF180399B90048F29B /* PreferencesWindowController.h */,
 				559D38CE180399B90048F29B /* PreferencesWindowController.m */,
-				55C9E42B1835AE5A0059651B /* TutorialWindowController.h */,
-				55C9E42C1835AE5A0059651B /* TutorialWindowController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -560,8 +541,6 @@
 				559D38D418039D930048F29B /* ShortcutView.m */,
 				55E24137180E10410093CF04 /* ThumbnailView.h */,
 				55E24138180E10410093CF04 /* ThumbnailView.m */,
-				555AF11623602F8F00025161 /* CustomSlider.h */,
-				555AF11723602F8F00025161 /* CustomSlider.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -703,17 +682,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				557096121B5A394B00326141 /* Preferences.xib in Resources */,
-				557096101B5A394B00326141 /* Localizable.strings in Resources */,
-				5570960D1B5A394B00326141 /* InfoPlist.strings in Resources */,
-				5570960B1B5A394B00326141 /* CanvasWindow.xib in Resources */,
+				55EAE16E270C13280001097C /* MainMenu.xib in Resources */,
+				55EAE16D270C13280001097C /* CanvasWindow.xib in Resources */,
 				554F05981A29588100BF90F0 /* Assets.xcassets in Resources */,
-				5570960C1B5A394B00326141 /* GrappleHelp.txt in Resources */,
-				5570960A1B5A394B00326141 /* About.xib in Resources */,
+				55EAE174270C135B0001097C /* Localizable.strings in Resources */,
 				552873CC1936C11100FA9143 /* Tips.png in Resources */,
-				5570960F1B5A394B00326141 /* LibraryItemPrototype.xib in Resources */,
-				5527223C235872BC0001CAB3 /* PixelWinch.icns in Resources */,
-				557096111B5A394B00326141 /* MainMenu.xib in Resources */,
+				55EAE16F270C13280001097C /* Preferences.xib in Resources */,
+				55EAE16C270C13280001097C /* About.xib in Resources */,
+				55EAE175270C135B0001097C /* LibraryItemPrototype.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,7 +771,6 @@
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,
 				55E24134180E02CA0093CF04 /* LibraryItemCollectionItem.m in Sources */,
 				55B07A7617F6CE7B0013B05C /* CanvasView.m in Sources */,
-				555AF11823602F8F00025161 /* CustomSlider.m in Sources */,
 				55B07A6A17F654400013B05C /* CaptureManager.m in Sources */,
 				55C20CE4180109AF00ECE184 /* Tool.m in Sources */,
 				553AC79117F7DCC200C253C2 /* Utils.m in Sources */,
@@ -806,7 +781,6 @@
 				5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */,
 				5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */,
 				559D38C11802ABC60048F29B /* Preferences.m in Sources */,
-				55C9E42D1835AE5A0059651B /* TutorialWindowController.m in Sources */,
 				5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */,
 				553ED1751806A7F000F06B45 /* MeasurementLabel.m in Sources */,
 				55A1A7801DCDC2FB0037DF9C /* BaseView.m in Sources */,
@@ -828,73 +802,6 @@
 			targetProxy = 55916E5D1941381000F28F4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		557095F81B5A394B00326141 /* About.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				550F352F2356E78E0038264F /* Base */,
-			);
-			name = About.xib;
-			sourceTree = "<group>";
-		};
-		557095FA1B5A394B00326141 /* CanvasWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557095FB1B5A394B00326141 /* English */,
-			);
-			name = CanvasWindow.xib;
-			sourceTree = "<group>";
-		};
-		557095FC1B5A394B00326141 /* GrappleHelp.txt */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557095FD1B5A394B00326141 /* English */,
-			);
-			name = GrappleHelp.txt;
-			sourceTree = "<group>";
-		};
-		557095FE1B5A394B00326141 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557095FF1B5A394B00326141 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		557096021B5A394B00326141 /* LibraryItemPrototype.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557096031B5A394B00326141 /* English */,
-			);
-			name = LibraryItemPrototype.xib;
-			sourceTree = "<group>";
-		};
-		557096041B5A394B00326141 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557096051B5A394B00326141 /* English */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		557096061B5A394B00326141 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557096071B5A394B00326141 /* English */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		557096081B5A394B00326141 /* Preferences.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557096091B5A394B00326141 /* English */,
-			);
-			name = Preferences.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		55346DA1194130C900896455 /* Debug */ = {
