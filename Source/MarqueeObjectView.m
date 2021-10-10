@@ -46,7 +46,7 @@
 }
 
 
-- (NSInteger) canvasOrder
+- (CanvasOrder) canvasOrder
 {
     return CanvasOrderMarquee;
 }

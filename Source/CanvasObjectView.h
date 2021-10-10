@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (ResizeKnobStyle) resizeKnobStyle; // Subclasses to override
 - (NSArray *) resizeKnobEdges; // Subclasses to override
 
-- (NSInteger) canvasOrder;
+- (CanvasOrder) canvasOrder;
 - (MeasurementLabelStyle) measurementLabelStyle;
 - (BOOL) isMeasurementLabelHidden;
 

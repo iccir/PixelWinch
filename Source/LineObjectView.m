@@ -73,7 +73,7 @@
 }
 
 
-- (NSInteger) canvasOrder
+- (CanvasOrder) canvasOrder
 {
     return [[self line] isPreview] ? CanvasOrderPreviewLine : CanvasOrderLine;
 }

@@ -52,7 +52,7 @@
 }
 
 
-- (NSInteger) canvasOrder
+- (CanvasOrder) canvasOrder
 {
     return CanvasOrderGuide;
 }

@@ -141,10 +141,8 @@
         [shadow setShadowBlurRadius:2];
         [shadow setShadowOffset:NSMakeSize(0, 0)];
         
-        WithWhiteOnBlackTextMode(^{
-            [shadow set];
-            [[self _text] drawAtPoint:NSMakePoint(padding.width, padding.height) withAttributes:attributes];
-        });
+        [shadow set];
+        [[self _text] drawAtPoint:NSMakePoint(padding.width, padding.height) withAttributes:attributes];
 
         [NSGraphicsContext setCurrentContext:savedContext];
     }

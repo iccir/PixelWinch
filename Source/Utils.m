@@ -357,37 +357,6 @@ extern CGFloat GetDistance(CGPoint p1, CGPoint p2)
 }
 
 
-extern NSShadow *GetWhiteOnBlackTextShadow()
-{
-    static NSShadow *sShadow = nil;
-
-    if (!sShadow) {
-        sShadow = [[NSShadow alloc] init];
-
-        [sShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]];
-        [sShadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-        [sShadow setShadowBlurRadius:0.0];
-    }
-
-    return sShadow;
-}
-
-
-extern void WithWhiteOnBlackTextMode(void (^callback)())
-{
-    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
-    
-    CGContextSaveGState(context);
-    CGContextSetShouldSmoothFonts(context, false);
-    
-    [GetWhiteOnBlackTextShadow() set];
-    
-    callback();
-    
-    CGContextRestoreGState(context);
-}
-
-
 void AddPopInAnimation(CALayer *layer, CGFloat duration)
 {
     CAKeyframeAnimation *transform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];

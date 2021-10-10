@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 }
 
 
-- (NSInteger) canvasOrder
+- (CanvasOrder) canvasOrder
 {
     return CanvasOrderNormal;
 }

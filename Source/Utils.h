@@ -50,7 +50,7 @@ extern NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, S
 
 extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets);
 
-extern CGImageRef   CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)(CGContextRef));
+extern CGImageRef CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)(CGContextRef));
 
 
 extern CGImageRef CopyImageNamed(NSString *name);
@@ -61,9 +61,6 @@ extern CGRect GetRectByAdjustingEdge(CGRect rect, CGRectEdge edge, CGFloat value
 extern CGFloat GetDistance(CGPoint p1, CGPoint p2);
 
 extern CGPoint GetFurthestCornerInRect(CGRect rect, CGPoint point);
-
-extern NSShadow *GetWhiteOnBlackTextShadow(void);
-extern void WithWhiteOnBlackTextMode(void (^callback)());
 
 extern void AddPopInAnimation(CALayer *layer, CGFloat duration);
 

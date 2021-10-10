@@ -166,7 +166,7 @@ static const CGFloat sBorderWidth = 2;
 }
 
 
-- (NSInteger) canvasOrder
+- (CanvasOrder) canvasOrder
 {
     return CanvasOrderResizeKnob;
 }
