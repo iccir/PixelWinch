@@ -30,6 +30,7 @@
 		554F05981A29588100BF90F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554F05971A29588100BF90F0 /* Assets.xcassets */; };
 		555152F81818AC6D004485F6 /* Toolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 555152F71818AC6D004485F6 /* Toolbox.m */; };
 		555153441819FC3A004485F6 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 555153431819FC3A004485F6 /* Application.m */; };
+		555E223D2716319400D37913 /* ToolbarSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 555E223C2716319400D37913 /* ToolbarSegmentedControl.m */; };
 		5563BE00134EAAE20083A3D0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */; };
 		5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ADF8EA182B7E42008F1CEB /* GrappleTool.m */; };
 		5588EF9A182C9192000B6224 /* GrappleCalculatorImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588EF80182C5467000B6224 /* GrappleCalculatorImpl.m */; };
@@ -158,6 +159,8 @@
 		555152F71818AC6D004485F6 /* Toolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toolbox.m; path = Source/Toolbox.m; sourceTree = "<group>"; };
 		555153421819FC3A004485F6 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Source/Application.h; sourceTree = "<group>"; };
 		555153431819FC3A004485F6 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = Source/Application.m; sourceTree = "<group>"; };
+		555E223B2716319400D37913 /* ToolbarSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ToolbarSegmentedControl.h; path = Source/ToolbarSegmentedControl.h; sourceTree = "<group>"; };
+		555E223C2716319400D37913 /* ToolbarSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ToolbarSegmentedControl.m; path = Source/ToolbarSegmentedControl.m; sourceTree = "<group>"; };
 		5563BDFF134EAAE20083A3D0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		5564B8FA19DCD2D500D0139C /* Info-PixelWinch.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = "Info-PixelWinch.plist"; path = "Resources/Info-PixelWinch.plist"; sourceTree = "<group>"; };
 		557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PixelWinch_Release.xcconfig; path = Config/Combined/PixelWinch_Release.xcconfig; sourceTree = "<group>"; };
@@ -520,6 +523,8 @@
 			children = (
 				55A1A7761DCDC2FB0037DF9C /* BaseView.h */,
 				55A1A7771DCDC2FB0037DF9C /* BaseView.m */,
+				555E223B2716319400D37913 /* ToolbarSegmentedControl.h */,
+				555E223C2716319400D37913 /* ToolbarSegmentedControl.m */,
 			);
 			name = "Base Views";
 			sourceTree = "<group>";
@@ -778,6 +783,7 @@
 				55ADF90E182B8CFF008F1CEB /* Line.m in Sources */,
 				559D38D618039D930048F29B /* ShortcutView.m in Sources */,
 				55C20CF61801171E00ECE184 /* MoveTool.m in Sources */,
+				555E223D2716319400D37913 /* ToolbarSegmentedControl.m in Sources */,
 				5512BF5717FB9ACA00425AD6 /* CursorAdditions.m in Sources */,
 				5512BF3A17F968E300425AD6 /* MarqueeObjectView.m in Sources */,
 				559D38C11802ABC60048F29B /* Preferences.m in Sources */,
