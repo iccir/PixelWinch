@@ -145,7 +145,7 @@ fi
 
 if [ $NOTARY_SUCCESS -eq 1 ] ; then
     FINAL_ZIP_FILE="$ZIP_TO/$BUILD_STRING".zip
-    zip --symlinks -r "$FINAL_ZIP_FILE" $(basename "$APP_FILE")
+    zip --symlinks -r "$FINAL_ZIP_FILE" "$(basename "$APP_FILE")"
     scp "$FINAL_ZIP_FILE" "$UPLOAD_TO"
 
     set_status "Uploaded '$BUILD_STRING.zip' to server. **confetti**"
