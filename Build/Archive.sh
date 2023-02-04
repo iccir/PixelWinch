@@ -2,7 +2,7 @@
 
 TEAM_ID="XXXXXXXXXX"
 
-APP_NAME="Pixel Winch"
+APP_NAME="PixelWinch"
 
 NOTARY_BUNDLE_ID="com.iccir.PixelWinch"
 NOTARY_APPLE_ID="<redacted>"
@@ -47,7 +47,7 @@ get_plist_build ()
     printf $(defaults read "$1" CFBundleVersion | sed 's/\s//g' )
 }
 
-TMP_DIR=`mktemp -d /tmp/Embrace-Archive.XXXXXX`
+TMP_DIR=`mktemp -d /tmp/${APP_NAME}-Archive.XXXXXX`
 STATUS_MD="${TMP_DIR}/status.md"
 
 # 1. Export archive to tmp location and set APP_FILE, push to parent directory
@@ -78,7 +78,7 @@ pushd "$APP_FILE"/.. > /dev/null
 
 # 2. Zip up $APP_FILE to "App.zip" and upload to notarization server
 
-zip --symlinks -r App.zip $(basename "$APP_FILE")
+zip --symlinks -r App.zip "$(basename "$APP_FILE")"
 
 set_status "Sending to Apple notary service. This may take several minutes."
 
