@@ -213,7 +213,8 @@
 
     if ([defaults boolForKey:@"did-add-tips"]) {
         [defaults setBool:YES forKey:@"did-migrate-license-from-mas"];
-    } else {
+
+    } else if (![defaults boolForKey:@"did-migrate-license-from-mas"]) {
         [defaults setBool:NO forKey:@"did-migrate-license-from-mas"];
         [defaults synchronize];
     }
