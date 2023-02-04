@@ -18,7 +18,7 @@ static NSString * const sHeightKey    = @"height";
 
 static NSString * const sGroupNameKey = @"groupName";
 
-NSString * const PasteboardTypeCanvasObjects = @"com.pixelwinch.PixelWinch.PasteboardTypeCanvasObjects";
+NSString * const PasteboardTypeCanvasObjects = @"PixelWinch.PasteboardTypeCanvasObjects";
 
 static NSMutableDictionary *sGroupNameToClassMap = nil;
 

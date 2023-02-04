@@ -5,9 +5,7 @@
 
 - (id) initWithFrame:(CGRect)frame;
 
-- (void) layoutSubviews;
 
-@property (nonatomic, copy) NSColor *backgroundColor;
 
 @end
 

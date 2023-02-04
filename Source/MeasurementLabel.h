@@ -5,7 +5,7 @@
 
 #import "CanvasObjectView.h"
 
-@interface MeasurementLabel : BaseView
+@interface MeasurementLabel : NSView
 
 @property (nonatomic, weak) CanvasObjectView *owningObjectView;
 

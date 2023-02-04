@@ -9,8 +9,6 @@
 
 
 @implementation MarqueeObjectView {
-    NSMutableArray *_segmentLayers;
-    
     CGImageRef _pattern;
     CGSize     _patternSize;
     
@@ -31,9 +29,11 @@
         _patternSize = CGSizeMake(CGImageGetWidth(_pattern), CGImageGetHeight(_pattern));
 
         _start = [NSDate timeIntervalSinceReferenceDate];
-        _timer = MakeScheduledWeakTimer(1.0 / 60.0, self, @selector(_redrawMarquee:), nil, YES);
         
-        [self _makeLayers];
+        __weak id weakSelf = self;
+        _timer = [NSTimer scheduledTimerWithTimeInterval:(1.0 / 60.0) repeats:YES block:^(NSTimer *timer) {
+            [weakSelf _timerTick];
+        }];
     }
     
     return self;
@@ -49,26 +49,6 @@
 - (CanvasOrder) canvasOrder
 {
     return CanvasOrderMarquee;
-}
-
-
-- (void) _makeLayers
-{
-    for (CALayer *layer in _segmentLayers) {
-        [layer setDelegate:nil];
-        [layer removeFromSuperlayer];
-    }
-
-    _segmentLayers = [NSMutableArray array];
-
-    NSInteger segmentCount = 4;
-
-    for (NSInteger i = 0; i < segmentCount; i++) {
-        CALayer *layer = [CALayer layer];
-        [layer setDelegate:self];
-        [[self layer] addSublayer:layer];
-        [_segmentLayers addObject:layer];
-    }
 }
 
 
@@ -121,7 +101,6 @@
 }
 
 
-
 - (void) switchTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     if (![self inMoveMode]) {
@@ -148,9 +127,9 @@
 }
 
 
-- (void) layoutSubviews
+- (void) drawRect:(NSRect)dirtyRect
 {
-    CGRect segments[4];
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
     
     CGRect bounds = [self bounds];
     
@@ -158,23 +137,31 @@
     if (!scale) scale = 1;
 
     CGFloat length = 1.0 / scale;
-    
+
+    CGRect segments[4];
+
     segments[0] = CGRectMake(0, 0, bounds.size.width, length);
     segments[1] = CGRectMake(0, 0, length, bounds.size.height);
     segments[2] = CGRectMake(0, bounds.size.height - length, bounds.size.width, length);
     segments[3] = CGRectMake(bounds.size.width - length, 0, length, bounds.size.height);
 
-    NSInteger i = 0;
-    for (CALayer *layer in _segmentLayers) {
-        [layer setFrame:segments[i]];
-        [layer setContentsScale:scale];
-        
-        i++;
+    for (NSInteger i = 0; i < 4; i++) {
+        CGContextSaveGState(context);
+        CGContextClipToRect(context, segments[i]);
+
+        CGContextScaleCTM(context, 1, -1);
+        CGContextTranslateCTM(context, _phase, 0);
+
+        CGRect frame = CGRectMake(0,  0, CGImageGetWidth(_pattern), CGImageGetHeight(_pattern));
+    
+        CGContextDrawTiledImage(context, frame, _pattern);
+
+        CGContextRestoreGState(context);
     }
 }
 
 
-- (void) _redrawMarquee:(NSTimer *)timer
+- (void) _timerTick
 {
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
    
@@ -182,26 +169,8 @@
     
     if (_phase != phase) {
         _phase = phase;
-
-        for (CALayer *segmentLayer in _segmentLayers) {
-            [segmentLayer setNeedsDisplay];
-        }
+        [self setNeedsDisplay:YES];
     }
-}
-
-
-- (void) drawLayer:(CALayer *)layer inContext:(CGContextRef)context
-{
-    CGRect  layerFrame = [layer frame];
-   
-    CGContextScaleCTM(context, 1, -1);
-    CGContextTranslateCTM(context, _phase, 0);
-
-    CGRect frame = CGRectMake(0,  0, CGImageGetWidth(_pattern), CGImageGetHeight(_pattern));
-    
-    CGContextTranslateCTM(context, -layerFrame.origin.x, layerFrame.origin.y);
-
-    CGContextDrawTiledImage(context, frame, _pattern);
 }
 
 

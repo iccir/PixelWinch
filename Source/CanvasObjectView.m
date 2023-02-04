@@ -14,6 +14,10 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 };
 
 
+@interface CanvasObjectView () <CALayerDelegate>
+@end
+
+
 @implementation CanvasObjectView {
     CGPoint _moveTrackingMousePoint;
     CanvasObjectMoveConstraintState _moveConstraintState;
@@ -24,7 +28,17 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
     NSEvent *_duplicateMouseDragEvent;
 }
 
-- (void) preferencesDidChange:(Preferences *)preferences { }
+
+- (BOOL) isFlipped
+{
+    return YES;
+}
+
+
+- (void) preferencesDidChange:(Preferences *)preferences
+{
+    [self setNeedsDisplay:YES];
+}
 
 
 - (void) mouseDown:(NSEvent *)event
@@ -296,9 +310,9 @@ typedef NS_ENUM(NSInteger, CanvasObjectMoveConstraintState){
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (CGSize) paddingForCanvasLayout
 {
-    return NSEdgeInsetsMake(0, 0, 0, 0);
+    return CGSizeZero;
 }
 
 

@@ -459,7 +459,7 @@ static CGColorRef GetCheckerColor()
 }
 
 
-- (void) layoutSubviews
+- (void) layout
 {
     CGSize  size = [_canvas size];
 
@@ -493,20 +493,14 @@ static CGColorRef GetCheckerColor()
     for (CanvasObjectView *objectView in [_canvasObjectViews reverseObjectEnumerator]) {
         CGRect rect = [objectView rectForCanvasLayout];
 
-        const NSEdgeInsets padding = [objectView paddingForCanvasLayout];
-
         rect.origin.x    *= scale;
         rect.origin.y    *= scale;
         rect.size.width  *= scale;
         rect.size.height *= scale;
-        
-        rect.origin.x    -= padding.left;
-        rect.size.width  += (padding.left + padding.right);
-        
-        rect.origin.y    -= padding.top;
-        rect.size.height += (padding.top + padding.bottom);
-        
-        
+
+        const CGSize padding = [objectView paddingForCanvasLayout];
+        rect = CGRectInset(rect, -padding.width, -padding.height);
+       
         CGSize sizeForInfinity = [[self enclosingScrollView] bounds].size;
         sizeForInfinity.width  += frame.size.width;
         sizeForInfinity.height += frame.size.height;

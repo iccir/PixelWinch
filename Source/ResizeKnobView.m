@@ -8,161 +8,106 @@
 #import "CanvasObject.h"
 #import "CursorAdditions.h"
 
-static const CGFloat sPaddingForShadow = 8;
+static const CGFloat sPaddingForKnob   = 5;
+static const CGFloat sPaddingForShadow = 4;
 static const CGFloat sBorderWidth = 2;
 
 
-@interface ResizeKnobView () <CALayerDelegate, NSViewLayerContentScaleDelegate>
-@end
-
 
 @implementation ResizeKnobView {
-    CALayer *_sublayer;
     CGRect   _rectForResize;
     CGPoint  _downMousePoint;
 }
 
-
-- (id) initWithFrame:(CGRect)frame
+- (void) drawRect:(NSRect)dirtyRect
 {
-    if ((self = [super initWithFrame:frame])) {
-        _sublayer = [CALayer layer];
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+    
+    ResizeKnobStyle style = [[self owningObjectView] resizeKnobStyle];
+    
+    NSColor *borderColor = [NSColor whiteColor];
+    NSColor *fillColor   = [NSColor blackColor];
 
-        [[self layer] addSublayer:_sublayer];
-        [_sublayer setDelegate:self];
-        [_sublayer setNeedsDisplay];
+    CGRect rect = CGRectInset([self bounds], sPaddingForShadow, sPaddingForShadow);
+   
+    NSBezierPath *outerPath;
+    NSBezierPath *innerPath;
 
-        [self setNeedsLayout:YES];
-    }
+    if (style == ResizeKnobStyleCircular) {
+        outerPath = [NSBezierPath bezierPathWithOvalInRect:rect];
 
-    return self;
-}
-
-
-- (void) drawLayer:(CALayer *)layer inContext:(CGContextRef)context
-{
-    if (layer == _sublayer) {
-        ResizeKnobStyle style = [[self owningObjectView] resizeKnobStyle];
+        CGRect innerRect = CGRectInset(rect, sBorderWidth, sBorderWidth);
         
-        PushGraphicsContext(context);
-
-        NSColor *borderColor = [NSColor whiteColor];
-        NSColor *fillColor   = [NSColor blackColor];
-
-        CGRect rect = CGRectInset([_sublayer bounds], sPaddingForShadow, sPaddingForShadow);
-        NSBezierPath *outerPath;
-        NSBezierPath *innerPath;
-
-        if (style == ResizeKnobStyleCircular) {
-            outerPath = [NSBezierPath bezierPathWithOvalInRect:rect];
-
-            CGRect innerRect = CGRectInset(rect, sBorderWidth, sBorderWidth);
-            
-            if (!CGRectIsEmpty(innerRect)) {
-                innerPath = [NSBezierPath bezierPathWithOvalInRect:innerRect];
-            }
-
-        } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeLeft || _edge == ObjectEdgeRight)) {
-            CGFloat centerX = CGRectGetMidX(rect);
-
-            CGRect knobRect = CGRectMake(0, 0, 3, 11);
-            knobRect.origin.y = rect.origin.y + ((rect.size.height - knobRect.size.height) / 2);
-
-            if (_edge == ObjectEdgeLeft) {
-                knobRect.origin.x = centerX;
-            } else {
-                knobRect.origin.x = centerX - knobRect.size.width;
-            }
-            
-            outerPath = [NSBezierPath bezierPathWithRect:knobRect];
-
-            CGRect innerRect = CGRectInset(knobRect, 1, 1);
-            
-            if (!CGRectIsEmpty(knobRect)) {
-                innerPath = [NSBezierPath bezierPathWithRect:innerRect];
-            }
-            
-        } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeTop || _edge == ObjectEdgeBottom)) {
-            CGFloat centerY = CGRectGetMidY(rect);
-
-            CGRect knobRect = CGRectMake(0, 0, 11, 3);
-            knobRect.origin.x = rect.origin.x + ((rect.size.width - knobRect.size.width) / 2);
-
-            if (_edge == ObjectEdgeTop) {
-                knobRect.origin.y = centerY;
-            } else {
-                knobRect.origin.y = centerY - knobRect.size.height;
-            }
-            
-            outerPath = [NSBezierPath bezierPathWithRect:knobRect];
-            
-            CGRect innerRect = CGRectInset(knobRect, 1, 1);
-
-            if (!CGRectIsEmpty(knobRect)) {
-                innerPath = [NSBezierPath bezierPathWithRect:innerRect];
-            }
+        if (!CGRectIsEmpty(innerRect)) {
+            innerPath = [NSBezierPath bezierPathWithOvalInRect:innerRect];
         }
 
-        CGContextSaveGState(context);
+    } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeLeft || _edge == ObjectEdgeRight)) {
+        CGFloat centerX = CGRectGetMidX(rect);
 
-        if (outerPath) {
-            if (_highlighted) {
-                NSColor *shadowColor = [NSColor blueColor];
+        CGRect knobRect = CGRectMake(0, 0, 3, 11);
+        knobRect.origin.y = rect.origin.y + ((rect.size.height - knobRect.size.height) / 2);
 
-                borderColor = [NSColor colorWithCalibratedRed:0.9 green:0.9 blue:1.0 alpha:1.0];
-                fillColor   = [NSColor colorWithCalibratedRed:0   green:0   blue:1.0 alpha:1.0];
-
-                [borderColor set];
-                CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);
-                [outerPath fill];
-
-            } else {
-                [borderColor set];
-                [outerPath fill];
-            }
-        }
-
-        CGContextRestoreGState(context);
-
-        if (innerPath) {
-            [fillColor set];
-            [innerPath fill];
+        if (_edge == ObjectEdgeLeft) {
+            knobRect.origin.x = centerX;
+        } else {
+            knobRect.origin.x = centerX - knobRect.size.width;
         }
         
-        PopGraphicsContext();
+        outerPath = [NSBezierPath bezierPathWithRect:knobRect];
+
+        CGRect innerRect = CGRectInset(knobRect, 1, 1);
+        
+        if (!CGRectIsEmpty(knobRect)) {
+            innerPath = [NSBezierPath bezierPathWithRect:innerRect];
+        }
+        
+    } else if (style == ResizeKnobStyleRectangular && (_edge == ObjectEdgeTop || _edge == ObjectEdgeBottom)) {
+        CGFloat centerY = CGRectGetMidY(rect);
+
+        CGRect knobRect = CGRectMake(0, 0, 11, 3);
+        knobRect.origin.x = rect.origin.x + ((rect.size.width - knobRect.size.width) / 2);
+
+        if (_edge == ObjectEdgeTop) {
+            knobRect.origin.y = centerY;
+        } else {
+            knobRect.origin.y = centerY - knobRect.size.height;
+        }
+        
+        outerPath = [NSBezierPath bezierPathWithRect:knobRect];
+        
+        CGRect innerRect = CGRectInset(knobRect, 1, 1);
+
+        if (!CGRectIsEmpty(knobRect)) {
+            innerPath = [NSBezierPath bezierPathWithRect:innerRect];
+        }
     }
-}
 
+    CGContextSaveGState(context);
 
-- (void) viewDidMoveToWindow
-{
-    [super viewDidMoveToWindow];
-    [self _inheritContentsScaleFromWindow:[self window]];
-}
+    if (outerPath) {
+        if (_highlighted) {
+            NSColor *shadowColor = [NSColor blueColor];
 
+            borderColor = [NSColor colorWithCalibratedRed:0.9 green:0.9 blue:1.0 alpha:1.0];
+            fillColor   = [NSColor colorWithCalibratedRed:0   green:0   blue:1.0 alpha:1.0];
 
-- (BOOL) layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
-{
-    [self _inheritContentsScaleFromWindow:window];
-    return YES;
-}
+            [borderColor set];
+            CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [shadowColor CGColor]);
+            [outerPath fill];
 
-
-- (void) _inheritContentsScaleFromWindow:(NSWindow *)window
-{
-    CGFloat contentsScale = [window backingScaleFactor];
-
-    if (contentsScale) {
-        [_sublayer setContentsScale:contentsScale];
-        [_sublayer setNeedsDisplay];
+        } else {
+            [borderColor set];
+            [outerPath fill];
+        }
     }
-}
 
+    CGContextRestoreGState(context);
 
-- (void) layoutSubviews
-{
-    CGRect frame = [self bounds];
-    [_sublayer setFrame:CGRectInset(frame, -sPaddingForShadow, -sPaddingForShadow)];
+    if (innerPath) {
+        [fillColor set];
+        [innerPath fill];
+    }
 }
 
 
@@ -217,10 +162,10 @@ static const CGFloat sBorderWidth = 2;
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (CGSize) paddingForCanvasLayout
 {
-    const CGFloat sKnobPadding = 5;
-    return NSEdgeInsetsMake(sKnobPadding, sKnobPadding, sKnobPadding, sKnobPadding);
+    const CGFloat combinedPadding = sPaddingForKnob + sPaddingForShadow;
+    return CGSizeMake(combinedPadding, combinedPadding);
 }
 
 
@@ -318,7 +263,7 @@ static const CGFloat sBorderWidth = 2;
 {
     if (_highlighted != highlighted) {
         _highlighted = highlighted;
-        [_sublayer setNeedsDisplay];
+        [self setNeedsDisplay:YES];
     }
 }
 

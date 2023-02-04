@@ -90,23 +90,6 @@
 }
 
 
-- (void) layout
-{
-    [self layoutSubviews];
-}
-
-- (void) layoutSubviews { }
-
-
-#pragma mark - Accessors
-
-- (void) setBackgroundColor:(NSColor *)backgroundColor
-{
-    if (_backgroundColor != backgroundColor) {
-        _backgroundColor = backgroundColor;
-        [[self layer] setBackgroundColor:[backgroundColor CGColor]];
-    }
-}
 
 
 @end

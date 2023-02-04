@@ -1,3 +1,0 @@
-#include "../Base.xcconfig"
-#include "../ConfigRelease.xcconfig"
-#include "../TargetLauncher.xcconfig"

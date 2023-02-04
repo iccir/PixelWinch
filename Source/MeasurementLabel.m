@@ -10,16 +10,16 @@
 
 
 @implementation MeasurementLabel {
-    NSFont        *_font;
     NSDictionary  *_attributes;
     CALayer       *_sublayer;
-    NSString      *_currentText;
 }
 
 
 - (id) initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
+        [self setWantsLayer:YES];
+
         _sublayer = [CALayer layer];
         [_sublayer setDelegate:self];
         [_sublayer setNeedsDisplay];
@@ -31,13 +31,9 @@
 }
 
 
-- (NSFont *) _font
+- (BOOL) isFlipped
 {
-    if (!_font) {
-        _font = [NSFont userFontOfSize:13];
-    }
-
-    return _font;
+    return YES;
 }
 
 
@@ -55,14 +51,16 @@
 - (NSDictionary *) _attributes
 {
     if (!_attributes) {
+        NSFont *font = [NSFont userFontOfSize:13];
+    
         NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
         [ps setLineSpacing:0];
-        [ps setMaximumLineHeight:[[self _font] pointSize] + 1];
+        [ps setMaximumLineHeight:[font pointSize] + 1];
         [ps setAlignment:NSTextAlignmentCenter];
         
         _attributes = @{
             NSForegroundColorAttributeName: [NSColor whiteColor],
-            NSFontAttributeName: [self _font],
+            NSFontAttributeName: font,
             NSParagraphStyleAttributeName: ps
         };
     }
@@ -73,11 +71,36 @@
 
 - (void) doPopInAnimationWithDuration:(CGFloat)duration
 {
-    AddPopInAnimation(_sublayer, duration);
+    CAKeyframeAnimation *transform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    CABasicAnimation    *opacity   = [CABasicAnimation animationWithKeyPath:@"opacity"];
+
+    [transform setValues:@[
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.5,  0.5,  1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1,  1.1,  1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95, 0.95, 1)],
+        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0,  1.0,  1)],
+    ]];
+    
+    [transform setKeyTimes:@[
+        @(0.0),
+        @(0.5),
+        @(0.9),
+        @(1.0)
+    ]];
+
+    [transform setDuration:duration];
+    [opacity   setDuration:duration];
+    
+    [opacity setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    [opacity setFromValue:@(0)];
+    [opacity setToValue:@(1)];
+    
+    [_sublayer addAnimation:transform forKey:@"popIn"];
+    [_sublayer addAnimation:opacity forKey:@"opacity"];
 }
 
 
-- (void) layoutSubviews
+- (void) layout
 {
     [_sublayer setFrame:[self bounds]];
 }

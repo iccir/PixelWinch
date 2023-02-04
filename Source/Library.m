@@ -159,6 +159,9 @@
 
     LibraryItem *item = [LibraryItem libraryItem];
     [data writeToFile:[item screenshotPath] atomically:YES];
+    
+    NSString *fileName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+    [item setTitle:fileName];
 
     [self addItem:item];
 

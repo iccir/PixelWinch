@@ -8,30 +8,31 @@
 #import <objc/objc-runtime.h>
 
 
-@interface RectangleObjectView () <CALayerDelegate>
-@end
-
-
 @implementation RectangleObjectView {
-    CALayer   *_sublayer;
-    CGPoint    _downPoint;
-    MeasurementLabel *_label;
+    CGPoint _downPoint;
 }
 
 @dynamic rectangle;
 
 
-- (id) initWithFrame:(CGRect)frame
+- (void) drawRect:(NSRect)dirtyRect
 {
-    if (self = [super initWithFrame:frame]) {
-        _sublayer = [CALayer layer];
-        [_sublayer setDelegate:self];
-        [[self layer] addSublayer:_sublayer];
-        
-        [self _updateLayers];
-    }
+    CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
 
-    return self;
+    CGRect bounds = [self bounds];
+
+    CGFloat onePixel = [[self window] backingScaleFactor] > 1 ? 0.5 : 1.0;
+    CGRect insetBounds = CGRectInset(bounds, onePixel, onePixel);
+
+    Preferences *preferences = [Preferences sharedInstance];
+
+    [[preferences placedRectangleFillColor] set];
+    CGContextFillRect(context, bounds);
+    
+    [[preferences placedRectangleBorderColor] set];
+    CGContextAddRect(context, bounds);
+    CGContextAddRect(context, insetBounds);
+    CGContextEOFillPath(context);
 }
 
 
@@ -51,6 +52,7 @@
 {
     return ResizeKnobStyleCircular;
 }
+
 
 
 - (NSArray *) resizeKnobEdges
@@ -140,28 +142,6 @@
     } else {
         [super endTrackingWithEvent:event point:point];
     }
-}
-
-
-- (void) layoutSubviews
-{
-    [_sublayer setFrame:[self bounds]];
-}
-
-
-- (void) _updateLayers
-{
-    Preferences *preferences = [Preferences sharedInstance];
-
-    [_sublayer setBackgroundColor:[[preferences placedRectangleFillColor] CGColor]];
-    [_sublayer setBorderColor:[[preferences placedRectangleBorderColor] CGColor]];
-    [_sublayer setBorderWidth:0.5];
-}
-
-
-- (void) preferencesDidChange:(Preferences *)preferences
-{
-    [self _updateLayers];
 }
 
 

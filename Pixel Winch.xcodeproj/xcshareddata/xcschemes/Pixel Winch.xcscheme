@@ -105,7 +105,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "which rcbump &amp;&amp; rcbump post&#10;">
+               scriptText = "which rcbump &amp;&amp; rcbump post&#10;&quot;$PROJECT_DIR&quot;/Build/Archive.sh&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

@@ -19,26 +19,6 @@ NSString * const WinchPrivacyURLString  = @"https://www.ricciadams.com/privacy/p
 
 #pragma mark - Compatibility
 
-void PushGraphicsContext(CGContextRef ctx)
-{
-    if (!sGraphicsContextStack) {
-        sGraphicsContextStack = [NSMutableArray array];
-    }
-
-    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-
-    if (currentContext) [sGraphicsContextStack addObject:currentContext];
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithCGContext:ctx flipped:YES]];
-}
-
-
-void PopGraphicsContext()
-{
-    [NSGraphicsContext setCurrentContext:[sGraphicsContextStack lastObject]];
-    [sGraphicsContextStack removeLastObject];
-}
-
-
 BOOL IsInDebugger(void)
 {
     char *value = getenv("PixelWinchInDebugger");
@@ -205,16 +185,6 @@ NSTimer *MakeScheduledWeakTimer(NSTimeInterval timeInterval, id target, SEL sele
 }
 
 
-extern CGRect EdgeInsetsInsetRect(CGRect rect, NSEdgeInsets insets)
-{
-    rect.origin.x    += insets.left;
-    rect.origin.y    += insets.top;
-    rect.size.width  -= (insets.left + insets.right);
-    rect.size.height -= (insets.top  + insets.bottom);
-    return rect;
-}
-
-
 CGImageRef CreateImage(CGSize size, BOOL opaque, CGFloat scale, void (^callback)(CGContextRef))
 {
     size_t width  = size.width * scale;
@@ -354,37 +324,6 @@ extern CGFloat GetDistance(CGPoint p1, CGPoint p2)
 #else
     return sqrtf(powf(p2.x - p1.x, 2.0f) + powf(p2.y - p1.y, 2.0f));
 #endif
-}
-
-
-void AddPopInAnimation(CALayer *layer, CGFloat duration)
-{
-    CAKeyframeAnimation *transform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-    CABasicAnimation    *opacity   = [CABasicAnimation animationWithKeyPath:@"opacity"];
-
-    [transform setValues:@[
-        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.5,  0.5,  1)],
-        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1,  1.1,  1)],
-        [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95, 0.95, 1)],
-        [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0,  1.0,  1)],
-    ]];
-    
-    [transform setKeyTimes:@[
-        @(0.0),
-        @(0.5),
-        @(0.9),
-        @(1.0)
-    ]];
-
-    [transform setDuration:duration];
-    [opacity   setDuration:duration];
-    
-    [opacity setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    [opacity setFromValue:@(0)];
-    [opacity setToValue:@(1)];
-    
-    [layer addAnimation:transform forKey:@"popIn"];
-    [layer addAnimation:opacity forKey:@"opacity"];
 }
 
 

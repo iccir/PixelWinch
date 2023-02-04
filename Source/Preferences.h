@@ -38,11 +38,11 @@ typedef NS_ENUM(NSInteger, IconMode) {
 
 @interface Preferences : NSObject
 
++ (void) registerDefaults;
+
 + (instancetype) sharedInstance;
 
 - (void) restoreDefaultColors;
-
-@property (nonatomic) BOOL launchAtLogin;
 
 @property (nonatomic) CanvasAppearance canvasAppearance;
 @property (nonatomic) IconMode iconMode;

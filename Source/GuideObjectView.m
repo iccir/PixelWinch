@@ -12,53 +12,13 @@
 
 
 @implementation GuideObjectView {
-    CALayer *_sublayer;
     BOOL     _tracking;
 }
 
 @dynamic guide;
 
 
-- (id) initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame])) {
-        _sublayer = [CALayer layer];
-
-        [_sublayer setDelegate:self];
-
-        [[self layer] addSublayer:_sublayer];
-        
-        [self _updateLayersAnimated:NO];
-    }
-
-    return self;
-}
-
-
-- (void) _updateLayersAnimated:(BOOL)animated
-{
-    Preferences *preferences = [Preferences sharedInstance];
-
-    if (animated) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-        [animation setFromValue:(__bridge id)[_sublayer backgroundColor]];
-        [animation setDuration:0.25];
-        
-        [_sublayer addAnimation:animation forKey:@"backgroundColor"];
-    }
-
-    NSColor *color = _tracking ? [preferences activeGuideColor] : [preferences placedGuideColor];
-    [_sublayer setBackgroundColor:[color CGColor]];
-}
-
-
-- (CanvasOrder) canvasOrder
-{
-    return CanvasOrderGuide;
-}
-
-
-- (void) layoutSubviews
+- (void) drawRect:(NSRect)dirtyRect
 {
     Guide *guide = [self guide];
     CGRect frame = [self bounds];
@@ -75,23 +35,25 @@
         frame.size.height = 1;
     }
 
-    [_sublayer setFrame:frame];
+    Preferences *preferences = [Preferences sharedInstance];
+
+    NSColor *color = _tracking ? [preferences activeGuideColor] : [preferences placedGuideColor];
+    [color set];
+    
+    NSRectFill(frame);
 }
 
 
-- (void) preferencesDidChange:(Preferences *)preferences
+- (CanvasOrder) canvasOrder
 {
-    [self _updateLayersAnimated:YES];
+    return CanvasOrderGuide;
 }
 
 
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _tracking = YES;
-    [self _updateLayersAnimated:YES];
-
-    Preferences *preferences = [Preferences sharedInstance];
-    [_sublayer setBackgroundColor:[[preferences activeGuideColor] CGColor]];
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -107,7 +69,7 @@
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _tracking = NO;
-    [self _updateLayersAnimated:YES];
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -134,12 +96,12 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (CGSize) paddingForCanvasLayout
 {
     if ([[self guide] isVertical]) {
-        return NSEdgeInsetsMake(0, 2, 0, 2);
+        return CGSizeMake(2, 0);
     } else {
-        return NSEdgeInsetsMake(2, 0, 2, 0);
+        return CGSizeMake(0, 2);
     }
 }
 

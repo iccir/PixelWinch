@@ -1651,8 +1651,13 @@
     if (!_currentLibraryItem) return;
 
     NSSavePanel *savePanel = [NSSavePanel savePanel];
+    NSString *nameFieldStringValue = @"Pixel Winch Image";
 
-    [savePanel setNameFieldStringValue:@"Pixel Winch Image"];
+    if ([_currentLibraryItem title]) {
+        nameFieldStringValue = [_currentLibraryItem title];
+    }
+
+    [savePanel setNameFieldStringValue:nameFieldStringValue];
     [savePanel setShowsTagField:NO];
     [savePanel setAllowedFileTypes:@[ @"public.png" ]];
     

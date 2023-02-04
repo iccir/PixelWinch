@@ -8,7 +8,7 @@
 @protocol CanvasViewDelegate;
 
 
-@interface CanvasView : BaseView
+@interface CanvasView : NSView
 
 - (id) initWithFrame:(NSRect)frameRect canvas:(Canvas *)canvas;
 

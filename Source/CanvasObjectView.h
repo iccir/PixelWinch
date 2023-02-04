@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 };
 
 
-@interface CanvasObjectView : BaseView
+@interface CanvasObjectView : NSView
 
 - (CanvasView *) canvasView;
 
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, CanvasOrder) {
 - (NSCursor *) cursor;
 
 - (CGRect) rectForCanvasLayout;
-- (NSEdgeInsets) paddingForCanvasLayout;
+- (CGSize) paddingForCanvasLayout;
 
 - (ResizeKnobStyle) resizeKnobStyle; // Subclasses to override
 - (NSArray *) resizeKnobEdges; // Subclasses to override

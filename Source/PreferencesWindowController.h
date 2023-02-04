@@ -30,6 +30,4 @@
 @property (nonatomic, strong) IBOutlet NSView *appearancePane;
 @property (nonatomic, strong) IBOutlet NSView *keyboardPane;
 
-@property (nonatomic, weak)   IBOutlet NSButton *launchAtLoginButton;
-
 @end

@@ -39,7 +39,6 @@ static NSDictionary *sGetDefaultValues()
     sDefaultValues = @{
         @"canvasAppearance":      @(CanvasAppearanceDarkMode),
         @"iconMode":              @(IconModeInBoth),
-        @"launchAtLogin":         @(NO),
         @"allowsQuit":            @(YES),
 
         @"captureSelectionShortcut":    [Shortcut emptyShortcut],
@@ -107,8 +106,14 @@ static void sSetDefaultObject(id dictionary, NSString *key, id valueToSave, id d
 }
 
 
-static void sRegisterDefaults()
+@implementation Preferences
+
+
++ (void) registerDefaults
 {
+    static BOOL sDidRegisterDefaults = NO;
+    if (sDidRegisterDefaults) return;
+
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 
     NSDictionary *defaultValuesDictionary = sGetDefaultValues();
@@ -118,10 +123,9 @@ static void sRegisterDefaults()
     }
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
+    sDidRegisterDefaults = YES;
 }
-
-
-@implementation Preferences
 
 
 + (id) sharedInstance
@@ -130,7 +134,7 @@ static void sRegisterDefaults()
     static dispatch_once_t onceToken;
 
     dispatch_once(&onceToken, ^{
-        sRegisterDefaults();
+        [self registerDefaults];
         sSharedInstance = [[Preferences alloc] init];
     });
     

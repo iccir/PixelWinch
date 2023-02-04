@@ -10,95 +10,23 @@
 #import "CursorAdditions.h"
 
 
-@interface LineObjectView () <CALayerDelegate>
-@end
-
-
 @implementation LineObjectView {
-    CALayer   *_lineLayer;
-    CALayer   *_startAnchorLayer;
-    CALayer   *_endAnchorLayer;
-
-    CGPoint    _downPoint;
-    CGPoint    _originalPoint;
-    
     BOOL _tracking;
 }
 
 @dynamic line;
 
 
-- (id) initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame])) {
-        _lineLayer = [CALayer layer];
-        [_lineLayer setDelegate:self];
+#pragma mark - Superclass Overrides
 
-        _startAnchorLayer = [CALayer layer];
-        [_startAnchorLayer setDelegate:self];
-
-        _endAnchorLayer = [CALayer layer];
-        [_endAnchorLayer setDelegate:self];
-
-        [[self layer] addSublayer:_lineLayer];
-        [[self layer] addSublayer:_endAnchorLayer];
-        [[self layer] addSublayer:_startAnchorLayer];
-        
-        [self _updateLayersAnimated:NO];
-    }
-
-    return self;
-}
-
-
-- (NSCursor *) cursor
-{
-    return [NSCursor arrowCursor];
-}
-
-
-- (ResizeKnobStyle) resizeKnobStyle
-{
-    return ResizeKnobStyleRectangular;
-}
-
-
-- (NSArray *) resizeKnobEdges
-{
-    if ([[self line] isVertical]) {
-        return @[ @( ObjectEdgeTop  ), @( ObjectEdgeBottom ) ];
-    } else {
-        return @[ @( ObjectEdgeLeft ), @( ObjectEdgeRight  ) ];
-    }
-}
-
-
-- (CanvasOrder) canvasOrder
-{
-    return [[self line] isPreview] ? CanvasOrderPreviewLine : CanvasOrderLine;
-}
-
-
-- (void) viewWillMoveToWindow:(NSWindow *)newWindow
-{
-    [super viewWillMoveToWindow:newWindow];
-    
-    CGFloat scale = [newWindow backingScaleFactor];
-    
-    [_lineLayer        setContentsScale:scale];
-    [_startAnchorLayer setContentsScale:scale];
-    [_endAnchorLayer   setContentsScale:scale];
-}
-
-
-- (void) layoutSubviews
+- (void) drawRect:(NSRect)dirtyRect
 {
     Line   *line  = [self line];
     CGRect  frame = [self bounds];
 
-    NSEdgeInsets insets = [self paddingForCanvasLayout];
-    CGRect insetRect = EdgeInsetsInsetRect(frame, insets);
-
+    CGSize padding = [self paddingForCanvasLayout];
+    CGRect insetRect = CGRectInset(frame, padding.width, padding.height);
+    
     CGRect startAnchorFrame = insetRect;
     CGRect endAnchorFrame = insetRect;
     
@@ -128,27 +56,7 @@
 
         showAnchors = startAnchorFrame.size.height > 4;
     }
-    
-    [_lineLayer setFrame:frame];
-
-    [_startAnchorLayer setFrame:startAnchorFrame];
-    [_endAnchorLayer   setFrame:endAnchorFrame];
-
-    [_startAnchorLayer setHidden:!showAnchors];
-    [_endAnchorLayer   setHidden:!showAnchors];
-}
-
-
-- (void) preferencesDidChange:(Preferences *)preferences
-{
-    [self _updateLayersAnimated:NO];
-}
-
-
-#pragma mark - Private Methods
-
-- (void) _updateLayersAnimated:(BOOL)animated
-{
+   
     Preferences *preferences = [Preferences sharedInstance];
 
     NSColor *lineColor = nil;
@@ -159,19 +67,40 @@
         lineColor = [preferences placedGrappleColor];
     }
 
-    if (animated) {
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-        [animation setFromValue:(__bridge id)[_lineLayer backgroundColor]];
-        [animation setDuration:0.25];
-        
-        [_lineLayer        addAnimation:animation forKey:@"backgroundColor"];
-        [_startAnchorLayer addAnimation:animation forKey:@"backgroundColor"];
-        [_endAnchorLayer   addAnimation:animation forKey:@"backgroundColor"];
-    }
+    [lineColor set];
+    NSRectFill(frame);
 
-    [_lineLayer        setBackgroundColor:[lineColor CGColor]];
-    [_startAnchorLayer setBackgroundColor:[lineColor CGColor]];
-    [_endAnchorLayer   setBackgroundColor:[lineColor CGColor]];
+    if (showAnchors) {
+        NSRectFill(startAnchorFrame);
+        NSRectFill(endAnchorFrame);
+    }
+}
+
+- (NSCursor *) cursor
+{
+    return [NSCursor arrowCursor];
+}
+
+
+- (ResizeKnobStyle) resizeKnobStyle
+{
+    return ResizeKnobStyleRectangular;
+}
+
+
+- (NSArray *) resizeKnobEdges
+{
+    if ([[self line] isVertical]) {
+        return @[ @( ObjectEdgeTop  ), @( ObjectEdgeBottom ) ];
+    } else {
+        return @[ @( ObjectEdgeLeft ), @( ObjectEdgeRight  ) ];
+    }
+}
+
+
+- (CanvasOrder) canvasOrder
+{
+    return [[self line] isPreview] ? CanvasOrderPreviewLine : CanvasOrderLine;
 }
 
 
@@ -179,11 +108,8 @@
 
 - (void) startTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
-    _downPoint = [event locationInWindow];
-    _originalPoint = point;
-
     _tracking = YES;
-    [self _updateLayersAnimated:YES];
+    [self setNeedsDisplay:YES];
 
     if (![self isNewborn]) {
         [super startTrackingWithEvent:event point:point];
@@ -194,7 +120,7 @@
 - (void) endTrackingWithEvent:(NSEvent *)event point:(CGPoint)point
 {
     _tracking = NO;
-    [self _updateLayersAnimated:YES];
+    [self setNeedsDisplay:YES];
 
     if ([self isNewborn]) {
         [[self canvasView] makeVisibleAndPopInLabelForView:self];
@@ -210,12 +136,12 @@
 }
 
 
-- (NSEdgeInsets) paddingForCanvasLayout
+- (CGSize) paddingForCanvasLayout
 {
     if ([[self line] isVertical]) {
-        return NSEdgeInsetsMake(0, 1, 0, 1);
+        return CGSizeMake(1, 0);
     } else {
-        return NSEdgeInsetsMake(1, 0, 1, 0);
+        return CGSizeMake(0, 1);
     }
 }
 
@@ -225,14 +151,14 @@
 - (void) setLine:(Line *)line
 {
     [self setCanvasObject:line];
-    [self _updateLayersAnimated:NO];
+    [self setNeedsDisplay:YES];
 }
 
 
 - (void) setNewborn:(BOOL)newborn
 {
     [super setNewborn:newborn];
-    [self _updateLayersAnimated:NO];
+    [self setNeedsDisplay:YES];
 }
 
 
