@@ -10,6 +10,7 @@
 #import "AboutWindowController.h"
 #import "CanvasWindowController.h"
 #import "PreferencesWindowController.h"
+#import "MigrationWindowController.h"
 
 #import "CaptureManager.h"
 
@@ -207,36 +208,6 @@
 }
 
 
-- (void) _checkForLicense
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    if ([defaults boolForKey:@"did-add-tips"]) {
-        [defaults setBool:YES forKey:@"did-migrate-license-from-mas"];
-
-    } else if (![defaults boolForKey:@"did-migrate-license-from-mas"]) {
-        [defaults setBool:NO forKey:@"did-migrate-license-from-mas"];
-        [defaults synchronize];
-    }
-    
-    if (![defaults boolForKey:@"did-migrate-license-from-mas"]) {
-        NSAlert *alert = [[NSAlert alloc] init];
-  
-        [alert setMessageText:@"License Migration Failed"];
-        [alert setInformativeText:
-            @"This version of Pixel Winch is only available to those who purchased the original Mac App Store version.\n\n"
-            @"Download and run the Mac App Store version, then rerun this version."
-        ];
-
-        [alert addButtonWithTitle:@"Quit"];
-
-        [alert runModal];
-        
-        [[NSApplication sharedApplication] terminate:nil];
-    }
-}
-
-
 - (void) applicationWillFinishLaunching:(NSNotification *)notification
 {
 }
@@ -257,12 +228,25 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
-
     [Preferences registerDefaults];
-    [Migration migrateIfNeeded];
 
-    [self _checkForLicense];
+    BOOL didMigrate = NO;
+
+    if ([Migration needsMigration]) {
+        MigrationWindowController *controller = [[MigrationWindowController alloc] initWithWindowNibName:@"MigrationWindow"];
+
+        NSModalResponse response = [NSApp runModalForWindow:[controller window]];
+        [[controller window] orderOut:self];
+        
+        [controller dismissController:self];
+        
+        if (response == NSModalResponseOK) {
+            [Migration migrate];
+            didMigrate = YES;
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
     // Load library
     [Library sharedInstance];
@@ -278,6 +262,10 @@
 
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];
+    
+    if (didMigrate) {
+        [[self canvasWindowController] toggleVisibility];
+    }
 }
 
 

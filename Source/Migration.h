@@ -11,7 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Migration : NSObject
 
-+ (void) migrateIfNeeded;
++ (BOOL) needsMigration;
++ (void) migrate;
+
++ (BOOL) isValidReceiptData:(NSData *)data;
 
 @end
 

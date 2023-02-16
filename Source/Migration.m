@@ -7,6 +7,13 @@
 
 #import "Migration.h"
 
+
+NSString *DidMigrateDataKey    = @"did-migrate-data-from-mas";
+NSString *DidMigrateLicenseKey = @"did-migrate-license-from-mas";
+
+
+#pragma mark - Data Migration
+
 static NSURL *sGetLegacyLibraryURL(void)
 {
     NSString *path = @"~/Library/Containers/com.pixelwinch.PixelWinch/Data/Library";
@@ -60,13 +67,10 @@ static BOOL sMigrateLegacyPlist()
         WinchWarn(@"Migration", @"plist was not a dictionary %@", plistURL);
         return NO;
     }
-    NSLog(@"%@", dictionary);
 
     for (NSString *key in [dictionary allKeys]) {
         [[NSUserDefaults standardUserDefaults] setObject:[dictionary objectForKey:key] forKey:key];
     }
-
-//    [[Preferences sharedInstance] loadWithDictionary:dictionary];
 
     return YES;
 }
@@ -103,16 +107,44 @@ static BOOL sMigrateLegacyScreenshots()
 
 @implementation Migration
 
-+ (void) migrateIfNeeded
+
++ (BOOL) needsMigration
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    if (![defaults boolForKey:@"did-migrate-data-from-mas"]) {
+    BOOL didMigrateData    = [defaults boolForKey:DidMigrateDataKey];
+    BOOL didMigrateLicense = [defaults boolForKey:DidMigrateLicenseKey];
+    
+    [defaults setBool:didMigrateData    forKey:DidMigrateDataKey];
+    [defaults setBool:didMigrateLicense forKey:DidMigrateLicenseKey];
+
+    return !didMigrateLicense;
+}
+
+
++ (void) migrate
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if (![defaults boolForKey:DidMigrateDataKey]) {
         sMigrateLegacyPlist();
         sMigrateLegacyScreenshots();
     
-        [defaults setBool:YES forKey:@"did-migrate-data-from-mas"];
+        [defaults setBool:YES forKey:DidMigrateDataKey];
     }
+    
+    [defaults setBool:YES forKey:DidMigrateLicenseKey];
+}
+    
+
++ (BOOL) isValidReceiptData:(NSData *)data
+{
+    const char *bundleID = "com.pixelwinch.PixelWinch";
+    size_t bundleIDLength = strlen(bundleID);
+    
+    void *location = memmem([data bytes], [data length], bundleID, bundleIDLength);
+    
+    return location != NULL;
 }
 
 @end
