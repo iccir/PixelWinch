@@ -755,6 +755,8 @@ static CGColorRef GetCheckerColor()
 
         [self addSubview:label];
     }
+    
+    [self setNeedsLayout:YES];
 }
 
 
@@ -769,6 +771,8 @@ static CGColorRef GetCheckerColor()
 
     [view removeFromSuperview];
     [_canvasObjectViews removeObject:view];
+
+    [self setNeedsLayout:YES];
 }
 
 

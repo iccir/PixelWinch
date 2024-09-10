@@ -290,6 +290,8 @@
 
 - (IBAction) importImage:(id)sender
 {
+    [NSApp activateIgnoringOtherApps:YES];
+
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 
     [openPanel setTitle:NSLocalizedString(@"Import Image", nil)];
@@ -393,6 +395,7 @@
     @synchronized(self) {
         if (!_canvasWindowController) {
             _canvasWindowController = [[CanvasWindowController alloc] initWithWindowNibName:@"CanvasWindow"];
+            [_canvasWindowController loadWindow];
         }
         
         return _canvasWindowController;
