@@ -74,10 +74,9 @@ open -b com.apple.dt.Xcode "$STATUS_MD"
 
 pushd "$APP_FILE"/.. > /dev/null
 
-
 # Zip up $APP_FILE to $ZIP_FILE and upload to notarization server
 
-zip --symlinks -r "$ZIP_FILE" $(basename "$APP_FILE")
+zip --symlinks -r "$ZIP_FILE" "$(basename "$APP_FILE")"
 
 set_status "Sending to Apple notary service. This may take several minutes."
 
