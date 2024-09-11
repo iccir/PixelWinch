@@ -1,13 +1,27 @@
 #!/bin/sh
 
 BUILD_PREFIX="PixelWinch"
-
-TEAM_ID="XXXXXXXXXX"
-KEYCHAIN_PROFILE="<redacted>"
-
 ZIP_TO="$HOME/Desktop"
-UPLOAD_TO="<redacted>"
-PUBLIC_URL="https://www.ricciadams.com/downloads/pixel-winch/betas"
+
+# ----------------------------------
+# Fill variables from Private/Archive.plist
+
+PRIVATE_PLIST=$(dirname $0)/../Private/Archive.plist
+
+if [ ! -f "$PRIVATE_PLIST" ]; then
+    echo "Private/Archive.plist is missing, cannot archive." >&2
+    exit 1
+fi
+
+get_private_setting ()
+{
+    defaults read "$PRIVATE_PLIST" "$1"
+}
+
+TEAM_ID=$(          get_private_setting "team-id"          )
+KEYCHAIN_PROFILE=$( get_private_setting "keychain-profile" )
+UPLOAD_TO=$(        get_private_setting "upload-to"        )
+PUBLIC_URL=$(       get_private_setting "public-url"       )
 
 # ----------------------------------
 
@@ -98,7 +112,7 @@ if [[ "${SUBMIT_STATUS}" =~ "Accepted" ]] ; then
     xcrun stapler staple "$APP_FILE"
 
     FINAL_ZIP_FILE="$ZIP_TO/$ZIP_FILE"
-    zip --symlinks -r "$FINAL_ZIP_FILE" $(basename "$APP_FILE")
+    zip --symlinks -r "$FINAL_ZIP_FILE" "$(basename "$APP_FILE")"
     scp "$FINAL_ZIP_FILE" "$UPLOAD_TO"
 
     if [ -n "$PUBLIC_URL" ]; then
