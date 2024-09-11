@@ -758,9 +758,7 @@
 			baseConfigurationReference = 557B77402160DB9C00CAAB7C /* PixelWinch_Profile.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_NAME = "Pixel Winch";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Profile;
 		};
@@ -787,9 +785,7 @@
 			baseConfigurationReference = 557B77412160DB9C00CAAB7C /* PixelWinch_Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_NAME = "Pixel Winch";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -815,9 +811,7 @@
 			baseConfigurationReference = 557B773F2160DB9C00CAAB7C /* PixelWinch_Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XXXXXXXXXX;
 				PRODUCT_NAME = "Pixel Winch";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
