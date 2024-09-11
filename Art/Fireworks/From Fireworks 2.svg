@@ -1,0 +1,174 @@
+<?xml version="1.0" standalone="no"?>
+<!-- Generator: Adobe Fireworks 10, Export SVG Extension by Aaron Beall (http://fireworks.abeall.com) . Version: 0.6.0  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="Cursors" viewBox="0 0 640 640" style="background-color:#ffffff00" version="1.1"
+	xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+	x="0px" y="0px" width="640px" height="640px"
+>
+	<defs>
+		<filter id="filter61" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="1"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="1"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow61"/>
+		</filter>
+		<filter id="filter62" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="2"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="2"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow62"/>
+		</filter>
+		<clipPath id="mask6">
+		</clipPath>
+		<clipPath id="mask7">
+		</clipPath>
+		<clipPath id="mask8">
+		</clipPath>
+		<clipPath id="mask9">
+		</clipPath>
+		<clipPath id="mask10">
+		</clipPath>
+		<clipPath id="mask11">
+		</clipPath>
+		<clipPath id="mask12">
+		</clipPath>
+		<clipPath id="mask13">
+		</clipPath>
+		<clipPath id="mask14">
+		</clipPath>
+		<clipPath id="mask15">
+		</clipPath>
+		<clipPath id="mask16">
+		</clipPath>
+		<clipPath id="mask17">
+		</clipPath>
+		<clipPath id="mask18">
+		</clipPath>
+		<clipPath id="mask19">
+		</clipPath>
+		<clipPath id="mask20">
+		</clipPath>
+		<clipPath id="mask21">
+		</clipPath>
+		<clipPath id="mask22">
+		</clipPath>
+		<clipPath id="mask23">
+		</clipPath>
+		<clipPath id="mask24">
+		</clipPath>
+		<clipPath id="mask25">
+		</clipPath>
+		<clipPath id="mask26">
+		</clipPath>
+		<clipPath id="mask27">
+		</clipPath>
+		<clipPath id="mask28">
+		</clipPath>
+		<clipPath id="mask29">
+		</clipPath>
+		<clipPath id="mask30">
+		</clipPath>
+		<clipPath id="mask31">
+		</clipPath>
+		<clipPath id="mask32">
+		</clipPath>
+		<clipPath id="mask33">
+		</clipPath>
+		<clipPath id="mask34">
+		</clipPath>
+		<clipPath id="mask35">
+		</clipPath>
+		<filter id="filter63" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="2"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="2"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow63"/>
+		</filter>
+		<filter id="filter64" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="1"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="1"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow64"/>
+		</filter>
+		<filter id="filter65" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="2"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="2"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow65"/>
+		</filter>
+		<filter id="filter66" x="-100%" y="-100%" width="300%" height="300%">
+			<!-- Drop Shadow -->
+			<feOffset result="out" in="SourceGraphic" dx="0" dy="1"/>
+			<feColorMatrix result="out" in="out" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3294 0"/>
+			<feGaussianBlur result="out" in="out" stdDeviation="1"/>
+			<feBlend in="SourceGraphic" in2="out" mode="normal" result="Drop_Shadow66"/>
+		</filter>
+	</defs>
+	<g id="Layer%2012">
+		<path filter="url(#filter61)" d="M 104 151.5 C 104 152.8962 104.8175 154.1033 106 154.665 L 106 157 L 103 157 L 103 160 L 112 160 L 112 157 L 109 157 L 109 154.665 C 110.1825 154.1033 111 152.8962 111 151.5 C 111 150.1038 110.1825 148.8967 109 148.335 L 109 146 L 112 146 L 112 143 L 103 143 L 103 146 L 106 146 L 106 148.335 C 104.8175 148.8967 104 150.1038 104 151.5 Z" fill="#ffffff"/>
+		<path filter="url(#filter62)" d="M 114 204 C 114 206.6125 115.6696 208.8363 118 209.66 L 118 217 L 112 217 L 112 221 L 128 221 L 128 217 L 122 217 L 122 209.66 C 124.3304 208.8363 126 206.6125 126 204 C 126 201.3875 124.3304 199.1637 122 198.34 L 122 191 L 128 191 L 128 187 L 112 187 L 112 191 L 118 191 L 118 198.34 C 115.6696 199.1637 114 201.3875 114 204 Z" fill="#ffffff"/>
+		<image clip-path="url(#mask6)" x="2" y="143" width="20" height="20" xlink:href="Cursors.images/image12.png"/>
+		<image clip-path="url(#mask7)" x="21" y="22" width="18" height="18" xlink:href="Cursors.images/image13.png"/>
+		<image clip-path="url(#mask8)" x="42" y="84" width="36" height="36" xlink:href="Cursors.images/image14.png"/>
+		<image clip-path="url(#mask9)" x="4" y="21" width="12" height="19" xlink:href="Cursors.images/image15.png"/>
+		<image clip-path="url(#mask10)" x="5" y="83" width="30" height="37" xlink:href="Cursors.images/image16.png"/>
+		<image clip-path="url(#mask11)" x="140" y="1" width="15" height="15" xlink:href="Cursors.images/image17.png"/>
+		<image clip-path="url(#mask12)" x="280" y="42" width="28" height="28" xlink:href="Cursors.images/image18.png"/>
+		<image clip-path="url(#mask13)" x="61" y="22" width="18" height="18" xlink:href="Cursors.images/image19.png"/>
+		<image clip-path="url(#mask14)" x="122" y="84" width="36" height="36" xlink:href="Cursors.images/image20.png"/>
+		<image clip-path="url(#mask15)" x="84" y="4" width="12" height="16" xlink:href="Cursors.images/image21.png"/>
+		<image clip-path="url(#mask16)" x="165" y="48" width="30" height="32" xlink:href="Cursors.images/image22.png"/>
+		<image clip-path="url(#mask17)" x="132" y="52" width="28" height="28" xlink:href="Cursors.images/image23.png"/>
+		<image clip-path="url(#mask18)" x="100" y="5" width="15" height="15" xlink:href="Cursors.images/image24.png"/>
+		<image clip-path="url(#mask19)" x="200" y="52" width="28" height="28" xlink:href="Cursors.images/image25.png"/>
+		<image clip-path="url(#mask20)" x="120" y="5" width="17" height="12" xlink:href="Cursors.images/image26.png"/>
+		<image clip-path="url(#mask21)" x="241" y="47" width="33" height="30" xlink:href="Cursors.images/image27.png"/>
+		<image clip-path="url(#mask22)" x="43" y="5" width="17" height="12" xlink:href="Cursors.images/image28.png"/>
+		<image clip-path="url(#mask23)" x="86" y="47" width="33" height="30" xlink:href="Cursors.images/image29.png"/>
+		<image clip-path="url(#mask24)" x="40" y="25" width="20" height="12" xlink:href="Cursors.images/image30.png"/>
+		<image clip-path="url(#mask25)" x="81" y="87" width="38" height="30" xlink:href="Cursors.images/image31.png"/>
+		<image clip-path="url(#mask26)" x="4" y="1" width="12" height="17" xlink:href="Cursors.images/image32.png"/>
+		<image clip-path="url(#mask27)" x="5" y="43" width="30" height="33" xlink:href="Cursors.images/image33.png"/>
+		<image clip-path="url(#mask28)" x="25" y="1" width="15" height="15" xlink:href="Cursors.images/image34.png"/>
+		<image clip-path="url(#mask29)" x="52" y="42" width="28" height="28" xlink:href="Cursors.images/image35.png"/>
+		<image x="100" y="20" width="19" height="19" xlink:href="Cursors.images/image36.png"/>
+		<image clip-path="url(#mask30)" x="200" y="80" width="39" height="39" xlink:href="Cursors.images/image37.png"/>
+		<image x="80" y="20" width="19" height="19" xlink:href="Cursors.images/image38.png"/>
+		<image clip-path="url(#mask31)" x="160" y="80" width="39" height="39" xlink:href="Cursors.images/image39.png"/>
+		<image clip-path="url(#mask32)" x="26" y="143" width="20" height="20" xlink:href="Cursors.images/image40.png"/>
+		<image clip-path="url(#mask33)" x="51" y="186" width="42" height="40" xlink:href="Cursors.images/image41.png"/>
+		<image clip-path="url(#mask34)" x="65" y="5" width="15" height="15" xlink:href="Cursors.images/image42.png"/>
+		<image clip-path="url(#mask35)" x="4" y="185" width="40" height="42" xlink:href="Cursors.images/image43.png"/>
+		<path filter="url(#filter63)" d="M 162.34 206 C 163.1637 208.3304 165.3875 210 168 210 C 170.6125 210 172.8363 208.3304 173.66 206 L 181 206 L 181 212 L 185 212 L 185 196 L 181 196 L 181 202 L 173.66 202 C 172.8363 199.6696 170.6125 198 168 198 C 165.3875 198 163.1637 199.6696 162.34 202 L 155 202 L 155 196 L 151 196 L 151 212 L 155 212 L 155 206 L 162.34 206 Z" fill="#ffffff"/>
+		<path id="Ellipse29" d="M 120 199 C 122.7615 199 125 201.2385 125 204 C 125 206.7615 122.7615 209 120 209 C 117.2385 209 115 206.7615 115 204 C 115 201.2385 117.2385 199 120 199 Z" fill="#000000"/>
+		<rect x="119" y="189" width="2" height="30" fill="#000000"/>
+		<path id="Ellipse30" d="M 120 201 C 121.6569 201 123 202.3431 123 204 C 123 205.6569 121.6569 207 120 207 C 118.3431 207 117 205.6569 117 204 C 117 202.3431 118.3431 201 120 201 Z" fill="#ffffff"/>
+		<path id="Ellipse31" d="M 173 204 C 173 206.7615 170.7615 209 168 209 C 165.2385 209 163 206.7615 163 204 C 163 201.2385 165.2385 199 168 199 C 170.7615 199 173 201.2385 173 204 Z" fill="#000000"/>
+		<rect x="153" y="203" width="30" height="2" fill="#000000"/>
+		<path id="Ellipse32" d="M 171 204 C 171 205.6569 169.6569 207 168 207 C 166.3431 207 165 205.6569 165 204 C 165 202.3431 166.3431 201 168 201 C 169.6569 201 171 202.3431 171 204 Z" fill="#ffffff"/>
+		<rect x="113" y="188" width="14" height="2" fill="#000000"/>
+		<rect x="113" y="218" width="14" height="2" fill="#000000"/>
+		<rect x="152" y="197" width="2" height="14" fill="#000000"/>
+		<rect x="182" y="197" width="2" height="14" fill="#000000"/>
+		<path d="M 107.5 150 C 108.3284 150 109 150.6716 109 151.5 C 109 152.3284 108.3284 153 107.5 153 C 106.6716 153 106 152.3284 106 151.5 C 106 150.6716 106.6716 150 107.5 150 ZM 107 149.05 C 105.8589 149.2816 105 150.2905 105 151.5 C 105 152.7095 105.8589 153.7184 107 153.95 L 107 158 L 104 158 L 104 159 L 111 159 L 111 158 L 108 158 L 108 153.95 C 109.1411 153.7184 110 152.7095 110 151.5 C 110 150.2905 109.1411 149.2816 108 149.05 L 108 145 L 111 145 L 111 144 L 104 144 L 104 145 L 107 145 L 107 149.05 Z" fill="#000000"/>
+		<path filter="url(#filter64)" d="M 131.5 155 C 132.8962 155 134.1033 154.1825 134.665 153 L 137 153 L 137 156 L 140 156 L 140 147 L 137 147 L 137 150 L 134.665 150 C 134.1033 148.8175 132.8962 148 131.5 148 C 130.1038 148 128.8967 148.8175 128.335 150 L 126 150 L 126 147 L 123 147 L 123 156 L 126 156 L 126 153 L 128.335 153 C 128.8967 154.1825 130.1038 155 131.5 155 Z" fill="#ffffff"/>
+		<path d="M 130 151.5 C 130 150.6716 130.6716 150 131.5 150 C 132.3284 150 133 150.6716 133 151.5 C 133 152.3284 132.3284 153 131.5 153 C 130.6716 153 130 152.3284 130 151.5 ZM 129.05 152 C 129.2816 153.1411 130.2905 154 131.5 154 C 132.7095 154 133.7184 153.1411 133.95 152 L 138 152 L 138 155 L 139 155 L 139 148 L 138 148 L 138 151 L 133.95 151 C 133.7184 149.8589 132.7095 149 131.5 149 C 130.2905 149 129.2816 149.8589 129.05 151 L 125 151 L 125 148 L 124 148 L 124 155 L 125 155 L 125 152 L 129.05 152 Z" fill="#000000"/>
+		<path filter="url(#filter65)" d="M 204.305 201.51 L 205.5326 207.3111 L 206.5105 208.1037 L 207.4887 208.104 L 208.4671 207.3124 L 209.415 202.865 L 222.3853 214.1325 L 223.0762 214.3769 L 223.7576 214.3529 L 224.4295 214.0607 L 226.0606 212.4296 L 226.3529 211.7576 L 226.3769 211.0762 L 226.1325 210.3853 L 214.865 197.415 L 219.3124 196.4671 L 220.104 195.4888 L 220.1037 194.5106 L 219.3111 193.5326 L 213.51 192.305 L 216.7428 187.3324 L 216.6115 186.0802 L 215.9198 185.3885 L 214.6676 185.2572 L 209.695 188.49 L 208.4674 182.6889 L 207.4891 181.8963 L 206.5109 181.8963 L 205.5326 182.6889 L 204.305 188.49 L 199.3324 185.2572 L 198.0802 185.3885 L 197.3885 186.0802 L 197.2572 187.3324 L 200.49 192.305 L 194.6889 193.5326 L 193.8963 194.5109 L 193.8963 195.4891 L 194.6889 196.4674 L 200.49 197.695 L 197.2572 202.6676 L 197.3885 203.9198 L 198.0802 204.6115 L 199.3324 204.7428 L 204.305 201.51 Z" fill="#ffffff"/>
+		<path d="M 205 195 C 205 196.1046 205.8954 197 207 197 C 208.1046 197 209 196.1046 209 195 C 209 193.8954 208.1046 193 207 193 C 205.8954 193 205 193.8954 205 195 ZM 208.203 199.8341 L 208.475 200.065 L 223.3689 213 L 225 211.3689 L 212.065 196.475 L 211.8341 196.203 L 211.78 196.32 C 211.062 197.836 209.836 199.0619 208.32 199.78 L 208.203 199.8341 ZM 208.203 199.8341 L 208.32 199.78 L 207.38 198.98 C 207.2556 198.9916 207.1274 199 207 199 C 204.7908 199 203 197.2092 203 195 C 203 192.7908 204.7908 191 207 191 C 209.2092 191 211 192.7908 211 195 C 211 195.1274 210.9916 195.2557 210.98 195.38 L 211.78 196.32 L 211.8341 196.203 L 212.065 196.475 L 219 195 L 211.064 193.3167 L 215.4853 186.5147 L 208.6834 190.936 L 207 183 L 205.3166 190.936 L 198.5147 186.5147 L 202.936 193.3167 L 195 195 L 202.936 196.6833 L 198.5147 203.4853 L 205.3166 199.064 L 207 207 L 208.475 200.065 L 208.203 199.8341 Z" fill="#000000"/>
+		<image filter="url(#filter66)" x="164" y="145" width="16" height="16" xlink:href="Cursors.images/image44.png"/>
+		<rect x="167" y="143" width="1" height="2" fill="#000000"/>
+		<rect x="170" y="144" width="1" height="1" fill="#000000"/>
+		<rect x="164" y="150" width="1" height="1" fill="#000000"/>
+		<rect x="164" y="144" width="1" height="1" fill="#000000"/>
+		<rect x="167" y="150" width="1" height="2" fill="#000000"/>
+		<rect x="170" y="147" width="2" height="1" fill="#000000"/>
+		<rect x="163" y="147" width="2" height="1" fill="#000000"/>
+	</g>
+	<g id="Web%20Layer2">
+	</g>
+</svg>
