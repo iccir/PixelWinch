@@ -395,7 +395,9 @@
     @synchronized(self) {
         if (!_canvasWindowController) {
             _canvasWindowController = [[CanvasWindowController alloc] initWithWindowNibName:@"CanvasWindow"];
-            [_canvasWindowController loadWindow];
+
+            // Force window to load now.
+            [_canvasWindowController window];
         }
         
         return _canvasWindowController;
