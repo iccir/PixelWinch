@@ -1,10 +1,5 @@
-//
-//  MapFunctions.c
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2014-06-07.
-//
-//
+// (c) 2014-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #include <stdio.h>
 #include <CoreFoundation/CoreFoundation.h>

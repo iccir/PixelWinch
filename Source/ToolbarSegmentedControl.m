@@ -1,9 +1,5 @@
-//
-//  SegmentedCell.m
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2021-10-12.
-//
+// (c) 2021-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #import "ToolbarSegmentedControl.h"
 

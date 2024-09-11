@@ -1,11 +1,5 @@
-//
-//  ShortcutManager.h
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2011-05-01.
-//  Copyright 2011-2013 Ricci Adams. All rights reserved.
-//
-
+// (c) 2011-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #import <Foundation/Foundation.h>
 

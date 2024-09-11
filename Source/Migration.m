@@ -1,9 +1,5 @@
-//
-//  Migration.m
-//  Pixel Winch
-//
-//  Created by Ricci Adams on 2023-02-03.
-//
+// (c) 2023-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #import "Migration.h"
 

@@ -1,10 +1,5 @@
-//
-//  Guide.m
-//  PixelWinch
-//
-//  Created by Ricci Adams on 2013-09-29.
-//
-//
+// (c) 2013-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #import "Guide.h"
 #import "Canvas.h"

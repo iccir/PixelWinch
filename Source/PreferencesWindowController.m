@@ -1,5 +1,5 @@
-//  (c) 2011-2018, Ricci Adams.  All rights reserved.
-
+// (c) 2011-2024 Ricci Adams
+// MIT License (or) 1-clause BSD License
 
 #import "PreferencesWindowController.h"
 
