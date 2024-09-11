@@ -135,7 +135,7 @@
     
     if (iconMode == IconModeInMenuBar) {
         [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
-    } else if (iconMode == IconModeInDock) {
+    } else {
         [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
     }
 }
