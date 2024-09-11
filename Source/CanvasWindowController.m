@@ -418,7 +418,7 @@
        
     [self                   addObserver:self forKeyPath:@"librarySelectionIndexes" options:0 context:NULL];
     [self                   addObserver:self forKeyPath:@"selectedObject"          options:0 context:NULL];
-    [_libraryCollectionView addObserver:self forKeyPath:@"firstResponder"        options:0 context:NULL];
+    [_libraryCollectionView addObserver:self forKeyPath:@"firstResponder"          options:0 context:NULL];
     [[_toolbox grappleTool] addObserver:self forKeyPath:@"vertical"                options:0 context:NULL];
 
     // Copy the main menu's View menu to our view pop up button
@@ -657,6 +657,17 @@
 
     } else {
         NSBeep();
+    }
+}
+
+
+- (void) _scrollCollectionViewSelectionToVisible
+{
+    NSIndexSet *selectionIndexes = [_libraryCollectionView selectionIndexes];
+    
+    if ([selectionIndexes count]) {
+        NSRect itemFrame = [_libraryCollectionView frameForItemAtIndex:[selectionIndexes lastIndex]];
+        [_libraryScrollView scrollRectToVisible:itemFrame];
     }
 }
 
@@ -1379,6 +1390,7 @@
             }
 
             [self _updateCanvasWithLibraryItem:item];
+            [self _scrollCollectionViewSelectionToVisible];
         }
 
         _applicationToReactivate = [[NSWorkspace sharedWorkspace] frontmostApplication];
