@@ -1,4 +1,0 @@
-*.sublime-workspace
-node_modules
-ext/*
-!ext/update
