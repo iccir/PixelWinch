@@ -18,9 +18,6 @@
 		5512BF7617FCF30400425AD6 /* ResizeKnobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5512BF7517FCF30400425AD6 /* ResizeKnobView.m */; };
 		55163C3613569D6000CDE290 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55163C3513569D6000CDE290 /* QuartzCore.framework */; };
 		5516B68D1804ECAD002AED2E /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 5516B68C1804ECAD002AED2E /* Library.m */; };
-		55186AF8298DF8C40057030C /* Migration.m in Sources */ = {isa = PBXBuildFile; fileRef = 55186AF7298DF8C40057030C /* Migration.m */; };
-		55186AFC2994B9290057030C /* MigrationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55186AFB2994B9290057030C /* MigrationWindow.xib */; };
-		55186AFF2994BEE10057030C /* MigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55186AFE2994BEE10057030C /* MigrationWindowController.m */; };
 		552873CC1936C11100FA9143 /* Tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 552873CB1936C11100FA9143 /* Tips.png */; };
 		55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A1B180B5C8400F053C7 /* Screenshot.m */; };
 		55336A21180BC4A400F053C7 /* CursorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55336A20180BC4A400F053C7 /* CursorInfo.m */; };
@@ -119,12 +116,7 @@
 		5516B687180402C3002AED2E /* Pixel Winch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Pixel Winch.entitlements"; path = "Resources/Pixel Winch.entitlements"; sourceTree = "<group>"; };
 		5516B68B1804ECAD002AED2E /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Library.h; path = Source/Library.h; sourceTree = "<group>"; };
 		5516B68C1804ECAD002AED2E /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Library.m; path = Source/Library.m; sourceTree = "<group>"; };
-		55186AF6298DF8C40057030C /* Migration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Migration.h; path = Source/Migration.h; sourceTree = "<group>"; };
-		55186AF7298DF8C40057030C /* Migration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Migration.m; path = Source/Migration.m; sourceTree = "<group>"; };
 		55186AFA298E14740057030C /* Archive.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = Archive.sh; path = Build/Archive.sh; sourceTree = "<group>"; };
-		55186AFB2994B9290057030C /* MigrationWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MigrationWindow.xib; path = Resources/MigrationWindow.xib; sourceTree = "<group>"; };
-		55186AFD2994BEE10057030C /* MigrationWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MigrationWindowController.h; path = Source/MigrationWindowController.h; sourceTree = "<group>"; };
-		55186AFE2994BEE10057030C /* MigrationWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MigrationWindowController.m; path = Source/MigrationWindowController.m; sourceTree = "<group>"; };
 		552486B318500B4000276F67 /* CanvasTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CanvasTypes.h; path = Source/CanvasTypes.h; sourceTree = "<group>"; };
 		552873CB1936C11100FA9143 /* Tips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Tips.png; path = Resources/Tips.png; sourceTree = "<group>"; };
 		55336A1A180B5C8400F053C7 /* Screenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Screenshot.h; path = Source/Screenshot.h; sourceTree = "<group>"; };
@@ -298,7 +290,6 @@
 				5512BF5817FB9EE600425AD6 /* Canvas Views */,
 				55C20CE1180109A500ECE184 /* Tools */,
 				55B07A6C17F6C93E0013B05C /* View */,
-				55186B002994BEEB0057030C /* Migration */,
 				55B07A8717F7A1710013B05C /* Controller */,
 				553CB3F91A6740A900BE802E /* View Controller */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -415,18 +406,6 @@
 				55186AFA298E14740057030C /* Archive.sh */,
 			);
 			name = Build;
-			sourceTree = "<group>";
-		};
-		55186B002994BEEB0057030C /* Migration */ = {
-			isa = PBXGroup;
-			children = (
-				55186AFB2994B9290057030C /* MigrationWindow.xib */,
-				55186AF6298DF8C40057030C /* Migration.h */,
-				55186AF7298DF8C40057030C /* Migration.m */,
-				55186AFD2994BEE10057030C /* MigrationWindowController.h */,
-				55186AFE2994BEE10057030C /* MigrationWindowController.m */,
-			);
-			name = Migration;
 			sourceTree = "<group>";
 		};
 		553CB3F91A6740A900BE802E /* View Controller */ = {
@@ -624,7 +603,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55186AFC2994B9290057030C /* MigrationWindow.xib in Resources */,
 				55EAE16E270C13280001097C /* MainMenu.xib in Resources */,
 				55EAE16D270C13280001097C /* CanvasWindow.xib in Resources */,
 				554F05981A29588100BF90F0 /* Assets.xcassets in Resources */,
@@ -697,14 +675,12 @@
 				55CC21A71832D668004076CF /* MagnificationManager.m in Sources */,
 				55E2412F180DF4170093CF04 /* LibraryItem.m in Sources */,
 				554D895B135BEECB003BFC89 /* AppDelegate.m in Sources */,
-				55186AF8298DF8C40057030C /* Migration.m in Sources */,
 				5588EF7E182B8FBF000B6224 /* GrappleTool.m in Sources */,
 				5512BF6117FBA67D00425AD6 /* Marquee.m in Sources */,
 				555152F81818AC6D004485F6 /* Toolbox.m in Sources */,
 				559D38C21802ABC60048F29B /* Shortcut.m in Sources */,
 				554D8988135BEFCF003BFC89 /* main.m in Sources */,
 				55C20C9717FFAE3B00ECE184 /* CenteringClipView.m in Sources */,
-				55186AFF2994BEE10057030C /* MigrationWindowController.m in Sources */,
 				55E24139180E10410093CF04 /* ThumbnailView.m in Sources */,
 				559B45971803DB5B00849B87 /* CanvasWindow.m in Sources */,
 				55336A1C180B5C8400F053C7 /* Screenshot.m in Sources */,

@@ -1,4 +1,4 @@
-// (c) 2013-2024 Ricci Adams
+// (c) 2013-2025 Ricci Adams
 // MIT License (or) 1-clause BSD License
 
 #import "AppDelegate.h"
@@ -10,13 +10,11 @@
 #import "AboutWindowController.h"
 #import "CanvasWindowController.h"
 #import "PreferencesWindowController.h"
-#import "MigrationWindowController.h"
 
 #import "CaptureManager.h"
 
 #import "Library.h"
 #import "LibraryItem.h"
-#import "Migration.h"
 
 
 @interface AppDelegate () <NSMenuDelegate, ShortcutListener>
@@ -229,22 +227,6 @@
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
     [Preferences registerDefaults];
-
-    BOOL didMigrate = NO;
-
-    if ([Migration needsMigration]) {
-        MigrationWindowController *controller = [[MigrationWindowController alloc] initWithWindowNibName:@"MigrationWindow"];
-
-        NSModalResponse response = [NSApp runModalForWindow:[controller window]];
-        [[controller window] orderOut:self];
-        
-        [controller dismissController:self];
-        
-        if (response == NSModalResponseOK) {
-            [Migration migrate];
-            didMigrate = YES;
-        }
-    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handlePreferencesDidChange:) name:PreferencesDidChangeNotification object:nil];
 
@@ -262,10 +244,6 @@
 
     [self _updateShortcuts];
     [self _updateDockAndMenuBar];
-    
-    if (didMigrate) {
-        [[self canvasWindowController] toggleVisibility];
-    }
 }
 
 
