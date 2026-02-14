@@ -109,17 +109,25 @@ static CGSize sGetThumbnailSizeForScreenshotImage(CGImageRef screenshotImage)
 {
     if (!_thumbnailImage) return;
 
+    CGRect imageFrame  = [self _imageFrame];
+    CGRect borderFrame = CGRectInset(imageFrame, -1, -1);
+
+    NSBezierPath *borderPath = [NSBezierPath bezierPathWithRoundedRect:borderFrame xRadius:1 yRadius:1];
+
+    [[NSColor colorNamed:@"LibraryBackground"] set];
+    [borderPath fill];
+
     if ([self isSelected]) {
         [[NSColor selectedContentBackgroundColor] set];
     } else {
         [[NSColor textColor] set];
     }
 
-    NSRect imageFrame = [self _imageFrame];
-    [[NSBezierPath bezierPathWithRect:CGRectInset(imageFrame, -2, -2)] fill];
+    [borderPath setLineWidth:2];
+    [borderPath stroke];
+
     [_thumbnailImage drawInRect:imageFrame];
 }
-
 
 
 #pragma mark - Private Methods
