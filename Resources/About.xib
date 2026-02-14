@@ -19,7 +19,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="226" height="359"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1127"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
             <view key="contentView" id="2" customClass="AboutWindowContentView">
                 <rect key="frame" x="0.0" y="0.0" width="226" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -84,7 +84,7 @@
                             <font key="font" metaFont="system" size="10"/>
                             <string key="title">Pixel Winch uses licensed technology covered by Patent US8194089
 
-© 2013-2024 Ricci Adams.
+© 2013-2026 Ricci Adams.
 All Rights Reserved.</string>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
