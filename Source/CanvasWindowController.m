@@ -433,6 +433,7 @@
 
     [self _updateInspector];
     [self _updateGrappleIcon];
+    [self _updateWindowAppearance];
 }
 
 
@@ -534,16 +535,7 @@
         [view preferencesDidChange:preferences];
     }
     
-    CanvasAppearance canvasAppearance = [preferences canvasAppearance];
-    NSAppearance *appearance;
-
-    if (canvasAppearance == CanvasAppearanceLightMode) {
-        appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
-    } else if (canvasAppearance == CanvasAppearanceDarkMode) {
-        appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
-    }
-
-    [[self window] setAppearance:appearance];
+    [self _updateWindowAppearance];
 }
 
 
@@ -575,6 +567,21 @@
     NSImage *grappleImage = [NSImage imageNamed:name];
 
     [[self toolPicker] setImage:grappleImage forSegment:5];
+}
+
+
+- (void) _updateWindowAppearance
+{
+    CanvasAppearance canvasAppearance = [[Preferences sharedInstance] canvasAppearance];
+    NSAppearance *appearance;
+
+    if (canvasAppearance == CanvasAppearanceLightMode) {
+        appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    } else if (canvasAppearance == CanvasAppearanceDarkMode) {
+        appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+    }
+
+    [[self window] setAppearance:appearance];
 }
 
 
