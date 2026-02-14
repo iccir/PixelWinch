@@ -153,7 +153,10 @@
         return [[_canvas selectedObjects] count] > 0;
 
     } else if (action == @selector(paste:)) {
-        return [[NSPasteboard generalPasteboard] dataForType:PasteboardTypeCanvasObjects] != nil;
+        NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+        
+        return [pasteboard canReadItemWithDataConformingToTypes:@[ PasteboardTypeCanvasObjects ]] ||
+               [pasteboard canReadItemWithDataConformingToTypes:[NSImage imageTypes]];
 
     } else if (action == @selector(exportItem:) ||
                action == @selector(zoomIn:)     ||
@@ -1492,18 +1495,23 @@
 
 - (IBAction) paste:(id)sender
 {
-    NSData *data = [[NSPasteboard generalPasteboard] dataForType:PasteboardTypeCanvasObjects];
-    if (!data) return;
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    NSData *canvasObjectsData = [pasteboard dataForType:PasteboardTypeCanvasObjects];
 
-    NSArray *objects = [CanvasObject canvasObjectsWithPasteboardData:data];
-    
-    for (CanvasObject *object in objects) {
-        [_canvas addCanvasObject:object];
-    }
+    if (canvasObjectsData) {
+        NSArray *objects = [CanvasObject canvasObjectsWithPasteboardData:canvasObjectsData];
+        
+        for (CanvasObject *object in objects) {
+            [_canvas addCanvasObject:object];
+        }
 
-    [_canvas deselectAllObjects];
-    for (CanvasObject *object in objects) {
-        [_canvas selectObject:object];
+        [_canvas deselectAllObjects];
+        for (CanvasObject *object in objects) {
+            [_canvas selectObject:object];
+        }
+
+    } else if ([pasteboard canReadItemWithDataConformingToTypes:[NSImage imageTypes]]) {
+        [self importImagesWithPasteboard:pasteboard];
     }
 }
 
